@@ -12,6 +12,8 @@ namespace Conquest
 		/// </summary>
 		public Clothing.Container Clothing = new();
 
+		[Net] public TeamSystem.Team Team { get; set; } = TeamSystem.Team.BLUFOR;
+
 		[Net, Predicted] public ICamera MainCamera { get; set; }
 		[Net, Predicted] public bool IsSprinting { get; protected set; }
 		[Net, Predicted] public bool IsAiming { get; protected set; }

@@ -1,0 +1,70 @@
+﻿@import "../../_theme.scss";
+
+teamstatus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 16px;
+    position: absolute;
+    width: 25%;
+    height: 32px;
+
+    .left {
+        height: 100%;
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 3px;
+    }
+
+    .right {
+        height: 100%;
+        position: absolute;
+        right: 0;
+        width: 50%;
+        padding-right: 3px;
+    }
+
+    .score {
+        width: 100%;
+        font-family: $font-primary;
+        font-size: 20px;
+        font-weight: 900;
+        text-shadow: 0px 0px 2px rgba( black, 0.1 );
+
+        &.friendly {
+            color: #6cfed7;
+        }
+
+        &.enemy {
+            text-align: right;
+            color: #de4a38;
+        }
+    }
+
+    .bar {
+        position: absolute;
+        bottom: 0;
+        height: 6px;
+        width: 100%;
+
+        background-color: rgba( black, 0.5 );
+        box-shadow: 2px 2px 20px rgba( black, 0.4 );
+
+        .fill {
+            height: 100%;
+            width: 100%;
+
+            &.friendly {
+                left: 0;
+                background-color: #6cfed7;
+                box-shadow: 2px 2px 20px rgba( black, 0.4 );
+            }
+
+            &.enemy {
+                right: 0;
+                background-color: #de4a38;
+                box-shadow: 2px 2px 20px rgba( black, 0.4 );
+            }
+        }
+    }
+}
