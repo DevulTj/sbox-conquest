@@ -99,6 +99,9 @@ namespace Conquest
 
 			BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
 
+			// Remove a ticket.
+			Game.Current.Scores.RemoveScore( Team, 1 );
+
 			Controller = null;
 			Camera = new SpectateRagdollCamera();
 

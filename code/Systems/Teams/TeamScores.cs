@@ -7,10 +7,19 @@ namespace Conquest
 {
 	public partial class TeamScores : BaseNetworkable, INetworkSerializer
 	{
+		public TeamScores()
+		{
+			Scores = new int[ArraySize];
+
+			// Set initializing scores.
+			SetScore( TeamSystem.Team.BLUFOR, MaximumScore );
+			SetScore( TeamSystem.Team.OPFOR, MaximumScore );
+		}
+
 		public virtual int MinimumScore => 0;
 		public virtual int MaximumScore => 1000;
 		protected static int ArraySize => Enum.GetNames( typeof( TeamSystem.Team ) ).Length;
-		protected int[] Scores { get; set; } = new int[ArraySize];
+		protected int[] Scores { get; set; }
 
 		public void SetScore( TeamSystem.Team team, int score )
 		{

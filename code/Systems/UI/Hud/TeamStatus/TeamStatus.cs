@@ -27,13 +27,15 @@ namespace Conquest
 
 		protected float MaxScore => 1000;
 
-		protected void SetScore( TeamSystem.Team team, float score )
+		protected void SetScore( TeamSystem.Team team )
 		{
 			var isMyTeam = team == TeamSystem.MyTeam;
 			var bar = isMyTeam ? FriendlyTeamBar : EnemyTeamBar;
 			var label = isMyTeam ? FriendlyTeamName : EnemyTeamName;
 			var teamName = TeamSystem.GetTeamName( team );
-	
+
+			var score = Game.Current.Scores.GetScore( team );
+
 			float percent = ( score / MaxScore ) * 100;
 			bar.Style.Width = Length.Percent( percent );
 
@@ -44,7 +46,7 @@ namespace Conquest
 
 			bar.Style.Dirty();
 
-			label.Text = $"{score:n0}";
+			label.Text = $"{score:f0}";
 
 			if ( isMyTeam )
 				label.Text = $"{teamName} {label.Text}";
@@ -56,8 +58,8 @@ namespace Conquest
 		{
 			base.Tick();
 
-			SetScore( TeamSystem.Team.BLUFOR, 950 );
-			SetScore( TeamSystem.Team.OPFOR, 500 );
+			SetScore( TeamSystem.Team.BLUFOR );
+			SetScore( TeamSystem.Team.OPFOR );
 		}
 	}
 }
