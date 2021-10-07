@@ -245,5 +245,13 @@ namespace Conquest
 			VoiceList.Current?.OnVoicePlayed( steamId, level );
 		}
 
+		[ServerCmd( "kill", Help = "Kills the calling player with generic damage" )]
+		public static void KillCommand()
+		{
+			var target = ConsoleSystem.Caller;
+			if ( target == null ) return;
+
+			Game.Current.DoPlayerSuicide( target );
+		}
 	}
 }
