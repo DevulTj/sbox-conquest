@@ -52,6 +52,12 @@
 			margin-bottom: 8px;
 			left: 0%;
 			height: 8px;
+			background-color: rgba( black, 0.5 );
+			box-shadow: 2px 2px 20px rgba( black, 0.4 );
+		}
+
+		.healthBarFill {
+			width: 50%;
 			background-color: $primary;
 			box-shadow: 2px 2px 20px rgba( black, 0.4 );
 		}

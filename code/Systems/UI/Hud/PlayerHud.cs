@@ -10,40 +10,16 @@ namespace Conquest
 		public Panel Root { get; set; }
 		public Panel Vitals { get; set; }
 		public Label Health { get; set; }
-		public Label Money { get; set; }
-		public Label Job { get; set; }
-		public Label Salary { get; set; }
+		public Panel HealthBar { get; set; }
 		public NameTags Tags { get; set; }
 
 		// weapon info
 		public Panel GunVitals { get; set; }
-		public Label GunName { get; set; }
 		public Label GunAmmo { get; set; }
 		public Label GunReserve { get; set; }
 
 		public PlayerHud() { }
 
-		public static int ShouldDrawHudState { get; set; } = 1;
-
-		protected void ShouldDrawHud()
-		{
-			if ( ShouldDrawHudState > 0 )
-				Vitals.Style.Opacity = 1;
-			else
-				Vitals.Style.Opacity = 0;
-		}
-
-		private void AddTimedClass( string type, float timeSeconds = 0.5f )
-		{
-			_ = AddTimedClass( Money, type, timeSeconds );
-		}
-
-		private async Task AddTimedClass( Panel target, string type, float timeSeconds = 0.5f )
-		{
-			target.AddClass( type );
-			await Task.DelaySeconds( timeSeconds );
-			target.RemoveClass( type );
-		}
 
 		public override void Tick()
 		{
@@ -53,14 +29,18 @@ namespace Conquest
 			if ( player is null )
 				return;
 
-			if ( Health == null || Money == null || Salary == null )
+			if ( Health == null )
 				return;
 
-			ShouldDrawHud();
-
 			Health.Text = $"{player?.Health:n0}";
+
+			var healthPercent = ( player.Health / 100f ) * 100f;
+
 			// Danger if at 20% hp
-			Health.SetClass( "danger", (player.Health / 100f) < 0.2 );
+			Health.SetClass( "danger", healthPercent < 0.2 );
+
+			HealthBar.Style.Width = Length.Percent( healthPercent );
+			HealthBar.Style.Dirty();
 
 			var weapon = Local.Pawn.ActiveChild as BaseWeapon;
 			if ( weapon is not null && weapon.ShowAmmoCount )
@@ -75,7 +55,6 @@ namespace Conquest
 			}
 
 			GunVitals.Style.Dirty();
-			Job.Style.Dirty();
 		}
 	}
 }
