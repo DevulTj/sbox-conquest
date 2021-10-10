@@ -14,7 +14,13 @@ namespace Conquest
 			Transmit = TransmitType.Always;
 
 			if ( Host.IsServer )
+			{
 				Scores = new();
+
+				var ent = new CapturePointEntity();
+				ent.Position = new Vector3( 55.65f, -1077.28f, 5.03f );
+				ent.Identity = "A";
+			}
 		}
 
 		public override void ClientJoined( Client cl )
