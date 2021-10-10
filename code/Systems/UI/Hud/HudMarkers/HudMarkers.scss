@@ -1,5 +1,8 @@
 @import "../../_theme.scss";
 
+$friendly-marker: #6cfed7;
+$enemy-marker: #de4a38;
+
 hudmarkers {
     position: absolute;
     top: 0;
@@ -9,13 +12,20 @@ hudmarkers {
 }
 
 capturepointhudmarker {
-    transform: translateX( -50% );
-    width: 32px;
-    height: 64px;
+    transform: translateX( -50% ) translateY( -50% );
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    border: 1.6px solid rgba( $friendly-marker, 0.5 );
 
     label {
+        text-shadow: 0px 0px 2px $friendly-marker;
+        width: 100%;
+        align-self: center;
+        text-align: center;
         font-size: 20px;
         font-family: $font-primary;
-        color: white;
+        font-weight: 400;
+        color: rgba( $friendly-marker, 1 );
     }
 }

@@ -45,7 +45,7 @@ namespace Conquest.UI
 		protected void TickMarker( HudMarker marker )
 		{
 			marker.Refresh();
-			marker.PositionAtWorld( marker.GetWorldPoint() + marker.PositionOffset );
+			marker.PositionAtWorld();
 		}
 
 		public override void Tick()

@@ -17,6 +17,30 @@ namespace Conquest.UI
 		public Vector3 PositionOffset { get; set; }
 		public Vector3 Point { get; set; }
 
+		public bool StayOnScreen { get; set; } = false;
+		public Vector2 SafetyBounds { get; set; } = new Vector2( 0.02f, 0.02f );
+
+		public void PositionAtWorld()
+		{
+			var screenpos = GetScreenPoint();
+
+			if ( screenpos.z < 0 )
+				return;
+
+			if ( StayOnScreen )
+			{
+				var safetyX = SafetyBounds.x;
+				var safetyY = SafetyBounds.y;
+
+				screenpos.x = screenpos.x.Clamp( safetyX, 1 - safetyX );
+				screenpos.y = screenpos.y.Clamp( safetyY, 1 - safetyY );
+			}
+
+			Style.Left = Length.Fraction( screenpos.x );
+			Style.Top = Length.Fraction( screenpos.y );
+			Style.Dirty();
+		}
+
 		public Vector3 GetWorldPoint()
 		{
 			if ( Point.IsNearlyZero() )
@@ -25,7 +49,7 @@ namespace Conquest.UI
 			return Point;
 		}
 
-		public Vector2 GetScreenPoint()
+		public Vector3 GetScreenPoint()
 		{
 			var worldPoint = GetWorldPoint();
 			var screenPoint = worldPoint.ToScreen();

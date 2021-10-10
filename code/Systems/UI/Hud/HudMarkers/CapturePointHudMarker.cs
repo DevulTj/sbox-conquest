@@ -10,6 +10,7 @@ namespace Conquest.UI
 			Entity = parent;
 			PositionOffset = new Vector3( 0, 0, 96f );
 			MarkerName = name;
+			StayOnScreen = true;
 
 			AddClass( "capturepoint" );
 
