@@ -20,7 +20,12 @@ namespace Conquest
 
 		public class Shared
 		{
+			public const string OnScoreChanged = "OnScoreChanged";
 
+			public class OnScoreChangedAttribute : EventAttribute
+			{
+				public OnScoreChangedAttribute() : base( OnScoreChanged ) { }
+			}
 		}
 	}
 }

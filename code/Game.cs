@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using System.Threading.Tasks;
 
 namespace Conquest
 {
@@ -247,7 +248,7 @@ namespace Conquest
 		/// </summary>
 		public override void PostLevelLoaded()
 		{
-
+			_ = Scores.StartTicking();
 		}
 
 		/// <summary>
