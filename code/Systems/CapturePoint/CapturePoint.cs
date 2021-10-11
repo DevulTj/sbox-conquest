@@ -45,5 +45,16 @@ namespace Conquest
 			SetupPhysicsFromSphere( PhysicsMotionType.Keyframed, Vector3.Zero, radius );
 			CollisionGroup = CollisionGroup.Trigger;
 		}
+
+
+		public override void StartTouch( Entity other )
+		{
+			base.StartTouch( other );
+
+			if ( other is Player player )
+			{
+				Team = player.Team;
+			}
+		}
 	}
 }

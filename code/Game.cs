@@ -20,6 +20,14 @@ namespace Conquest
 				var ent = new CapturePointEntity();
 				ent.Position = new Vector3( 55.65f, -1077.28f, 5.03f );
 				ent.Identity = "A";
+
+				var two = new CapturePointEntity();
+				two.Position = new Vector3( 55.65f, -77.28f, 5.03f );
+				two.Identity = "B";
+
+				var three = new CapturePointEntity();
+				three.Position = new Vector3( -605.65f, -1477.28f, 5.03f );
+				three.Identity = "C";
 			}
 		}
 
