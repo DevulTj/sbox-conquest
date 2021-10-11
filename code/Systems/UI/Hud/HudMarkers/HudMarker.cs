@@ -20,6 +20,24 @@ namespace Conquest.UI
 		public bool StayOnScreen { get; set; } = false;
 		public Vector2 SafetyBounds { get; set; } = new Vector2( 0.02f, 0.02f );
 
+		public void SetMarkerClass( string className, bool state )
+		{
+			SetClass( className, state );
+			MarkerNameLabel.SetClass( className, state );
+		}
+
+		public void AddMarkerClass( string className )
+		{
+			AddClass( className );
+			MarkerNameLabel.AddClass( className );
+		}
+
+		public void RemoveMarkerClass( string className )
+		{
+			RemoveClass( className );
+			MarkerNameLabel.RemoveClass( className );
+		}
+
 		public void PositionAtWorld()
 		{
 			var screenpos = GetScreenPoint();

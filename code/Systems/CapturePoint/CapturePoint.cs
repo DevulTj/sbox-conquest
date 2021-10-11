@@ -9,6 +9,9 @@ namespace Conquest
 		[Net, Category("Capture Point")]
 		public string Identity { get; set; }
 
+		[Net, Category( "Capture Point" )]
+		public TeamSystem.Team Team { get; set; } = TeamSystem.Team.Unassigned;
+
 		public CapturePointEntity()
 		{
 			if ( Host.IsClient )

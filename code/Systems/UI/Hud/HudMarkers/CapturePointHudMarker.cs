@@ -1,10 +1,11 @@
 using Sandbox;
-using Sandbox.UI;
 
 namespace Conquest.UI
 {
 	public partial class CapturePointHudMarker : HudMarker
 	{
+		public CapturePointEntity CapturePoint => Entity as CapturePointEntity;
+
 		public CapturePointHudMarker( Entity parent, string name = "Capture Point" ) : base()
 		{
 			Entity = parent;
@@ -17,9 +18,16 @@ namespace Conquest.UI
 			MarkerNameLabel.Text = MarkerName;
 		}
 
+
+
 		public override void Refresh()
 		{
-			var name = (Entity as CapturePointEntity).Identity;
+			var name = CapturePoint.Identity;
+			var player = Local.Pawn as Player;
+			var friendState = TeamSystem.GetFriendState( player.Team, CapturePoint.Team );
+
+			SetMarkerClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
+			SetMarkerClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
 
 			MarkerName = name;
 		}

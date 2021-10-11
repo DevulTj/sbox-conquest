@@ -23,11 +23,15 @@ namespace Conquest
 		public enum FriendlyStatus
 		{
 			Friendly,
-			Hostile
+			Hostile,
+			Neutral
 		}
 
-		public static FriendlyStatus IsFriendly( Team one, Team two )
+		public static FriendlyStatus GetFriendState( Team one, Team two )
 		{
+			if ( one == Team.Unassigned || two == Team.Unassigned )
+				return FriendlyStatus.Neutral;
+
 			if ( one != two )
 				return FriendlyStatus.Hostile;
 
