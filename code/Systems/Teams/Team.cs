@@ -38,6 +38,16 @@ namespace Conquest
 			return FriendlyStatus.Friendly;
 		}
 
+		public static bool IsFriendly( Team one, Team two )
+		{
+			return GetFriendState( one, two ) == FriendlyStatus.Friendly;
+		}
+
+		public static bool IsHostile( Team one, Team two )
+		{
+			return GetFriendState( one, two ) == FriendlyStatus.Hostile;
+		}
+
 		public static string GetTeamName( Team team )
 		{
 			switch( team )

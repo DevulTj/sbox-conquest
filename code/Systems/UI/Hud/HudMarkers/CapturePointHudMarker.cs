@@ -37,8 +37,12 @@ namespace Conquest.UI
 
 			SetMarkerClass( "contested", CapturePoint.CurrentState == CapturePointEntity.State.Contested );
 
-			var flipflop = Time.Now.FloorToInt() % 2 == 0;
+			var flipflop = ((float)CapturePoint.TimeSinceStateChanged).FloorToInt() % 2 == 0;
 			SetMarkerClass( "contestedFlash", CapturePoint.CurrentState == CapturePointEntity.State.Contested && flipflop );
+
+			SetMarkerClass( "capturing", CapturePoint.CurrentState == CapturePointEntity.State.Capturing );
+			SetMarkerClass( "capturingFlash", CapturePoint.CurrentState == CapturePointEntity.State.Capturing && flipflop );
+			SetMarkerClass( "friendlyCapturing", CapturePoint.CurrentState == CapturePointEntity.State.Capturing && TeamSystem.IsFriendly( player.Team, CapturePoint.HighestTeam ) );
 
 			MarkerName = name;
 		}

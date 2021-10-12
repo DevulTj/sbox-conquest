@@ -12,7 +12,8 @@ namespace Conquest
 		public enum State
 		{
 			None,
-			Contested
+			Contested,
+			Capturing
 		}
 
 		[Net, Category("Capture Point")]
@@ -20,6 +21,9 @@ namespace Conquest
 
 		[Net, Category( "Capture Point" )]
 		public TeamSystem.Team Team { get; set; } = TeamSystem.Team.Unassigned;
+
+		[Net, Category( "Capture Point" )]
+		public TeamSystem.Team HighestTeam { get; set; } = TeamSystem.Team.Unassigned;
 
 		protected static int ArraySize => Enum.GetNames( typeof( TeamSystem.Team ) ).Length - 1;
 
@@ -33,8 +37,15 @@ namespace Conquest
 		[Category( "Capture Point"), Description("Time in seconds it takes to capture a point with one player.")]
 		public float CaptureTime = 10;
 
-		[Net, Category( "Capture Point")]
+		[Net, Category( "Capture Point"), Change("OnStateChanged")]
 		public State CurrentState { get; set; }
+
+		protected void OnStateChanged( State then, State now )
+		{
+			TimeSinceStateChanged = 0;
+		}
+
+		public TimeSince TimeSinceStateChanged { get; set; } = 0;
 
 		// @Server
 		public Dictionary<TeamSystem.Team, HashSet<Player>> Occupants { get; set; } = new();
@@ -159,9 +170,15 @@ namespace Conquest
 				}
 			}
 
+			HighestTeam = highest;
+
 			// nobody is fighting for this point (which shouldn't really happen)
 			if ( highest == TeamSystem.Team.Unassigned )
+			{
+				CurrentState = State.None;
+
 				return;
+			}
 
 			// Don't do anythig while we're contested
 			if ( contested )
@@ -184,6 +201,10 @@ namespace Conquest
 				{
 					Team = TeamSystem.Team.Unassigned;
 				}
+				else
+				{
+					CurrentState = State.Capturing;
+				}
 			}
 			else
 			{
@@ -196,6 +217,7 @@ namespace Conquest
 				}
 				else
 				{
+					CurrentState = State.Capturing;
 					Team = TeamSystem.Team.Unassigned;
 				}
 			}
