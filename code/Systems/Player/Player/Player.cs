@@ -19,6 +19,9 @@ namespace Conquest
 		[Net, Predicted] public bool IsAiming { get; protected set; }
 		[Net, Predicted] public bool IsFreeLooking { get; protected set; }
 
+		[Net, Local]
+		public CapturePointEntity CapturePoint { get; set; }
+
 		public ICamera LastCamera { get; set; }
 
 		protected override void MakeHud()

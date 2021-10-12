@@ -106,6 +106,12 @@ namespace Conquest
 			if ( Occupants[player.Team].Contains( player ) )
 				return;
 
+			// Already in another cap point.
+			if ( player.CapturePoint is not null && player.CapturePoint != this )
+				return;
+
+			player.CapturePoint = this;
+
 			Occupants[player.Team].Add( player );
 			OccupantCounts[(int)player.Team]++;
 		}
@@ -114,6 +120,9 @@ namespace Conquest
 		{
 			if ( !Occupants[player.Team].Contains( player ) )
 				return;
+
+			if ( player.CapturePoint == this )
+				player.CapturePoint = null;
 
 			Occupants[player.Team].Remove( player );
 			OccupantCounts[(int)player.Team]--;
