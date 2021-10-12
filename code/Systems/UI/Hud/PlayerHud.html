@@ -6,7 +6,19 @@
         <div class="healthBar">
             <div class="healthBarFill" @ref="HealthBar"></div>
         </div>
+
+        <div class="armorBar">
+            <div class="armorBarFill" @ref="ArmorBar"></div>
+        </div>
+
         <text class="health" @ref="Health">100%</text>
+        <div class="box">
+            <div class="large"></div>
+            <div class="large"></div>
+            <div class="small"></div>
+            <div class="small"></div>
+            <div class="small"></div>
+        </div>
     </div>
 
     <div class="gunvitals" @ref="GunVitals">
@@ -18,5 +30,6 @@
     <CaptureStatus></CaptureStatus>
     <VoiceList></VoiceList>
     <HudMarkers></HudMarkers>
+    <MiniMap></MiniMap>
 </div>
 

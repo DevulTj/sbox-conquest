@@ -35,25 +35,70 @@
 	}
 
 	.vitals {
-		left: 50%;
-		transform: translateX(-50%);
-		bottom: 64px;
-		border-radius: 4px;
+		transform: rotateY(10deg) rotateX(10deg);
+		box-shadow: 0px 0px 40px rgba($friendly-marker, 0.15 );
+		right: 32px;
+		bottom: 32px;
+		border-radius: 2px;
 		position: absolute;
-		justify-content: flex-start;
-		flex-direction: column-reverse;
+		justify-content: flex-end;
+		flex-direction: column;
 		width: 25%;
+		height: 96px;
 
 		.healthBar {
-			bottom: 0px;
+			top: 0;
 			margin-top: 8px;
-			margin-left: 8px;
-			margin-right: 8px;
-			margin-bottom: 8px;
-			left: 0%;
+			margin-bottom: 2px;
 			height: 8px;
 			background-color: rgba( black, 0.5 );
+		}
+
+		.armorBar {
+			position: absolute;
+			top: -5;
+			margin-top: 8px;
+			margin-bottom: 2px;
+			height: 4px;
+			background-color: rgba(0, 210, 255, 1 );
+		}
+
+		.armorBarFill {
+			width: 100%;
+			background-color: rgb(0, 148, 255, 1 );
 			box-shadow: 2px 2px 20px rgba( black, 0.4 );
+		}
+
+		.box {
+			width: 100%;
+			height: 100%;
+
+			.large {
+				flex-grow: 1;
+				border-radius: 2px;
+				backdrop-filter: blur( 50px );
+				margin-right: 2px;
+				width: 25%;
+				height: 70px;
+				background-color: rgba( $friendly-marker, 0.3 );
+
+				&:last-child {
+					margin-right: 0px;
+				}
+			}
+
+			.small {
+				border-radius: 2px;
+				backdrop-filter: blur( 50px );
+				margin-right: 2px;
+				background-color: rgba( $friendly-marker, 0.3 );
+				height: 70px;
+				width: 70px;
+
+				&:last-child {
+					margin-right: 0px;
+				}
+			}
 		}
 
 		.healthBarFill {
@@ -63,12 +108,15 @@
 		}
 
 		.health {
-			text-align: center;
+			position: absolute;
+			top: -28px;
+			right: 0px;
+			text-align: right;
 			font-family: $font-primary;
 			font-weight: 700;
-			color: white;
-			font-size: 25px;
-			text-shadow: 2px 2px 1px black;
+			text-shadow: 2px 2px 2px rgba( black, 1 );
+			color: $primary;
+			font-size: 18px;
 
 			&.danger {
 				color: indianred;
@@ -77,20 +125,20 @@
 	}
 
 	.gunvitals {
+		box-shadow: 0px 0px 40px rgba($friendly-marker, 0.15 );
+		transform: rotateY(10deg) rotateX(10deg);
 		text-align: right !important;
-		right: 16px;
-		bottom: 16px;
-		border-radius: 4px;
+		right: 35px;
+		bottom: 155px;
 		padding-top: 16px;
 		padding-bottom: 16px;
 		padding-left: 32px;
 		position: absolute;
-		min-width: 2%;
+		width: 256px;
 		flex-grow: 1;
 		justify-content: flex-end;
 		flex-direction: row;
-		background-color: rgba( $primary, 0.5 );
-		transition: all 0.2s ease-out;
+
 
 		.name {
 			right: 16px;
