@@ -48,6 +48,19 @@ namespace Conquest
 			return GetFriendState( one, two ) == FriendlyStatus.Hostile;
 		}
 
+		public static Team GetEnemyTeam( Team team )
+		{
+			switch( team )
+			{
+				case Team.BLUFOR:
+					return Team.OPFOR;
+				case Team.OPFOR:
+					return Team.BLUFOR;
+			}
+
+			return Team.Unassigned;
+		}
+
 		public static string GetTeamName( Team team )
 		{
 			switch( team )

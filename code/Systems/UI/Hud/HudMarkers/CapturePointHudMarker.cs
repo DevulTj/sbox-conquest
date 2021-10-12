@@ -28,6 +28,9 @@ namespace Conquest.UI
 		{
 			var name = CapturePoint.Identity;
 			var player = Local.Pawn as Player;
+
+			SetMarkerClass( "hidden", player.CapturePoint == CapturePoint );
+
 			var friendState = TeamSystem.GetFriendState( player.Team, CapturePoint.Team );
 
 			SetMarkerClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );

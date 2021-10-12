@@ -1,9 +1,5 @@
 @import "../../_theme.scss";
 
-$friendly-marker: #6cfed7;
-$enemy-marker: #de4a38;
-$unowned-marker: #d0d0d0;
-
 hudmarkers {
     position: absolute;
     top: 0;
@@ -23,6 +19,10 @@ capturepointhudmarker {
     background-color: rgba( black, 0.3 );
 
     backdrop-filter: blur( 50px );
+
+    &.hidden {
+        opacity: 0;
+    }
 
     &.contestedFlash {
         width: 40px;

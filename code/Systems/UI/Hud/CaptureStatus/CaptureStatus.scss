@@ -1,0 +1,134 @@
+﻿@import "../../_theme.scss";
+
+capturestatus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 96px;
+    position: absolute;
+    width: 15%;
+    height: 32px;
+
+    transition: opacity 0.05s linear;
+
+    .point {
+        position: absolute;
+        width: 128px;
+        height: 128px;
+        left: 50%;
+        top: 128px;
+        transform: translateX(-50%) translateY(-50%);
+        border: 2px solid rgba( $unowned-marker, 0.5 );
+        transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear;
+        background-color: rgba( black, 0.3 );
+        backdrop-filter: blur( 50px );
+        border-radius: 100px;
+
+        label {
+            text-shadow: 0px 0px 2px $unowned-marker;
+            width: 100%;
+            align-self: center;
+            text-align: center;
+            font-size: 60px;
+            font-family: $font-primary;
+            font-weight: 900;
+            color: rgba( $unowned-marker, 1 );
+
+            &.enemy {
+                text-shadow: 0px 0px 2px $enemy-marker;
+                color: rgba( $enemy-marker, 1 );
+            }
+
+            &.friendly {
+                text-shadow: 0px 0px 2px $friendly-marker;
+                color: rgba( $friendly-marker, 1 );
+            }
+        }
+    }
+
+    .contest {
+        width: 100%;
+
+        .left {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 3px;
+        }
+
+        .right {
+            height: 100%;
+            position: absolute;
+            right: 0;
+            width: 50%;
+            padding-right: 3px;
+        }
+
+        .state {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            color: white;
+            font-size: 20px;
+            font-weight: 900;
+            text-shadow: 0px 0px 2px rgba( black, 0.1 );
+
+            &.show {
+                opacity: 1;
+            }
+
+            &.friendly {
+                left: 96px;
+                color: #6cfed7;
+            }
+
+            &.enemy {
+                right: 96px;
+                color: #de4a38;
+            }
+        }
+
+        .score {
+            width: 100%;
+            font-family: $font-primary;
+            font-size: 20px;
+            font-weight: 900;
+            text-shadow: 0px 0px 2px rgba( black, 0.1 );
+
+            &.friendly {
+                color: #6cfed7;
+            }
+
+            &.enemy {
+                text-align: right;
+                color: #de4a38;
+            }
+        }
+
+        .bar {
+            position: absolute;
+            bottom: 0;
+            height: 6px;
+            width: 100%;
+
+            .fill {
+                height: 100%;
+                width: 100%;
+
+                &.friendly {
+                    left: 0;
+                    background-color: #6cfed7;
+                    box-shadow: 2px 2px 20px rgba( black, 0.4 );
+                }
+
+                &.enemy {
+                    right: 0;
+                    background-color: #de4a38;
+                    box-shadow: 2px 2px 20px rgba( black, 0.4 );
+                }
+            }
+        }
+    }
+}

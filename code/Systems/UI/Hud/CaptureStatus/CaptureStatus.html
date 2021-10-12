@@ -1,0 +1,27 @@
+﻿
+<link rel="stylesheet" href="capturestatus.scss">
+
+<div class="capturestatus">
+    <div class="point" @ref="Point">
+        <label class="pointName">A</label>
+    </div>
+
+    <div class="contest" @ref="Contest">
+        <div class="left">
+            <label class="score friendly" @ref="FriendlyTeamName">1</label>
+        </div>
+
+        <div class="right">
+            <label class="score enemy" @ref="EnemyTeamName">1</label>
+        </div>
+
+        <div class="bar">
+            <div class="fill friendly" @ref="FriendlyTeamBar"></div>
+        </div>
+
+        <div class="bar">
+            <div class="fill enemy" @ref="EnemyTeamBar"></div>
+        </div>
+    </div>
+
+</div>

@@ -148,6 +148,11 @@ namespace Conquest
 			}
 		}
 
+		public int GetCount( TeamSystem.Team team )
+		{
+			return OccupantCounts[(int)team];
+		}
+
 		[Event.Tick.Server]
 		public void Tick()
 		{
