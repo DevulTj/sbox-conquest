@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Conquest
 {
 
-	[UseTemplate]
+	[UseTemplate("systems/ui/hud/teamstatus/teamstatus.html")]
 	public class TeamStatus : Panel
 	{
 		// @ref

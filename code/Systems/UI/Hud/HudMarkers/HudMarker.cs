@@ -62,7 +62,7 @@ namespace Conquest.UI
 		public Vector3 GetWorldPoint()
 		{
 			if ( Point.IsNearlyZero() )
-				return Entity.Position;
+				return Entity.Position + PositionOffset;
 
 			return Point;
 		}

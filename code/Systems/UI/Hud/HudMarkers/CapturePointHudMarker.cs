@@ -35,6 +35,11 @@ namespace Conquest.UI
 
 			OccupantsLabel.Text = string.Join( $" / ", CapturePoint.OccupantCounts.ToList().Select( x => x.ToString() ) );
 
+			SetMarkerClass( "contested", CapturePoint.CurrentState == CapturePointEntity.State.Contested );
+
+			var flipflop = Time.Now.FloorToInt() % 2 == 0;
+			SetMarkerClass( "contestedFlash", CapturePoint.CurrentState == CapturePointEntity.State.Contested && flipflop );
+
 			MarkerName = name;
 		}
 	}

@@ -9,6 +9,12 @@ namespace Conquest
 {
 	public partial class CapturePointEntity : ModelEntity
 	{
+		public enum State
+		{
+			None,
+			Contested
+		}
+
 		[Net, Category("Capture Point")]
 		public string Identity { get; set; }
 
@@ -24,7 +30,11 @@ namespace Conquest
 		public float Captured { get; set; } = 0;
 
 		// takes 10s to cap
-		public float CaptureTime => 10;
+		[Category( "Capture Point"), Description("Time in seconds it takes to capture a point with one player.")]
+		public float CaptureTime = 10;
+
+		[Net, Category( "Capture Point")]
+		public State CurrentState { get; set; }
 
 		// @Server
 		public Dictionary<TeamSystem.Team, HashSet<Player>> Occupants { get; set; } = new();
@@ -60,7 +70,7 @@ namespace Conquest
 			base.Spawn();
 
 			// Set the default size
-			SetTriggerSize( 128 );
+			SetTriggerSize( 386 );
 
 			// Client doesn't need to know about htis
 			Transmit = TransmitType.Always;
@@ -155,7 +165,14 @@ namespace Conquest
 
 			// Don't do anythig while we're contested
 			if ( contested )
+			{
+				CurrentState = State.Contested;
 				return;
+			}
+			else
+			{
+				CurrentState = State.None;
+			}
 
 			// A team is trying to cap. Let's reverse this shit.
 			if ( Team != TeamSystem.Team.Unassigned && highest != Team )

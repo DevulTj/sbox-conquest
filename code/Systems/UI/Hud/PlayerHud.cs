@@ -4,7 +4,7 @@ using Sandbox.UI;
 
 namespace Conquest
 {
-	[UseTemplate]
+	[UseTemplate("systems/ui/hud/playerhud.html")]
 	public class PlayerHud : BaseHud
 	{
 		public Panel Root { get; set; }

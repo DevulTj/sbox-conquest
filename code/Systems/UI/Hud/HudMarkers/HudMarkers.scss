@@ -20,12 +20,36 @@ capturepointhudmarker {
     border-radius: 100px;
     border: 1.6px solid rgba( $unowned-marker, 0.5 );
 
+    &.contestedFlash {
+        width: 35px;
+        height: 35px;
+        border-radius: 0px;
+    }
+
+    &.contested {
+        border: 3px solid rgba( $unowned-marker, 0.5 );
+    }
+
+    transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
+
     &.enemy {
         border: 1.6px solid rgba( $enemy-marker, 0.5 );
+
+        &.contested {
+            border: 1.6px solid rgba( $enemy-marker, 1 );
+        }
+
+        &.contestedFlash {
+            border: 3px solid rgba( $enemy-marker, 1 );
+        }
     }
 
     &.friendly {
         border: 1.6px solid rgba( $friendly-marker, 0.5 );
+
+        &.contested {
+            border: 3px solid rgba( $friendly-marker, 0.5 );
+        }
     }
 
     .occupants {
@@ -36,6 +60,7 @@ capturepointhudmarker {
         position: absolute;
         width: 80px;
         transform: translateX( -50% );
+        display: none;
     }
 
     label {
