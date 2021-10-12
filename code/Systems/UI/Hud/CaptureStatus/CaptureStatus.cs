@@ -30,9 +30,10 @@ namespace Conquest
 
 		protected float MaxScore => 1000;
 
-		protected void OnScoreChanged()
+		protected void SetCaptureClass( string className, bool active )
 		{
-
+			Point.SetClass( className, active );
+			Contest.SetClass( className, active );
 		}
 
 		public override void Tick()
@@ -54,6 +55,10 @@ namespace Conquest
 			var enemyTeamCount = capturePoint.GetCount( TeamSystem.GetEnemyTeam( localPlayer.Team ) );
 
 			var total = friendlyTeamCount + enemyTeamCount;
+
+			var topOffsetForPoint = enemyTeamCount == 0 ? 64 : 128;
+
+			Point.Style.Top = Length.Pixels( topOffsetForPoint );
 
 			if ( enemyTeamCount == 0 )
 			{
@@ -86,6 +91,8 @@ namespace Conquest
 			Style.Opacity = 1;
 			Style.Dirty();
 
+			SetCaptureClass( "friendly", capturePoint.Team == localPlayer.Team );
+			SetCaptureClass( "enemy", capturePoint.Team == TeamSystem.GetEnemyTeam( localPlayer.Team ) );
 
 			var percent = capturePoint.Captured * 100f;
 			Point.Style.Set( "background", $"conic-gradient(transparent {percent}%, rgba(50, 50, 50, 0.8) {percent}%);" );
