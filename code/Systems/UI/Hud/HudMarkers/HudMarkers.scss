@@ -14,7 +14,6 @@ hudmarkers {
 
 capturepointhudmarker {
     position: absolute;
-
     transform: translateX( -50% ) translateY( -50% );
     width: 40px;
     height: 40px;
@@ -27,6 +26,16 @@ capturepointhudmarker {
 
     &.friendly {
         border: 1.6px solid rgba( $friendly-marker, 0.5 );
+    }
+
+    .occupants {
+        align-self: center;
+        text-align: center;
+        font-size: 20px;
+        top: 64px;
+        position: absolute;
+        width: 80px;
+        transform: translateX( -50% );
     }
 
     label {

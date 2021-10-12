@@ -11,7 +11,7 @@ namespace Conquest
 	{
 		public TeamScores()
 		{
-			Scores = new int[ArraySize];
+			Scores = new int[ ArraySize ];
 
 			// Set initializing scores.
 			SetScore( TeamSystem.Team.BLUFOR, MaximumScore );
