@@ -1,57 +1,289 @@
-using Sandbox;
+﻿using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Conquest
 {
-	partial class PlayerInventory : BaseInventory
+	partial class PlayerInventory : IBaseInventory
 	{
-		public PlayerInventory( Player player ) : base( player ) { }
+		public Player Owner { get; init; }
 
-		public override bool Add( Entity ent, bool makeActive = false )
+		// 0
+		public Carriable PrimaryWeapon { get; set; }
+
+		// 1
+		public Carriable SecondaryWeapon { get; set; }
+
+		// 2-♾️
+		public List<Carriable> Gadgets { get; set; } = new();
+
+		public PlayerInventory( Player player )
 		{
-			var player = Owner as Player;
-			var inventoryItem = ent as BaseWeapon;
-			var notices = true;
+			Owner = player;
+		}
+
+		public Entity Active => Owner.ActiveChild;
+
+		public bool Add( Entity ent, bool makeactive = false )
+		{
+			Host.AssertServer();
+
 			//
-			// We don't want to pick up the same weapon twice
-			// But we'll take the ammo from it Winky Face
+			// Can't pickup if already owned
 			//
-			if ( inventoryItem is not null && IsCarryingType( ent.GetType() ) )
+			if ( ent.Owner != null )
+				return false;
+
+			//
+			// Let the entity reject the inventory
+			//
+			if ( !ent.CanCarry( Owner ) )
+				return false;
+
+			var weapon = ent as Carriable;
+
+			switch( weapon.Slot )
 			{
-				if ( inventoryItem is BaseWeapon baseWeapon )
+				case WeaponSlot.Primary:
 				{
-					var ammo = baseWeapon.AmmoClip;
-					var ammoType = baseWeapon.AmmoType;
+					PrimaryWeapon = weapon;
+					break;
+				};
+				case WeaponSlot.Secondary:
+				{
+					SecondaryWeapon = weapon;
+					break;
+				};
+				case WeaponSlot.Gadget:
+				{
+					Gadgets.Add( weapon );
+					break;
+				};
+			}
 
-					if ( ammo > 0 )
+			ent.OnCarryStart( Owner );
+
+			if ( makeactive )
+				SetActive( ent );
+
+			return true;
+		}
+
+		public bool Contains( Entity ent )
+		{
+			if ( ent == PrimaryWeapon )
+				return true;
+			if ( ent == SecondaryWeapon )
+				return true;
+			if ( Gadgets.Contains( ent ) )
+				return true;
+
+			return false;
+		}
+
+		public int Count()
+		{
+			var count = 0;
+
+			if ( PrimaryWeapon is not null )
+				++count;
+			if ( SecondaryWeapon is not null )
+				++count;
+
+			count += Gadgets.Count;
+
+			return count;
+		}
+
+		public void DeleteContents()
+		{
+			Host.AssertServer();
+
+			PrimaryWeapon?.Delete();
+			SecondaryWeapon?.Delete();
+
+			Gadgets.ForEach( x => x.Delete() );
+		}
+
+		public bool Drop( Entity ent )
+		{
+			if ( !Host.IsServer )
+				return false;
+
+			if ( !Contains( ent ) )
+				return false;
+
+			ent.Parent = null;
+			ent.OnCarryDrop( Owner );
+
+			return true;
+		}
+
+		public Entity DropActive()
+		{
+			if ( !Host.IsServer ) return null;
+
+			var ac = Owner.ActiveChild;
+			if ( ac == null ) return null;
+
+			if ( Drop( ac ) )
+			{
+				Owner.ActiveChild = null;
+				return ac;
+			}
+
+			return null;
+		}
+
+		public int GetActiveSlot()
+		{
+			if ( Active == PrimaryWeapon )
+				return (int)WeaponSlot.Primary;
+			if ( Active == SecondaryWeapon )
+				return (int)WeaponSlot.Secondary;
+
+			for ( int i = 0; i < Gadgets.Count; i++ )
+			{
+				var gadget = Gadgets[i];
+				if ( gadget == Active )
+					return (int)WeaponSlot.Gadget + i;
+			}
+
+			return -1;
+		}
+
+		public Entity GetSlot( int i )
+		{
+			switch( i )
+			{
+				case (int)WeaponSlot.Primary:
+				{
+					return PrimaryWeapon;
+				};
+				case (int)WeaponSlot.Secondary:
+				{
+					return SecondaryWeapon;
+				};
+				default:
+				{
+					if ( i >= (int)WeaponSlot.Gadget)
 					{
-						player.GiveAmmo( ammoType, ammo );
-
-						if ( notices )
+						var slotIndex = (int)WeaponSlot.Gadget - i;
+						if ( Gadgets.Count > slotIndex )
 						{
-							Sound.FromWorld( "dm.pickup_ammo", ent.Position );
+							return Gadgets[i];
 						}
 					}
+					return null;
 				}
+			}
+		}
 
-				// Despawn it
-				ent.Delete();
+		public void OnChildAdded( Entity child )
+		{
+			if ( child is not Carriable weapon )
+				return;
+
+			switch( weapon.Slot )
+			{
+				case WeaponSlot.Primary:
+				{
+					PrimaryWeapon = weapon;
+					break;
+				};
+				case WeaponSlot.Secondary:
+				{
+					PrimaryWeapon = weapon;
+					break;
+				};
+				case WeaponSlot.Gadget:
+				{
+					Gadgets.Add( weapon );
+					break;
+				};
+			}
+		}
+
+		public void OnChildRemoved( Entity child )
+		{
+			if ( child is not Carriable weapon )
+				return;
+
+			switch ( weapon.Slot )
+			{
+				case WeaponSlot.Primary:
+				{
+					PrimaryWeapon = null;
+					break;
+				};
+				case WeaponSlot.Secondary:
+				{
+					PrimaryWeapon = null;
+					break;
+				};
+				case WeaponSlot.Gadget:
+				{
+					Gadgets.Remove( weapon );
+					break;
+				};
+			}
+		}
+
+		public bool SetActive( Entity ent )
+		{
+			Log.Info( "set active: " + ent );
+
+			if ( Active == ent )
+			{
+				Log.Info( "already active" );
 				return false;
 			}
 
-			if ( inventoryItem is not null && notices )
+			if ( !Contains( ent ) )
 			{
-				Sound.FromWorld( "dm.pickup_weapon", ent.Position );
+				Log.Info( "not in list!" );
+				return false;
 			}
 
-			return base.Add( ent, makeActive );
+			Owner.ActiveChild = ent;
+
+			return true;
 		}
 
-		public bool IsCarryingType( Type t )
+		public bool SetActiveSlot( int i, bool allowempty = false )
 		{
-			return List.Any( x => x.GetType() == t );
+			var ent = GetSlot( i );
+			if ( Owner.ActiveChild == ent )
+				return false;
+
+			if ( !allowempty && ent == null )
+				return false;
+
+			Owner.ActiveChild = ent;
+			return ent.IsValid();
+		}
+
+		public bool SwitchActiveSlot( int idelta, bool loop )
+		{
+			var count = Count();
+			if ( count == 0 ) return false;
+
+			var slot = GetActiveSlot();
+			var nextSlot = slot + idelta;
+
+			if ( loop )
+			{
+				while ( nextSlot < 0 ) nextSlot += count;
+				while ( nextSlot >= count ) nextSlot -= count;
+			}
+			else
+			{
+				if ( nextSlot < 0 ) return false;
+				if ( nextSlot >= count ) return false;
+			}
+
+			return SetActiveSlot( nextSlot, false );
 		}
 	}
 }

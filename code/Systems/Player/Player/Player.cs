@@ -61,8 +61,8 @@ namespace Conquest
 
 		protected virtual void GiveLoadout()
 		{
-			Inventory.Add( new Pistol(), true );
 			Inventory.Add( new SMG(), true );
+			Inventory.Add( new Pistol() );
 		}
 
 		protected virtual void SoftRespawn()

@@ -31,8 +31,17 @@ namespace Conquest
 		public bool IsUsable();
 	}
 
+	public enum WeaponSlot
+	{
+		Primary,
+		Secondary,
+		Gadget
+	}
+
 	public partial class Carriable : BaseCarriable, IUse, ICarriable
 	{
+		public virtual WeaponSlot Slot => WeaponSlot.Primary;
+
 		public virtual bool ShowAmmoCount => true;
 
 		public virtual int Bucket => 1;

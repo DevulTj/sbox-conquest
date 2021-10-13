@@ -7,6 +7,7 @@ namespace Conquest
 	[Hammer.EditorModel( "weapons/rust_smg/rust_smg.vmdl" )]
 	partial class SMG : BaseWeapon
 	{
+		public override WeaponSlot Slot => WeaponSlot.Primary;
 		public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 
 		public override float PrimaryRate => 15.0f;
