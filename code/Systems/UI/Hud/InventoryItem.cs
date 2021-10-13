@@ -65,6 +65,7 @@ namespace Conquest
 			SlotNumber.Text = $"{SlotIndex + 1}";
 
 			SetClass( "active", Weapon == active );
+			Ammo.SetClass( "active", Weapon == active );
 		}
 
 	}
