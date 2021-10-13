@@ -12,7 +12,7 @@ namespace Conquest
 	{
 		public Carriable Weapon { get; set; }
 
-		public Panel Icon { get; set; }
+		public Image Icon { get; set; }
 
 		public Label SlotNumber { get; set; }
 		public Label Ammo { get; set; }
@@ -46,6 +46,7 @@ namespace Conquest
 			if ( Weapon is null && weaponFromSlot is not null )
 			{
 				Weapon = weaponFromSlot;
+				Icon?.SetTexture( $"ui/WeaponIcons/{Weapon.ClassInfo.Name}.png" );
 			}
 
 
@@ -67,6 +68,5 @@ namespace Conquest
 			SetClass( "active", Weapon == active );
 			Ammo.SetClass( "active", Weapon == active );
 		}
-
 	}
 }
