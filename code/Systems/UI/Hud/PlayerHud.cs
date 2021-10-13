@@ -20,6 +20,12 @@ namespace Conquest
 
 		public PlayerHud() { }
 
+		public Panel PrimaryWeapon { get; set; }
+		public Panel SecondaryWeapon { get; set; }
+		public Panel FirstGadget { get; set; }
+		public Panel SecondGadget { get; set; }
+		public Panel ThirdGadget { get; set; }
+
 
 		public override void Tick()
 		{
