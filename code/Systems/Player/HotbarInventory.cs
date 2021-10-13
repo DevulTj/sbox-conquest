@@ -7,6 +7,8 @@ namespace Conquest
 {
 	partial class PlayerInventory : IBaseInventory
 	{
+		public virtual int MaxSlots => 5;
+
 		public Player Owner { get; init; }
 
 		// 0
@@ -153,31 +155,24 @@ namespace Conquest
 			return -1;
 		}
 
+		protected Entity GetGadget( int i )
+		{
+			var realIndex = i - (int)WeaponSlot.Gadget;
+
+			if ( Gadgets.Count > realIndex )
+				return Gadgets[realIndex];
+
+			return null;
+		}
+
 		public Entity GetSlot( int i )
 		{
-			switch( i )
+			return i switch
 			{
-				case (int)WeaponSlot.Primary:
-				{
-					return PrimaryWeapon;
-				};
-				case (int)WeaponSlot.Secondary:
-				{
-					return SecondaryWeapon;
-				};
-				default:
-				{
-					if ( i >= (int)WeaponSlot.Gadget)
-					{
-						var slotIndex = (int)WeaponSlot.Gadget - i;
-						if ( Gadgets.Count > slotIndex )
-						{
-							return Gadgets[i];
-						}
-					}
-					return null;
-				}
-			}
+				0 => PrimaryWeapon,
+				1 => SecondaryWeapon,
+				_ => GetGadget(i)
+			};
 		}
 
 		public void OnChildAdded( Entity child )
@@ -194,7 +189,7 @@ namespace Conquest
 				};
 				case WeaponSlot.Secondary:
 				{
-					PrimaryWeapon = weapon;
+					SecondaryWeapon = weapon;
 					break;
 				};
 				case WeaponSlot.Gadget:

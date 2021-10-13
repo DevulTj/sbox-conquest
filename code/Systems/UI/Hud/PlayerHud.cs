@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.UI;
 
@@ -18,18 +19,23 @@ namespace Conquest
 		public Label GunAmmo { get; set; }
 		public Label GunReserve { get; set; }
 
-		public PlayerHud() { }
-
 		public Label GunName { get; set; }
 
 		public Label PlayerName { get; set; }
 
-		public Panel PrimaryWeapon { get; set; }
-		public Panel SecondaryWeapon { get; set; }
-		public Panel FirstGadget { get; set; }
-		public Panel SecondGadget { get; set; }
-		public Panel ThirdGadget { get; set; }
+		public Panel Inventory { get; set; }
 
+		public List<InventoryItem> Items { get; set; } = new();
+
+		public PlayerHud()
+		{
+			for (int i = 0; i < 5; i++ )
+			{
+				var item = Inventory.AddChild<InventoryItem>( i < 2 ? "large" : "small" );
+				item.SlotIndex = i;
+				Items.Add( item );
+			}
+		}
 
 		public override void Tick()
 		{

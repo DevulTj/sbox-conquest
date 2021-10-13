@@ -72,45 +72,6 @@
 		.box {
 			width: 100%;
 			height: 100%;
-
-			.number {
-				position: absolute;
-				bottom: -28px;
-				width: 100%;
-				text-align: center;
-				font-family: $font-primary;
-				font-weight: 600;
-				text-shadow: 2px 2px 5px rgba( #2cc79d, 1 );
-				color: $friendly-marker;
-				font-size: 18px;
-			}
-
-			.large {
-				flex-grow: 1;
-				border-radius: 2px;
-				backdrop-filter: blur( 50px );
-				margin-right: 2px;
-				width: 25%;
-				height: 70px;
-				background-color: rgba( $friendly-marker, 0.3 );
-
-				&:last-child {
-					margin-right: 0px;
-				}
-			}
-
-			.small {
-				border-radius: 2px;
-				backdrop-filter: blur( 50px );
-				margin-right: 2px;
-				background-color: rgba( $friendly-marker, 0.3 );
-				height: 70px;
-				width: 70px;
-
-				&:last-child {
-					margin-right: 0px;
-				}
-			}
 		}
 
 		.healthBarFill {

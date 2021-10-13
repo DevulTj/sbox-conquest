@@ -1,0 +1,63 @@
+﻿@import "../_theme.scss";
+
+inventoryitem {
+    .ammo {
+        position: absolute;
+        bottom: 2px;
+        right: 6px;
+        width: 100%;
+        text-align: right;
+        font-family: $font-primary;
+        font-weight: 600;
+        text-shadow: 2px 2px 5px rgba( #2cc79d, 1 );
+        color: $friendly-marker;
+        font-size: 20px;
+
+        &.infinity {
+            font-size: 32px;
+            bottom: -5px;
+        }
+    }
+
+    .number {
+        position: absolute;
+        bottom: -28px;
+        width: 100%;
+        text-align: center;
+        font-family: $font-primary;
+        font-weight: 600;
+        text-shadow: 2px 2px 5px rgba( #2cc79d, 1 );
+        color: $friendly-marker;
+        font-size: 18px;
+    }
+
+    &.large {
+        flex-grow: 1;
+        border-radius: 2px;
+        backdrop-filter: blur( 50px );
+        margin-right: 2px;
+        width: 25%;
+        height: 70px;
+        background-color: rgba( $friendly-marker, 0.2 );
+
+        &:last-child {
+            margin-right: 0px;
+        }
+
+        &.active {
+        }
+    }
+
+    &.small {
+        border-radius: 2px;
+        backdrop-filter: blur( 50px );
+        margin-right: 2px;
+        background-color: rgba( $friendly-marker, 0.2 );
+        height: 70px;
+        width: 70px;
+
+        &:last-child {
+            margin-right: 0px;
+        }
+    }
+}
