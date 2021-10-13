@@ -20,6 +20,10 @@ namespace Conquest
 
 		public PlayerHud() { }
 
+		public Label GunName { get; set; }
+
+		public Label PlayerName { get; set; }
+
 		public Panel PrimaryWeapon { get; set; }
 		public Panel SecondaryWeapon { get; set; }
 		public Panel FirstGadget { get; set; }
@@ -51,14 +55,17 @@ namespace Conquest
 			var weapon = Local.Pawn.ActiveChild as BaseWeapon;
 			if ( weapon is not null && weapon.ShowAmmoCount )
 			{
-				GunAmmo.Text = $"{weapon.AmmoClip}";
-				GunReserve.Text = $"{weapon.AvailableAmmo()}";
+				GunName.Text = $"{weapon.ClassInfo.Title.ToUpper()}";
+				GunAmmo.Text = $"{weapon.AmmoClip.ToString("D3")}";
+				GunReserve.Text = $"{weapon.AvailableAmmo().ToString("D3")}";
 				GunVitals.Style.Opacity = 1;
 			}
 			else
 			{
 				GunVitals.Style.Opacity = 0;
 			}
+
+			PlayerName.Text = $"{player.Client.Name.ToUpper()}";
 
 			GunVitals.Style.Dirty();
 		}

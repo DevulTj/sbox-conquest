@@ -11,7 +11,9 @@
             <div class="armorBarFill" @ref="ArmorBar"></div>
         </div>
 
-        <text class="health" @ref="Health">100%</text>
+        <text class="health" @ref="Health">100</text>
+        <text class="armor" @ref="Armor">100</text>
+        <text class="identity" @ref="PlayerName">DEVULTJ</text>
         <div class="box">
             <div class="large" @ref="PrimaryWeapon">
                 <label class="number">1</label>
@@ -32,8 +34,11 @@
     </div>
 
     <div class="gunvitals" @ref="GunVitals">
-        <text class="ammo" @ref="GunAmmo">30</text>
-        <text class="reserve" @ref="GunReserve">60</text>
+        <label class="name" @ref="GunName">M5A3</label>
+
+        <label class="ammo" @ref="GunAmmo">30</label>
+        <div class="spacer"></div>
+        <label class="reserve" @ref="GunReserve">60</label>
     </div>
 
     <TeamStatus></TeamStatus>
