@@ -7,7 +7,6 @@ minimap {
     width: 300px;
     height: 300px;
     transform: rotateY(10deg) rotateX(-10deg);
-
     flex-direction: column-reverse;
     flex-grow: 1;
 
@@ -37,6 +36,10 @@ minimap {
 
             &.friendly {
                 background-color: rgba( $friendly-marker, 0.4 );
+
+                &.capturingFlash {
+                    background-color: rgba( black, 0.4 );
+                }
             }
 
             &.enemy {
@@ -67,7 +70,6 @@ minimap {
         height: 100%;
         background-color: rgba( black, 0.5 );
         border-radius: 2px 2px 0px 0px;
-
         box-shadow: 4px 2px 10px rgba( black, 0.2 );
     }
 }

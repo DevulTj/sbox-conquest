@@ -23,6 +23,8 @@ namespace Conquest
 
 		public Panel Contest { get; set; }
 
+		public Label PointName { get; set; }
+
 		public CaptureStatus()
 		{
 
@@ -51,6 +53,8 @@ namespace Conquest
 				return;
 			}
 
+			PointName.Text = capturePoint.Identity;
+
 			var friendlyTeamCount = capturePoint.GetCount( localPlayer.Team );
 			var enemyTeamCount = capturePoint.GetCount( TeamSystem.GetEnemyTeam( localPlayer.Team ) );
 
@@ -62,10 +66,8 @@ namespace Conquest
 
 			if ( enemyTeamCount == 0 )
 			{
-				//Contest.Style.Opacity = 0;
-				//Contest.Style.Dirty();
-
-				//return;
+				Contest.Style.Opacity = 0;
+				Contest.Style.Dirty();
 			}
 
 			FriendlyTeamBar.Style.Width = Length.Fraction( (float)friendlyTeamCount / (float)total );

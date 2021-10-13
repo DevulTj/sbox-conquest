@@ -227,17 +227,13 @@ namespace Conquest
 
 		public bool SetActive( Entity ent )
 		{
-			Log.Info( "set active: " + ent );
-
 			if ( Active == ent )
 			{
-				Log.Info( "already active" );
 				return false;
 			}
 
 			if ( !Contains( ent ) )
 			{
-				Log.Info( "not in list!" );
 				return false;
 			}
 

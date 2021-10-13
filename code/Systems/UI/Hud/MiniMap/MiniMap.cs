@@ -9,25 +9,22 @@ using System.Threading.Tasks;
 
 namespace Conquest
 {
+	public class MiniMapCapturePoint : Panel
+	{
+		public Label Identity { get; set; }
+
+		public MiniMapCapturePoint()
+		{
+			AddClass( "capturepoint" );
+			Identity = this.AddChild<Label>();
+		}
+	}
+
 	[UseTemplate( "systems/ui/hud/minimap/minimap.html" )]
 	public class MiniMap : Panel
 	{
 		public Panel CapturePointsPanel { get; set; }
 		public Panel MiniMapPanel { get; set; }
-
-		public List<Panel> CapturePointPanels { get; set; } = new();
-
-		public MiniMap()
-		{
-			foreach( var capturePoint in Entity.All.OfType<CapturePointEntity>() )
-			{
-				var panel = CapturePointsPanel.AddChild<Panel>( "capturepoint" );
-				var label = panel.AddChild<Label>();
-				label.Text = capturePoint.Identity;
-
-				CapturePointPanels.Add( panel );
-			}
-		}
 
 		public override void Tick()
 		{
@@ -36,11 +33,27 @@ namespace Conquest
 			var localPlayer = Local.Pawn as Player;
 
 			int i = 0;
-			foreach( var capturePoint in Entity.All.OfType<CapturePointEntity>() )
+			foreach( var capturePoint in Entity.All.OfType<CapturePointEntity>().OrderBy( x => x.Identity ) )
 			{
+				MiniMapCapturePoint panel;
+
+				if ( CapturePointsPanel.ChildrenCount > i )
+					panel = CapturePointsPanel.GetChild( i ) as MiniMapCapturePoint;
+				else
+					panel = CapturePointsPanel.AddChild<MiniMapCapturePoint>();
+
+				i++;
+
+				panel.Identity.Text = capturePoint.Identity;
+
 				var friendState = TeamSystem.GetFriendState( localPlayer.Team, capturePoint.Team );
-				CapturePointPanels[i].SetClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
-				CapturePointPanels[i].SetClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
+				panel.SetClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
+				panel.SetClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
+				panel.SetClass( "contested", capturePoint.CurrentState == CapturePointEntity.State.Contested );
+				var flipflop = ((float)capturePoint.TimeSinceStateChanged).FloorToInt() % 2 == 0;
+				panel.SetClass( "contestedFlash", capturePoint.CurrentState == CapturePointEntity.State.Contested && flipflop );
+				panel.SetClass( "capturing", capturePoint.CurrentState == CapturePointEntity.State.Capturing );
+				panel.SetClass( "capturingFlash", capturePoint.CurrentState == CapturePointEntity.State.Capturing && flipflop );
 			}
 		}
 	}

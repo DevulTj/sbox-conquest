@@ -41,14 +41,11 @@ namespace Conquest
 			var weaponFromSlot = player.Inventory.GetSlot( SlotIndex ) as Carriable;
 			var showInfinity = false;
 
-			Log.Info( $"{SlotIndex}: {weaponFromSlot}" );
-
 			if ( Weapon is null && weaponFromSlot is not null )
 			{
 				Weapon = weaponFromSlot;
 				Icon?.SetTexture( $"ui/WeaponIcons/{Weapon.ClassInfo.Name}.png" );
 			}
-
 
 			if ( weaponFromSlot is BaseWeapon weapon )
 			{
@@ -61,7 +58,6 @@ namespace Conquest
 			}
 
 			Ammo.SetClass( "infinity", showInfinity );
-
 
 			SlotNumber.Text = $"{SlotIndex + 1}";
 
