@@ -49,7 +49,7 @@ namespace Conquest
 
 			if ( weaponFromSlot is BaseWeapon weapon )
 			{
-				Ammo.Text = $"{weapon.AmmoClip}";
+				Ammo.Text = $"{player.AmmoCount( weapon.AmmoType ) + weapon.AmmoClip}";
 			}
 			else if ( weaponFromSlot is null )
 			{
