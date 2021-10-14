@@ -30,9 +30,16 @@ minimap {
             background-image: linear-gradient(to top, rgba( 50, 50, 50, 1 ), rgba( 75, 75, 75, 1 ));
         }
 
+
         .capturepoint {
             flex-grow: 1;
             background-color: rgba( black, 0.5 );
+
+            transition: all 0.2s ease;
+
+                &.capturingFlash {
+                    background-color: rgba( $unowned-marker, 0.4 );
+                }
 
             &.friendly {
                 background-color: rgba( $friendly-marker, 0.4 );
@@ -44,6 +51,10 @@ minimap {
 
             &.enemy {
                 background-color: rgba( $enemy-marker, 0.4 );
+
+                &.capturingFlash {
+                    background-color: rgba( black, 0.4 );
+                }
             }
 
             label {
