@@ -219,5 +219,39 @@ namespace Conquest
 		{
 			// NotificationBox.AddChatEntry( To.Single( Client ), message, hex );
 		}
+
+		protected int GetSlotIndexFromInput( InputButton slot )
+		{
+			return slot switch
+			{
+				InputButton.Slot1 => 0,
+				InputButton.Slot2 => 1,
+				InputButton.Slot3 => 2,
+				InputButton.Slot4 => 3,
+				InputButton.Slot5 => 4,
+				_ => -1
+			};
+		}
+
+		protected void TrySlotFromInput( InputBuilder input, InputButton slot )
+		{
+			if ( Input.Pressed( slot ) )
+			{
+				input.SuppressButton( slot );
+
+				if ( Inventory.GetSlot( GetSlotIndexFromInput( slot ) ) is Entity weapon )
+					input.ActiveChild = weapon;
+			}
+		}
+
+		[Event( "buildinput" )]
+		public void ProcessClientInput( InputBuilder input )
+		{
+			TrySlotFromInput( input, InputButton.Slot1 );
+			TrySlotFromInput( input, InputButton.Slot2 );
+			TrySlotFromInput( input, InputButton.Slot3 );
+			TrySlotFromInput( input, InputButton.Slot4 );
+			TrySlotFromInput( input, InputButton.Slot5 );
+		}
 	}
 }
