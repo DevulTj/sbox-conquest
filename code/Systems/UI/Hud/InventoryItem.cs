@@ -10,27 +10,21 @@ namespace Conquest
 	[UseTemplate( "systems/ui/hud/inventoryitem.html" )]
 	public class InventoryItem : Panel
 	{
-		public Carriable Weapon { get; set; }
-
+		// @ref
 		public Image Icon { get; set; }
-
 		public Label SlotNumber { get; set; }
 		public Label Ammo { get; set; }
+		// -@ref
+
+		public Carriable Weapon { get; set; }
 		public int SlotIndex { get; set; } = -1;
-
-		public InventoryItem()
-		{
-
-		}
 
 		public override void SetProperty( string name, string value )
 		{
 			base.SetProperty( name, value );
 
 			if ( name == "type" )
-			{
 				AddClass( value );
-			}
 		}
 
 		public override void Tick()

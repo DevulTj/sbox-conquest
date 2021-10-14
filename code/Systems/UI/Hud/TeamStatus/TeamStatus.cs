@@ -13,16 +13,12 @@ namespace Conquest
 	{
 		// @ref
 		public Panel FriendlyTeamBar { get; set; }
-		// @ref
 		public Label FriendlyTeamName { get; set; }
-		// @ref
 		public Panel EnemyTeamBar { get; set; }
-		// @ref
 		public Label EnemyTeamName { get; set; }
-		// @ref
 		public Label FriendlyState { get; set; }
-		// @ref
 		public Label EnemyState { get; set; }
+		// -@ref
 
 		public TeamStatus()
 		{

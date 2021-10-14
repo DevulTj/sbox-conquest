@@ -1,11 +1,7 @@
 ﻿
 using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Conquest
 {
@@ -16,7 +12,7 @@ namespace Conquest
 		public MiniMapCapturePoint()
 		{
 			AddClass( "capturepoint" );
-			Identity = this.AddChild<Label>();
+			Identity = AddChild<Label>();
 		}
 	}
 
@@ -46,11 +42,12 @@ namespace Conquest
 
 				panel.Identity.Text = capturePoint.Identity;
 
+				var flipflop = ((float)capturePoint.TimeSinceStateChanged).FloorToInt() % 1 == 0;
 				var friendState = TeamSystem.GetFriendState( localPlayer.Team, capturePoint.Team );
+
 				panel.SetClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
 				panel.SetClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
 				panel.SetClass( "contested", capturePoint.CurrentState == CapturePointEntity.State.Contested );
-				var flipflop = ((float)capturePoint.TimeSinceStateChanged).FloorToInt() % 2 == 0;
 				panel.SetClass( "contestedFlash", capturePoint.CurrentState == CapturePointEntity.State.Contested && flipflop );
 				panel.SetClass( "capturing", capturePoint.CurrentState == CapturePointEntity.State.Capturing );
 				panel.SetClass( "capturingFlash", capturePoint.CurrentState == CapturePointEntity.State.Capturing && flipflop );
