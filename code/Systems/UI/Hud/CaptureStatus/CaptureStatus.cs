@@ -12,25 +12,13 @@ namespace Conquest
 	{
 		// @ref
 		public Panel FriendlyTeamBar { get; set; }
-		// @ref
 		public Label FriendlyTeamName { get; set; }
-		// @ref
 		public Panel EnemyTeamBar { get; set; }
-		// @ref
 		public Label EnemyTeamName { get; set; }
-
 		public Panel Point { get; set; }
-
 		public Panel Contest { get; set; }
-
 		public Label PointName { get; set; }
-
-		public CaptureStatus()
-		{
-
-		}
-
-		protected float MaxScore => 1000;
+		// -
 
 		protected void SetCaptureClass( string className, bool active )
 		{

@@ -20,7 +20,10 @@ namespace Conquest
 
 		public virtual int TickInterval => 10;
 		public virtual int MinimumScore => 0;
-		public virtual int MaximumScore => 1000;
+
+		[ConVar.Replicated( "conquest_maxscore" )]
+		public static int MaximumScore { get; set; } = 250;
+
 		protected static int ArraySize => Enum.GetNames( typeof( TeamSystem.Team ) ).Length;
 		protected int[] Scores { get; set; }
 

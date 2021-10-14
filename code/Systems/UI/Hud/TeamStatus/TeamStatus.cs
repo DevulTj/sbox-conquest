@@ -30,7 +30,7 @@ namespace Conquest
 			SetScore( TeamSystem.Team.OPFOR );
 		}
 
-		protected float MaxScore => 1000;
+		protected float MaxScore => TeamScores.MaximumScore;
 
 		[GameEvent.Shared.OnScoreChanged]
 		protected void OnScoreChanged()
