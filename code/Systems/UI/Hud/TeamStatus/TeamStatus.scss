@@ -1,11 +1,11 @@
 ﻿@import "../../_theme.scss";
 
 teamstatus {
-    left: 50%;
-    transform: translateX(-50%);
-    top: 16px;
+    transform: rotateY(10deg) rotateX(-10deg);
+    left: 48px;
+    bottom: 345px;
     position: absolute;
-    width: 25%;
+    width: 300px;
     height: 32px;
 
     .left {
@@ -13,7 +13,7 @@ teamstatus {
         position: absolute;
         left: 0;
         width: 50%;
-        padding-left: 3px;
+        padding-left: 4px;
     }
 
     .right {
@@ -21,13 +21,12 @@ teamstatus {
         position: absolute;
         right: 0;
         width: 50%;
-        padding-right: 3px;
+        padding-right: 0px;
     }
 
     .state {
         opacity: 0;
         transition: opacity 0.5s ease-out;
-
         width: 10px;
         height: 10px;
         position: absolute;
