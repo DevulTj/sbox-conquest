@@ -33,6 +33,17 @@ namespace Conquest
 			var active = player?.ActiveChild as Carriable;
 
 			var weaponFromSlot = player.Inventory.GetSlot( SlotIndex ) as Carriable;
+
+			if ( weaponFromSlot is null )
+			{
+				Icon.SetTexture( null );
+				Weapon = null;
+				Ammo.Text = "";
+				SlotNumber.Text = "";
+
+				return;
+			}
+
 			var showInfinity = false;
 
 			if ( Weapon is null && weaponFromSlot is not null )

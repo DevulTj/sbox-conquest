@@ -20,7 +20,6 @@ namespace Conquest.UI
 			AddClass( "capturepoint" );
 
 			MarkerNameLabel.Text = MarkerName;
-
 			OccupantsLabel = AddChild<Label>( "occupants" );
 		}
 
@@ -37,7 +36,7 @@ namespace Conquest.UI
 
 			var friendState = TeamSystem.GetFriendState( player.Team, CapturePoint.Team );
 			string name = CapturePoint.Identity;
-			bool flipflop = ((float)CapturePoint.TimeSinceStateChanged).FloorToInt() % 1 == 0
+			bool flipflop = ((float)CapturePoint.TimeSinceStateChanged).FloorToInt() % 1 == 0;
 
 			SetMarkerClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
 			SetMarkerClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
