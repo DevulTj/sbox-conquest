@@ -76,7 +76,10 @@ namespace Conquest
 	public enum AmmoType
 	{
 		Pistol,
-		Buckshot,
-		Crossbow
+		Shotgun,
+		Rifle,
+		Sniper,
+		Rocket,
+		Grenade
 	}
 }

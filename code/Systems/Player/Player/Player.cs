@@ -38,9 +38,6 @@ namespace Conquest
 		{
 			// Load clothing from client data
 			Clothing.LoadFromClient( cl );
-
-			if ( !Host.IsServer )
-				return;
 		}
 
 		public override void Spawn()
@@ -63,6 +60,9 @@ namespace Conquest
 		{
 			Inventory.Add( new SMG(), true );
 			Inventory.Add( new Pistol() );
+
+			GiveAmmo( AmmoType.Pistol, 36 );
+			GiveAmmo( AmmoType.Rifle, 120 );
 		}
 
 		protected virtual void SoftRespawn()

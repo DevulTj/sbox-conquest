@@ -15,6 +15,7 @@ namespace Conquest
 		public override int ClipSize => 30;
 		public override float ReloadTime => 4.0f;
 		public override int Bucket => 3;
+		public override AmmoType AmmoType => AmmoType.Rifle;
 
 		public override void Spawn()
 		{
