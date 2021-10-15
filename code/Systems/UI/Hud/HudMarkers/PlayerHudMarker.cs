@@ -9,6 +9,7 @@ namespace Conquest.UI
 		public Player Player { get; set; }
 
 		public float DistanceUntilHidden => 6000;
+		public float DistanceUntilShownEnemy => 1000;
 
 		public PlayerHudMarker( Player player ) : base()
 		{
@@ -25,6 +26,8 @@ namespace Conquest.UI
 		{
 			var localPlayer = Local.Pawn as Player;
 			var isFarAway = localPlayer.EyePos.Distance( Player.Position ) > DistanceUntilHidden;
+			var isCloseEnoughEnemy = localPlayer.EyePos.Distance( Player.Position ) < DistanceUntilShownEnemy;
+
 
 			var tr = Trace.Ray( localPlayer.EyePos, Player.EyePos )
 				.Ignore( localPlayer )
@@ -36,17 +39,24 @@ namespace Conquest.UI
 			if ( IsFocused && isHidden && !farAndNotLooking )
 				isHidden = false;
 
+			// Test against the local player and the player in question.
+			var friendState = TeamSystem.GetFriendState( localPlayer.Team, Player.Team );
+
+			var isEnemy = friendState == TeamSystem.FriendlyStatus.Hostile;
+
+			if ( isEnemy && ( !IsFocused || !isCloseEnoughEnemy ) )
+				isHidden = true;
+
 			SetMarkerClass( "hidden", isHidden );
 
 			// No need to do anything else if we're hidden.
 			if ( isHidden )
 				return;
 
-			// Test against the local player and the player in question.
-			var friendState = TeamSystem.GetFriendState( localPlayer.Team, Player.Team );
+				
 
 			SetMarkerClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
-			SetMarkerClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
+			SetMarkerClass( "enemy", isEnemy );
 
 			MarkerName = Player.Client.Name;
 		}

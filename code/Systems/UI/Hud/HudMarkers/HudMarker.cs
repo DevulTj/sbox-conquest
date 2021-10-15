@@ -50,7 +50,7 @@ namespace Conquest.UI
 			var cachedX = screenpos.x;
 			var cachedY = screenpos.y;
 
-			var isFocused = cachedX.AlmostEqual( 0.5f, 0.05f ) && cachedY.AlmostEqual( 0.5f, 0.05f );
+			var isFocused = cachedX.AlmostEqual( 0.5f, 0.05f ) && cachedY.AlmostEqual( 0.5f, 0.2f );
 
 			IsFocused = isFocused;
 			SetMarkerClass( "nofocus", !isFocused );

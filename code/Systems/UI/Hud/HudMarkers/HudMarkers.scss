@@ -139,6 +139,8 @@ playerhudmarker {
 
 
     &.enemy {
+        box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.2 );
+        background-color: rgba( $enemy-marker, 0.8 );
     }
 
     &.friendly {
