@@ -38,12 +38,15 @@ namespace Conquest.UI
 			MarkerNameLabel.RemoveClass( className );
 		}
 
-		public void PositionAtWorld()
+		public bool PositionAtWorld()
 		{
 			var screenpos = GetScreenPoint();
 
 			if ( screenpos.z < 0 )
-				return;
+				return false;
+
+			var cachedX = screenpos.x;
+			var cachedY = screenpos.y;
 
 			if ( StayOnScreen )
 			{
@@ -57,6 +60,8 @@ namespace Conquest.UI
 			Style.Left = Length.Fraction( screenpos.x );
 			Style.Top = Length.Fraction( screenpos.y );
 			Style.Dirty();
+
+			return cachedX < 0 || cachedX > 1 || cachedY < 0 || cachedY > 1;
 		}
 
 		public Vector3 GetWorldPoint()
