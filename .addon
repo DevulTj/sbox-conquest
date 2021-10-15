@@ -1,7 +1,6 @@
 {
     "sharedassets": "*.*",
     "type": "game",
-    "ident": "devultj.conquest", 
 
     "depends": 
     [

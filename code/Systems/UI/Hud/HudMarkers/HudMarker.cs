@@ -20,6 +20,8 @@ namespace Conquest.UI
 		public bool StayOnScreen { get; set; } = false;
 		public Vector2 SafetyBounds { get; set; } = new Vector2( 0.02f, 0.02f );
 
+		public bool IsFocused { get; set; } = true;
+
 		public void SetMarkerClass( string className, bool state )
 		{
 			SetClass( className, state );
@@ -47,6 +49,11 @@ namespace Conquest.UI
 
 			var cachedX = screenpos.x;
 			var cachedY = screenpos.y;
+
+			var isFocused = cachedX.AlmostEqual( 0.5f, 0.05f ) && cachedY.AlmostEqual( 0.5f, 0.05f );
+
+			IsFocused = isFocused;
+			SetMarkerClass( "nofocus", !isFocused );
 
 			if ( StayOnScreen )
 			{
