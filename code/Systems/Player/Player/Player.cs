@@ -1,7 +1,9 @@
-﻿using Sandbox;
+﻿using Conquest.UI;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Conquest
 {
@@ -24,9 +26,20 @@ namespace Conquest
 
 		public ICamera LastCamera { get; set; }
 
+		// @Client
+		public PlayerHudMarker HudMarker { get; set; }
+
 		protected override void MakeHud()
 		{
 			Hud = new PlayerHud();
+		}
+
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+
+			if ( IsClient )
+				HudMarker?.Delete( true );
 		}
 
 		public Player() : base()
@@ -46,6 +59,26 @@ namespace Conquest
 			LastCamera = MainCamera;
 
 			base.Spawn();
+		}
+
+		protected async Task TryMakeMarker()
+		{
+			while ( HudMarkers.Current is null )
+			{
+				await GameTask.NextPhysicsFrame();
+				return;
+			}
+
+			var hudMarker = new PlayerHudMarker( this );
+			HudMarkers.Current.AddMarker( hudMarker );
+			HudMarker = hudMarker;
+		}
+
+		public override void ClientSpawn()
+		{
+			base.ClientSpawn();
+
+			_ = TryMakeMarker();
 		}
 
 		protected virtual void StripWeapons()

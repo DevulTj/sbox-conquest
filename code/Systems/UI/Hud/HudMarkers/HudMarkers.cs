@@ -32,7 +32,7 @@ namespace Conquest.UI
 			Current.AddMarker( marker );
 		}
 
-		public void AddMarker( HudMarker marker )
+		public HudMarker AddMarker( HudMarker marker )
 		{
 			if ( Markers.Contains( marker ) )
 				throw new Exception( "Marker was already added to Markers List" );
@@ -40,6 +40,8 @@ namespace Conquest.UI
 			Markers.Add( marker );
 
 			marker.Parent = this;
+
+			return marker;
 		}
 
 		protected void TickMarker( HudMarker marker )
