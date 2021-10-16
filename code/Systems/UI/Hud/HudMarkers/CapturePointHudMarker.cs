@@ -25,8 +25,14 @@ namespace Conquest.UI
 
 		public override void Refresh()
 		{
-			var player = Local.Pawn as Player;
-			bool isHidden = player.CapturePoint == CapturePoint;
+			var localPlayer = Local.Pawn as BasePlayer;
+
+			bool isHidden = false;
+
+			if ( localPlayer is Player actualPlayer )
+			{
+				isHidden = actualPlayer.CapturePoint == CapturePoint;
+			}
 
 			SetMarkerClass( "hidden", isHidden );
 
@@ -34,7 +40,7 @@ namespace Conquest.UI
 			if ( isHidden )
 				return;
 
-			var friendState = TeamSystem.GetFriendState( player.Team, CapturePoint.Team );
+			var friendState = TeamSystem.GetFriendState( localPlayer.Team, CapturePoint.Team );
 			string name = CapturePoint.Identity;
 			bool flipflop = ((float)CapturePoint.TimeSinceStateChanged).FloorToInt() % 1 == 0;
 
@@ -44,7 +50,7 @@ namespace Conquest.UI
 			SetMarkerClass( "contestedFlash", CapturePoint.CurrentState == CapturePointEntity.State.Contested && flipflop );
 			SetMarkerClass( "capturing", CapturePoint.CurrentState == CapturePointEntity.State.Capturing );
 			SetMarkerClass( "capturingFlash", CapturePoint.CurrentState == CapturePointEntity.State.Capturing && flipflop );
-			SetMarkerClass( "friendlyCapturing", CapturePoint.CurrentState == CapturePointEntity.State.Capturing && TeamSystem.IsFriendly( player.Team, CapturePoint.HighestTeam ) );
+			SetMarkerClass( "friendlyCapturing", CapturePoint.CurrentState == CapturePointEntity.State.Capturing && TeamSystem.IsFriendly( localPlayer.Team, CapturePoint.HighestTeam ) );
 
 			OccupantsLabel.Text = string.Join( $" / ", CapturePoint.OccupantCounts.ToList().Select( x => x.ToString() ) );
 			MarkerName = name;

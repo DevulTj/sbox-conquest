@@ -6,6 +6,8 @@ namespace Conquest
 {
 	public abstract partial class BasePlayer : Sandbox.Player
 	{
+		[Net] public TeamSystem.Team Team { get; set; } = TeamSystem.Team.Unassigned;
+
 		public BaseHud Hud { get; set; }
 
 		protected abstract void MakeHud();
