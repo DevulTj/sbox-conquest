@@ -7,6 +7,14 @@ namespace Conquest
 	{
 		public BaseHud()
 		{
+
+		}
+
+		public override void OnDeleted()
+		{
+			DeleteChildren( true );
+
+			base.OnDeleted();
 		}
 	}
 }

@@ -30,7 +30,9 @@ namespace Conquest
 		{
 			base.Tick();
 
-			var localPlayer = Local.Pawn as Player;
+			if ( Local.Pawn is not Player localPlayer )
+				return;
+
 			var capturePoint = localPlayer.CapturePoint;
 
 			if ( capturePoint is null )

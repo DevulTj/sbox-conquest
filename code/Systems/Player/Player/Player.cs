@@ -27,6 +27,8 @@ namespace Conquest
 		// @Client
 		public PlayerHudMarker HudMarker { get; set; }
 
+		public TimeSince TimeSinceDeath { get; set; }
+
 		protected override void MakeHud()
 		{
 			Hud = new PlayerHud();
@@ -36,8 +38,7 @@ namespace Conquest
 		{
 			base.OnDestroy();
 
-			if ( IsClient )
-				HudMarker?.Delete( true );
+			HudMarker?.Delete( true );
 		}
 
 		public Player() : base()
@@ -130,7 +131,8 @@ namespace Conquest
 		{
 			base.OnKilled();
 
-			Inventory.DropActive();
+			TimeSinceDeath = 0;
+
 			Inventory.DeleteContents();
 
 			BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
@@ -206,9 +208,28 @@ namespace Conquest
 			ActiveChild = best as BaseCarriable;
 		}
 
+		public void BecomeSpectator()
+		{
+			var cl = Client;
+			var player = new SpectatorPlayer( cl );
+			Client.Pawn = player;
+
+			Delete();
+
+			player.Respawn();
+		}
+
 		public override void Simulate( Client cl )
 		{
-			base.Simulate( cl );
+			if ( LifeState == LifeState.Dead )
+			{
+				if ( TimeSinceDeath > 3 && IsServer )
+				{
+					BecomeSpectator();
+				}
+
+				return;
+			}
 
 			HandleSharedInput( cl );
 
@@ -225,6 +246,8 @@ namespace Conquest
 			var controller = GetActiveController();
 			if ( controller != null )
 				EnableSolidCollisions = !controller.HasTag( "noclip" );
+
+			controller?.Simulate( cl, this, GetActiveAnimator() );
 
 			if ( Input.Pressed( InputButton.Drop ) )
 			{
