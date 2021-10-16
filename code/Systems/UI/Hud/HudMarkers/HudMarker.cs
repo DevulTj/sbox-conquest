@@ -44,9 +44,6 @@ namespace Conquest.UI
 		{
 			var screenpos = GetScreenPoint();
 
-			if ( screenpos.z < 0 )
-				return false;
-
 			var cachedX = screenpos.x;
 			var cachedY = screenpos.y;
 
