@@ -11,6 +11,11 @@ namespace Conquest
 	public class RespawnScreen : Panel
 	{
 		public static bool Exists = false;
+		public static TimeSince TimeSinceDeployed = -1;
+		public static float DeployAnimTime => 1;
+		public static Vector3 Position = new Vector3( -186.83f, -185.75f, 5024.03f );
+		public static Angles Angles = new Angles( 90, 90, 0 );
+
 		// @ref
 		public Button DeployButton { get; set; }
 		public Label GameName { get; set; }
@@ -24,6 +29,8 @@ namespace Conquest
 		public override void OnDeleted()
 		{
 			Exists = false;
+
+			TimeSinceDeployed = 0;
 
 			base.OnDeleted();
 		}

@@ -187,11 +187,19 @@ namespace Conquest
 		/// </summary>
 		public override CameraSetup BuildCamera( CameraSetup camSetup )
 		{
-			if ( RespawnScreen.Exists )
+			if ( RespawnScreen.Exists || (RespawnScreen.TimeSinceDeployed < RespawnScreen.DeployAnimTime ) )
 			{
+
+				var progress = RespawnScreen.Exists ? 0 : ( RespawnScreen.TimeSinceDeployed / RespawnScreen.DeployAnimTime );
+				var pos = RespawnScreen.Position;
+				var pawnPos = Local.Pawn.EyePos;
+
+				var ang = RespawnScreen.Angles.ToRotation();
+				var pawnAng = Local.Pawn.EyeRot;
+
 				var camera = new CameraSetup();
-				camera.Position = new Vector3( -186.83f, -185.75f, 5024.03f );
-				camera.Rotation = Rotation.From( new Angles( 90, 90, 0 ) );
+				camera.Position = pos.LerpTo( pawnPos, progress );
+				camera.Rotation = Rotation.Lerp( ang, pawnAng, progress );
 				camera.FieldOfView = 90;
 				camera.ZNear = 10;
 				camera.ZFar = 80000;
