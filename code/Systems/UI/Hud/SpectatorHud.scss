@@ -1,6 +1,7 @@
 @import "../_theme.scss";
 
 .root {
+	opacity: 1;
 	pointer-events: none;
 	position: absolute;
 	left: 0;
@@ -13,6 +14,11 @@
 	&:intro {
 		backdrop-filter: blur(50px);
 	}
+
+	&:outro {
+		opacity: 0;
+	}
+
 
 	.play {
 		position: absolute;

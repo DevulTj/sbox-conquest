@@ -21,14 +21,23 @@ namespace Conquest
 		{
 			Exists = true;
 		}
-		~RespawnScreen()
+		public override void OnDeleted()
 		{
 			Exists = false;
+
+			base.OnDeleted();
 		}
 
 		public override void Tick()
 		{
 			base.Tick();
+		}
+
+		public void Deploy()
+		{
+			Host.AssertClient();
+
+			Game.DeployCommand();
 		}
 	}
 }
