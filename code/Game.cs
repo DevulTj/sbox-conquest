@@ -34,6 +34,9 @@ namespace Conquest
 
 		public override void ClientJoined( Client cl )
 		{
+			var teamComponent = cl.Components.GetOrCreate<TeamComponent>();
+			teamComponent.Team = TeamSystem.Team.BLUFOR;
+
 			BasePlayer player = new SpectatorPlayer( cl );
 			cl.Pawn = player;
 
@@ -189,8 +192,8 @@ namespace Conquest
 		{
 			if ( RespawnScreen.Exists || (RespawnScreen.TimeSinceDeployed < RespawnScreen.DeployAnimTime ) )
 			{
-
 				var progress = RespawnScreen.Exists ? 0 : ( RespawnScreen.TimeSinceDeployed / RespawnScreen.DeployAnimTime );
+
 				var pos = RespawnScreen.Position;
 				var pawnPos = Local.Pawn.EyePos;
 

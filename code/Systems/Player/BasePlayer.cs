@@ -6,7 +6,23 @@ namespace Conquest
 {
 	public abstract partial class BasePlayer : Sandbox.Player
 	{
-		[Net] public TeamSystem.Team Team { get; set; } = TeamSystem.Team.Unassigned;
+		public TeamSystem.Team Team
+		{
+			get
+			{
+				var cl = Client;
+				if ( cl is null ) return TeamSystem.Team.Unassigned;
+
+				return cl.Components.GetOrCreate<TeamComponent>().Team;
+			}
+			set
+			{
+				var cl = Client;
+				if ( cl is null ) return;
+
+				cl.Components.GetOrCreate<TeamComponent>().Team = value;
+			}
+		}
 
 		public BaseHud Hud { get; set; }
 
