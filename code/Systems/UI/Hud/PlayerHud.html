@@ -2,33 +2,38 @@
 
 <div class="root">
     <div class="flash" @ref="Root"></div>
-    <div class="vitals" @ref="Vitals">
-        <div class="healthBar">
-            <div class="healthBarFill" @ref="HealthBar"></div>
-        </div>
 
-        <div class="armorBar">
-            <div class="armorBarFill" @ref="ArmorBar"></div>
-        </div>
-
-        <text class="health" @ref="Health">100</text>
-        <text class="armor" @ref="Armor">100</text>
-        <text class="identity" @ref="PlayerName">DEVULTJ</text>
-        <div class="box" @ref="Inventory"></div>
-    </div>
-
-    <div class="gunvitals" @ref="GunVitals">
-        <label class="name" @ref="GunName">M5A3</label>
-
-        <label class="ammo" @ref="GunAmmo">30</label>
-        <div class="spacer"></div>
-        <label class="reserve" @ref="GunReserve">60</label>
-    </div>
-
-    <TeamStatus></TeamStatus>
-    <CaptureStatus></CaptureStatus>
-    <VoiceList></VoiceList>
+    <RespawnScreen></RespawnScreen>
     <HudMarkers></HudMarkers>
-    <MiniMap></MiniMap>
+
+    <div class="main" @ref="Main">
+        <div class="vitals" @ref="Vitals">
+            <div class="healthBar">
+                <div class="healthBarFill" @ref="HealthBar"></div>
+            </div>
+
+            <div class="armorBar">
+                <div class="armorBarFill" @ref="ArmorBar"></div>
+            </div>
+
+            <text class="health" @ref="Health">100</text>
+            <text class="armor" @ref="Armor">100</text>
+            <text class="identity" @ref="PlayerName">DEVULTJ</text>
+            <div class="box" @ref="Inventory"></div>
+        </div>
+
+        <div class="gunvitals" @ref="GunVitals">
+            <label class="name" @ref="GunName">M5A3</label>
+
+            <label class="ammo" @ref="GunAmmo">30</label>
+            <div class="spacer"></div>
+            <label class="reserve" @ref="GunReserve">60</label>
+        </div>
+
+        <TeamStatus></TeamStatus>
+        <CaptureStatus></CaptureStatus>
+        <VoiceList></VoiceList>
+        <MiniMap></MiniMap>
+    </div>
 </div>
 

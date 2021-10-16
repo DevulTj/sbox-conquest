@@ -1,0 +1,70 @@
+﻿@import "../../_theme.scss";
+
+respawnscreen {
+    pointer-events: all;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+
+
+    .header {
+        width: 100%;
+        height: 5%;
+        background-color: black;
+
+        .gamename {
+        }
+
+        .mapname {
+        }
+    }
+
+    .zones {
+        width: 100%;
+        height: 5%;
+        background-color: rgba( black, 0.5 );
+    }
+
+    .footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        height: 10%;
+        background-color: black;
+
+        .deploy {
+            position: absolute;
+            right: 0;
+            width: 256px;
+            height: 100%;
+            background-color: rgba( $friendly-marker, 0.8 );
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgba( $friendly-marker, 1 );
+            }
+
+            &:active {
+                background-color: rgba( $enemy-marker, 1 );
+
+                label {
+                    color: white;
+                }
+            }
+
+            label {
+                width: 100%;
+                text-align: center;
+                align-content: center;
+                align-self: center;
+                font-family: $font-primary;
+                color: black;
+                font-weight: 500;
+                font-size: 24px;
+            }
+        }
+    }
+}

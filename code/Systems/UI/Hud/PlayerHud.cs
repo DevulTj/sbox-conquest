@@ -8,6 +8,8 @@ namespace Conquest
 	[UseTemplate("systems/ui/hud/playerhud.html")]
 	public class PlayerHud : BaseHud
 	{
+		public static PlayerHud Current { get; set; } 
+
 		public Panel Root { get; set; }
 		public Panel Vitals { get; set; }
 		public Label Health { get; set; }
@@ -27,8 +29,12 @@ namespace Conquest
 
 		public List<InventoryItem> Items { get; set; } = new();
 
+		public Panel Main { get; set; }
+
 		public PlayerHud()
 		{
+			Current = this;
+
 			for (int i = 0; i < 5; i++ )
 			{
 				var item = Inventory.AddChild<InventoryItem>( i < 2 ? "large" : "small" );
@@ -47,6 +53,17 @@ namespace Conquest
 
 			if ( Health == null )
 				return;
+
+			if ( RespawnScreen.Exists )
+			{
+				Main.Style.Opacity = 0;
+
+				return;
+			}
+			else
+			{
+				Main.Style.Opacity = 1;
+			}
 
 			Health.Text = $"{player?.Health:n0}";
 

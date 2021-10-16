@@ -34,7 +34,7 @@ namespace Conquest
 
 		public override void ClientJoined( Client cl )
 		{
-			BasePlayer player = new Player( cl );
+			BasePlayer player = new SpectatorPlayer( cl );
 			cl.Pawn = player;
 
 			Log.Info( $"\"{cl.Name}\" has joined the game" );
@@ -187,6 +187,18 @@ namespace Conquest
 		/// </summary>
 		public override CameraSetup BuildCamera( CameraSetup camSetup )
 		{
+			if ( RespawnScreen.Exists )
+			{
+				var camera = new CameraSetup();
+				camera.Position = new Vector3( -186.83f, -185.75f, 5024.03f );
+				camera.Rotation = Rotation.From( new Angles( 90, 90, 0 ) );
+				camera.FieldOfView = 90;
+				camera.ZNear = 10;
+				camera.ZFar = 80000;
+
+				return camera;
+			}
+
 			var cam = FindActiveCamera();
 
 			if ( LastCamera != cam )
