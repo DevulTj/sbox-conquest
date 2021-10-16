@@ -66,7 +66,6 @@ namespace Conquest.UI
 
 			Style.Left = Length.Fraction( screenpos.x );
 			Style.Top = Length.Fraction( screenpos.y );
-			Style.Dirty();
 
 			return cachedX < 0 || cachedX > 1 || cachedY < 0 || cachedY > 1;
 		}

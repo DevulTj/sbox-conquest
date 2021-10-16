@@ -36,8 +36,6 @@ namespace Conquest
 			if ( capturePoint is null )
 			{
 				Style.Opacity = 0;
-				Style.Dirty();
-
 				return;
 			}
 
@@ -55,7 +53,6 @@ namespace Conquest
 			if ( enemyTeamCount == 0 )
 			{
 				Contest.Style.Opacity = 0;
-				Contest.Style.Dirty();
 			}
 
 			FriendlyTeamBar.Style.Width = Length.Fraction( (float)friendlyTeamCount / (float)total );
@@ -75,18 +72,13 @@ namespace Conquest
 
 			FriendlyTeamName.Text = $"{friendlyTeamCount}";
 
-			FriendlyTeamBar.Style.Dirty();
-			EnemyTeamBar.Style.Dirty();
-
 			Style.Opacity = 1;
-			Style.Dirty();
 
 			SetCaptureClass( "friendly", capturePoint.Team == localPlayer.Team );
 			SetCaptureClass( "enemy", capturePoint.Team == TeamSystem.GetEnemyTeam( localPlayer.Team ) );
 
 			var percent = capturePoint.Captured * 100f;
 			Point.Style.Set( "background", $"conic-gradient(transparent {percent}%, rgba(50, 50, 50, 0.8) {percent}%);" );
-			Point.Style.Dirty();
 		}
 	}
 }

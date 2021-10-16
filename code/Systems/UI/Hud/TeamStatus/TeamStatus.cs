@@ -17,6 +17,8 @@ namespace Conquest
 		public Panel EnemyTeamBar { get; set; }
 		public Label EnemyTeamName { get; set; }
 		public Label FriendlyState { get; set; }
+		public Label FriendlyScore { get; set; }
+		public Label EnemyScore { get; set; }
 		public Label EnemyState { get; set; }
 		// -@ref
 
@@ -41,6 +43,7 @@ namespace Conquest
 			
 			var bar = isMyTeam ? FriendlyTeamBar : EnemyTeamBar;
 			var label = isMyTeam ? FriendlyTeamName : EnemyTeamName;
+			var scoreLabel = isMyTeam ? FriendlyScore : EnemyScore;
 			var state = isMyTeam ? FriendlyState : EnemyState;
 
 			var teamName = TeamSystem.GetTeamName( team );
@@ -52,18 +55,10 @@ namespace Conquest
 			bar.Style.Width = Length.Percent( percent );
 
 			if ( !isMyTeam )
-			{
 				bar.Style.Left = Length.Percent( 100 - percent );
-			}
 
-			bar.Style.Dirty();
-
-			label.Text = $"{score:f0}";
-
-			if ( isMyTeam )
-				label.Text = $"{teamName} {label.Text}";
-			else
-				label.Text = $"{label.Text} {teamName}";
+			label.Text = $"{teamName}";
+			scoreLabel.Text = $"{score:f0}";
 
 			if ( oldScore is not null && oldScore > score )
 			{
