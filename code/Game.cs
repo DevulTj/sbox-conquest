@@ -18,17 +18,28 @@ namespace Conquest
 			{
 				Scores = new();
 
-				var ent = new CapturePointEntity();
-				ent.Position = new Vector3( 55.65f, -1077.28f, 5.03f );
-				ent.Identity = "A";
+				// @Temporary
+				// Will be map controlled ents.
+				var a = new CapturePointEntity();
+				a.Position = new Vector3( -2428.1f, -3192.38f, 0.03f );
+				a.Identity = "A";
 
-				var two = new CapturePointEntity();
-				two.Position = new Vector3( 55.65f, -77.28f, 5.03f );
-				two.Identity = "B";
+				var b = new CapturePointEntity();
+				b.Position = new Vector3( 1004.61f, -1612.63f, -139.97f );
+				b.Identity = "B";
 
-				var three = new CapturePointEntity();
-				three.Position = new Vector3( -605.65f, -1477.28f, 5.03f );
-				three.Identity = "C";
+				var c = new CapturePointEntity();
+				c.Position = new Vector3( -697.96f, 200.86f, 5.04f );
+				c.Identity = "C";
+
+
+				var d = new CapturePointEntity();
+				d.Position = new Vector3( -4285.88f, 117.18f, 56.03f );
+				d.Identity = "D";
+
+				var e = new CapturePointEntity();
+				e.Position = new Vector3( 2023.55f, 818.86f, -124.97f );
+				e.Identity = "E";
 			}
 		}
 

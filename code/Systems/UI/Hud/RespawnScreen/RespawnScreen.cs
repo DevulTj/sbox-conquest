@@ -13,7 +13,7 @@ namespace Conquest
 		public static bool Exists = false;
 		public static TimeSince TimeSinceDeployed = -1;
 		public static float DeployAnimTime => 1;
-		public static Vector3 Position = new Vector3( -186.83f, -185.75f, 5024.03f );
+		public static Vector3 Position => new Vector3( -186.83f, -805.75f, 5024.03f );
 		public static Angles Angles = new Angles( 90, 90, 0 );
 
 		// @ref
