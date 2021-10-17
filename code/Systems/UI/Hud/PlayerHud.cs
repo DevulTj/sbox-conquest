@@ -53,27 +53,14 @@ namespace Conquest
 
 			if ( Health == null )
 				return;
-
-			if ( RespawnScreen.Exists )
-			{
-				Main.Style.Opacity = 0;
-
-				return;
-			}
-			else
-			{
-				Main.Style.Opacity = 1;
-			}
-
+		
 			Health.Text = $"{player?.Health:n0}";
-
 			var healthPercent = ( player.Health / 100f ) * 100f;
 
 			// Danger if at 20% hp
 			Health.SetClass( "danger", healthPercent < 0.2 );
 
 			HealthBar.Style.Width = Length.Percent( healthPercent );
-			HealthBar.Style.Dirty();
 
 			var weapon = Local.Pawn.ActiveChild as BaseWeapon;
 			if ( weapon is not null && weapon.ShowAmmoCount )
@@ -89,8 +76,6 @@ namespace Conquest
 			}
 
 			PlayerName.Text = $"{player.Client.Name.ToUpper()}";
-
-			GunVitals.Style.Dirty();
 		}
 	}
 }

@@ -184,8 +184,11 @@ namespace Conquest
 			// Work out wish velocity.. just take input, rotate it to view, clamp to -1, 1
 			//
 			WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
+
 			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
-			WishVelocity *= Input.Rotation;
+
+			var rot = Input.Rotation.Angles().WithPitch( 0 );
+			WishVelocity *= rot.ToRotation();
 
 			if ( !Swimming && !IsTouchingLadder )
 			{

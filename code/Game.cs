@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using System;
 using System.Threading.Tasks;
 
 namespace Conquest
@@ -196,27 +197,29 @@ namespace Conquest
 		[Predicted]
 		public Camera LastCamera { get; set; }
 
+
+		public static (Vector3 Pos, Rotation Rot) LastCameraSnapshot = new();
+
 		/// <summary>
 		/// Called to set the camera up, clientside only.
 		/// </summary>
 		public override CameraSetup BuildCamera( CameraSetup camSetup )
 		{
-			if ( RespawnScreen.Exists || (RespawnScreen.TimeSinceDeployed < RespawnScreen.DeployAnimTime ) )
+			if ( RespawnScreen.State != TransitionState.None )
 			{
-				var progress = RespawnScreen.Exists ? 0 : ( RespawnScreen.TimeSinceDeployed / RespawnScreen.DeployAnimTime );
+				var transitionProgress = RespawnScreen.TransitionProgress;
 
-				var pos = RespawnScreen.Position;
-				var pawnPos = Local.Pawn.EyePos;
+				//var progress = RespawnScreen.Exists ? 0 : ( RespawnScreen.TimeSinceDeployed / RespawnScreen.DeployAnimTime );
 
-				var ang = RespawnScreen.Angles.ToRotation();
-				var pawnAng = Local.Pawn.EyeRot;
+				var originPos = RespawnScreen.GetStartPos();
+				var targetPos = RespawnScreen.GetTargetPos();
 
-				var camera = new CameraSetup();
-				camera.Position = pos.LerpTo( pawnPos, progress );
-				camera.Rotation = Rotation.Lerp( ang, pawnAng, progress );
-				camera.FieldOfView = 90;
-				camera.ZNear = 10;
-				camera.ZFar = 80000;
+				var originRot = RespawnScreen.GetStartRotation();
+				var targetRot = RespawnScreen.GetTargetRotation();
+
+				var camera = RespawnScreen.CameraSetup;
+				camera.Position = originPos.LerpTo( targetPos, transitionProgress );
+				camera.Rotation = Rotation.Lerp( originRot, targetRot, transitionProgress );
 
 				return camera;
 			}
@@ -233,6 +236,9 @@ namespace Conquest
 			cam?.Build( ref camSetup );
 
 			PostCameraSetup( ref camSetup );
+
+			LastCameraSnapshot.Pos = camSetup.Position;
+			LastCameraSnapshot.Rot = camSetup.Rotation;
 
 			return camSetup;
 		}
