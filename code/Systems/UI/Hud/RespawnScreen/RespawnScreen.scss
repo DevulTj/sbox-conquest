@@ -15,9 +15,28 @@ respawnscreen {
         background-color: black;
 
         .gamename {
+            bottom: 2px;
+            left: 16px;
+            width: 10%;
+            text-align: start;
+            align-self: center;
+            font-family: $font-primary;
+            color: white;
+            font-weight: 900;
+            font-size: 24px;
         }
 
         .mapname {
+            position: absolute;
+            bottom: 12px;
+            right: 16px;
+            width: 20%;
+            text-align: right;
+            align-self: center;
+            font-family: $font-primary;
+            color: white;
+            font-weight: 600;
+            font-size: 24px;
         }
     }
 
