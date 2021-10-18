@@ -196,36 +196,31 @@ namespace Conquest
 
 		[Predicted]
 		public Camera LastCamera { get; set; }
-
-
 		public static (Vector3 Pos, Rotation Rot) LastCameraSnapshot = new();
+
+		protected float TargetFieldOfView = 90;
+		public virtual float CalculateFOV( float ResultFOV )
+		{
+			TargetFieldOfView = TargetFieldOfView.LerpTo( ResultFOV, Time.Delta * 5f );
+			return TargetFieldOfView;
+		}
 
 		/// <summary>
 		/// Called to set the camera up, clientside only.
 		/// </summary>
 		public override CameraSetup BuildCamera( CameraSetup camSetup )
-		{
+		{	
 			if ( RespawnScreen.State != TransitionState.None )
 			{
-				var transitionProgress = RespawnScreen.TransitionProgress;
-
-				//var progress = RespawnScreen.Exists ? 0 : ( RespawnScreen.TimeSinceDeployed / RespawnScreen.DeployAnimTime );
-
-				var originPos = RespawnScreen.GetStartPos();
-				var targetPos = RespawnScreen.GetTargetPos();
-
-				var originRot = RespawnScreen.GetStartRotation();
-				var targetRot = RespawnScreen.GetTargetRotation();
-
 				var camera = RespawnScreen.CameraSetup;
-				camera.Position = originPos.LerpTo( targetPos, transitionProgress );
-				camera.Rotation = Rotation.Lerp( originRot, targetRot, transitionProgress );
+				camera.Position = RespawnScreen.Position;
+				camera.Rotation = RespawnScreen.Rotation;
+				camera.FieldOfView = CalculateFOV( camera.FieldOfView );
 
 				return camera;
 			}
 
 			var cam = FindActiveCamera();
-
 			if ( LastCamera != cam )
 			{
 				LastCamera?.Deactivated();
@@ -234,11 +229,12 @@ namespace Conquest
 			}
 
 			cam?.Build( ref camSetup );
-
 			PostCameraSetup( ref camSetup );
 
 			LastCameraSnapshot.Pos = camSetup.Position;
 			LastCameraSnapshot.Rot = camSetup.Rotation;
+
+			camSetup.FieldOfView = CalculateFOV( camSetup.FieldOfView );
 
 			return camSetup;
 		}

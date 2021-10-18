@@ -9,7 +9,12 @@ teamstatus {
     height: 32px;
 
     .big {
-
+        transform: rotateY(10deg) rotateX(-10deg);
+        left: 48px;
+        bottom: 345px;
+        position: absolute;
+        width: 300px;
+        height: 32px;
         position: absolute;
     }
 
