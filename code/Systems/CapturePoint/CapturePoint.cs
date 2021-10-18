@@ -20,8 +20,14 @@ namespace Conquest
 		[Net, Category("Capture Point")]
 		public string Identity { get; set; }
 
-		[Net, Category( "Capture Point" )]
-		public TeamSystem.Team Team { get; set; } = TeamSystem.Team.Unassigned;
+		[BindComponent]
+		protected TeamComponent TeamComponent { get; }
+
+		public TeamSystem.Team Team
+		{
+			get => TeamComponent.Team;
+			set => TeamComponent.Team = value;
+		}
 
 		[Net, Category( "Capture Point" )]
 		public TeamSystem.Team HighestTeam { get; set; } = TeamSystem.Team.Unassigned;
@@ -86,10 +92,9 @@ namespace Conquest
 
 			// Client doesn't need to know about htis
 			Transmit = TransmitType.Always;
-		}
-		public override void ClientSpawn()
-		{
-			base.ClientSpawn();
+
+			// Create a TeamComponent
+			Components.Create<TeamComponent>();
 		}
 
 		/// <summary>
