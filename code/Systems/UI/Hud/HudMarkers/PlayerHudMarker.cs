@@ -24,6 +24,12 @@ namespace Conquest.UI
 
 		public override void Refresh()
 		{
+			if ( Player is null || ( Player is not null && Player.LifeState != LifeState.Alive ) )
+			{
+				SetMarkerClass( "hidden", true );
+				return;
+			}
+
 			var localPlayer = Local.Pawn as Player;
 			var isFarAway = localPlayer.EyePos.Distance( Player.Position ) > DistanceUntilHidden;
 			var isCloseEnoughEnemy = localPlayer.EyePos.Distance( Player.Position ) < DistanceUntilShownEnemy;
