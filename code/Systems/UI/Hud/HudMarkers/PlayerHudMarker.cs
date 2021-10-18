@@ -24,7 +24,7 @@ namespace Conquest.UI
 
 		public override void Refresh()
 		{
-			if ( Player is null || ( Player is not null && Player.LifeState != LifeState.Alive ) )
+			if ( !Player.IsValid() || Player?.LifeState != LifeState.Alive )
 			{
 				SetMarkerClass( "hidden", true );
 				return;
