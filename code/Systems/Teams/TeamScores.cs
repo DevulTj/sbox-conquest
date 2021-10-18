@@ -67,7 +67,12 @@ namespace Conquest
 
 		public void SetScore( TeamSystem.Team team, int score )
 		{
-			Scores[(int)team] = Math.Clamp( score, MinimumScore, MaximumScore ); 
+			var newScore = Math.Clamp( score, MinimumScore, MaximumScore );
+			Scores[(int)team] = newScore;
+
+			if ( newScore == 0 )
+				Event.Run( GameEvent.Server.ScoreHitZero, team );
+
 			WriteNetworkData();
 		}
 

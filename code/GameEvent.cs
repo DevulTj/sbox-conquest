@@ -7,9 +7,16 @@ namespace Conquest
 		public class Server
 		{
 			public const string OnChatMessage = "OnChatMessage";
+			public const string ScoreHitZero = "ScoreHitZero";
+
 			public class OnChatMessageAttribute : EventAttribute
 			{
 				public OnChatMessageAttribute() : base( OnChatMessage ) { }
+			}
+
+			public class ScoreHitZeroAttribute : EventAttribute
+			{
+				public ScoreHitZeroAttribute() : base( ScoreHitZero ) { }
 			}
 		}
 
