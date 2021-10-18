@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Conquest
 {
-	public partial class Player : BasePlayer
+	public partial class Player : BasePlayer, IMiniMapEntity
 	{
 		/// <summary>
 		/// The clothing container is what dresses the citizen

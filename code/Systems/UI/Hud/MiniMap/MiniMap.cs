@@ -20,12 +20,35 @@ namespace Conquest
 
 	public class MiniMapDot : Panel
 	{
-		public Entity Entity { get; set; }
+		public IMiniMapEntity Entity { get; set; }
 
-		public MiniMapDot( Entity entity )
+		public Label Text { get; set; }
+
+		public MiniMapDot( IMiniMapEntity entity )
 		{
 			Entity = entity;
+
+			Text = AddChild<Label>();
+			Text.Text = "";
 		}
+
+		public void Apply( MiniMapDotBuilder info )
+		{
+			Text.Text = info.Text;
+
+			foreach( var kv in info.Classes )
+			{
+				SetClass( kv.Key, kv.Value );
+			}
+		}
+	}
+
+	public class MiniMapDotBuilder
+	{
+		public Dictionary<string, bool> Classes { get; set; } = new();
+		public Vector3 Position { get; set; } = new();
+		public Rotation Rotation { get; set; } = new();
+		public string Text { get; set; } = "";
 	}
 
 	[UseTemplate( "systems/ui/hud/minimap/minimap.html" )]
@@ -38,15 +61,7 @@ namespace Conquest
 
 		protected List<MiniMapDot> Dots { get; set; } = new();
 
-		protected MiniMapDot NewDot( Entity entity )
-		{
-			return new MiniMapDot( entity )
-			{
-				Parent = DotAnchor
-			};
-		}
-
-		public float Range => 1000f;
+		public float Range => 2000f;
 
 		// @TODO: Calc this
 		public Vector2 MiniMapSize => new Vector2( 300f, 236f );
@@ -64,47 +79,7 @@ namespace Conquest
 			return;
 		}
 
-		public void ValidatePlayer( Player player )
-		{
-			var currentDot = Dots.Where( x => x.Entity == player ).FirstOrDefault();
-
-			if ( !player.IsValid() 
-				 || player.LifeState != LifeState.Alive
-				 || player.Team == TeamSystem.Team.Unassigned )
-			{
-				ClearDot( currentDot );
-				return;
-			}
-
-			if ( currentDot is null )
-			{
-				currentDot = new MiniMapDot( player )
-				{
-					Parent = DotAnchor
-				};
-
-				Dots.Add( currentDot );
-			}
-
-			var diff = player.Position - CurrentView.Position;
-
-			var x = MiniMapSize.x / Range * diff.x * 0.5f;
-			var y = MiniMapSize.y / Range * diff.y * 0.5f;
-			var ang = MathF.PI / 180 * ( CurrentView.Rotation.Yaw() - 90f );
-			var cos = MathF.Cos( ang );
-			var sin = MathF.Sin( ang );
-
-			var translatedX = x * cos + y * sin;
-			var translatedY = y * cos - x * sin;
-
-			currentDot.Style.Left = (MiniMapSize.x / 2f) + translatedX;
-			currentDot.Style.Top = (MiniMapSize.y / 2f) - translatedY;
-
-			var localPlayer = Local.Pawn as Player;
-			currentDot.SetClass( "enemy", TeamSystem.IsHostile( player.Team, localPlayer.Team ) );
-			currentDot.SetClass( "me", player == localPlayer );
-		}
-
+		// @TODO: Replace with MiniMapDot system
 		protected void UpdateCapturePoints()
 		{
 			var localPlayer = Local.Pawn as Player;
@@ -135,19 +110,52 @@ namespace Conquest
 			}
 		}
 
-		protected void UpdatePlayers()
+		protected void ValidateEntity( IMiniMapEntity entity )
 		{
-			var players = Entity.All.OfType<Player>().OrderBy( x => Vector3.DistanceBetween( x.EyePos, CurrentView.Position ) );
+			var info = new MiniMapDotBuilder();
+			var styleClass = entity.GetMainClass();
+			var currentDot = Dots.Where( x => x.Entity == entity ).FirstOrDefault();
 
-			foreach ( var player in players )
+			if ( !entity.Update( ref info ) )
 			{
-				ValidatePlayer( player );
+				ClearDot( currentDot );
+				return;
 			}
+
+			if ( currentDot is null )
+			{
+				currentDot = new MiniMapDot( entity )
+				{
+					Parent = DotAnchor
+				};
+
+				// Add style class
+				currentDot.AddClass( styleClass );
+
+				Dots.Add( currentDot );
+			}
+
+			var diff = info.Position - CurrentView.Position;
+
+			var x = MiniMapSize.x / Range * diff.x * 0.5f;
+			var y = MiniMapSize.y / Range * diff.y * 0.5f;
+			var ang = MathF.PI / 180 * (CurrentView.Rotation.Yaw() - 90f);
+			var cos = MathF.Cos( ang );
+			var sin = MathF.Sin( ang );
+
+			var translatedX = x * cos + y * sin;
+			var translatedY = y * cos - x * sin;
+
+			currentDot.Style.Left = (MiniMapSize.x / 2f) + translatedX;
+			currentDot.Style.Top = (MiniMapSize.y / 2f) - translatedY;
+			currentDot.Apply( info );
 		}
 
 		protected void UpdateMiniMapDots()
 		{
-			UpdatePlayers();
+			Entity.All.OfType<IMiniMapEntity>()
+							.ToList()
+							.ForEach( x => ValidateEntity( x ) );
 		}
 
 		public override void Tick()

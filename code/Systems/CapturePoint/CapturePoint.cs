@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Conquest
 {
-	public partial class CapturePointEntity : ModelEntity
+	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity
 	{
 		public enum State
 		{
@@ -241,6 +241,22 @@ namespace Conquest
 					Team = TeamSystem.Team.Unassigned;
 				}
 			}
+		}
+
+		string IMiniMapEntity.GetMainClass() => "capturepoint";
+		bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
+		{
+			if ( !this.IsValid() )
+				return false;
+
+			info.Text = Identity;
+			info.Position = Position;
+
+			var friendState = TeamSystem.GetFriendState( Team, TeamSystem.MyTeam );
+			info.Classes["friendly"] = friendState == TeamSystem.FriendlyStatus.Friendly;
+			info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
+
+			return true;
 		}
 	}
 }

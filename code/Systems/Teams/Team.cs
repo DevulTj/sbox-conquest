@@ -11,7 +11,7 @@ namespace Conquest
 			return (T) Enum.Parse( typeof( T ), enumString );
 		}
 
-		public static Team MyTeam => ( Local.Pawn as Player )?.Team ?? Team.Unassigned;
+		public static Team MyTeam => Local.Client.Components.Get<TeamComponent>()?.Team ?? Team.Unassigned;
 
 		public enum Team
 		{

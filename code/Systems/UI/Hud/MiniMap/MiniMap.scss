@@ -88,37 +88,72 @@ minimap {
             overflow: hidden;
 
             minimapdot {
-                background-color: $friendly-marker;
-                box-shadow: 0 0px 15px rgba($friendly-marker,0.1);
+                background-color: $unowned-marker;
+                box-shadow: 0 0px 15px rgba($unowned-marker,0.1);
                 position: absolute;
                 border-radius: 50%;
                 height: 12px;
                 width: 12px;
                 transition: opacity 0.2s ease;
-
                 opacity: 1;
-
-                &:intro {
-                    opacity: 1;
-                }
 
                 &:outro {
                     opacity: 0;
                 }
+                // Capture point
+                &.capturepoint {
+                    width: 32px;
+                    height: 32px;
+                    background-color: rgba( $unowned-marker, 0.1 );
 
+                    &.friendly {
+                        background-color: rgba( $friendly-marker, 0.1 );
 
-                &.enemy {
-                    background-color: $enemy-marker;
-                    box-shadow: 0 0px 15px rgba($enemy-marker,0.1);
+                        label {
+                            color: rgba( $friendly-marker, 1 );
+                        }
+                    }
+
+                    &.enemy {
+                        background-color: rgba( $enemy-marker, 0.1 );
+
+                        label {
+                            color: rgba( $enemy-marker, 1 );
+                        }
+                    }
+
+                    label {
+                        position: absolute;
+                        text-shadow: 0px 0px 2px $unowned-marker;
+                        width: 100%;
+                        align-self: center;
+                        text-align: center;
+                        font-size: 25px;
+                        font-family: $font-primary;
+                        font-weight: 400;
+                        color: rgba( $unowned-marker, 1 );
+                    }
                 }
+                // Player
+                &.player {
+                    &.friendly {
+                        background-color: $friendly-marker;
+                        box-shadow: 0 0px 15px rgba($friendly-marker,0.1);
+                    }
 
-                &.me {
-                    background-image: url( /ui/minimap/playermarker.png );
-                    background-size: 100%;
-                    background-color: transparent;
-                    box-shadow: 0 0px 15px rgba($unowned-marker,0.2);
-                    width: 16px;
-                    height: 16px;
+                    &.enemy {
+                        background-color: $enemy-marker;
+                        box-shadow: 0 0px 15px rgba($enemy-marker,0.1);
+                    }
+
+                    &.me {
+                        background-image: url( /ui/minimap/playermarker.png );
+                        background-size: 100%;
+                        background-color: transparent;
+                        box-shadow: 0 0px 15px rgba($unowned-marker,0.2);
+                        width: 16px;
+                        height: 16px;
+                    }
                 }
             }
         }
