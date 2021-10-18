@@ -19,44 +19,11 @@
 		opacity: 0;
 	}
 
-
-	.play {
+	.main {
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
 		position: absolute;
-		left: 50%;
-		bottom: 40px;
-		transform: translateX(-50%) translateY(50%);
-		margin: 0 auto;
-
-		.text {
-			font-family: Poppins;
-			font-weight: 500;
-			color: white;
-			font-size: 30px;
-			text-shadow: 2px 2px 1px black;
-		}
-	}
-
-	.logo {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translateX( -50% ) translateY( -50% );
-		width: 256px;
-		height: 256px;
-		border-radius: 128px;
-		background-size: 100%;
-		background-image: url( /ui/logo.png );
-	}
-
-	.title {
-		position: absolute;
-		left: 50%;
-		transform: translateX( -50% ) translateY( 50% );
-		font-family: Poppins;
-		font-weight: 900;
-		color: white;
-		font-size: 50px;
-		text-shadow: 2px 2px 1px black;
-		text-align: center;
 	}
 }

@@ -39,7 +39,7 @@ namespace Conquest
 		public static float TransitionProgress => MathX.Clamp( TimeSinceStateChanged, 0, TransitionTime ) / TransitionTime;
 		public static float EasedTransitionProgress => EaseOutCirc( TransitionProgress );
 		public static float TransitionTime => 0.6f; // Takes x seconds for transition
-		public static Vector3 OverviewPosition => new Vector3( -186.83f, -805.75f, 5024.03f ); // @TODO: Map entity
+		public static Vector3 OverviewPosition => new Vector3( -186.83f, -1305.75f, 5024.03f ); // @TODO: Map entity
 		public static Angles OverviewAngles => new Angles( 90, 90, 0 ); // @TODO: Map entity
 
 		public static CameraSetup CameraSetup = new();

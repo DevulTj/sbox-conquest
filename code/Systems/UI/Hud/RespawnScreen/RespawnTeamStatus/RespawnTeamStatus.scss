@@ -1,12 +1,10 @@
-﻿@import "../../_theme.scss";
+﻿@import "../../../_theme.scss";
 
-teamstatus {
-    transform: rotateY(10deg) rotateX(-10deg);
-    left: 48px;
-    bottom: 345px;
-    position: absolute;
-    width: 300px;
-    height: 32px;
+respawnteamstatus {
+    left: 35%;
+    width: 30%;
+    height: 60%;
+    align-self: center;
 
     .left {
         height: 100%;
