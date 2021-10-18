@@ -56,8 +56,8 @@ namespace Conquest
 
 		public RespawnScreen()
 		{
-			StartingCameraPosition = Game.LastCameraSnapshot.Pos;
-			StartingCameraRotation = Game.LastCameraSnapshot.Rot;
+			StartingCameraPosition = CurrentView.Position;
+			StartingCameraRotation = CurrentView.Rotation;
 			State = TransitionState.ToOverview;
 
 			CameraSetup.FieldOfView = 90;

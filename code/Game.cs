@@ -196,7 +196,6 @@ namespace Conquest
 
 		[Predicted]
 		public Camera LastCamera { get; set; }
-		public static (Vector3 Pos, Rotation Rot) LastCameraSnapshot = new();
 
 		protected float TargetFieldOfView = 90;
 		public virtual float CalculateFOV( float ResultFOV )
@@ -230,9 +229,6 @@ namespace Conquest
 
 			cam?.Build( ref camSetup );
 			PostCameraSetup( ref camSetup );
-
-			LastCameraSnapshot.Pos = camSetup.Position;
-			LastCameraSnapshot.Rot = camSetup.Rotation;
 
 			camSetup.FieldOfView = CalculateFOV( camSetup.FieldOfView );
 
