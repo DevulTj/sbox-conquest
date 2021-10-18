@@ -35,7 +35,8 @@ namespace Conquest.UI
 			var isCloseEnoughEnemy = localPlayer.EyePos.Distance( Player.Position ) < DistanceUntilShownEnemy;
 
 
-			var tr = Trace.Ray( localPlayer.EyePos, Player.EyePos )
+			var tr = Trace.Ray( CurrentView.Position, Player.EyePos )
+				.WorldAndEntities()
 				.Ignore( localPlayer )
 				.Run();
 
@@ -51,6 +52,9 @@ namespace Conquest.UI
 			var isEnemy = friendState == TeamSystem.FriendlyStatus.Hostile;
 
 			if ( isEnemy && ( !IsFocused || !isCloseEnoughEnemy ) )
+				isHidden = true;
+
+			if ( isEnemy && tr.Entity != Player )
 				isHidden = true;
 
 			SetMarkerClass( "hidden", isHidden );
