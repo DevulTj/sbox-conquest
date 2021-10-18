@@ -53,9 +53,9 @@ namespace Conquest
 			Point.Style.Top = Length.Pixels( topOffsetForPoint );
 
 			if ( enemyTeamCount == 0 )
-			{
 				Contest.Style.Opacity = 0;
-			}
+			else
+				Contest.Style.Opacity = 1;
 
 			FriendlyTeamBar.Style.Width = Length.Fraction( (float)friendlyTeamCount / (float)total );
 			EnemyTeamBar.Style.Width = Length.Fraction( (float)enemyTeamCount / (float)total );
