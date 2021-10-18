@@ -94,6 +94,18 @@ minimap {
                 border-radius: 50%;
                 height: 12px;
                 width: 12px;
+                transition: opacity 0.2s ease;
+
+                opacity: 1;
+
+                &:intro {
+                    opacity: 1;
+                }
+
+                &:outro {
+                    opacity: 0;
+                }
+
 
                 &.enemy {
                     background-color: $enemy-marker;
