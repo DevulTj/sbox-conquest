@@ -18,6 +18,8 @@ namespace Conquest
 				.Ignore( Local.Pawn )
 				.Run();
 
+			if ( tr.Distance > 1024 ) return false;
+
 			if ( tr.Hit && tr.Entity == this )
 				return true;
 			else
