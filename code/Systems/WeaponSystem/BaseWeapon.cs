@@ -222,7 +222,10 @@ namespace Conquest
 
 		public override bool CanReload()
 		{
-			if ( !Owner.IsValid() || AmmoClip > 0 ) return false;
+			if ( !Owner.IsValid() ) return false;
+			if ( AmmoClip > 0 && !Input.Down( InputButton.Reload ) ) return false;
+
+			if ( AmmoClip == 0 ) return true;
 
 			return true;
 		}

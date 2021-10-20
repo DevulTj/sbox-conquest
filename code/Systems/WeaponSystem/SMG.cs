@@ -8,7 +8,7 @@ namespace Conquest
 	partial class SMG : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Primary;
-		public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
+		public override string ViewModelPath => "weapons/ak47/v_ak47.vmdl";
 
 		public override float PrimaryRate => 15.0f;
 		public override float SecondaryRate => 1.0f;
@@ -21,7 +21,7 @@ namespace Conquest
 		{
 			base.Spawn();
 
-			SetModel( "weapons/rust_smg/rust_smg.vmdl" );
+			SetModel( "weapons/ak47/ak47.vmdl" );
 			AmmoClip = 20;
 		}
 
@@ -42,7 +42,7 @@ namespace Conquest
 			// Tell the clients to play the shoot effects
 			//
 			ShootEffects();
-			PlaySound( "rust_smg.shoot" );
+			PlaySound( "ak47.shoot" );
 
 			//
 			// Shoot the bullets
