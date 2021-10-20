@@ -10,10 +10,10 @@ namespace Conquest
 		public override WeaponSlot Slot => WeaponSlot.Primary;
 		public override string ViewModelPath => "weapons/ak47/v_ak47.vmdl";
 
-		public override float PrimaryRate => 15.0f;
+		public override float PrimaryRate => 12.0f;
 		public override float SecondaryRate => 1.0f;
 		public override int ClipSize => 30;
-		public override float ReloadTime => 4.0f;
+		public override float ReloadTime => 2.8f;
 		public override int Bucket => 3;
 		public override AmmoType AmmoType => AmmoType.Rifle;
 
@@ -22,7 +22,7 @@ namespace Conquest
 			base.Spawn();
 
 			SetModel( "weapons/ak47/ak47.vmdl" );
-			AmmoClip = 20;
+			AmmoClip = 30;
 		}
 
 		public override void AttackPrimary()
@@ -48,7 +48,7 @@ namespace Conquest
 			// Shoot the bullets
 			//
 			Rand.SetSeed( Time.Tick );
-			ShootBullet( 0.1f, 1.5f, 5.0f, 3.0f );
+			ShootBullet( 0.1f, 1.5f, 15f, 3.0f );
 
 		}
 
