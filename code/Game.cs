@@ -21,36 +21,36 @@ namespace Conquest
 				Scores = new();
 
 				// @Temporary
-				// Will be map controlled ents.
-				var a = new CapturePointEntity();
-				a.Position = new Vector3( -2428.1f, -3192.38f, 0.03f );
-				a.Identity = "A";
+				//// Will be map controlled ents.
+				//var a = new CapturePointEntity();
+				//a.Position = new Vector3( -2428.1f, -3192.38f, 0.03f );
+				//a.Identity = "A";
 
-				var b = new CapturePointEntity();
-				b.Position = new Vector3( 1004.61f, -1612.63f, -139.97f );
-				b.Identity = "B";
+				//var b = new CapturePointEntity();
+				//b.Position = new Vector3( 1004.61f, -1612.63f, -139.97f );
+				//b.Identity = "B";
 
-				var c = new CapturePointEntity();
-				c.Position = new Vector3( -697.96f, 200.86f, 5.04f );
-				c.Identity = "C";
-
-
-				var d = new CapturePointEntity();
-				d.Position = new Vector3( -4285.88f, 117.18f, 56.03f );
-				d.Identity = "D";
-
-				var e = new CapturePointEntity();
-				e.Position = new Vector3( 2023.55f, 818.86f, -124.97f );
-				e.Identity = "E";
+				//var c = new CapturePointEntity();
+				//c.Position = new Vector3( -697.96f, 200.86f, 5.04f );
+				//c.Identity = "C";
 
 
-				var bluforHQ = new Headquarters();
-				bluforHQ.Position = new Vector3( 1037.79f, -3616.86f, -139.97f );
-				bluforHQ.Team = TeamSystem.Team.BLUFOR;
+				//var d = new CapturePointEntity();
+				//d.Position = new Vector3( -4285.88f, 117.18f, 56.03f );
+				//d.Identity = "D";
 
-				var opforHQ = new Headquarters();
-				opforHQ.Position = new Vector3( -3879.69f, 1349.77f, 0.04f );
-				opforHQ.Team = TeamSystem.Team.OPFOR;
+				//var e = new CapturePointEntity();
+				//e.Position = new Vector3( 2023.55f, 818.86f, -124.97f );
+				//e.Identity = "E";
+
+
+				//var bluforHQ = new Headquarters();
+				//bluforHQ.Position = new Vector3( 1037.79f, -3616.86f, -139.97f );
+				//bluforHQ.Team = TeamSystem.Team.BLUFOR;
+
+				//var opforHQ = new Headquarters();
+				//opforHQ.Position = new Vector3( -3879.69f, 1349.77f, 0.04f );
+				//opforHQ.Team = TeamSystem.Team.OPFOR;
 			}
 		}
 
@@ -291,6 +291,39 @@ namespace Conquest
 		public override void PostLevelLoaded()
 		{
 			_ = Scores.StartTicking();
+
+			if ( Global.MapName == "facepunch.construct" )
+			{
+				var a = new CapturePointEntity();
+				a.Position = new Vector3( -2428.1f, -3192.38f, 0.03f );
+				a.Identity = "A";
+
+				var b = new CapturePointEntity();
+				b.Position = new Vector3( 1004.61f, -1612.63f, -139.97f );
+				b.Identity = "B";
+
+				var c = new CapturePointEntity();
+				c.Position = new Vector3( -697.96f, 200.86f, 5.04f );
+				c.Identity = "C";
+
+
+				var d = new CapturePointEntity();
+				d.Position = new Vector3( -4285.88f, 117.18f, 56.03f );
+				d.Identity = "D";
+
+				var e = new CapturePointEntity();
+				e.Position = new Vector3( 2023.55f, 818.86f, -124.97f );
+				e.Identity = "E";
+
+
+				var bluforHQ = new Headquarters();
+				bluforHQ.Position = new Vector3( 1037.79f, -3616.86f, -139.97f );
+				bluforHQ.Team = TeamSystem.Team.BLUFOR;
+
+				var opforHQ = new Headquarters();
+				opforHQ.Position = new Vector3( -3879.69f, 1349.77f, 0.04f );
+				opforHQ.Team = TeamSystem.Team.OPFOR;
+			}
 		}
 
 		/// <summary>

@@ -66,13 +66,15 @@ namespace Conquest
 
 		public CapturePointEntity()
 		{
-			Initialize();
 		}
 
 		protected void Initialize()
 		{
 			if ( Host.IsServer )
 			{
+				// Create a TeamComponent
+				Components.GetOrCreate<TeamComponent>();
+
 				Team = TeamSystem.Team.Unassigned;
 				HighestTeam = Team;
 				Captured = 0;
@@ -105,8 +107,7 @@ namespace Conquest
 			// Client doesn't need to know about htis
 			Transmit = TransmitType.Always;
 
-			// Create a TeamComponent
-			Components.Create<TeamComponent>();
+			Initialize();
 		}
 
 		/// <summary>
