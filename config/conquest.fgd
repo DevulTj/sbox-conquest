@@ -14,6 +14,20 @@
 ]
 
 //
+// Conquest.Headquarters
+//
+@SolidClass base(BaseProperties_conquest) editormodel( "models/editor/playerstart.vmdl", fixedbounds ) = conquest_headquarters : "This entity defines the spawn point of the player in first person shooter gamemodes."
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "BLUFOR"
+		1 : "OPFOR"
+		2 : "Unassigned"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
 // Conquest.Pistol
 //
 @PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_pistol/rust_pistol.vmdl" ) = conquest_pistol : ""

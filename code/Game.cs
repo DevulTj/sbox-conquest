@@ -42,6 +42,15 @@ namespace Conquest
 				var e = new CapturePointEntity();
 				e.Position = new Vector3( 2023.55f, 818.86f, -124.97f );
 				e.Identity = "E";
+
+
+				var bluforHQ = new Headquarters();
+				bluforHQ.Position = new Vector3( 1037.79f, -3616.86f, -139.97f );
+				bluforHQ.Team = TeamSystem.Team.BLUFOR;
+
+				var opforHQ = new Headquarters();
+				opforHQ.Position = new Vector3( -3879.69f, 1349.77f, 0.04f );
+				opforHQ.Team = TeamSystem.Team.OPFOR;
 			}
 		}
 

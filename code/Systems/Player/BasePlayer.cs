@@ -72,11 +72,21 @@ namespace Conquest
 
 		public static void MoveToSpawnpoint( Entity pawn )
 		{
-			var spawnpoint = All.OfType<SpawnPoint>()
-				.OrderBy( x => Guid.NewGuid() )
-				.FirstOrDefault();
+			// @TODO: Make a TeamSystem accessor for this
+			var team = pawn.Client.Components.Get<TeamComponent>().Team;
 
-			if ( spawnpoint == null )
+			var spawnpoint = All.OfType<Headquarters>().Where( x => x.Team == team ).FirstOrDefault() as Entity;
+
+			if ( spawnpoint is null )
+			{
+				// Revert to default
+				spawnpoint = All.OfType<SpawnPoint>()
+					.OrderBy( x => Guid.NewGuid() )
+					.FirstOrDefault();
+			}
+
+			// Seriously, still?
+			if ( spawnpoint is null )
 			{
 				Log.Warning( $"Couldn't find spawnpoint for {pawn}!" );
 				return;
