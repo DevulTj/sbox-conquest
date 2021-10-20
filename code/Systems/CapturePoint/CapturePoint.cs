@@ -243,6 +243,7 @@ namespace Conquest
 			}
 		}
 
+		// @Interfaces 
 		string IMiniMapEntity.GetMainClass() => "capturepoint";
 		bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
 		{

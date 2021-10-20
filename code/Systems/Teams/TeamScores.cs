@@ -11,11 +11,7 @@ namespace Conquest
 	{
 		public TeamScores()
 		{
-			Scores = new int[ ArraySize ];
-
-			// Set initializing scores.
-			SetScore( TeamSystem.Team.BLUFOR, MaximumScore );
-			SetScore( TeamSystem.Team.OPFOR, MaximumScore );
+			Reset();
 		}
 
 		public virtual int TickInterval => 10;
@@ -112,6 +108,16 @@ namespace Conquest
 
 			foreach( var score in Scores )
 				write.Write( score );
+		}
+
+		public void Reset()
+		{
+			Scores = new int[ ArraySize ];
+			OldScores = new int[ ArraySize ];
+
+			// Set initializing scores.
+			SetScore( TeamSystem.Team.BLUFOR, MaximumScore );
+			SetScore( TeamSystem.Team.OPFOR, MaximumScore );
 		}
 	}
 }

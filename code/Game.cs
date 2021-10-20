@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Conquest
@@ -299,6 +300,18 @@ namespace Conquest
 			if ( target == null ) return;
 
 			Game.Current.DoPlayerSuicide( target );
+		}
+
+
+		[AdminCmd( "conquest_restartgame", Help = "Restarts the game state" )]
+		public void RestartGame()
+		{
+			foreach ( var entity in Entity.All.OfType<IGameStateAddressable>() )
+			{
+				entity.ResetState();
+			}
+
+			Scores.Reset();
 		}
 	}
 }
