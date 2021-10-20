@@ -299,19 +299,19 @@ namespace Conquest
 			var target = ConsoleSystem.Caller;
 			if ( target == null ) return;
 
-			Game.Current.DoPlayerSuicide( target );
+			Current.DoPlayerSuicide( target );
 		}
 
 
 		[AdminCmd( "conquest_restartgame", Help = "Restarts the game state" )]
-		public void RestartGame()
+		public static void RestartGame()
 		{
 			foreach ( var entity in Entity.All.OfType<IGameStateAddressable>() )
 			{
 				entity.ResetState();
 			}
 
-			Scores.Reset();
+			Current.Scores.Reset();
 		}
 	}
 }
