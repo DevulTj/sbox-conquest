@@ -2,7 +2,7 @@
 
 namespace Conquest
 {
-	[Library( "conquest_pistol", Title = "Pistol" )]
+	[Library( "conquest_pistol", Title = "MR-96" )]
 	[Hammer.EditorModel( "weapons/rust_pistol/rust_pistol.vmdl" )]
 	partial class Pistol : BaseWeapon
 	{

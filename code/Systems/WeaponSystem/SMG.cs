@@ -3,7 +3,7 @@ using System;
 
 namespace Conquest
 {
-	[Library( "conquest_smg", Title = "SMG" )]
+	[Library( "conquest_smg", Title = "AK-47" )]
 	[Hammer.EditorModel( "weapons/rust_smg/rust_smg.vmdl" )]
 	partial class SMG : BaseWeapon
 	{
