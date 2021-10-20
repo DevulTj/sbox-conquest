@@ -1,4 +1,5 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
 
 namespace Conquest
 {
@@ -10,6 +11,17 @@ namespace Conquest
 		public SpectatorHud()
 		{
 
+		}
+
+		public override void Tick()
+		{
+			base.Tick();
+			
+			// This is shit.
+			if ( Local.Pawn is Player && !IsDeleting )
+			{
+				Delete();
+			}
 		}
 	}
 }
