@@ -7,7 +7,7 @@ namespace Conquest
 	partial class Pistol : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Secondary; 
-		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+		public override string ViewModelPath => "weapons/magnum/v_magnum.vmdl";
 
 		public override float PrimaryRate => 15.0f;
 		public override float SecondaryRate => 1.0f;
@@ -19,7 +19,7 @@ namespace Conquest
 		{
 			base.Spawn();
 
-			SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
+			SetModel( "weapons/magnum/magnum.vmdl" );
 			AmmoClip = 12;
 		}
 
@@ -43,7 +43,7 @@ namespace Conquest
 			// Tell the clients to play the shoot effects
 			//
 			ShootEffects();
-			PlaySound( "rust_pistol.shoot" );
+			PlaySound( "magnum.shoot" );
 
 			//
 			// Shoot the bullets
