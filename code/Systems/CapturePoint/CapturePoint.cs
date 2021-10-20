@@ -59,6 +59,11 @@ namespace Conquest
 
 		public CapturePointEntity()
 		{
+			Initialize();
+		}
+
+		protected void Initialize()
+		{
 			if ( Host.IsClient )
 			{
 				Marker = new CapturePointHudMarker( this );
@@ -66,6 +71,14 @@ namespace Conquest
 
 			if ( Host.IsServer )
 			{
+				Team = TeamSystem.Team.Unassigned;
+				HighestTeam = Team;
+				Captured = 0;
+				CurrentState = State.None;
+				OccupantCounts.Clear();
+				Occupants.Clear();
+				TimeSinceStateChanged = 0;
+
 				for ( int i = 0; i < ArraySize; i++ )
 					OccupantCounts.Add( 0 );
 
@@ -262,13 +275,7 @@ namespace Conquest
 
 		void IGameStateAddressable.ResetState()
 		{
-			Team = TeamSystem.Team.Unassigned;
-			HighestTeam = Team;
-			Captured = 0;
-			CurrentState = State.None;
-			OccupantCounts.Clear();
-			Occupants.Clear();
-			TimeSinceStateChanged = 0;
+			Initialize();
 		}
 	}
 }
