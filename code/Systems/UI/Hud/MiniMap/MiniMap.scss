@@ -122,6 +122,15 @@ minimap {
                         }
                     }
 
+
+                    &.headquarters {
+                        label {
+                            font-size: 20px;
+                            left: -16px;
+                            width: 64px;
+                        }
+                    }
+
                     label {
                         position: absolute;
                         text-shadow: 0px 0px 2px $unowned-marker;
