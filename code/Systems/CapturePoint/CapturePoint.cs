@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Conquest
 {
-	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity
+	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity, IGameStateAddressable
 	{
 		public enum State
 		{
@@ -257,6 +257,17 @@ namespace Conquest
 			info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
 
 			return true;
+		}
+
+		void IGameStateAddressable.ResetState()
+		{
+			Team = TeamSystem.Team.Unassigned;
+			HighestTeam = Team;
+			Captured = 0;
+			CurrentState = State.None;
+			OccupantCounts.Clear();
+			Occupants.Clear();
+			TimeSinceStateChanged = 0;
 		}
 	}
 }
