@@ -306,6 +306,8 @@ namespace Conquest
 		[AdminCmd( "conquest_restartgame", Help = "Restarts the game state" )]
 		public static void RestartGame()
 		{
+			ChatBox.AddInformation( To.Everyone, $"The game has begun First team to hit 0 tickets loses." );
+
 			foreach ( var entity in Entity.All.OfType<IGameStateAddressable>() )
 			{
 				entity.ResetState();
@@ -324,6 +326,7 @@ namespace Conquest
 		[AdminCmd( "conquest_endgame", Help = "Ends the game, and restarts it after some time" )]
 		public static void EndGame()
 		{
+			ChatBox.AddInformation( To.Everyone, $"The game has ended. It'll restart in 15 seconds." );
 			_ = Current.DelayedRestart();
 		}
 	}
