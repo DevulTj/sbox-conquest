@@ -313,5 +313,18 @@ namespace Conquest
 
 			Current.Scores.Reset();
 		}
+
+		protected async Task DelayedRestart()
+		{
+			await GameTask.DelayRealtimeSeconds( 15f );
+
+			RestartGame();
+		}
+
+		[AdminCmd( "conquest_endgame", Help = "Ends the game, and restarts it after some time" )]
+		public static void EndGame()
+		{
+			_ = Current.DelayedRestart();
+		}
 	}
 }
