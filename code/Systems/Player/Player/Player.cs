@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Conquest
 {
-	public partial class Player : BasePlayer, IMiniMapEntity
+	public partial class Player : BasePlayer, IMiniMapEntity, IGameStateAddressable
 	{
 		/// <summary>
 		/// The clothing container is what dresses the citizen
@@ -308,6 +308,11 @@ namespace Conquest
 			TrySlotFromInput( input, InputButton.Slot3 );
 			TrySlotFromInput( input, InputButton.Slot4 );
 			TrySlotFromInput( input, InputButton.Slot5 );
+		}
+
+		void IGameStateAddressable.ResetState()
+		{
+			BecomeSpectator();
 		}
 	}
 }
