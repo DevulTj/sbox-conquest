@@ -9,6 +9,7 @@ namespace Conquest
 	[Library( "conquest_headquarters" )]
 	[Hammer.EditorModel( "models/editor/playerstart.vmdl", FixedBounds = true )]
 	[Hammer.Solid]
+	[Hammer.EntityTool( "Headquarters", "Conquest", "Defines a headquarters where the player can (re)spawn" )]
 	public partial class Headquarters : Entity, IGameStateAddressable, IMiniMapEntity
 	{
 		[Net, Property] public TeamSystem.Team Team { get; set; }

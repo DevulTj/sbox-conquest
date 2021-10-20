@@ -8,6 +8,10 @@ using System.Linq;
 
 namespace Conquest
 {
+	[Library("conquest_capturepoint")]
+	[Hammer.Sphere( 386f )]
+	[Hammer.Solid]
+	[Hammer.EntityTool( "Capture Point", "Conquest", "A capture point." )]
 	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 	{
 		public enum State
@@ -17,8 +21,11 @@ namespace Conquest
 			Capturing
 		}
 
-		[Net, Category("Capture Point")]
+		[Net, Category("Capture Point"), Property]
 		public string Identity { get; set; }
+
+		[Property]
+		public float TriggerRadius { get; set; } = 386f;
 
 		[BindComponent]
 		protected TeamComponent TeamComponent { get; }
@@ -93,7 +100,7 @@ namespace Conquest
 			base.Spawn();
 
 			// Set the default size
-			SetTriggerSize( 386 );
+			SetTriggerSize( TriggerRadius );
 
 			// Client doesn't need to know about htis
 			Transmit = TransmitType.Always;

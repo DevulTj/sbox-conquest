@@ -14,9 +14,35 @@
 ]
 
 //
+// Conquest.CapturePointEntity
+//
+@SolidClass base(BaseProperties_conquest) sphere( "386" ) 
+metadata
+{
+	entity_tool_name = "Capture Point"
+	entity_tool_group = "Conquest"
+	entity_tool_tip = "A capture point."
+}
+= conquest_capturepoint : ""
+[
+	identity(string) { group = "Capture Point" } : "Identity" :  : ""
+	triggerradius(float) : "Trigger Radius" : 386 : ""
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Conquest.Headquarters
 //
-@SolidClass base(BaseProperties_conquest) editormodel( "models/editor/playerstart.vmdl", fixedbounds ) = conquest_headquarters : "This entity defines the spawn point of the player in first person shooter gamemodes."
+@SolidClass base(BaseProperties_conquest) editormodel( "models/editor/playerstart.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Headquarters"
+	entity_tool_group = "Conquest"
+	entity_tool_tip = "Defines a headquarters where the player can (re)spawn"
+}
+= conquest_headquarters : "This entity defines the spawn point of the player in first person shooter gamemodes."
 [
 	team(choices) : "Team" : 0 : "" =
 	[
