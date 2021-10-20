@@ -51,7 +51,7 @@ namespace Conquest
 
 		public override void Spawn()
 		{
-			MainCamera = new FirstPersonCamera();
+			MainCamera = new FootCamera();
 			LastCamera = MainCamera;
 
 			base.Spawn();
@@ -105,7 +105,7 @@ namespace Conquest
 			Controller = new WalkController();
 			Animator = new PlayerAnimator();
 
-			MainCamera = LastCamera as FirstPersonCamera;
+			MainCamera = LastCamera as FootCamera;
 			Camera = MainCamera;
 
 			EnableAllCollisions = true;
