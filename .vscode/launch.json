@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "sbox-dev.exe",
+            "requireExactSource": false // makes sure you can debug stuff with codegen (e.g entities)
+        }
+    ]
+}

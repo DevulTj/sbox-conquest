@@ -87,7 +87,7 @@ namespace Conquest
 			Inventory.Add( new Pistol() );
 
 			GiveAmmo( AmmoType.Pistol, 36 );
-			GiveAmmo( AmmoType.Rifle, 120 );
+			GiveAmmo( AmmoType.Rifle, 180 );
 		}
 
 		protected virtual void SoftRespawn()
