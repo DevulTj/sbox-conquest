@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Conquest
 {
-	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity, IGameStateAddressable
+	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 	{
 		public enum State
 		{
@@ -249,7 +249,8 @@ namespace Conquest
 		}
 
 		// @Interfaces 
-		string IMiniMapEntity.GetMainClass() => "capturepoint";
+		public string GetMainClass() => "capturepoint";
+
 		bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
 		{
 			if ( !this.IsValid() )
@@ -268,6 +269,32 @@ namespace Conquest
 		void IGameStateAddressable.ResetState()
 		{
 			Initialize();
+		}
+
+		bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
+		{
+			if ( !this.IsValid() )
+				return false;
+
+			if ( Local.Pawn is Player soldierPlayer && soldierPlayer.CapturePoint == this )
+				return false;
+
+			info.Text = Identity;
+			info.Position = Position + Rotation.Up * 200f;
+			info.StayOnScreen = true;
+
+			var friendState = TeamSystem.GetFriendState( Team, TeamSystem.MyTeam );
+			bool flipflop = ((float)TimeSinceStateChanged).FloorToInt() % 1 == 0;
+
+			// This isn't great.
+			info.Classes[ "friendly" ] = friendState == TeamSystem.FriendlyStatus.Friendly;
+			info.Classes[ "enemy" ] = friendState == TeamSystem.FriendlyStatus.Hostile;
+			info.Classes[ "contested" ] = CurrentState == State.Contested;
+			info.Classes[ "contestedFlash" ] = CurrentState == State.Contested && flipflop;
+			info.Classes[ "capturing" ] = CurrentState == State.Capturing;
+			info.Classes[ "capturingFlash" ] = CurrentState == State.Capturing && flipflop;
+
+			return true;
 		}
 	}
 }

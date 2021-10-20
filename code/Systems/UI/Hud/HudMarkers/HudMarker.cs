@@ -26,6 +26,7 @@ namespace Conquest.UI
 		{
 			Label.Text = info.Text;
 			Position = info.Position;
+			StayOnScreen = info.StayOnScreen;
 
 			foreach ( var kv in info.Classes )
 				SetClass( kv.Key, kv.Value );

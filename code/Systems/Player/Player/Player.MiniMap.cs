@@ -9,7 +9,7 @@ namespace Conquest
 {
 	public partial class Player 
 	{
-		string IMiniMapEntity.GetMainClass() => "player";
+		public string GetMainClass() => "player";
 
 		bool CalculateVis()
 		{
@@ -46,6 +46,31 @@ namespace Conquest
 			info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
 			info.Classes["me"] = Local.Pawn == this;
 
+
+			return true;
+		}
+
+		bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
+		{
+			if ( !this.IsValid() )
+				return false;
+
+			if ( this == Local.Pawn )
+				return false;
+
+			var friendState = TeamSystem.GetFriendState( Team, TeamSystem.MyTeam );
+
+			if ( friendState == TeamSystem.FriendlyStatus.Hostile )
+			{
+				if ( !CalculateVis() )
+					return false;
+			}
+
+			info.Text = Client.Name;
+			info.Position = EyePos + Rotation.Up * 15f;
+
+			info.Classes["friendly"] = friendState == TeamSystem.FriendlyStatus.Friendly;
+			info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
 
 			return true;
 		}

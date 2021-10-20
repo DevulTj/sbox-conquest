@@ -8,39 +8,32 @@ hudmarkers {
     height: 100%;
 }
 
-capturepointhudmarker {
+hudmarker {
     position: absolute;
     transform: translateX( -50% ) translateY( -50% );
-    width: 45px;
-    height: 45px;
-    border-radius: 100px;
-    border: 2px solid rgba( $unowned-marker, 0.5 );
     transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
-    background-color: rgba( black, 0.3 );
 
-    backdrop-filter: blur( 50px );
+    &.capturepoint {
+        width: 45px;
+        height: 45px;
+        border-radius: 100px;
+        background-color: rgba( black, 0.3 );
+        backdrop-filter: blur( 50px );
+        border: 2px solid rgba( $unowned-marker, 0.5 );
 
-    &.hidden {
-        opacity: 0;
-    }
+        label {
+            text-shadow: 0px 0px 2px $unowned-marker;
+            width: 100%;
+            align-self: center;
+            text-align: center;
+            font-size: 20px;
+            font-family: $font-primary;
+            font-weight: 400;
+            color: rgba( $unowned-marker, 1 );
+        }
 
-    &.contestedFlash {
-        width: 40px;
-        height: 40px;
-        border-radius: 0px;
-    }
-
-    &.capturing {
-        width: 50px;
-        height: 50px;
-        border-radius: 0px;
-    }
-
-    &.capturingFlash {
-        border: 2.5px solid rgba( $unowned-marker, 1 );
-
-        &.friendlyCapturing {
-            border: 2.5px solid rgba( $friendly-marker, 1 );
+        &.friendly {
+            border: 2px solid rgba( $friendly-marker, 0.5 );
 
             label {
                 text-shadow: 0px 0px 2px $friendly-marker;
@@ -48,28 +41,28 @@ capturepointhudmarker {
             }
         }
 
-        &.enemyCapturing {
-            border: 2.5px solid rgba( $enemy-marker, 1 );
+        &.enemy {
+            border: 2px solid rgba( $enemy-marker, 0.5 );
 
             label {
                 text-shadow: 0px 0px 2px $enemy-marker;
                 color: rgba( $enemy-marker, 1 );
             }
         }
-    }
-
-    &.contested {
-        border: 3px solid rgba( $unowned-marker, 0.5 );
-    }
-
-    &.enemy {
-        border: 2px solid rgba( $enemy-marker, 0.5 );
-
-        &.contested {
-            border: 1.6px solid rgba( $enemy-marker, 1 );
+        // States
+        &.capturing {
+            width: 50px;
+            height: 50px;
+            border-radius: 0px;
         }
 
-        &.contestedFlash, &.capturingFlash {
+        &.contestedFlash {
+            width: 40px;
+            height: 40px;
+            border-radius: 0px;
+        }
+
+        &.capturingFlash {
             border: 2.5px solid rgba( $unowned-marker, 1 );
 
             label {
@@ -79,102 +72,99 @@ capturepointhudmarker {
         }
     }
 
-    &.friendly {
-        border: 2px solid rgba( $friendly-marker, 0.5 );
+    &.player {
+        border-radius: 60px;
+        width: 12px;
+        height: 12px;
 
-        &.contested, &.capturingFlash {
-            border: 2.5px solid rgba( $unowned-marker, 1 );
-
-            label {
-                text-shadow: 0px 0px 2px $unowned-marker;
-                color: rgba( $unowned-marker, 1 );
-            }
+        label {
+            transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
+            transform: translateX( -35% );
+            bottom: 24px;
+            position: absolute;
+            text-shadow: 0px 0px 2px $unowned-marker;
+            align-self: center;
+            text-align: center;
+            font-size: 20px;
+            font-family: $font-primary;
+            font-weight: 400;
+            color: rgba( $unowned-marker, 1 );
         }
-    }
-
-    .occupants {
-        align-self: center;
-        text-align: center;
-        font-size: 20px;
-        top: 64px;
-        position: absolute;
-        width: 80px;
-        transform: translateX( -50% );
-        display: none;
-    }
-
-    label {
-        text-shadow: 0px 0px 2px $unowned-marker;
-        width: 100%;
-        align-self: center;
-        text-align: center;
-        font-size: 20px;
-        font-family: $font-primary;
-        font-weight: 400;
-        color: rgba( $unowned-marker, 1 );
 
         &.enemy {
-            text-shadow: 0px 0px 2px $enemy-marker;
-            color: rgba( $enemy-marker, 1 );
+            box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.2 );
+            background-color: rgba( $enemy-marker, 0.8 );
+
+            label {
+                box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.1 );
+                text-shadow: 0px 0px 2px $enemy-marker;
+                color: rgba( $enemy-marker, 1 );
+            }
         }
 
         &.friendly {
-            text-shadow: 0px 0px 2px $friendly-marker;
-            color: rgba( $friendly-marker, 1 );
+            box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.2 );
+            background-color: rgba( $friendly-marker, 0.8 );
+
+            label {
+                box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.1 );
+                text-shadow: 0px 0px 5px $friendly-marker;
+                color: rgba( $friendly-marker, 1 );
+            }
         }
     }
 }
 
-playerhudmarker {
-    position: absolute;
-    transform: translateX( -50% ) translateY( -50% );
-    transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
-    border-radius: 60px;
-    width: 12px;
-    height: 12px;
-
-    &.hidden {
-        opacity: 0;
-    }
-
-
-    &.enemy {
-        box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.2 );
-        background-color: rgba( $enemy-marker, 0.8 );
-    }
-
-    &.friendly {
-        box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.2 );
-        background-color: rgba( $friendly-marker, 0.8 );
-    }
-
-    label {
-        transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
-        transform: translateX( -35% );
-        bottom: 24px;
+   /* playerhudmarker {
         position: absolute;
-        text-shadow: 0px 0px 2px $unowned-marker;
-        align-self: center;
-        text-align: center;
-        font-size: 20px;
-        font-family: $font-primary;
-        font-weight: 400;
-        color: rgba( $unowned-marker, 1 );
+        transform: translateX( -50% ) translateY( -50% );
+        transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
+        border-radius: 60px;
+        width: 12px;
+        height: 12px;
 
-        &.nofocus {
-            color: black;
+        &.hidden {
             opacity: 0;
         }
 
+
         &.enemy {
-            text-shadow: 0px 0px 2px $enemy-marker;
-            color: rgba( $enemy-marker, 1 );
+            box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.2 );
+            background-color: rgba( $enemy-marker, 0.8 );
         }
 
         &.friendly {
-            box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.1 );
-            text-shadow: 0px 0px 5px $friendly-marker;
-            color: rgba( $friendly-marker, 1 );
+            box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.2 );
+            background-color: rgba( $friendly-marker, 0.8 );
         }
-    }
-}
+
+        label {
+            transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
+            transform: translateX( -35% );
+            bottom: 24px;
+            position: absolute;
+            text-shadow: 0px 0px 2px $unowned-marker;
+            align-self: center;
+            text-align: center;
+            font-size: 20px;
+            font-family: $font-primary;
+            font-weight: 400;
+            color: rgba( $unowned-marker, 1 );
+
+            &.nofocus {
+                color: black;
+                opacity: 0;
+            }
+
+            &.enemy {
+                text-shadow: 0px 0px 2px $enemy-marker;
+                color: rgba( $enemy-marker, 1 );
+            }
+
+            &.friendly {
+                box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.1 );
+                text-shadow: 0px 0px 5px $friendly-marker;
+                color: rgba( $friendly-marker, 1 );
+            }
+        }
+    }*/

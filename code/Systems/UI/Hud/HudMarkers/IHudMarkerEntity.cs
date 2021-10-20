@@ -12,8 +12,6 @@ namespace Conquest
 		public Vector3 Position { get; set; } = new();
 		public Rotation Rotation { get; set; } = new();
 		public string Text { get; set; } = "";
-
-		// @Prop
 		public bool StayOnScreen { get; set; } = false;
 	}
 
