@@ -65,7 +65,10 @@ namespace Conquest.UI
 
 		protected void UpdateHudMarkers()
 		{
+			var existingMarkers = Markers.Select( x => x.Entity ).ToList();
+
 			Entity.All.OfType<IHudMarkerEntity>()
+							.Concat( existingMarkers )
 							.ToList()
 							.ForEach( x => ValidateEntity( x ) );
 		}

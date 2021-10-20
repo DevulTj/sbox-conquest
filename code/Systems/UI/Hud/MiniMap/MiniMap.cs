@@ -153,7 +153,10 @@ namespace Conquest
 
 		protected void UpdateMiniMapDots()
 		{
+			var existingDots = Dots.Select( x => x.Entity ).ToList();
+
 			Entity.All.OfType<IMiniMapEntity>()
+							.Concat( existingDots )
 							.ToList()
 							.ForEach( x => ValidateEntity( x ) );
 		}
