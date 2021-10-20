@@ -100,7 +100,7 @@ namespace Conquest
 
 		public virtual bool CanReload()
 		{
-			if ( !Owner.IsValid() || !Input.Down( InputButton.Reload ) ) return false;
+			if ( !Owner.IsValid() ) return false;
 
 			return true;
 		}
@@ -218,6 +218,14 @@ namespace Conquest
 
 
 		public PickupTrigger PickupTrigger { get; protected set; }
+
+
+		public override bool CanReload()
+		{
+			if ( !Owner.IsValid() || AmmoClip > 0 ) return false;
+
+			return true;
+		}
 
 
 		public int AvailableAmmo()
