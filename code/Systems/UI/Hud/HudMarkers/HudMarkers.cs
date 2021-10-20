@@ -10,51 +10,70 @@ namespace Conquest.UI
 	{
 		public static HudMarkers Current;
 
-		public List<HudMarker> Markers { get; set; } = new();
-
 		public HudMarkers()
 		{
 			Current = this;
 
 			StyleSheet.Load( "systems/ui/hud/hudmarkers/hudmarkers.scss" );
+		}
 
-			foreach ( var capturePoint in Entity.All.OfType<CapturePointEntity>() )
+
+		protected List<HudMarker> Markers { get; set; } = new();
+
+
+		public void Clear( HudMarker marker )
+		{
+			if ( marker is null )
+				return;
+			if ( !Markers.Contains( marker ) )
+				return;
+
+			Markers.Remove( marker );
+			marker.Delete();
+
+			return;
+		}
+
+		protected void ValidateEntity( IHudMarkerEntity entity )
+		{
+			var info = new HudMarkerBuilder();
+			var styleClass = entity.GetMainClass();
+			var current = Markers.Where( x => x.Entity == entity ).FirstOrDefault();
+
+			if ( !entity.Update( ref info ) )
 			{
-				AddMarker( capturePoint.Marker );
+				Clear( current );
+
+				return;
 			}
+
+			if ( current is null )
+			{
+				current = new HudMarker( entity )
+				{
+					Parent = this
+				};
+
+				// Add style class
+				current.AddClass( styleClass );
+
+				Markers.Add( current );
+			}
+
+			current.Apply( info );
 		}
 
-		public static void Create( HudMarker marker )
+		protected void UpdateHudMarkers()
 		{
-			if ( Current is null )
-				throw new Exception( "Tried to make a marker with no HudMarkers ref" );
-
-			Current.AddMarker( marker );
-		}
-
-		public HudMarker AddMarker( HudMarker marker )
-		{
-			if ( Markers.Contains( marker ) )
-				throw new Exception( "Marker was already added to Markers List" );
-
-			Markers.Add( marker );
-
-			marker.Parent = this;
-
-			return marker;
-		}
-
-		protected void TickMarker( HudMarker marker )
-		{
-			marker.Refresh();
-			marker.SetMarkerClass( "offscreen", marker.PositionAtWorld() );
+			Entity.All.OfType<IHudMarkerEntity>()
+							.ToList()
+							.ForEach( x => ValidateEntity( x ) );
 		}
 
 		public override void Tick()
 		{
 			base.Tick();
-
-			Markers.ForEach( x => TickMarker( x ) );
+			UpdateHudMarkers();
 		}
 	}
 }

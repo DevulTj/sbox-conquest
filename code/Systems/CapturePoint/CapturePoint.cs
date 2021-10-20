@@ -64,11 +64,6 @@ namespace Conquest
 
 		protected void Initialize()
 		{
-			if ( Host.IsClient )
-			{
-				Marker = new CapturePointHudMarker( this );
-			}
-
 			if ( Host.IsServer )
 			{
 				Team = TeamSystem.Team.Unassigned;
@@ -93,9 +88,6 @@ namespace Conquest
 				}
 			}
 		}
-
-		public CapturePointHudMarker Marker { get; set; }
-
 		public override void Spawn()
 		{
 			base.Spawn();

@@ -4,40 +4,33 @@ using Sandbox.UI;
 
 namespace Conquest.UI
 {
-	public abstract partial class HudMarker : Panel
+	public partial class HudMarker : Panel
 	{
-		public HudMarker()
+		public HudMarker( IHudMarkerEntity entity )
 		{
-			MarkerNameLabel = AddChild<Label>( "label" );
+			Label = AddChild<Label>( "label" );
+			Entity = entity;
 		}
 
-		public Label MarkerNameLabel { get; set; }
-		public string MarkerName { get { return MarkerNameLabel.StringValue; } set { MarkerNameLabel.Text = value; } }
-		public Entity Entity { get; set; }
-		public Vector3 PositionOffset { get; set; }
-		public Vector3 Point { get; set; }
+		public Label Label { get; set; }
+		public IHudMarkerEntity Entity { get; set; }
 
 		public bool StayOnScreen { get; set; } = false;
 		public Vector2 SafetyBounds { get; set; } = new Vector2( 0.02f, 0.02f );
 
 		public bool IsFocused { get; set; } = true;
 
-		public void SetMarkerClass( string className, bool state )
-		{
-			SetClass( className, state );
-			MarkerNameLabel.SetClass( className, state );
-		}
+		public Vector3 Position { get; set; } = new();
 
-		public void AddMarkerClass( string className )
+		public void Apply( HudMarkerBuilder info )
 		{
-			AddClass( className );
-			MarkerNameLabel.AddClass( className );
-		}
+			Label.Text = info.Text;
+			Position = info.Position;
 
-		public void RemoveMarkerClass( string className )
-		{
-			RemoveClass( className );
-			MarkerNameLabel.RemoveClass( className );
+			foreach ( var kv in info.Classes )
+				SetClass( kv.Key, kv.Value );
+
+			PositionAtWorld();
 		}
 
 		public bool PositionAtWorld()
@@ -50,7 +43,7 @@ namespace Conquest.UI
 			var isFocused = cachedX.AlmostEqual( 0.5f, 0.05f ) && cachedY.AlmostEqual( 0.5f, 0.2f );
 
 			IsFocused = isFocused;
-			SetMarkerClass( "nofocus", !isFocused );
+			SetClass( "nofocus", !isFocused );
 
 			if ( StayOnScreen )
 			{
@@ -67,22 +60,12 @@ namespace Conquest.UI
 			return cachedX < 0 || cachedX > 1 || cachedY < 0 || cachedY > 1;
 		}
 
-		public Vector3 GetWorldPoint()
-		{
-			if ( Point.IsNearlyZero() && Entity.IsValid() )
-				return Entity.Position + PositionOffset;
-
-			return Point;
-		}
-
 		public Vector3 GetScreenPoint()
 		{
-			var worldPoint = GetWorldPoint();
+			var worldPoint = Position;
 			var screenPoint = worldPoint.ToScreen();
 
 			return screenPoint;
 		}
-
-		public abstract void Refresh();
 	}
 }

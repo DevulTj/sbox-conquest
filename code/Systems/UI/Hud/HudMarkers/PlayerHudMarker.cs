@@ -4,71 +4,71 @@ using System.Linq;
 
 namespace Conquest.UI
 {
-	public partial class PlayerHudMarker : HudMarker
-	{
-		public Player Player { get; set; }
+	//public partial class PlayerHudMarker : HudMarker
+	//{
+	//	public Player Player { get; set; }
 
-		public float DistanceUntilHidden => 6000;
-		public float DistanceUntilShownEnemy => 1000;
+	//	public float DistanceUntilHidden => 6000;
+	//	public float DistanceUntilShownEnemy => 1000;
 
-		public PlayerHudMarker( Player player ) : base()
-		{
-			Player = player;
-			Entity = Player;
+	//	public PlayerHudMarker( Player player ) : base()
+	//	{
+	//		Player = player;
+	//		Entity = Player;
 
-			PositionOffset = new Vector3( 0, 0, 80f );
-			StayOnScreen = true;
+	//		PositionOffset = new Vector3( 0, 0, 80f );
+	//		StayOnScreen = true;
 
-			AddClass( "player" );
-		}
+	//		AddClass( "player" );
+	//	}
 
-		public override void Refresh()
-		{
-			if ( !Player.IsValid() || Player?.LifeState != LifeState.Alive )
-			{
-				SetMarkerClass( "hidden", true );
-				return;
-			}
+	//	public override void Refresh()
+	//	{
+	//		if ( !Player.IsValid() || Player?.LifeState != LifeState.Alive )
+	//		{
+	//			SetMarkerClass( "hidden", true );
+	//			return;
+	//		}
 
-			var localPlayer = Local.Pawn as Player;
-			var isFarAway = localPlayer.EyePos.Distance( Player.Position ) > DistanceUntilHidden;
-			var isCloseEnoughEnemy = localPlayer.EyePos.Distance( Player.Position ) < DistanceUntilShownEnemy;
+	//		var localPlayer = Local.Pawn as Player;
+	//		var isFarAway = localPlayer.EyePos.Distance( Player.Position ) > DistanceUntilHidden;
+	//		var isCloseEnoughEnemy = localPlayer.EyePos.Distance( Player.Position ) < DistanceUntilShownEnemy;
 
 
-			var tr = Trace.Ray( CurrentView.Position, Player.EyePos )
-				.WorldAndEntities()
-				.Ignore( localPlayer )
-				.Run();
+	//		var tr = Trace.Ray( CurrentView.Position, Player.EyePos )
+	//			.WorldAndEntities()
+	//			.Ignore( localPlayer )
+	//			.Run();
 
-			var isHidden = isFarAway;
-			var farAndNotLooking = isFarAway && (tr.Hit && tr.Entity != Player);
+	//		var isHidden = isFarAway;
+	//		var farAndNotLooking = isFarAway && (tr.Hit && tr.Entity != Player);
 
-			if ( IsFocused && isHidden && !farAndNotLooking )
-				isHidden = false;
+	//		if ( IsFocused && isHidden && !farAndNotLooking )
+	//			isHidden = false;
 
-			// Test against the local player and the player in question.
-			var friendState = TeamSystem.GetFriendState( localPlayer.Team, Player.Team );
+	//		// Test against the local player and the player in question.
+	//		var friendState = TeamSystem.GetFriendState( localPlayer.Team, Player.Team );
 
-			var isEnemy = friendState == TeamSystem.FriendlyStatus.Hostile;
+	//		var isEnemy = friendState == TeamSystem.FriendlyStatus.Hostile;
 
-			if ( isEnemy && ( !IsFocused || !isCloseEnoughEnemy ) )
-				isHidden = true;
+	//		if ( isEnemy && ( !IsFocused || !isCloseEnoughEnemy ) )
+	//			isHidden = true;
 
-			if ( isEnemy && tr.Entity != Player )
-				isHidden = true;
+	//		if ( isEnemy && tr.Entity != Player )
+	//			isHidden = true;
 
-			SetMarkerClass( "hidden", isHidden );
+	//		SetMarkerClass( "hidden", isHidden );
 
-			// No need to do anything else if we're hidden.
-			if ( isHidden )
-				return;
+	//		// No need to do anything else if we're hidden.
+	//		if ( isHidden )
+	//			return;
 
 				
 
-			SetMarkerClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
-			SetMarkerClass( "enemy", isEnemy );
+	//		SetMarkerClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
+	//		SetMarkerClass( "enemy", isEnemy );
 
-			MarkerName = Player.Client.Name;
-		}
-	}
+	//		MarkerName = Player.Client.Name;
+	//	}
+	//}
 }

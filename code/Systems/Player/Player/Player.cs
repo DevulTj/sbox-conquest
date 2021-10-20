@@ -24,9 +24,6 @@ namespace Conquest
 
 		public ICamera LastCamera { get; set; }
 
-		// @Client
-		public PlayerHudMarker HudMarker { get; set; }
-
 		public TimeSince TimeSinceDeath { get; set; }
 
 		protected override void MakeHud()
@@ -37,8 +34,6 @@ namespace Conquest
 		protected override void OnDestroy()
 		{
 			base.OnDestroy();
-
-			HudMarker?.Delete( true );
 		}
 
 		public Player() : base()
@@ -69,10 +64,6 @@ namespace Conquest
 				await GameTask.NextPhysicsFrame();
 				return;
 			}
-
-			var hudMarker = new PlayerHudMarker( this );
-			HudMarkers.Current.AddMarker( hudMarker );
-			HudMarker = hudMarker;
 		}
 
 		public override void ClientSpawn()
