@@ -31,6 +31,9 @@ namespace Conquest
 			if ( !this.IsValid() )
 				return false;
 
+			if ( LifeState != LifeState.Alive )
+				return false;
+
 			info.Text = "";
 			info.Position = Position;
 
@@ -56,6 +59,9 @@ namespace Conquest
 				return false;
 
 			if ( this == Local.Pawn )
+				return false;
+
+			if ( LifeState != LifeState.Alive )
 				return false;
 
 			var friendState = TeamSystem.GetFriendState( Team, TeamSystem.MyTeam );
