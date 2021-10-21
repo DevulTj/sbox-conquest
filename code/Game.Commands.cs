@@ -6,11 +6,8 @@ namespace Conquest
 {
 	public partial class Game 
 	{
-		[ServerCmd( "conquest_deploy" )]
-		public static void DeployCommand()
+		public static void Deploy( Client cl )
 		{
-			var cl = ConsoleSystem.Caller;
-
 			cl.Pawn?.Delete();
 
 			var player = new Player( cl );
@@ -19,6 +16,12 @@ namespace Conquest
 			ChatBox.AddInformation( To.Everyone, $"{cl.Name} spawned.", $"avatar:{cl.SteamId}" );
 
 			player.Respawn();
+		}
+
+		[ServerCmd( "conquest_deploy" )]
+		public static void DeployCommand()
+		{
+			Deploy( ConsoleSystem.Caller );
 		}
 	}
 }
