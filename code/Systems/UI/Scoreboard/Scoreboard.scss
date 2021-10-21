@@ -14,8 +14,6 @@
     bottom: 0;
     right: 0;
     z-index: 100;
-
-
     transition: opacity 0.2s ease;
 
     &.open {
@@ -26,11 +24,11 @@
         top: 10%;
 
         &:first-child {
-            transform: rotateY(-10deg) rotateX(-10deg);
+            //transform: rotateY(10deg) rotateX(10deg);
         }
 
         &:last-child {
-            transform: rotateY(10deg) rotateX(-10deg);
+            //transform: rotateY(10deg) rotateX(-10deg);
         }
 
         box-shadow: 0 10px 50px rgba(#000,0.4);
@@ -48,9 +46,9 @@
             font-size: 30px;
             height: 44px;
             padding-left: 80px;
-
             left: 30px;
             margin-bottom: 8px;
+
             &.US {
                 .teamIcon {
                     align-self: left;
@@ -66,11 +64,12 @@
             }
 
             .teamTickets {
+                top: 2px;
+                align-self: center;
+                left: 10px;
+                z-index: 0;
                 color: lightgrey;
-                top: 10px;
-                font-size: 25px;
-                left: 90%;
-                position: absolute;
+                font-size: 20px;
             }
 
             .teamIcon {
