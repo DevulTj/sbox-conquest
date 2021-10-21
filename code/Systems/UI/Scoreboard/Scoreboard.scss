@@ -56,11 +56,6 @@
                     align-self: left;
                     background-image: url( /ui/scoreboard/flags/US.jpg );
                 }
-
-
-                .teamName {
-
-                }
             }
 
             &.RU {
@@ -68,6 +63,14 @@
                 .teamIcon {
                     background-image: url( /ui/scoreboard/flags/RU.png );
                 }
+            }
+
+            .teamTickets {
+                color: lightgrey;
+                top: 10px;
+                font-size: 25px;
+                left: 90%;
+                position: absolute;
             }
 
             .teamIcon {

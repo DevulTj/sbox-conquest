@@ -15,6 +15,7 @@ namespace Conquest
 			public Panel TeamContainer;
 			public Panel Header;
 			public Panel TeamHeader;
+			public Label TeamTickets;
 			public Panel Canvas;
 		}
 
@@ -59,6 +60,11 @@ namespace Conquest
 			{
 				CheckTeamIndex( kv.Value );
 			}
+
+			foreach ( var kv in TeamSections )
+			{
+				kv.Value.TeamTickets.Text = $"{Game.Current.Scores.GetScore( kv.Key )}";
+			}
 		}
 
 		protected void AddTeamHeader( TeamSystem.Team team )
@@ -75,6 +81,7 @@ namespace Conquest
 
 			section.TeamIcon = section.TeamHeader.Add.Panel( "teamIcon" );
 			section.TeamName = section.TeamHeader.Add.Label( TeamSystem.GetTeamName( team ), "teamName" );
+			section.TeamTickets = section.TeamHeader.Add.Label( $"{Game.Current.Scores.GetScore( team )}", "teamTickets" );
 
 			var hudClass = TeamSystem.GetTeamName( team );
 
