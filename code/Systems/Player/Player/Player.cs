@@ -289,9 +289,10 @@ namespace Conquest
 			}
 		}
 
-		[Event( "buildinput" )]
-		public void ProcessClientInput( InputBuilder input )
+		public override void BuildInput( InputBuilder input )
 		{
+			base.BuildInput( input );
+
 			TrySlotFromInput( input, InputButton.Slot1 );
 			TrySlotFromInput( input, InputButton.Slot2 );
 			TrySlotFromInput( input, InputButton.Slot3 );
