@@ -41,12 +41,10 @@ namespace Conquest
 			Inventory = new PlayerInventory( this );
 		}
 
-		public Player( Client cl, Team team = Team.BLUFOR ) : this()
+		public Player( Client cl ) : this()
 		{
 			// Load clothing from client data
 			Clothing.LoadFromClient( cl );
-
-			Team = team;
 		}
 
 		public override void Spawn()

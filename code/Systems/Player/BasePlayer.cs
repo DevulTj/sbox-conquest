@@ -72,8 +72,7 @@ namespace Conquest
 
 		public static void MoveToSpawnpoint( Entity pawn )
 		{
-			// @TODO: Make a TeamSystem accessor for this
-			var team = pawn.Client.Components.Get<TeamComponent>().Team;
+			var team = TeamSystem.GetTeam( pawn.Client );
 
 			var spawnpoint = All.OfType<Headquarters>().Where( x => x.Team == team ).FirstOrDefault() as Entity;
 

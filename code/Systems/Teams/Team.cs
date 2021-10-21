@@ -34,6 +34,16 @@ namespace Conquest
 		{
 			return AllClients( team ).Select( x => x.Pawn as Player );
 		}
+		public static Team GetLowestCount( this Team team )
+		{
+			var bluforCount = Count( Team.BLUFOR );
+			var opforCount = Count( Team.OPFOR );
+
+			if ( opforCount < bluforCount )
+				return Team.OPFOR;
+
+			return Team.BLUFOR;
+		}
 	}
 
 	public static class TeamSystem

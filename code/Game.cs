@@ -57,7 +57,7 @@ namespace Conquest
 		public override void ClientJoined( Client cl )
 		{
 			var teamComponent = cl.Components.GetOrCreate<TeamComponent>();
-			teamComponent.Team = Team.BLUFOR;
+			teamComponent.Team = teamComponent.Team.GetLowestCount();
 
 			BasePlayer player = cl.IsBot ? new Player( cl ) : new SpectatorPlayer( cl );
 			cl.Pawn = player;
