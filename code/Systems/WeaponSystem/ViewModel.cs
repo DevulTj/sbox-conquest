@@ -12,8 +12,8 @@ namespace Conquest
 		float MouseScale => 1.5f;
 		float ReturnForce => 400f;
 		float Damping => 18f;
-		float AccelDamping => 0.05f;
-		float PivotForce => 1000f;
+		float AccelDamping => 0.1f;
+		float PivotForce => 2000f;
 		float VelocityScale => 10f;
 		float RotationScale => 2.5f;
 		float LookUpPitchScale => 10f;
@@ -92,13 +92,14 @@ namespace Conquest
 			var aim = owner.IsAiming;
 
 			LerpTowards( ref avoidance, avoidanceTrace.Hit ? (1f - avoidanceTrace.Fraction) : 0, 10f );
-			LerpTowards( ref sprintLerp, sprint ? 1 : 0, 8f );
+			LerpTowards( ref sprintLerp, sprint ? 1 : 0, 10f );
 			LerpTowards( ref burstSprintLerp, burstSprint ? 1 : 0, 8f );
 
 			LerpTowards( ref aimLerp, aim ? 1 : 0, 7f );
 			LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
 
 			FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
+			FieldOfView -= sprintLerp * 10f;
 
 			bobSpeed *= (1 - sprintLerp * 0.25f);
 			bobSpeed *= (1 + burstSprintLerp * 0.1f);
@@ -173,9 +174,13 @@ namespace Conquest
 			var offsetLerp = MathF.Max( sprintLerp, avoidance );
 
 			Rotation *= Rotation.FromAxis( Vector3.Up, velocity.y * (sprintLerp * 40f) + offsetLerp * OffsetLerpAmount * (1 - aimLerp) );
+			Rotation *= Rotation.FromAxis( Vector3.Right,(sprintLerp * VMInfo.SprintRightRotation) * 1 );
+			Rotation *= Rotation.FromAxis( Vector3.Up,sprintLerp * VMInfo.SprintUpRotation );
 
 			Position += forward * avoidance;
-			Position += left * (velocity.y * sprintLerp * -25f + offsetLerp * -10f * (1 - aimLerp));
+			Position += left * (velocity.y * sprintLerp * VMInfo.SprintLeftOffset + offsetLerp * -10f * (1 - aimLerp));
+			Position += left * VMInfo.PostSprintLeftOffset * sprintLerp;
+
 			Position += up * (offsetLerp * -0f + avoidance * -10 * (1 - aimLerp));
 		}
 

@@ -20,6 +20,23 @@ namespace Conquest
 		public virtual Vector3 Offset => new Vector3( -6f, 5f, -5f );
 		public virtual Vector3 CrouchOffset => new Vector3( -10f, -50f, -0f );
 		public virtual float OffsetLerpAmount => 30f;
+
+		public virtual float SprintRightRotation => 20f;
+		public virtual float SprintUpRotation => -30f;
+		public virtual float SprintLeftOffset => -35f;
+		public virtual float PostSprintLeftOffset => 5f;
+	}
+
+	public class SMGViewModelInfo : ViewModelInfo
+	{
+		public SMGViewModelInfo( Carriable weaponRef ) : base( weaponRef )
+		{
+
+		}
+
+		public override float SprintRightRotation => 2f;
+		public override float SprintUpRotation => 2f;
+
 	}
 
 	public interface ICarriable
