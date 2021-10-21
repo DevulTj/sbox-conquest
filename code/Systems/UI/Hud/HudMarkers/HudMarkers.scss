@@ -2,15 +2,13 @@
 
 hudmarkers {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
+    height: 100%;   
 }
 
 hudmarker {
     position: absolute;
-    transform: translateX( -50% ) translateY( -50% );
+    transform: translateX( -50% );
     transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
 
     &.capturepoint {
