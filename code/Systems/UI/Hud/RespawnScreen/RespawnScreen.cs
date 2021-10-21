@@ -3,6 +3,7 @@ using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Conquest
@@ -39,8 +40,12 @@ namespace Conquest
 		public static float TransitionProgress => MathX.Clamp( TimeSinceStateChanged, 0, TransitionTime ) / TransitionTime;
 		public static float EasedTransitionProgress => EaseOutCirc( TransitionProgress );
 		public static float TransitionTime => 0.6f; // Takes x seconds for transition
-		public static Vector3 OverviewPosition => new Vector3( -186.83f, -1305.75f, 5024.03f ); // @TODO: Map entity
-		public static Angles OverviewAngles => new Angles( 90, 90, 0 ); // @TODO: Map entity
+
+		private static Vector3 FallbackOverviewPos = new Vector3( -186.83f, -1305.75f, 5024.03f );
+		private static Angles FallbackOverviewAngles = new Angles( 90, 90, 0 );
+
+		public static Vector3 OverviewPosition { get; set; }
+		public static Rotation OverviewRotation { get; set; }
 
 		public static CameraSetup CameraSetup = new();
 		public static TimeSince TimeSinceStateChanged = -1;
@@ -63,6 +68,19 @@ namespace Conquest
 			CameraSetup.FieldOfView = 90;
 			CameraSetup.ZNear = 10;
 			CameraSetup.ZFar = 80000;
+
+			var worldOverviewEntity = Entity.All.OfType<WorldOverview>().FirstOrDefault();
+
+			if ( worldOverviewEntity is not null )
+			{
+				OverviewPosition = worldOverviewEntity.Position;
+				OverviewRotation = worldOverviewEntity.Rotation;
+			}
+			else
+			{
+				OverviewPosition = FallbackOverviewPos;
+				OverviewRotation = FallbackOverviewAngles.ToRotation();
+			}
 		}
 
 		public static Vector3 Position => GetStartPos().LerpTo( GetTargetPos(), TransitionProgress );
@@ -82,7 +100,7 @@ namespace Conquest
 		{
 			return State switch
 			{
-				TransitionState.ToOverview => OverviewAngles.ToRotation(),
+				TransitionState.ToOverview => OverviewRotation,
 				TransitionState.FromOverview => Local.Pawn.EyeRot,
 				_ => Rotation.Identity
 			};
@@ -103,7 +121,7 @@ namespace Conquest
 			return State switch
 			{
 				TransitionState.ToOverview => StartingCameraRotation,
-				TransitionState.FromOverview => OverviewAngles.ToRotation(),
+				TransitionState.FromOverview => OverviewRotation,
 				_ => Rotation.Identity
 			};
 		}

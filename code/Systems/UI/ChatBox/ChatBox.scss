@@ -105,6 +105,10 @@ chatentry {
 		&.friendly {
 			color: $friendly-marker;
 		}
+
+		&.noavatar {
+			padding-left: 16px;
+		}
 	}
 
 	.message {
