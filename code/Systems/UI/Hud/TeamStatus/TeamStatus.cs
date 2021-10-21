@@ -24,8 +24,8 @@ namespace Conquest
 
 		public TeamStatus()
 		{
-			SetScore( TeamSystem.Team.BLUFOR );
-			SetScore( TeamSystem.Team.OPFOR );
+			SetScore( Team.BLUFOR );
+			SetScore( Team.OPFOR );
 		}
 
 		protected float MaxScore => TeamScores.MaximumScore;
@@ -33,11 +33,11 @@ namespace Conquest
 		[GameEvent.Shared.OnScoreChanged]
 		protected void OnScoreChanged()
 		{
-			SetScore( TeamSystem.Team.BLUFOR );
-			SetScore( TeamSystem.Team.OPFOR );
+			SetScore( Team.BLUFOR );
+			SetScore( Team.OPFOR );
 		}
 
-		protected void SetScore( TeamSystem.Team team )
+		protected void SetScore( Team team )
 		{
 			var isMyTeam = team == TeamSystem.MyTeam;
 			

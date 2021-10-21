@@ -46,18 +46,18 @@ namespace Conquest
 
 				//var bluforHQ = new Headquarters();
 				//bluforHQ.Position = new Vector3( 1037.79f, -3616.86f, -139.97f );
-				//bluforHQ.Team = TeamSystem.Team.BLUFOR;
+				//bluforHQ.Team = Team.BLUFOR;
 
 				//var opforHQ = new Headquarters();
 				//opforHQ.Position = new Vector3( -3879.69f, 1349.77f, 0.04f );
-				//opforHQ.Team = TeamSystem.Team.OPFOR;
+				//opforHQ.Team = Team.OPFOR;
 			}
 		}
 
 		public override void ClientJoined( Client cl )
 		{
 			var teamComponent = cl.Components.GetOrCreate<TeamComponent>();
-			teamComponent.Team = TeamSystem.Team.BLUFOR;
+			teamComponent.Team = Team.BLUFOR;
 
 			BasePlayer player = cl.IsBot ? new Player( cl ) : new SpectatorPlayer( cl );
 			cl.Pawn = player;
@@ -318,11 +318,11 @@ namespace Conquest
 
 				var bluforHQ = new Headquarters();
 				bluforHQ.Position = new Vector3( 1037.79f, -3616.86f, -139.97f );
-				bluforHQ.Team = TeamSystem.Team.BLUFOR;
+				bluforHQ.Team = Team.BLUFOR;
 
 				var opforHQ = new Headquarters();
 				opforHQ.Position = new Vector3( -3879.69f, 1349.77f, 0.04f );
-				opforHQ.Team = TeamSystem.Team.OPFOR;
+				opforHQ.Team = Team.OPFOR;
 			}
 		}
 

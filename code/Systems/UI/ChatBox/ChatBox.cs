@@ -59,7 +59,7 @@ namespace Conquest
 		}
 
 
-		public void AddEntry( string name, string message, string avatar, TeamSystem.Team team = TeamSystem.Team.BLUFOR )
+		public void AddEntry( string name, string message, string avatar, Team team = Team.BLUFOR )
 		{
 			var e = Canvas.AddChild<ChatEntry>();
 			//e.SetFirstSibling();
@@ -77,7 +77,7 @@ namespace Conquest
 
 
 		[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
-		public static void AddChatEntry( string name, string message, string avatar = null, TeamSystem.Team team = TeamSystem.Team.BLUFOR )
+		public static void AddChatEntry( string name, string message, string avatar = null, Team team = Team.BLUFOR )
 		{
 			Current?.AddEntry( name, message, avatar, team );
 

@@ -1,9 +1,41 @@
 ﻿
 using Sandbox;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Conquest
 {
+	public enum Team
+	{
+		BLUFOR,
+		OPFOR,
+		Unassigned
+	}
+
+	public static class TeamExtensions
+	{
+		public static To NetClients( this Team team )
+		{
+			return To.Multiple( team.AllClients().Select( x => x ) );
+		}
+
+		public static int Count( this Team team )
+		{
+			return AllClients( team ).Count();
+		}
+
+		public static IEnumerable<Client> AllClients( this Team team )
+		{
+			return Client.All.Where( x => TeamSystem.GetTeam( x ) == team );
+		}
+
+		public static IEnumerable<Player> AllPlayers( this Team team )
+		{
+			return AllClients( team ).Select( x => x.Pawn as Player );
+		}
+	}
+
 	public static class TeamSystem
 	{
 		public static T ToEnum<T>( this string enumString )
@@ -12,13 +44,6 @@ namespace Conquest
 		}
 
 		public static Team MyTeam => Local.Client.Components.Get<TeamComponent>()?.Team ?? Team.Unassigned;
-
-		public enum Team
-		{
-			BLUFOR,
-			OPFOR,
-			Unassigned
-		}
 
 		public enum FriendlyStatus
 		{
@@ -74,6 +99,10 @@ namespace Conquest
 			return "--";
 		}
 
+		public static Team GetTeam( Client cl )
+		{
+			return cl.Components.Get<TeamComponent>()?.Team ?? Team.Unassigned;
+		}
 
 		[ServerCmd( "conquest_jointeam" )]
 		public static void JoinTeam( string name )

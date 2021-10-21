@@ -41,7 +41,7 @@ namespace Conquest
 			Inventory = new PlayerInventory( this );
 		}
 
-		public Player( Client cl, TeamSystem.Team team = TeamSystem.Team.BLUFOR ) : this()
+		public Player( Client cl, Team team = Team.BLUFOR ) : this()
 		{
 			// Load clothing from client data
 			Clothing.LoadFromClient( cl );

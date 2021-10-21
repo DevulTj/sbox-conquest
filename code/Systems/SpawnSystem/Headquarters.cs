@@ -12,7 +12,7 @@ namespace Conquest
 	[Hammer.EntityTool( "Headquarters", "Conquest", "Defines a headquarters where the player can (re)spawn" )]
 	public partial class Headquarters : Entity, IGameStateAddressable, IMiniMapEntity
 	{
-		[Net, Property] public TeamSystem.Team Team { get; set; }
+		[Net, Property] public Team Team { get; set; }
 
 		public override void Spawn()
 		{
@@ -23,6 +23,7 @@ namespace Conquest
 
 		void IGameStateAddressable.ResetState()
 		{
+
 		}
 
 		string IMiniMapEntity.GetMainClass() => "capturepoint";

@@ -30,16 +30,16 @@ namespace Conquest
 		[BindComponent]
 		protected TeamComponent TeamComponent { get; }
 
-		public TeamSystem.Team Team
+		public Team Team
 		{
 			get => TeamComponent.Team;
 			set => TeamComponent.Team = value;
 		}
 
 		[Net, Category( "Capture Point" )]
-		public TeamSystem.Team HighestTeam { get; set; } = TeamSystem.Team.Unassigned;
+		public Team HighestTeam { get; set; } = Team.Unassigned;
 
-		protected static int ArraySize => Enum.GetNames( typeof( TeamSystem.Team ) ).Length - 1;
+		protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length - 1;
 
 		[Net, Category( "Capture Point" )]
 		public List<int> OccupantCounts { get; set; } = new();
@@ -62,7 +62,7 @@ namespace Conquest
 		public TimeSince TimeSinceStateChanged { get; set; } = 0;
 
 		// @Server
-		public Dictionary<TeamSystem.Team, HashSet<Player>> Occupants { get; set; } = new();
+		public Dictionary<Team, HashSet<Player>> Occupants { get; set; } = new();
 
 		public CapturePointEntity()
 		{
@@ -75,7 +75,7 @@ namespace Conquest
 				// Create a TeamComponent
 				Components.GetOrCreate<TeamComponent>();
 
-				Team = TeamSystem.Team.Unassigned;
+				Team = Team.Unassigned;
 				HighestTeam = Team;
 				Captured = 0;
 				CurrentState = State.None;
@@ -87,9 +87,9 @@ namespace Conquest
 					OccupantCounts.Add( 0 );
 
 				// Initialize the dictionary's list values.
-				foreach ( TeamSystem.Team team in Enum.GetValues( typeof( TeamSystem.Team ) ) )
+				foreach ( Team team in Enum.GetValues( typeof( Team ) ) )
 				{
-					if ( team == TeamSystem.Team.Unassigned )
+					if ( team == Team.Unassigned )
 						continue;
 
 					Log.Info( "Creating entry for " + team.ToString() );
@@ -167,7 +167,7 @@ namespace Conquest
 			}
 		}
 
-		public int GetCount( TeamSystem.Team team )
+		public int GetCount( Team team )
 		{
 			return OccupantCounts[(int)team];
 		}
@@ -183,11 +183,11 @@ namespace Conquest
 
 
 			var lastCount = 0;
-			var highest = TeamSystem.Team.Unassigned;
+			var highest = Team.Unassigned;
 			var contested = false;
 			for ( int i = 0; i < OccupantCounts.Count; i++ )
 			{
-				var team = (TeamSystem.Team)i;
+				var team = (Team)i;
 				var count = OccupantCounts[i];
 
 				if ( lastCount > 0 && count > 0 )
@@ -206,7 +206,7 @@ namespace Conquest
 			HighestTeam = highest;
 
 			// nobody is fighting for this point (which shouldn't really happen)
-			if ( highest == TeamSystem.Team.Unassigned )
+			if ( highest == Team.Unassigned )
 			{
 				CurrentState = State.None;
 
@@ -225,14 +225,14 @@ namespace Conquest
 			}
 
 			// A team is trying to cap. Let's reverse this shit.
-			if ( Team != TeamSystem.Team.Unassigned && highest != Team )
+			if ( Team != Team.Unassigned && highest != Team )
 			{
 				float attackMultiplier = MathF.Sqrt( lastCount ); // Somewhat random sub-linear scale
 				Captured = MathX.Clamp( Captured - Time.Delta * attackMultiplier / CaptureTime, 0, 1 );
 
 				if ( Captured == 0f )
 				{
-					Team = TeamSystem.Team.Unassigned;
+					Team = Team.Unassigned;
 				}
 				else
 				{
@@ -251,7 +251,7 @@ namespace Conquest
 				else
 				{
 					CurrentState = State.Capturing;
-					Team = TeamSystem.Team.Unassigned;
+					Team = Team.Unassigned;
 				}
 			}
 		}

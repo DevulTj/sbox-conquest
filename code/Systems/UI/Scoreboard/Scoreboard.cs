@@ -20,7 +20,7 @@ namespace Conquest
 		}
 
 		public Dictionary<Client, ScoreboardEntry> Rows = new();
-		public Dictionary<TeamSystem.Team, TeamSection> TeamSections = new();
+		public Dictionary<Team, TeamSection> TeamSections = new();
 
 		public Scoreboard()
 		{
@@ -28,8 +28,8 @@ namespace Conquest
 
 			AddClass( "scoreboard" );
 
-			AddTeamHeader( TeamSystem.Team.BLUFOR );
-			AddTeamHeader( TeamSystem.Team.OPFOR );
+			AddTeamHeader( Team.BLUFOR );
+			AddTeamHeader( Team.OPFOR );
 		}
 
 		public override void Tick()
@@ -67,7 +67,7 @@ namespace Conquest
 			}
 		}
 
-		protected void AddTeamHeader( TeamSystem.Team team )
+		protected void AddTeamHeader( Team team )
 		{
 			var section = new TeamSection
 			{
@@ -102,7 +102,7 @@ namespace Conquest
 
 		protected virtual ScoreboardEntry AddClient( Client entry )
 		{
-			var teamIndex = entry.Components.Get<TeamComponent>()?.Team ?? TeamSystem.Team.Unassigned;
+			var teamIndex = entry.Components.Get<TeamComponent>()?.Team ?? Team.Unassigned;
 
 			if ( !TeamSections.TryGetValue( teamIndex, out var section ) )
 			{
@@ -116,8 +116,8 @@ namespace Conquest
 
 		private void CheckTeamIndex( ScoreboardEntry entry )
 		{
-			TeamSystem.Team currentTeamIndex = TeamSystem.Team.Unassigned;
-			var teamIndex = entry.Client.Components.Get<TeamComponent>()?.Team ?? TeamSystem.Team.Unassigned;
+			Team currentTeamIndex = Team.Unassigned;
+			var teamIndex = entry.Client.Components.Get<TeamComponent>()?.Team ?? Team.Unassigned;
 
 			foreach ( var kv in TeamSections )
 			{

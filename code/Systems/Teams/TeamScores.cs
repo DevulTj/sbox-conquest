@@ -20,7 +20,7 @@ namespace Conquest
 		[ConVar.Replicated( "conquest_maxscore" )]
 		public static int MaximumScore { get; set; } = 250;
 
-		protected static int ArraySize => Enum.GetNames( typeof( TeamSystem.Team ) ).Length;
+		protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length;
 		protected int[] Scores { get; set; }
 
 		protected int[] OldScores { get; set; }
@@ -37,15 +37,15 @@ namespace Conquest
 		}
 
 		// Fucking hate this. @TODO: Do better.
-		protected virtual TeamSystem.Team GetOpposingTeam( TeamSystem.Team team )
+		protected virtual Team GetOpposingTeam( Team team )
 		{
-			if ( team == TeamSystem.Team.BLUFOR )
-				return TeamSystem.Team.OPFOR;
+			if ( team == Team.BLUFOR )
+				return Team.OPFOR;
 
-			if ( team == TeamSystem.Team.OPFOR )
-				return TeamSystem.Team.BLUFOR;
+			if ( team == Team.OPFOR )
+				return Team.BLUFOR;
 
-			return TeamSystem.Team.Unassigned;
+			return Team.Unassigned;
 		}
 
 		protected virtual void Tick()
@@ -54,14 +54,14 @@ namespace Conquest
 			{
 				var otherTeam = GetOpposingTeam( capturePoint.Team );
 
-				if ( otherTeam == TeamSystem.Team.Unassigned )
+				if ( otherTeam == Team.Unassigned )
 					continue;
 
 				RemoveScore( otherTeam, 1 );
 			}
 		}
 
-		public void SetScore( TeamSystem.Team team, int score )
+		public void SetScore( Team team, int score )
 		{
 			var newScore = Math.Clamp( score, MinimumScore, MaximumScore );
 			Scores[(int)team] = newScore;
@@ -72,19 +72,19 @@ namespace Conquest
 			WriteNetworkData();
 		}
 
-		public int? GetOldScore( TeamSystem.Team team ) => OldScores?[(int)team];
+		public int? GetOldScore( Team team ) => OldScores?[(int)team];
 
-		public int GetScore( TeamSystem.Team team )
+		public int GetScore( Team team )
 		{
 			return Scores[(int)team];
 		}
 
-		public void AddScore( TeamSystem.Team team, int score )
+		public void AddScore( Team team, int score )
 		{
 			SetScore( team, GetScore( team ) + score );
 		}
 
-		public void RemoveScore( TeamSystem.Team team, int score )
+		public void RemoveScore( Team team, int score )
 		{
 			SetScore( team, GetScore( team ) - score );
 		}
@@ -116,8 +116,8 @@ namespace Conquest
 			OldScores = new int[ ArraySize ];
 
 			// Set initializing scores.
-			SetScore( TeamSystem.Team.BLUFOR, MaximumScore );
-			SetScore( TeamSystem.Team.OPFOR, MaximumScore );
+			SetScore( Team.BLUFOR, MaximumScore );
+			SetScore( Team.OPFOR, MaximumScore );
 		}
 	}
 }
