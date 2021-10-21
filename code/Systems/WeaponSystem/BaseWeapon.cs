@@ -15,7 +15,7 @@ namespace Conquest
 
 		public virtual Vector3 WalkCycleOffsets => new Vector3( 50f, 20f, 50f );
 		public virtual float ForwardBobbing => 4f;
-		public virtual float SideWalkOffset => 200f;
+		public virtual float SideWalkOffset => 100f;
 		public virtual Vector3 AimOffset => new Vector3( 10f, 10, 1.8f );
 		public virtual Vector3 Offset => new Vector3( -6f, 5f, -5f );
 		public virtual Vector3 CrouchOffset => new Vector3( -10f, -50f, -0f );
@@ -25,6 +25,24 @@ namespace Conquest
 		public virtual float SprintUpRotation => -30f;
 		public virtual float SprintLeftOffset => -35f;
 		public virtual float PostSprintLeftOffset => 5f;
+
+		public virtual float BurstSprintRightRotation => 20f;
+		public virtual float BurstSprintUpRotation => -30f;
+		public virtual float BurstSprintLeftOffset => -35f;
+		public virtual float BurstPostSprintLeftOffset => 5f;
+	}
+
+	public class PistolViewModelInfo : ViewModelInfo
+	{
+		public PistolViewModelInfo( Carriable weaponRef ) : base( weaponRef )
+		{
+
+		}
+
+		public override float BurstSprintRightRotation => 2f;
+		public override float BurstSprintUpRotation => 2f;
+		public override float BurstSprintLeftOffset => -35f;
+		public override float BurstPostSprintLeftOffset => 5f;
 	}
 
 	public class SMGViewModelInfo : ViewModelInfo
@@ -37,6 +55,10 @@ namespace Conquest
 		public override float SprintRightRotation => 2f;
 		public override float SprintUpRotation => 2f;
 
+		public override float BurstSprintRightRotation => 20f;
+		public override float BurstSprintUpRotation => -30f;
+		public override float BurstSprintLeftOffset => -35f;
+		public override float BurstPostSprintLeftOffset => 5f;
 	}
 
 	public interface ICarriable

@@ -92,18 +92,17 @@ namespace Conquest
 			var aim = owner.IsAiming;
 
 			LerpTowards( ref avoidance, avoidanceTrace.Hit ? (1f - avoidanceTrace.Fraction) : 0, 10f );
-			LerpTowards( ref sprintLerp, sprint ? 1 : 0, 10f );
+			LerpTowards( ref sprintLerp, sprint && !burstSprint ? 1 : 0, 10f );
 			LerpTowards( ref burstSprintLerp, burstSprint ? 1 : 0, 8f );
 
 			LerpTowards( ref aimLerp, aim ? 1 : 0, 7f );
 			LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
 
 			FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
-			FieldOfView -= sprintLerp * 10f;
+			FieldOfView -= burstSprintLerp * 10f;
 
 			bobSpeed *= (1 - sprintLerp * 0.25f);
-			bobSpeed *= (1 + burstSprintLerp * 0.1f);
-
+			bobSpeed *= (1 - burstSprintLerp * 0.15f);
 
 			if ( Owner.GroundEntity != null )
 			{
@@ -171,15 +170,19 @@ namespace Conquest
 			Position += (desiredRotation.Forward - camSetup.Rotation.Forward) * -PivotForce;
 
 			// Apply sprinting / avoidance offsets
-			var offsetLerp = MathF.Max( sprintLerp, avoidance );
+			var offsetLerp = MathF.Max( sprintLerp, burstSprintLerp );
 
-			Rotation *= Rotation.FromAxis( Vector3.Up, velocity.y * (sprintLerp * 40f) + offsetLerp * OffsetLerpAmount * (1 - aimLerp) );
-			Rotation *= Rotation.FromAxis( Vector3.Right,(sprintLerp * VMInfo.SprintRightRotation) * 1 );
-			Rotation *= Rotation.FromAxis( Vector3.Up,sprintLerp * VMInfo.SprintUpRotation );
+			Rotation *= Rotation.FromAxis( Vector3.Up, velocity.y * ( (sprintLerp * 40f) + (burstSprintLerp * 40f) ) + offsetLerp * OffsetLerpAmount * (1 - aimLerp) );
+			Rotation *= Rotation.FromAxis( Vector3.Right,(sprintLerp * VMInfo.SprintRightRotation) + ( burstSprintLerp * VMInfo.BurstSprintRightRotation ) );
+			Rotation *= Rotation.FromAxis( Vector3.Up, ( sprintLerp * VMInfo.SprintUpRotation ) + ( burstSprintLerp * VMInfo.BurstSprintUpRotation ) );
+
+			//Rotation *= Rotation.FromAxis( Vector3.Right, (burstSprintLerp * VMInfo.BurstSprintRightRotation) * 1 );
+			//Rotation *= Rotation.FromAxis( Vector3.Up, burstSprintLerp * VMInfo.BurstSprintUpRotation );
 
 			Position += forward * avoidance;
-			Position += left * (velocity.y * sprintLerp * VMInfo.SprintLeftOffset + offsetLerp * -10f * (1 - aimLerp));
-			Position += left * VMInfo.PostSprintLeftOffset * sprintLerp;
+
+			Position += left * (velocity.y * ( ( sprintLerp * VMInfo.SprintLeftOffset ) + ( burstSprintLerp * VMInfo.BurstSprintLeftOffset ) ) + offsetLerp * -10f * (1 - aimLerp));
+			Position += left * ( (VMInfo.PostSprintLeftOffset * sprintLerp) + (VMInfo.BurstPostSprintLeftOffset * burstSprintLerp ) );
 
 			Position += up * (offsetLerp * -0f + avoidance * -10 * (1 - aimLerp));
 		}
