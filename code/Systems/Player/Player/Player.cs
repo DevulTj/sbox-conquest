@@ -117,6 +117,11 @@ namespace Conquest
 			SoftRespawn();
 		}
 
+		public virtual void OnPlayerKill( Player victim, DamageInfo damageInfo )
+		{
+			GiveAward( "Kill" );
+		}
+
 		public override void OnKilled()
 		{
 			base.OnKilled();
@@ -135,6 +140,15 @@ namespace Conquest
 
 			EnableAllCollisions = false;
 			EnableDrawing = false;
+
+			var attacker = LastAttacker;
+			if ( attacker.IsValid() )
+			{
+				if ( attacker is Player killer )
+				{
+					killer.OnPlayerKill( this, LastDamage );
+				}
+			}
 		}
 
 		public ICamera GetActiveCamera()

@@ -63,6 +63,8 @@ namespace Conquest
 
 		public List<PlayerAward> AwardsGiven { get; set; } = new();
 
+		public void GiveAward( string awardTitle ) => PlayerAwards.Give( this, awardTitle );
+
 		[ClientRpc]
 		public void PromptAwardGiven( string awardTitle )
 		{
@@ -70,7 +72,7 @@ namespace Conquest
 			if ( award is null )
 				return;
 
-			Log.Info( "Award given!" + awardTitle );
+			Log.Info( "Award given: " + awardTitle );
 		}
 	}
 }
