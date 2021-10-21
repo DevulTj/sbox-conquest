@@ -44,6 +44,11 @@ namespace Conquest
 			if ( pawn.IsAiming )
 				FieldOfView -= 10;
 
+			if ( pawn.IsBurstSprinting )
+			{
+				FieldOfView += 5;
+			}
+
 			Viewer = pawn;
 			lastPos = Pos;
 		}

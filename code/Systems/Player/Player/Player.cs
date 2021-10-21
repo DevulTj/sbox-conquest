@@ -16,6 +16,7 @@ namespace Conquest
 
 		[Net, Predicted] public ICamera MainCamera { get; set; }
 		[Net, Predicted] public bool IsSprinting { get; protected set; }
+		[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
 		[Net, Predicted] public bool IsAiming { get; protected set; }
 		[Net, Predicted] public bool IsFreeLooking { get; protected set; }
 
@@ -141,11 +142,47 @@ namespace Conquest
 			return MainCamera;
 		}
 
+		[Net, Predicted]
+		public bool BurstSprintBlock { get; set; } = false;
+
+		[Net, Predicted]
+		public TimeSince SinceBurstActivated { get; set; }
+
+		public float BurstStaminaDuration => 5f;
+
 		protected void HandleSharedInput( Client cl )
 		{
 			var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
-			IsSprinting = Input.Down( InputButton.Run ) && Velocity.Length > 10;
 			IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 ) && !isReloading;
+
+			if ( IsSprinting && Input.Pressed( InputButton.Run ) )
+			{
+				if ( Input.Forward > 0.5f )
+				{
+					IsBurstSprinting = !IsBurstSprinting;
+
+					if ( IsBurstSprinting )
+						SinceBurstActivated = 0;
+				}
+			}
+
+			if ( SinceBurstActivated > BurstStaminaDuration )
+				IsBurstSprinting = false;
+
+			if ( Input.Pressed( InputButton.Run ) )
+			{
+				if ( !IsSprinting )
+					IsSprinting = true;
+				else if ( IsSprinting && Input.Forward < 0.5f )
+					IsSprinting = false;
+			}
+
+			if ( !IsBurstSprinting && IsSprinting && Velocity.Length < 40 || Input.Forward < 0.5f )
+				IsSprinting = false;
+
+			if ( !IsSprinting )
+				IsBurstSprinting = false;
+
 			IsFreeLooking = Input.Down( InputButton.Walk );
 		}
 

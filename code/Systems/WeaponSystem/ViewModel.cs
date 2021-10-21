@@ -36,6 +36,7 @@ namespace Conquest
 		float upDownOffset = 0;
 		float avoidance = 0;
 
+		float burstSprintLerp = 0;
 		float sprintLerp = 0;
 		float aimLerp = 0;
 
@@ -86,17 +87,22 @@ namespace Conquest
 							.Ignore( this )
 							.Run();
 
-			var sprint = Input.Down( InputButton.Run );
+			var sprint = owner.IsSprinting;
+			var burstSprint = owner.IsBurstSprinting;
 			var aim = owner.IsAiming;
 
 			LerpTowards( ref avoidance, avoidanceTrace.Hit ? (1f - avoidanceTrace.Fraction) : 0, 10f );
 			LerpTowards( ref sprintLerp, sprint ? 1 : 0, 8f );
+			LerpTowards( ref burstSprintLerp, burstSprint ? 1 : 0, 8f );
+
 			LerpTowards( ref aimLerp, aim ? 1 : 0, 7f );
 			LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
 
 			FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
 
 			bobSpeed *= (1 - sprintLerp * 0.25f);
+			bobSpeed *= (1 + burstSprintLerp * 0.1f);
+
 
 			if ( Owner.GroundEntity != null )
 			{
