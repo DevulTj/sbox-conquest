@@ -5,9 +5,9 @@ killfeedpanel {
     position: absolute;
     left: 32px;
     width: 25%;
-    top: 64px;
+    bottom: 450px;
     height: 20%;
-    flex-direction: column;
+    flex-direction: column-reverse;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: baseline;
