@@ -24,12 +24,12 @@ namespace Conquest
 	public static class PlayerAwards
 	{
 
-		[PlayerAward( name: "Kill", pointsGiven: 100, description: "Awarded when you've killed another player.", texturePath: "ui/Awards/Default.png" )]
+		[PlayerAward( name: "Kill", pointsGiven: 15, description: "PLAYER KILLED", texturePath: "ui/Awards/Skull.png" )]
 		public static void KillAwardGiven( Player player )
 		{
 		}
 
-		[PlayerAward( name: "Captured", pointsGiven: 200, description: "You captured a point.", texturePath: "ui/Awards/Capture.png" )]
+		[PlayerAward( name: "Capture", pointsGiven: 30, description: "POINT CAPTURED", texturePath: "ui/Awards/Capture.png" )]
 		public static void CapturedAwardGiven( Player player )
 		{
 		}

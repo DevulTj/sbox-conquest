@@ -242,10 +242,21 @@ namespace Conquest
 			else
 			{
 				float attackMultiplier = MathF.Sqrt( lastCount ); // Somewhat random sub-linear scale
+
+
+				var last = Captured;
+
 				Captured = MathX.Clamp( Captured + Time.Delta * attackMultiplier / CaptureTime, 0, 1 );
 
 				if ( Captured == 1f )
 				{
+					if ( last != Captured )
+					{
+						foreach( var player in Occupants[highest] )
+						{
+							player.GiveAward( "Capture" );
+						}
+					}
 					Team = highest;
 				}
 				else

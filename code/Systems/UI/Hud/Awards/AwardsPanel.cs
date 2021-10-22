@@ -13,8 +13,6 @@ namespace Conquest
 		public TimeSince CreationTime { get; set; } = 0;
 		public float TimeToShow { get; set; } = 5f;
 
-		public Panel Image { get; set; }
-
 		public override void Tick()
 		{
 			base.Tick();
@@ -67,8 +65,11 @@ namespace Conquest
 		[PlayerEvent.Client.OnAwardGiven]
 		protected void OnAwardGiven( PlayerAward award )
 		{
-			Images.AddChild<AwardImagePanel>( award.Title );
-			Awards.AddChild<AwardDescriptionPanel>( award.Title );
+			var awardCoin = Images.AddChild<AwardImagePanel>( award.Title.ToLower() );
+			awardCoin.Style.SetBackgroundImage( award.IconTexture );
+
+			var awardText = Awards.AddChild<AwardDescriptionPanel>( award.Title.ToLower() );
+			awardText.Label.SetText( $"{award.Description}	{award.PointsGiven} XP" );
 		}
 	}
 }
