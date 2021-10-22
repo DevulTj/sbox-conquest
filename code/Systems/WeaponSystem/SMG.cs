@@ -69,7 +69,7 @@ namespace Conquest
 
 			if ( Owner == Local.Pawn )
 			{
-				new Sandbox.ScreenShake.Perlin( 0.5f, 4.0f, 1.0f, 0.5f );
+				new Conquest.ScreenShake.Perlin( 0.5f, 4.0f, 1.0f, 0.5f );
 			}
 
 			ViewModelEntity?.SetAnimBool( "fire", true );

@@ -282,7 +282,7 @@ namespace Conquest
 			//
 			BaseViewModel.UpdateAllPostCamera( ref camSetup );
 
-			// CameraModifier.Apply( ref camSetup );
+			CameraModifier.Apply( ref camSetup );
 		}
 
 		/// <summary>
