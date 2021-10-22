@@ -350,12 +350,13 @@ namespace Conquest
 		{
 			ChatBox.AddInformation( To.Everyone, $"The game has begun First team to hit 0 tickets loses." );
 
-			foreach ( var entity in Entity.All.OfType<IGameStateAddressable>() )
+			Current.Scores.Reset();
+
+			var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
+			foreach ( var entity in ents )
 			{
 				entity.ResetState();
 			}
-
-			Current.Scores.Reset();
 		}
 
 		protected async Task DelayedRestart()

@@ -105,7 +105,7 @@ namespace Conquest
 			if ( message.Contains( '\n' ) || message.Contains( '\r' ) )
 				return;
 
-			var player = ConsoleSystem.Caller.Pawn as Player;
+			var player = ConsoleSystem.Caller.Pawn as BasePlayer;
 
 			Event.Run( GameEvent.Server.OnChatMessage, ConsoleSystem.Caller, message );
 
