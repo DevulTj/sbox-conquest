@@ -27,6 +27,12 @@ awardspanel {
                 transition: all 0.25s ease-out;
                 opacity: 1;
 
+                background-size: 30px;
+                background-position: center;
+                background-repeat: no-repeat;
+                border-radius: 1000px;
+                box-shadow: 0px 0px 20px rgba( black, 0.2 );
+
                 &:intro {
                     transform: scale( 2 );
                     opacity: 0;
@@ -35,22 +41,6 @@ awardspanel {
                 &:outro {
                     transform: scale( 1.05 );
                     opacity: 0;
-                }
-
-                &.kill {
-                    border-radius: 1000px;
-                    box-shadow: 0px 0px 20px rgba( black, 0.2 );
-                    background-size: 30px;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                }
-
-                &.capture {
-                    border-radius: 1000px;
-                    box-shadow: 0px 0px 20px rgba( black, 0.2 );
-                    background-size: 30px;
-                    background-position: center;
-                    background-repeat: no-repeat;
                 }
             }
         }

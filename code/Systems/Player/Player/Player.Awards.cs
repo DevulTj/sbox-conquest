@@ -14,8 +14,13 @@ namespace Conquest
 	public static class PlayerAwards
 	{
 
-		[PlayerAward( Title = "Kill", PointsGiven = 15, Description = "PLAYER KILLED", IconTexture = "ui/Awards/Skull.png" )]
+		[PlayerAward( Title = "Kill", PointsGiven = 15, Description = "ENEMY KILLED", IconTexture = "ui/Awards/Skull.png" )]
 		public static void KillAwardGiven( Player player )
+		{
+		}
+
+		[PlayerAward( Title = "TeamKill", PointsGiven = -30, Description = "TEAMKILLED", IconTexture = "ui/Awards/TeamKill.png" )]
+		public static void TeamKillAwardGiven( Player player )
 		{
 		}
 

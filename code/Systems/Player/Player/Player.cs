@@ -125,7 +125,10 @@ namespace Conquest
 
 		public virtual void OnPlayerKill( Player victim, DamageInfo damageInfo )
 		{
-			GiveAward( "Kill" );
+			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
+				GiveAward( "TeamKill" );
+			else
+				GiveAward( "Kill" );
 		}
 
 		public override void OnKilled()
