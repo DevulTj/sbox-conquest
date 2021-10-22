@@ -91,7 +91,10 @@ namespace Conquest
 				return;
 			}
 
-			pawn.Transform = spawnpoint.Transform;
+			var transform = spawnpoint.Transform;
+			transform.Position += new Vector3( Rand.Float( 100 ), Rand.Float( 100 ), 0 );
+
+			pawn.Transform = transform;
 		}
 
 		public override string ToString()
