@@ -8,28 +8,18 @@ namespace Conquest
 	public class PlayerAward : LibraryMethod
 	{
 		public int PointsGiven { get; set; }
-		public Texture IconTexture { get; set; }
-
-		public PlayerAward( string name = "Award", int pointsGiven = 0, string description = "", string texturePath = "" )
-		{
-			Title = name;
-			Description = description;
-			PointsGiven = pointsGiven;
-
-			if ( !string.IsNullOrEmpty( texturePath ) )
-			IconTexture = Texture.Load( texturePath );
-		}
+		public string IconTexture { get; set; }
 	}
 
 	public static class PlayerAwards
 	{
 
-		[PlayerAward( name: "Kill", pointsGiven: 15, description: "PLAYER KILLED", texturePath: "ui/Awards/Skull.png" )]
+		[PlayerAward( Title = "Kill", PointsGiven = 15, Description = "PLAYER KILLED", IconTexture = "ui/Awards/Skull.png" )]
 		public static void KillAwardGiven( Player player )
 		{
 		}
 
-		[PlayerAward( name: "Capture", pointsGiven: 30, description: "POINT CAPTURED", texturePath: "ui/Awards/Capture.png" )]
+		[PlayerAward( Title = "Capture", PointsGiven = 30, Description = "POINT CAPTURED", IconTexture = "ui/Awards/Capture.png" )]
 		public static void CapturedAwardGiven( Player player )
 		{
 		}
