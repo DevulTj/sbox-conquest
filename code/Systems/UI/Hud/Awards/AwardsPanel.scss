@@ -1,0 +1,94 @@
+﻿@import "../../Theme.scss";
+
+awardspanel {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    bottom: 64px;
+    height: 20%;
+
+    .root {
+        width: 100%;
+        height: 100%;
+
+        .images {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            align-content: stretch;
+
+            awardimagepanel {
+                width: 40px;
+                height: 40px;
+                transition: all 0.25s ease-out;
+                opacity: 1;
+
+                &:intro {
+                    transform: scale( 2 );
+                    opacity: 0;
+                }
+
+                &:outro {
+                    transform: scale( 1.05 );
+                    opacity: 0;
+                }
+
+                &.kill {
+                    border-radius: 1000px;
+                    box-shadow: 0px 0px 20px rgba( black, 0.2 );
+                    background-size: 30px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-image: url( /ui/Awards/Skull.png );
+                }
+            }
+        }
+
+        .awards {
+            width: 100%;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+            align-content: stretch;
+
+            awarddescriptionpanel {
+                margin-top: 4px;
+                padding-left: 8px;
+                padding-right: 8px;
+                box-shadow: 0px 0px 20px rgba(#dfe3ff, 0.2 );
+                transition: all 0.25s ease-out, opacity 0.7s ease-in;
+                opacity: 1;
+
+                &:intro {
+                    transform: scale( 2 );
+                    opacity: 0;
+                }
+
+                &:outro {
+                    transform: scale( 1.05 );
+                    opacity: 0;
+                }
+
+                label {
+                    align-self: center;
+                    font-family: $font-primary;
+                    font-weight: 600;
+                    font-size: 20px;
+                    color: white;
+                    text-shadow: 2px 2px 2px rgba( black, 0.5 );
+                }
+            }
+        }
+
+        .awardEntry {
+            width: 50%;
+        }
+    }
+}

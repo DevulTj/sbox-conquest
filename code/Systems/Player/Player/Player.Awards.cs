@@ -72,7 +72,7 @@ namespace Conquest
 			if ( award is null )
 				return;
 
-			Log.Info( "Award given: " + awardTitle );
+			Event.Run( PlayerEvent.Client.OnAwardGiven, award );
 		}
 	}
 }
