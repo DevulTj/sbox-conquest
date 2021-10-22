@@ -1,0 +1,59 @@
+﻿@import "../../Theme.scss";
+
+killfeedpanel {
+    transform: rotateY( 5deg ) rotateX( 1deg );
+    position: absolute;
+    left: 32px;
+    width: 25%;
+    top: 64px;
+    height: 20%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    align-content: stretch;
+}
+
+killfeedentrypanel {
+    transition: all 0.3s ease;
+
+    transform: scale(1);
+    opacity: 1;
+
+    &:intro {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    &:outro {
+        transform: scale( 0.7 );
+        opacity: 0;
+    }
+
+    label {
+        margin-right: 8px;
+        font-size: 24px;
+        font-weight: 800;
+        font-family: $font-primary;
+        text-shadow: 2px 2px 2px rgba( black, 0.5 );
+
+
+        &.friendly {
+            color: $friendly-marker;
+            box-shadow: 0px 0px 20px rgba( $friendly-marker, 0.2 );
+        }
+
+        &.method {
+            align-self: center;
+            font-weight: 600;
+            font-size: 20px;
+            color: #cacaca;
+            box-shadow: none;
+        }
+
+        &.enemy {
+            color: $enemy-marker;
+            box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.2 );
+        }
+    }
+}

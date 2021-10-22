@@ -123,9 +123,17 @@ namespace Conquest
 			SoftRespawn();
 		}
 
+		[ClientRpc]
+		protected void UpdateKillFeed( ulong lsteamid, string leftName, ulong rsteamid, string rightName, string method )
+		{
+			KillFeedPanel.Current.AddKill( lsteamid, leftName, rsteamid, rightName, method );
+		}
+
 		public virtual void OnPlayerKill( Player victim, DamageInfo damageInfo )
 		{
 			Event.Run( PlayerEvent.Server.OnPlayerKilled, victim, damageInfo );
+
+			UpdateKillFeed( this.Client.SteamId, this.Client.Name, victim.Client.SteamId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
 
 			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
 				GiveAward( "TeamKill" );
