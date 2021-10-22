@@ -66,8 +66,6 @@ namespace Conquest
 			e.Message.Text = message;
 			e.NameLabel.Text = name;
 
-			e.TimestampLabel.Text = e.Time.ToString( "h:mm tt" );
-
 			e.NameLabel.SetClass( "friendly", TeamSystem.IsFriendly( TeamSystem.MyTeam, team ) );
 			e.Avatar.SetTexture( avatar );
 

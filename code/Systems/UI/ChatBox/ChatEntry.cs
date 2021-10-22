@@ -9,7 +9,6 @@ namespace Conquest
 	{
 		public DateTime Time { get; set; } = DateTime.Now;
 
-		public Label TimestampLabel { get; internal set; }
 		public Label NameLabel { get; internal set; }
 		public Label Message { get; internal set; }
 		public Image Avatar { get; internal set; }
@@ -19,7 +18,6 @@ namespace Conquest
 		public ChatEntry()
 		{
 			Avatar = Add.Image();
-			TimestampLabel = Add.Label( "Timestamp", "time" );
 			NameLabel = Add.Label( "Name", "name" );
 			Message = Add.Label( "Message", "message" );
 		}
