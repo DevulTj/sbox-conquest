@@ -361,16 +361,26 @@ namespace Conquest
 
 		protected async Task DelayedRestart()
 		{
-			await GameTask.DelayRealtimeSeconds( 15f );
+			await GameTask.DelayRealtimeSeconds( 10f );
 
 			RestartGame();
 		}
 
 		[AdminCmd( "conquest_endgame", Help = "Ends the game, and restarts it after some time" )]
-		public static void EndGame()
+		public static void EndGame( Team winner = Team.Unassigned )
 		{
-			ChatBox.AddInformation( To.Everyone, $"The game has ended. It'll restart in 15 seconds." );
+			ChatBox.AddInformation( To.Everyone, $"The game has ended. It'll restart in 10 seconds." );
+
+			if ( winner != Team.Unassigned )
+				ChatBox.AddInformation( To.Everyone, $"The winners: " + TeamSystem.GetTeamName( winner ) );
+
 			_ = Current.DelayedRestart();
+		}
+
+		[GameEvent.Server.ScoreHitZero]
+		protected void ScoreHitZero( Team winner )
+		{
+			EndGame( winner );
 		}
 	}
 }
