@@ -27,6 +27,7 @@ namespace Conquest
 		[PlayerAward( Title = "Capture", PointsGiven = 30, Description = "POINT CAPTURED", IconTexture = "ui/Awards/Capture.png" )]
 		public static void CapturedAwardGiven( Player player )
 		{
+			player.Client.AddInt( "captures", 1 );
 		}
 
 		public static PlayerAward Get( string awardTitle )
