@@ -125,6 +125,8 @@ namespace Conquest
 
 		public virtual void OnPlayerKill( Player victim, DamageInfo damageInfo )
 		{
+			Event.Run( PlayerEvent.Server.OnPlayerKilled, victim, damageInfo );
+
 			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
 				GiveAward( "TeamKill" );
 			else
