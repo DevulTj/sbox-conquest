@@ -15,7 +15,13 @@ namespace Conquest
 		public Clothing.Container Clothing = new();
 
 		[Net, Predicted] public ICamera MainCamera { get; set; }
-		[Net, Predicted] public bool IsSprinting { get; protected set; }
+
+		[Net, Predicted] private bool _IsSprinting { get; set; }
+
+		[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
+
+		public bool IsSprinting { get => _IsSprinting; protected set { if (_IsSprinting && !value) SinceSprintStopped = 0; _IsSprinting = value; } }
+
 		[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
 		[Net, Predicted] public bool IsAiming { get; protected set; }
 		[Net, Predicted] public bool IsFreeLooking { get; protected set; }
@@ -192,6 +198,9 @@ namespace Conquest
 			}
 
 			if ( !IsBurstSprinting && IsSprinting && Velocity.Length < 40 || Input.Forward < 0.5f )
+				IsSprinting = false;
+
+			if ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) )
 				IsSprinting = false;
 
 			if ( !IsSprinting )

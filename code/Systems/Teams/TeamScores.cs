@@ -11,6 +11,9 @@ namespace Conquest
 	{
 		public TeamScores()
 		{
+			Scores = new int[ ArraySize ];
+			OldScores = new int[ ArraySize ];
+			
 			Reset();
 		}
 
@@ -112,9 +115,6 @@ namespace Conquest
 
 		public void Reset()
 		{
-			Scores = new int[ ArraySize ];
-			OldScores = new int[ ArraySize ];
-
 			// Set initializing scores.
 			SetScore( Team.BLUFOR, MaximumScore );
 			SetScore( Team.OPFOR, MaximumScore );

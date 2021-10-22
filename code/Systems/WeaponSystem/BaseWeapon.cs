@@ -153,6 +153,8 @@ namespace Conquest
 		{
 			if ( !Owner.IsValid() || !Input.Down( InputButton.Attack1 ) ) return false;
 
+			if ( (Owner as Player).SinceSprintStopped < 0.2f ) return false;
+
 			var rate = PrimaryRate;
 			if ( rate <= 0 ) return true;
 
