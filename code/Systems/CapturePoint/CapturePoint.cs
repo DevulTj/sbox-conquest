@@ -118,8 +118,8 @@ namespace Conquest
 			SetupPhysicsFromSphere( PhysicsMotionType.Keyframed, Vector3.Zero, radius );
 			CollisionGroup = CollisionGroup.Trigger;
 		}
-		
-		protected void AddPlayer( Player player )
+
+		internal void AddPlayer( Player player )
 		{
 			// Already in the list!
 			if ( Occupants[player.Team].Contains( player ) )
@@ -135,7 +135,7 @@ namespace Conquest
 			OccupantCounts[(int)player.Team]++;
 		}
 
-		protected void RemovePlayer( Player player )
+		internal void RemovePlayer( Player player )
 		{
 			if ( !Occupants[player.Team].Contains( player ) )
 				return;
