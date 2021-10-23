@@ -95,8 +95,12 @@ namespace Conquest
 		{
 			base.FrameSimulate();
 
-			EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
-			EyeRot = Input.Rotation;
+			if ( !Pawn.Client.IsBot )
+			{
+				EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
+				EyeRot = Input.Rotation;
+			}
+
 
 			UpdateBBox();
 		}
@@ -104,10 +108,14 @@ namespace Conquest
 		public override void Simulate()
 		{
 			EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
-			UpdateBBox();
 
-			EyePosLocal += TraceOffset;
-			EyeRot = Input.Rotation;
+			if ( !Pawn.Client.IsBot )
+			{
+				EyePosLocal += TraceOffset;
+				EyeRot = Input.Rotation;
+			}
+
+			UpdateBBox();
 
 			RestoreGroundPos();
 
