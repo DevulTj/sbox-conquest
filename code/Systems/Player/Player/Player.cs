@@ -185,6 +185,17 @@ namespace Conquest
 
 		protected void HandleSharedInput( Client cl )
 		{
+			if ( Input.Pressed( InputButton.Drop ) )
+			{
+				var dropped = Inventory.DropActive();
+				if ( dropped != null )
+				{
+					if ( dropped.PhysicsGroup != null )
+						dropped.PhysicsGroup.Velocity = Velocity + (EyeRot.Forward + EyeRot.Up) * 300;
+
+					SwitchToBestWeapon();
+				}
+			}
 			var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
 			IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 ) && !isReloading;
 
@@ -303,6 +314,14 @@ namespace Conquest
 
 			Camera = GetActiveCamera();
 
+			if ( Input.Released( InputButton.View ) )
+			{
+				if ( MainCamera is FootCamera )
+					MainCamera = new ThirdPersonCamera();
+				else
+					MainCamera = new FootCamera();
+			}
+
 			IsFreeLooking = Input.Down( InputButton.Walk );
 
 			var controller = GetActiveController();
@@ -310,18 +329,6 @@ namespace Conquest
 				EnableSolidCollisions = !controller.HasTag( "noclip" );
 
 			controller?.Simulate( cl, this, GetActiveAnimator() );
-
-			if ( Input.Pressed( InputButton.Drop ) )
-			{
-				var dropped = Inventory.DropActive();
-				if ( dropped != null )
-				{
-					if ( dropped.PhysicsGroup != null )
-						dropped.PhysicsGroup.Velocity = Velocity + ( EyeRot.Forward + EyeRot.Up ) * 300;
-
-					SwitchToBestWeapon();
-				}
-			}
 
 			TickPlayerUse();
 
