@@ -58,7 +58,9 @@ namespace Conquest
 
 				LookDir = Vector3.Lerp( LookDir, InputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
 
-				if ( Position.Distance( TargetPlayer.Position ) < 1024f )
+				var tr = Trace.Ray( EyePos, TargetPlayer.Position ).Ignore( this ).Run();
+
+				if ( Position.Distance( TargetPlayer.Position ) < 1024f && tr.Entity == TargetPlayer )
 				{
 					// We are shooting the player
 					// @TODO: Actually shoot the player
@@ -72,7 +74,7 @@ namespace Conquest
 
 					var animHelper = new CitizenAnimationHelper( this );
 
-					animHelper.WithLookAt( TargetPlayer.EyePos );
+					animHelper.WithLookAt( TargetPlayer.Position );
 					animHelper.WithVelocity( Velocity );
 					animHelper.WithWishVelocity( InputVelocity );
 
@@ -85,8 +87,6 @@ namespace Conquest
 						((float)Math.Asin( targetDirection.z )).RadianToDegree() * -1.0f,
 						((float)Math.Atan2( targetDirection.y, targetDirection.x )).RadianToDegree(),
 						0.0f ) );
-
-					DebugOverlay.Line( EyePos, EyePos + EyeRot.Forward * 100f, Color.Red, 0.1f );
 				}
 				else
 				{
@@ -127,7 +127,7 @@ namespace Conquest
 
 			var animHelper = new CitizenAnimationHelper( this );
 
-			animHelper.WithLookAt( TargetPlayer.EyePos );
+			animHelper.WithLookAt( TargetPlayer.Position );
 			animHelper.WithVelocity( Velocity );
 			animHelper.WithWishVelocity( InputVelocity );
 		}
