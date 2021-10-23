@@ -96,9 +96,10 @@ namespace Conquest
 			Steer.Target = TargetPlayer.Position;
 		}
 
-		[Event.Tick.Server]
-		public void Tick()
+		public override void Simulate( Client cl )
 		{
+			base.Simulate( cl );
+
 			InputVelocity = 0;
 
 			DecideState();
@@ -110,7 +111,10 @@ namespace Conquest
 				if ( !Steer.Output.Finished )
 				{
 					InputVelocity = Steer.Output.Direction.Normal;
-					Velocity = Velocity.AddClamped( InputVelocity * Time.Delta * 500, ( Controller as WalkController ).GetWishSpeed() );
+
+					var controller = Controller as WalkController;
+					if ( controller != null )
+						Velocity = Velocity.AddClamped( InputVelocity * Time.Delta * 500, controller.GetWishSpeed() );
 				}
 			}
 
