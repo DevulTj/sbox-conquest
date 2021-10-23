@@ -134,11 +134,6 @@ namespace Conquest
 			Event.Run( PlayerEvent.Server.OnPlayerKilled, victim, damageInfo );
 
 			UpdateKillFeed( this.Client.SteamId, this.Client.Name, victim.Client.SteamId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
-
-			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
-				GiveAward( "TeamKill" );
-			else
-				GiveAward( "Kill" );
 		}
 
 		public override void OnKilled()
