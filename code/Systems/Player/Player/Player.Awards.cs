@@ -48,7 +48,7 @@ namespace Conquest
 			award?.InvokeStatic( player );
 
 			player.Points += award.PointsGiven;
-			player.PromptAwardGiven( award.Title );
+			player.PromptAwardGiven( To.Single( player.Client ), award.Title );
 		}
 	}
 
