@@ -106,7 +106,7 @@ namespace Conquest
 
 			var controller = owner.Controller as WalkController;
 
-			if ( Owner.GroundEntity != null && controller is not null && controller.Slide.IsActive )
+			if ( Owner.GroundEntity != null && controller is not null && !controller.Slide.IsActive )
 			{
 				walkBob += Time.Delta * 30.0f * bobSpeed;
 			}
