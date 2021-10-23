@@ -14,12 +14,12 @@ namespace Conquest
 		public float BoostTime = 1f;
 
 		TimeSince Activated = 0;
-		public virtual float TimeUntilStop => 1.3f;
+		public virtual float TimeUntilStop => 0.8f;
 
 		// You can only slide once every X
 		public virtual float Cooldown => 1f;
 		public virtual float MinimumSpeed => 64f;
-		public virtual float WishDirectionFactor => 20f;
+		public virtual float WishDirectionFactor => 1200f;
 
 		public virtual float SlideIntensity => 1 - (Activated / BoostTime);
 
@@ -104,7 +104,7 @@ namespace Conquest
 
 			//wishdir *= WishDirectionFactor;
 
-			wishdir = WishDirOnStart * WishDirectionFactor;
+			wishdir = WishDirOnStart * ( WishDirectionFactor * Time.Delta );
 
 			if ( BoostTime > Activated )
 				speedMult -= 1 - (Activated / BoostTime);

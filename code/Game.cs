@@ -16,6 +16,8 @@ namespace Conquest
 			Current = this;
 			Transmit = TransmitType.Always;
 
+			Global.TickRate = 20;
+
 			if ( Host.IsServer )
 			{
 				Scores = new();
