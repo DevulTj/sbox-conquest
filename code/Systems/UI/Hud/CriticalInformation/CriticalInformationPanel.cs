@@ -18,7 +18,7 @@ namespace Conquest
 
 		public CriticalInformationEntry()
 		{
-			Text = Add.Label( "US WINS THE GAME" );
+			Text = Add.Label( "..." );
 		}
 
 		public override void Tick()
