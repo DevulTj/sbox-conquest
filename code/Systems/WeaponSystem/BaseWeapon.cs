@@ -105,6 +105,14 @@ namespace Conquest
 		[Net, Predicted]
 		public TimeSince TimeSinceSecondaryAttack { get; set; }
 
+
+		[Net, Predicted]
+		bool WishToShoot { get; set; } = false;
+		public void SetWantsToShoot( bool want )
+		{
+			WishToShoot = want;
+		}
+
 		public override void Simulate( Client player )
 		{
 			if ( CanReload() )
@@ -118,11 +126,22 @@ namespace Conquest
 			if ( !Owner.IsValid() )
 				return;
 
+			if ( Owner.Client.IsBot )
+			{
+
+			}
+			else
+			{
+				SetWantsToShoot( Input.Down( InputButton.Attack1 ) );
+			}
+
 			if ( CanPrimaryAttack() )
 			{
 				TimeSincePrimaryAttack = 0;
 				AttackPrimary();
 			}
+
+			SetWantsToShoot( false );
 
 			//
 			// AttackPrimary could have changed our owner
@@ -151,7 +170,8 @@ namespace Conquest
 
 		public virtual bool CanPrimaryAttack()
 		{
-			if ( !Owner.IsValid() || !Input.Down( InputButton.Attack1 ) ) return false;
+			if ( !Owner.IsValid() ) return false;
+			if ( !WishToShoot ) return false;
 
 			if ( (Owner as Player).SinceSprintStopped < 0.2f ) return false;
 

@@ -63,6 +63,20 @@ namespace Conquest
 					// We are shooting the player
 					// @TODO: Actually shoot the player
 					state = AIState.Shooting;
+
+					Steer = null;
+
+					var weapon = ActiveChild as Carriable;
+					if ( weapon is not null )
+						weapon.SetWantsToShoot( true );
+
+					EyeRot = Rotation.LookAt( TargetPlayer.Position );
+
+					var animHelper = new CitizenAnimationHelper( this );
+
+					animHelper.WithLookAt( TargetPlayer.EyePos );
+					animHelper.WithVelocity( Velocity );
+					animHelper.WithWishVelocity( InputVelocity );
 				}
 				else
 				{
@@ -84,6 +98,12 @@ namespace Conquest
 
 					Steer = new NavSteer();
 					Steer.Target = capturePoint.Position;
+
+					var animHelper = new CitizenAnimationHelper( this );
+
+					animHelper.WithLookAt( EyePos + LookDir );
+					animHelper.WithVelocity( Velocity );
+					animHelper.WithWishVelocity( InputVelocity );
 				}
 			}
 
@@ -127,12 +147,6 @@ namespace Conquest
 				var targetRotation = Rotation.LookAt( walkVelocity.Normal, Vector3.Up );
 				Rotation = Rotation.Lerp( Rotation, targetRotation, turnSpeed * Time.Delta * 20.0f );
 			}
-
-			var animHelper = new CitizenAnimationHelper( this );
-
-			animHelper.WithLookAt( EyePos + LookDir );
-			animHelper.WithVelocity( Velocity );
-			animHelper.WithWishVelocity( InputVelocity );
 		}
 
 		protected virtual void Move( float timeDelta )
