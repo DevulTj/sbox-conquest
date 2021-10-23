@@ -12,9 +12,6 @@ namespace Conquest
 
 			var player = new Player( cl );
 			cl.Pawn = player;
-
-			ChatBox.AddInformation( To.Everyone, $"{cl.Name} spawned.", $"avatar:{cl.SteamId}" );
-
 			player.Respawn();
 		}
 
