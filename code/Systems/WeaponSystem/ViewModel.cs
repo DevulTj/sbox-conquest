@@ -104,7 +104,7 @@ namespace Conquest
 			bobSpeed *= (1 - sprintLerp * 0.25f);
 			bobSpeed *= (1 - burstSprintLerp * 0.15f);
 
-			if ( Owner.GroundEntity != null )
+			if ( Owner.GroundEntity != null && !(owner.Controller as WalkController).Slide.IsActive )
 			{
 				walkBob += Time.Delta * 30.0f * bobSpeed;
 			}

@@ -8,7 +8,7 @@ namespace Conquest
 	{
 		public BasePlayerController Controller;
 
-		public bool IsActive; // replicate
+		public bool IsActive;
 		public bool Wish;
 
 		public float BoostTime = 1f;
@@ -34,7 +34,7 @@ namespace Conquest
 		{
 			var downBefore = IsDown;
 
-			IsDown = Input.Down( InputButton.Duck );
+			IsDown = Input.Down( InputButton.Duck ) && ( !Input.Down( InputButton.Attack2 ) );
 
 			var oldWish = Wish;
 			Wish = IsDown;

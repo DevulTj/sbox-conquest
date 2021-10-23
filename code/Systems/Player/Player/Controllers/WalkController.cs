@@ -3,7 +3,7 @@
 namespace Conquest
 {
 	[Library]
-	public class WalkController : BasePlayerController
+	public partial class WalkController : BasePlayerController
 	{
 		public float SprintSpeed { get; set; } = 320.0f;
 		public float BurstSprintSpeed { get; set; } = 420.0f;
