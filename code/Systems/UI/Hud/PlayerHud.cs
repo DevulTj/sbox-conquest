@@ -43,6 +43,10 @@ namespace Conquest
 			}
 		}
 
+
+		float Forward;
+		float Left;
+
 		public override void Tick()
 		{
 			base.Tick();
@@ -50,6 +54,19 @@ namespace Conquest
 			var player = Local.Pawn as Player;
 			if ( player is null )
 				return;
+
+			var controller = player.Controller;
+
+			Forward = Forward.LerpTo( ( Input.Forward * controller.Velocity.Length ) * 0.01f, Time.Delta * 10f );
+			Left = Left.LerpTo( ( Input.Left * controller.Velocity.Length ) * 0.01f, Time.Delta * 10f );
+
+			//Main.Style.Left = Length.Pixels( -left );
+
+			var panelTransform = new PanelTransform();
+			panelTransform.AddRotation( Left, Left, 0 );
+			panelTransform.AddRotation( Forward, -Forward, 0 );
+
+			Main.Style.Transform = panelTransform;
 
 			if ( Health == null )
 				return;
