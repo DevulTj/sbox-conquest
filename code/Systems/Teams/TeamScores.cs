@@ -70,7 +70,7 @@ namespace Conquest
 			Scores[(int)team] = newScore;
 
 			if ( newScore == 0 )
-				Event.Run( GameEvent.Server.ScoreHitZero, team );
+				Event.Run( GameEvent.Server.ScoreHitZero, GetOpposingTeam( team ) );
 
 			WriteNetworkData();
 		}
