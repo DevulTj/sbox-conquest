@@ -137,6 +137,9 @@ namespace Conquest
 
 		internal void RemovePlayer( Player player )
 		{
+			if ( !Occupants.ContainsKey( player.Team ) )
+				return;
+
 			if ( !Occupants[player.Team].Contains( player ) )
 				return;
 
