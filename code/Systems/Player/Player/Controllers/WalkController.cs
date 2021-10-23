@@ -29,6 +29,7 @@ namespace Conquest
 		public bool Swimming { get; set; } = false;
 		public bool AutoJump { get; set; } = false;
 
+		public Slide Slide;
 		public Duck Duck;
 		public Unstuck Unstuck;
 
@@ -36,6 +37,7 @@ namespace Conquest
 		public WalkController()
 		{
 			Duck = new Duck( this );
+			Slide = new Slide( this );
 			Unstuck = new Unstuck( this );
 		}
 
@@ -200,6 +202,7 @@ namespace Conquest
 			WishVelocity *= GetWishSpeed();
 
 			Duck.PreTick();
+			Slide.PreTick();
 
 			bool bStayOnGround = false;
 			if ( Swimming )
@@ -262,6 +265,9 @@ namespace Conquest
 
 		public virtual float GetWishSpeed()
 		{
+			var slideSpeed = Slide.GetWishSpeed();
+			if ( slideSpeed >= 0 ) return slideSpeed;
+
 			var ws = Duck.GetWishSpeed();
 			if ( ws >= 0 ) return ws;
 
@@ -364,6 +370,12 @@ namespace Conquest
 		/// </summary>
 		public virtual void Accelerate( Vector3 wishdir, float wishspeed, float speedLimit, float acceleration )
 		{
+			if ( Slide.IsActive )
+			{
+				Slide.Accelerate( ref wishdir, ref wishspeed, ref speedLimit, ref acceleration );
+				return;
+			}
+
 			// This gets overridden because some games (CSPort) want to allow dead (observer) players
 			// to be able to move around.
 			// if ( !CanAccelerate() )
