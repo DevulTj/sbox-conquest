@@ -19,7 +19,7 @@ namespace Conquest
 			DoWalk();
 
 
-			if ( Velocity.Length > 10f )
+			if ( Velocity.Length > 90f )
 			{
 				if ( Input.Forward == 0f && Input.Left == 0f )
 					Skid = Skid.LerpTo( 1f, Time.Delta * 5f );
