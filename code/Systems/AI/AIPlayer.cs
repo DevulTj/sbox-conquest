@@ -41,7 +41,7 @@ namespace Conquest
 
 			foreach ( var ent in Physics.GetEntitiesInSphere( Position, SeekRadius ) )
 			{
-				if ( ent is Player player )
+				if ( ent is Player player && player.LifeState == LifeState.Alive )
 				{
 					if ( TeamSystem.IsHostile( Team, player.Team ) )
 					{
