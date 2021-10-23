@@ -343,12 +343,9 @@ namespace Conquest
 		{
 			if ( Current.IsGameRestarting ) return;
 
-			ChatBox.AddInformation( To.Everyone, $"The game has ended. It'll restart in 10 seconds." );
+			CritPanel.AddInformation( To.Everyone, $"GAME OVER. {TeamSystem.GetTeamName( winner )} WINS" );
 
 			Current.IsGameRestarting = true;
-
-			if ( winner != Team.Unassigned )
-				ChatBox.AddInformation( To.Everyone, $"The winners: " + TeamSystem.GetTeamName( winner ) );
 
 			_ = Current.DelayedRestart();
 		}

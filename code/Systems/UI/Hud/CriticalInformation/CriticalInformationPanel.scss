@@ -1,0 +1,53 @@
+﻿@import "../../Theme.scss";
+
+criticalinformationpanel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 10%;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    align-content: stretch;
+}
+
+criticalinformationentry {
+    width: 100%;
+    height: 10%;
+    backdrop-filter: blur(50px);
+    background-color: rgba( black, 0.5 );
+    transition: all 0.5s ease;
+
+
+    &:intro {
+        height: 0px;
+    }
+
+    &:outro {
+        height: 0px;
+        opacity: 0;
+    }
+
+    label {
+        opacity: 1;
+        top: 25px;
+        width: 100%;
+        text-align: center;
+        font-family: $font-primary;
+        font-weight: 900;
+        font-size: 35px;
+        color: $friendly-marker;
+        text-shadow: 1px 1px 3px black;
+        transition: all 0.5s ease;
+
+        &:intro {
+            opacity: 0;
+        }
+
+        &:outro {
+            opacity: 0;
+        }
+    }
+}
