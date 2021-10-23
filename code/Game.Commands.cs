@@ -10,7 +10,7 @@ namespace Conquest
 		{
 			cl.Pawn?.Delete();
 
-			var player = new Player( cl );
+			var player = cl.IsBot ? new AIPlayer( cl ) : new Player( cl );
 			cl.Pawn = player;
 			player.Respawn();
 		}

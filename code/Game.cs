@@ -61,7 +61,7 @@ namespace Conquest
 			var teamComponent = cl.Components.GetOrCreate<TeamComponent>();
 			teamComponent.Team = teamComponent.Team.GetLowestCount();
 
-			BasePlayer player = cl.IsBot ? new Player( cl ) : new SpectatorPlayer( cl );
+			BasePlayer player = cl.IsBot ? new AIPlayer( cl ) : new SpectatorPlayer( cl );
 			cl.Pawn = player;
 
 			Log.Info( $"\"{cl.Name}\" has joined the game" );
