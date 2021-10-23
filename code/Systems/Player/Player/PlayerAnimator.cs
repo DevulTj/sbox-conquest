@@ -7,6 +7,7 @@ namespace Conquest
 	{
 		TimeSince TimeSinceFootShuffle = 60;
 
+		private float Skid { get; set; }
 
 		float duck;
 
@@ -16,6 +17,21 @@ namespace Conquest
 
 			DoRotation( idealRotation );
 			DoWalk();
+
+
+			if ( Velocity.Length > 10f )
+			{
+				if ( Input.Forward == 0f && Input.Left == 0f )
+					Skid = Skid.LerpTo( 1f, Time.Delta * 5f );
+				else
+					Skid = Skid.LerpTo( 0f, Time.Delta * 5f );
+			}
+			else
+			{
+				Skid = Skid.LerpTo( 0f, Time.Delta * 5f );
+			}
+
+			SetParam( "skid", Skid );
 
 			//
 			// Let the animation graph know some shit
