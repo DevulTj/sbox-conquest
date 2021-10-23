@@ -10,6 +10,7 @@ namespace Conquest
 	public class FootCamera : Camera
 	{
 		Vector3 lastPos;
+		public float LeanAmount { get; set; } = 0;
 
 		public override void Activated()
 		{
@@ -38,6 +39,16 @@ namespace Conquest
 			}
 
 			Rot = pawn.EyeRot;
+
+			var sliding = (pawn.Controller as WalkController).Slide.IsActive;
+			if ( sliding || LeanAmount != 0f )
+			{
+				LeanAmount = LeanAmount.LerpTo( sliding ? pawn.Velocity.Dot( Rot.Right ) * 0.03f : 0, Time.Delta * 15.0f );
+
+				var appliedLean = LeanAmount;
+
+				Rot *= Rotation.From( 0, 0, appliedLean );
+			}
 
 			FieldOfView = 80;
 
