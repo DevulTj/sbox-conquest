@@ -9,7 +9,7 @@ namespace Conquest
 		float walkBob = 0;
 		Vector3 velocity;
 		Vector3 acceleration;
-		float MouseScale => 1.5f;
+		float MouseScale => .5f;
 		float ReturnForce => 400f;
 		float Damping => 18f;
 		float AccelDamping => 0.1f;
