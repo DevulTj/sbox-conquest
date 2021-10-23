@@ -10,6 +10,19 @@
 	transition: all 0.5s ease;
 
 	.main {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	.leftobjects {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	.rightobjects {
+		position: absolute;
 		width: 100%;
 		height: 100%;
 	}

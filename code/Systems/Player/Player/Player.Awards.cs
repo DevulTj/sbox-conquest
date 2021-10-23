@@ -70,14 +70,5 @@ namespace Conquest
 
 			Event.Run( PlayerEvent.Client.OnAwardGiven, award );
 		}
-
-		[PlayerEvent.Server.OnPlayerKilled]
-		protected void OnPlayerKilledAward( Player victim, DamageInfo damageInfo )
-		{
-			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
-				GiveAward( "TeamKill" );
-			else
-				GiveAward( "Kill" );
-		}
 	}
 }

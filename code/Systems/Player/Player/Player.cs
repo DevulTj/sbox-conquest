@@ -133,6 +133,11 @@ namespace Conquest
 		{
 			Event.Run( PlayerEvent.Server.OnPlayerKilled, victim, damageInfo );
 
+			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
+				GiveAward( "TeamKill" );
+			else
+				GiveAward( "Kill" );
+
 			UpdateKillFeed( this.Client.SteamId, this.Client.Name, victim.Client.SteamId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
 		}
 

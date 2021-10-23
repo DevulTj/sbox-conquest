@@ -5,38 +5,44 @@
 
     <HudMarkers></HudMarkers>
     <Scoreboard></Scoreboard>
-    <ConquestChatBox></ConquestChatBox>
 
     <div class="main" @ref="Main">
-        <div class="vitals" @ref="Vitals">
-            <div class="healthBar">
-                <div class="healthBarFill" @ref="HealthBar"></div>
-            </div>
-
-            <div class="armorBar">
-                <div class="armorBarFill" @ref="ArmorBar"></div>
-            </div>
-
-            <text class="health" @ref="Health">100</text>
-            <text class="armor" @ref="Armor">100</text>
-            <text class="identity" @ref="PlayerName">DEVULTJ</text>
-            <div class="box" @ref="Inventory"></div>
+        <AwardsPanel></AwardsPanel>
+        <div class="leftobjects" @ref="LeftObjects">
+            <TeamStatus></TeamStatus>
+            <KillFeedPanel></KillFeedPanel>
+            <MiniMap></MiniMap>
         </div>
 
-        <div class="gunvitals" @ref="GunVitals">
-            <label class="name" @ref="GunName">M5A3</label>
+        <div class="rightobjects" @ref="RightObjects">
+            <ConquestChatBox></ConquestChatBox>
 
-            <label class="ammo" @ref="GunAmmo">30</label>
-            <div class="spacer"></div>
-            <label class="reserve" @ref="GunReserve">60</label>
+            <div class="vitals" @ref="Vitals">
+                <div class="healthBar">
+                    <div class="healthBarFill" @ref="HealthBar"></div>
+                </div>
+
+                <div class="armorBar">
+                    <div class="armorBarFill" @ref="ArmorBar"></div>
+                </div>
+
+                <text class="health" @ref="Health">100</text>
+                <text class="armor" @ref="Armor">100</text>
+                <text class="identity" @ref="PlayerName">DEVULTJ</text>
+                <div class="box" @ref="Inventory"></div>
+            </div>
+
+            <div class="gunvitals" @ref="GunVitals">
+                <label class="name" @ref="GunName">M5A3</label>
+
+                <label class="ammo" @ref="GunAmmo">30</label>
+                <div class="spacer"></div>
+                <label class="reserve" @ref="GunReserve">60</label>
+            </div>
         </div>
 
-        <TeamStatus></TeamStatus>
         <CaptureStatus></CaptureStatus>
         <VoiceList></VoiceList>
-        <MiniMap></MiniMap>
-        <AwardsPanel></AwardsPanel>
-        <KillFeedPanel></KillFeedPanel>
     </div>
 </div>
 

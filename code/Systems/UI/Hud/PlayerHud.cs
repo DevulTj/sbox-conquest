@@ -31,6 +31,9 @@ namespace Conquest
 
 		public Panel Main { get; set; }
 
+		public Panel LeftObjects { get; set; }
+		public Panel RightObjects { get; set; }
+
 		public PlayerHud()
 		{
 			Current = this;
@@ -57,16 +60,22 @@ namespace Conquest
 
 			var controller = player.Controller;
 
-			Forward = Forward.LerpTo( ( Input.Forward * controller.Velocity.Length ) * 0.01f, Time.Delta * 10f );
-			Left = Left.LerpTo( ( Input.Left * controller.Velocity.Length ) * 0.01f, Time.Delta * 10f );
+			if ( controller is not null )
+			{
+				Forward = Forward.LerpTo( (Input.Forward * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
+				Left = Left.LerpTo( (Input.Left * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
 
-			//Main.Style.Left = Length.Pixels( -left );
+				var panelTransform = new PanelTransform();
+				panelTransform.AddRotation( Left, Left, 0 );
+				panelTransform.AddRotation( Forward, -Forward, 0 );
 
-			var panelTransform = new PanelTransform();
-			panelTransform.AddRotation( Left, Left, 0 );
-			panelTransform.AddRotation( Forward, -Forward, 0 );
+				LeftObjects.Style.Transform = panelTransform;
+				var righttransform = new PanelTransform();
+				righttransform.AddRotation( Left, -Left, 0 );
+				righttransform.AddRotation( Forward, -Forward, 0 );
 
-			Main.Style.Transform = panelTransform;
+				RightObjects.Style.Transform = righttransform;
+			}
 
 			if ( Health == null )
 				return;
