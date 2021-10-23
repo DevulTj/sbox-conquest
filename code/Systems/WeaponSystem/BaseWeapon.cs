@@ -126,14 +126,8 @@ namespace Conquest
 			if ( !Owner.IsValid() )
 				return;
 
-			if ( Owner.Client.IsBot )
-			{
-
-			}
-			else
-			{
+			if ( !Owner.Client.IsBot )
 				SetWantsToShoot( Input.Down( InputButton.Attack1 ) );
-			}
 
 			if ( CanPrimaryAttack() )
 			{
