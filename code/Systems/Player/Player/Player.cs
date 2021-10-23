@@ -40,6 +40,11 @@ namespace Conquest
 
 		protected override void OnDestroy()
 		{
+			if ( CapturePoint.IsValid() )
+			{
+				CapturePoint.RemovePlayer( this );
+			}
+
 			base.OnDestroy();
 		}
 
