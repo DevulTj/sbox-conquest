@@ -484,7 +484,7 @@ namespace Conquest
 
 			if ( IsLocalPawn )
 			{
-				new Conquest.ScreenShake.Perlin();
+				new Sandbox.ScreenShake.Perlin();
 			}
 
 			ViewModelEntity?.SetAnimBool( "fire", true );
