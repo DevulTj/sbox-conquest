@@ -54,9 +54,9 @@ metadata
 ]
 
 //
-// Conquest.Pistol
+// Conquest.AK47
 //
-@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_pistol/rust_pistol.vmdl" ) = conquest_pistol : ""
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_ak47 : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -64,9 +64,19 @@ metadata
 ]
 
 //
-// Conquest.SMG
+// Conquest.M4A1
 //
-@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_smg : ""
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_m4a1 : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Conquest.MR96
+//
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_pistol/rust_pistol.vmdl" ) = conquest_mr96 : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
