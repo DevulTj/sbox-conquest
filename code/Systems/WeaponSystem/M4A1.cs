@@ -3,9 +3,9 @@ using System;
 
 namespace Conquest
 {
-	[Library( "conquest_smg", Title = "AK-47" )]
+	[Library( "conquest_m4a1", Title = "M4A1" )]
 	[Hammer.EditorModel( "weapons/rust_smg/rust_smg.vmdl" )]
-	partial class SMG : BaseWeapon
+	partial class M4A1 : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Primary;
 		public override string ViewModelPath => "weapons/ak47/v_ak47.vmdl";

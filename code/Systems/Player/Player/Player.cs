@@ -93,8 +93,14 @@ namespace Conquest
 
 		protected virtual void GiveLoadout()
 		{
-			Inventory.Add( new SMG(), true );
-			Inventory.Add( new Pistol() );
+
+			var primaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_primary" ) );
+			BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new AK47();
+			var secondaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_secondary" ) );
+			BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new MR96();
+
+			Inventory.Add( primary, true );
+			Inventory.Add( secondary );
 
 			GiveAmmo( AmmoType.Pistol, 36 );
 			GiveAmmo( AmmoType.Rifle, 180 );
