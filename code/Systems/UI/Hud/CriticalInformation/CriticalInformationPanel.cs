@@ -44,8 +44,14 @@ namespace Conquest
 			Current = this;
 		}
 
-		[ClientCmd( "conquest_notifycritical", CanBeCalledFromServer = true )]
+		[ServerCmd( "conquest_notifycritical" )]
 		public static void AddInformation( string message )
+		{
+			SendMessage( To.Everyone, message );
+		}
+
+		[ClientCmd( "conquest_sendcritical", CanBeCalledFromServer = true )]
+		public static void SendMessage( string message )
 		{
 			Current?.AddEntry( message );
 		}

@@ -343,7 +343,7 @@ namespace Conquest
 		{
 			if ( Current.IsGameRestarting ) return;
 
-			CritPanel.AddInformation( To.Everyone, $"GAME OVER. {TeamSystem.GetTeamName( winner )} WINS" );
+			CritPanel.AddInformation( $"GAME OVER. {TeamSystem.GetTeamName( winner )} WINS" );
 
 			Current.IsGameRestarting = true;
 

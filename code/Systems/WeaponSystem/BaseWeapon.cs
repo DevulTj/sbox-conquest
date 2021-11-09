@@ -204,6 +204,7 @@ namespace Conquest
 			bool InWater = Physics.TestPointContents( start, CollisionLayer.Water );
 
 			var tr = Trace.Ray( start, end )
+					.UseLagCompensation()
 					.UseHitboxes()
 					.HitLayer( CollisionLayer.Water, !InWater )
 					.Ignore( Owner )

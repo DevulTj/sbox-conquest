@@ -92,7 +92,7 @@ namespace Conquest
 			SetScore( team, GetScore( team ) - score );
 		}
 
-		public void Read( NetRead read )
+		public void Read( ref NetRead read )
 		{
 			OldScores = Scores?.ToArray();
 
