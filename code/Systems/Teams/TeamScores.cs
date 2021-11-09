@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Conquest
 {
-	public partial class TeamScores : BaseNetworkable, INetworkSerializer
+	public partial class TeamScores : BaseNetworkable
 	{
 		public TeamScores()
 		{
