@@ -54,7 +54,7 @@ namespace Conquest
 		{
 			//DebugOverlay.Sphere( pos, 5.0f, Color.Red, false, 50.0f );
 
-			// DamageIndicator.Current?.OnHit( pos );
+			HurtIndicator.Current?.OnHit( pos );
 		}
 	}
 }
