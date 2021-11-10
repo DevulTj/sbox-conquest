@@ -511,11 +511,10 @@ namespace Conquest
 		{
 			if ( Local.Hud == null )
 			{
-				Log.Warning( "no hud wagwan" );
 				return;
 			}
 
-			Log.Info( "crosshair created wagwan" );
+			Log.Info( "[Conquest] Crosshair created." );
 
 			CrosshairPanel = new Crosshair();
 			CrosshairPanel.Parent = Local.Hud;

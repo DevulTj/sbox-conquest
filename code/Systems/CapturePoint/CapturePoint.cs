@@ -92,7 +92,6 @@ namespace Conquest
 					if ( team == Team.Unassigned )
 						continue;
 
-					Log.Info( "Creating entry for " + team.ToString() );
 					Occupants[team] = new();
 				}
 			}

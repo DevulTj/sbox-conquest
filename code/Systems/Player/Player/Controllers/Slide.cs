@@ -76,8 +76,6 @@ namespace Conquest
 			if ( change )
 			{
 				Activated = 0;
-				Log.Info( "change = true" );
-
 				WishDirOnStart = Controller.WishVelocity.Normal;
 			}
 		}
