@@ -24,6 +24,9 @@ namespace Conquest
 
 		}
 
+		[ConVar.Replicated( "conquest_ai_zombie" )]
+		public static bool Zombie { get; set; } = false;
+
 		Vector3 InputVelocity;
 		Vector3 LookDir;
 
@@ -137,6 +140,9 @@ namespace Conquest
 			base.Simulate( cl );
 
 			InputVelocity = 0;
+
+			if ( Zombie )
+				return;
 
 			DecideState();
 
