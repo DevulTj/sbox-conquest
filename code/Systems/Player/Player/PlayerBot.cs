@@ -14,7 +14,7 @@ namespace Conquest
 			cl.Pawn.EyeRot = cl.Pawn.Rotation;
 		}
 
-		[AdminCmd("conquest_bot", Help = "Spawn a Conquest bot.")]
+		[AdminCmd("conquest_ai_add", Help = "Spawn a Conquest bot.")]
 		internal static void SpawnCustomBot()
 		{
 			Host.AssertServer();
