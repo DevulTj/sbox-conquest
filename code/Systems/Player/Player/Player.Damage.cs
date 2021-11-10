@@ -47,6 +47,12 @@ namespace Conquest
 				.SetPitch( 1 + healthinv * 1 );
 
 			HitIndicator.Current?.OnHit( pos, amount, healthinv == 1, isHeadshot );
+
+			// If it's a kill
+			if ( isHeadshot & healthinv == 1 )
+			{
+				Sound.FromScreen( "conquest.headshot_kill" );
+			}
 		}
 
 		[ClientRpc]
