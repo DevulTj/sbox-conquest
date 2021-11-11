@@ -33,7 +33,6 @@ namespace Conquest
 				_ = Lifetime();
 			}
 
-			float lerpVal = 0;
 			public override void Tick()
 			{
 				base.Tick();
@@ -46,8 +45,7 @@ namespace Conquest
 
 				pt.AddTranslateX( Length.Percent( -50.0f ) );
 				pt.AddTranslateY( Length.Percent( -50.0f ) );
-				pt.AddRotation( 0, 0, angle.RadianToDegree() );
-				pt.AddSkew( 5f, 5f, 5f );
+				pt.AddRotation( 0, 0, angle.RadianToDegree() + 180f );
 
 				Style.Transform = pt;
 				Style.Dirty();
