@@ -9,10 +9,9 @@ using System.Linq;
 namespace Conquest
 {
 	[Library("conquest_capturepoint")]
-	[Hammer.Sphere( 386f )]
+	[Hammer.Sphere( "TriggerRadius", 255, 255, 255, true )]
 	[Hammer.Solid]
-	[Hammer.EntityTool( "Capture Point", "Conquest", "A capture point." )]
-	public partial class CapturePointEntity : ModelEntity, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
+	public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 	{
 		public enum State
 		{
