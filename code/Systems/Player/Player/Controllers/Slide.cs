@@ -3,34 +3,26 @@ using System;
 
 namespace Conquest
 {
-	[Library]
-	public class Slide : BaseNetworkable
+	public partial class Slide : BaseNetworkable
 	{
-		public BasePlayerController Controller;
+		[Net, Predicted] public bool IsActive { get; set; }
+		[Net, Predicted] public bool Wish { get; set; }
+		[Net, Predicted] public float BoostTime { get; set; } = 1f;
+		[Net, Predicted] public bool IsDown { get; set; }
+		[Net, Predicted] TimeSince Activated { get; set; } = 0;
 
-		public bool IsActive;
-		public bool Wish;
-
-		public float BoostTime = 1f;
-
-		TimeSince Activated = 0;
 		public virtual float TimeUntilStop => 0.8f;
-
 		// You can only slide once every X
 		public virtual float Cooldown => 1f;
 		public virtual float MinimumSpeed => 64f;
 		public virtual float WishDirectionFactor => 1200f;
-
 		public virtual float SlideIntensity => 1 - (Activated / BoostTime);
 
-		public bool IsDown;
-
-		public Slide( BasePlayerController controller )
+		public Slide()
 		{
-			Controller = controller;
 		}
 
-		public virtual void PreTick()
+		public virtual void PreTick( BasePlayerController controller )
 		{
 			var downBefore = IsDown;
 
@@ -39,11 +31,11 @@ namespace Conquest
 			var oldWish = Wish;
 			Wish = IsDown;
 
-			if ( Controller.Velocity.Length <= MinimumSpeed )
+			if ( controller.Velocity.Length <= MinimumSpeed )
 				StopTry();
 
 			// No sliding while you're already in the sky
-			if ( Controller.GroundEntity == null )
+			if ( controller.GroundEntity == null )
 				StopTry();
 
 			if ( Activated > TimeUntilStop )
@@ -54,17 +46,17 @@ namespace Conquest
 
 			if ( IsDown != IsActive )
 			{
-				if ( IsDown ) Try();
+				if ( IsDown ) Try( controller );
 				else StopTry();
 			}
 
 			if ( IsActive )
-				Controller.SetTag( "sliding" );
+				controller.SetTag( "sliding" );
 		}
 
 		public Vector3 WishDirOnStart { get; set; }
 
-		void Try()
+		void Try( BasePlayerController controller )
 		{
 			if ( Activated < Cooldown )
 				return;
@@ -76,7 +68,7 @@ namespace Conquest
 			if ( change )
 			{
 				Activated = 0;
-				WishDirOnStart = Controller.WishVelocity.Normal;
+				WishDirOnStart = controller.WishVelocity.Normal;
 			}
 		}
 
@@ -95,10 +87,10 @@ namespace Conquest
 			return 64;
 		}
 
-		internal void Accelerate( ref Vector3 wishdir, ref float wishspeed, ref float speedLimit, ref float acceleration )
+		internal void Accelerate( BasePlayerController controller, ref Vector3 wishdir, ref float wishspeed, ref float speedLimit, ref float acceleration )
 		{
-			var hitNormal = Controller.GroundNormal;
-			var speedMult = Vector3.Dot( Controller.Velocity.Normal, Vector3.Cross( Controller.Rotation.Up, hitNormal ) );
+			var hitNormal = controller.GroundNormal;
+			var speedMult = Vector3.Dot( controller.Velocity.Normal, Vector3.Cross( controller.Rotation.Up, hitNormal ) );
 
 			//wishdir *= WishDirectionFactor;
 
@@ -107,7 +99,7 @@ namespace Conquest
 			if ( BoostTime > Activated )
 				speedMult -= 1 - (Activated / BoostTime);
 
-			Controller.Velocity += wishdir + (Controller.Velocity.Normal * MathF.Abs( speedMult ) * 20);
+			controller.Velocity += wishdir + (controller.Velocity.Normal * MathF.Abs( speedMult ) * 20);
 		}
 	}
 }

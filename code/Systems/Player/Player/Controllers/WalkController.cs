@@ -29,7 +29,8 @@ namespace Conquest
 		public bool Swimming { get; set; } = false;
 		public bool AutoJump { get; set; } = false;
 
-		public Slide Slide;
+		[Net, Predicted]
+		public Slide Slide { get; set; }
 		public Duck Duck;
 		public Unstuck Unstuck;
 
@@ -37,7 +38,10 @@ namespace Conquest
 		public WalkController()
 		{
 			Duck = new Duck( this );
-			Slide = new Slide( this );
+
+			if (Host.IsServer)
+				Slide = new();
+
 			Unstuck = new Unstuck( this );
 		}
 
@@ -100,7 +104,6 @@ namespace Conquest
 				EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
 				EyeRot = Input.Rotation;
 			}
-
 
 			UpdateBBox();
 		}
@@ -210,7 +213,7 @@ namespace Conquest
 			WishVelocity *= GetWishSpeed();
 
 			Duck.PreTick();
-			Slide.PreTick();
+			Slide.PreTick( this );
 
 			bool bStayOnGround = false;
 			if ( Swimming )
@@ -380,7 +383,7 @@ namespace Conquest
 		{
 			if ( Slide.IsActive )
 			{
-				Slide.Accelerate( ref wishdir, ref wishspeed, ref speedLimit, ref acceleration );
+				Slide.Accelerate( this, ref wishdir, ref wishspeed, ref speedLimit, ref acceleration );
 				return;
 			}
 
