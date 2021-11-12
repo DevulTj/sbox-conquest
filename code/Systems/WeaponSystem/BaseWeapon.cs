@@ -509,11 +509,6 @@ namespace Conquest
 
 		public override void CreateHudElements()
 		{
-			if ( Local.Hud == null )
-			{
-				return;
-			}
-
 			Log.Info( "[Conquest] Crosshair created." );
 
 			CrosshairPanel = new Crosshair();
