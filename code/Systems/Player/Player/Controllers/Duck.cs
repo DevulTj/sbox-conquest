@@ -2,31 +2,28 @@
 
 namespace Conquest
 {
-	[Library]
-	public class Duck : BaseNetworkable
+	public partial class Duck : BaseNetworkable
 	{
-		public BasePlayerController Controller;
+		[Net, Predicted]
+		public bool IsActive { get; set; }
 
-		public bool IsActive; // replicate
-
-		public Duck( BasePlayerController controller )
+		public Duck()
 		{
-			Controller = controller;
 		}
 
-		public virtual void PreTick() 
+		public virtual void PreTick( BasePlayerController controller ) 
 		{
 			bool wants = Input.Down( InputButton.Duck );
 
 			if ( wants != IsActive ) 
 			{
 				if ( wants ) TryDuck();
-				else TryUnDuck();
+				else TryUnDuck( controller );
 			}
 
 			if ( IsActive )
 			{
-				Controller.SetTag( "ducked" );
+				controller.SetTag( "ducked" );
 				// ontroller.EyePosLocal *= 0.5f;
 			}
 		}
@@ -36,9 +33,9 @@ namespace Conquest
 			IsActive = true;
 		}
 
-		protected virtual void TryUnDuck()
+		protected virtual void TryUnDuck( BasePlayerController controller )
 		{
-			var pm = Controller.TraceBBox( Controller.Position, Controller.Position, originalMins, originalMaxs );
+			var pm = controller.TraceBBox( controller.Position, controller.Position, originalMins, originalMaxs );
 			if ( pm.StartedSolid ) return;
 
 			IsActive = false;
@@ -48,7 +45,6 @@ namespace Conquest
 		// and we should probably be changing the bbox size in PreTick
 		Vector3 originalMins;
 		Vector3 originalMaxs;
-
 		Vector3 lerpMaxs;
 
 		public virtual void UpdateBBox( ref Vector3 mins, ref Vector3 maxs, float scale )

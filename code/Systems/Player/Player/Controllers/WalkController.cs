@@ -29,18 +29,18 @@ namespace Conquest
 		public bool Swimming { get; set; } = false;
 		public bool AutoJump { get; set; } = false;
 
-		[Net, Predicted]
-		public Slide Slide { get; set; }
-		public Duck Duck;
+		[Net, Predicted] public Slide Slide { get; set; }
+		[Net, Predicted] public Duck Duck { get; set; }
+		
 		public Unstuck Unstuck;
-
 
 		public WalkController()
 		{
-			Duck = new Duck( this );
-
-			if (Host.IsServer)
+			if ( Host.IsServer )
+			{
 				Slide = new();
+				Duck = new();
+			}
 
 			Unstuck = new Unstuck( this );
 		}
@@ -212,7 +212,7 @@ namespace Conquest
 			WishVelocity = WishVelocity.Normal * inSpeed;
 			WishVelocity *= GetWishSpeed();
 
-			Duck.PreTick();
+			Duck.PreTick( this );
 			Slide.PreTick( this );
 
 			bool bStayOnGround = false;
