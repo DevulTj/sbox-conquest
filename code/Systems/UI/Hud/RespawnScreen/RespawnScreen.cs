@@ -53,7 +53,8 @@ namespace Conquest
 		// @ref
 		public Button DeployButton { get; set; }
 		public Label GameName { get; set; }
-		public Label MapName { get; set; }
+		public Panel Points { get; set; }
+		public string MapName { get { return Global.MapName; } }
 		public Label LoadoutPanel { get; set; }
 		// -
 
@@ -83,7 +84,12 @@ namespace Conquest
 				OverviewRotation = FallbackOverviewAngles.ToRotation();
 			}
 
-			MapName.Text = Global.MapName;
+			foreach ( var capturePoint in Entity.All.OfType<CapturePointEntity>().OrderBy( x => x.Identity ) )
+			{
+				var panel = Points.AddChild<CapturePointPanel>();
+				panel.CapturePoint = capturePoint;
+				panel.SetShowName();
+			}
 		}
 
 		public static Vector3 Position => GetStartPos().LerpTo( GetTargetPos(), TransitionProgress );

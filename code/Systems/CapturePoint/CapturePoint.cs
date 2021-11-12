@@ -295,6 +295,23 @@ namespace Conquest
 			Initialize();
 		}
 
+		public Dictionary<string, bool> GetUIClasses()
+		{
+			var classes = new Dictionary<string, bool>();
+			var friendState = TeamSystem.GetFriendState( Team, TeamSystem.MyTeam );
+			bool flipflop = ((float)TimeSinceStateChanged).FloorToInt() % 1 == 0;
+
+			// This isn't great. But it'll do.
+			classes["friendly"] = friendState == TeamSystem.FriendlyStatus.Friendly;
+			classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
+			classes["contested"] = CurrentState == State.Contested;
+			classes["contestedFlash"] = CurrentState == State.Contested && flipflop;
+			classes["capturing"] = CurrentState == State.Capturing;
+			classes["capturingFlash"] = CurrentState == State.Capturing && flipflop;
+
+			return classes;
+		}
+
 		bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
 		{
 			if ( !this.IsValid() )
@@ -306,17 +323,7 @@ namespace Conquest
 			info.Text = Identity;
 			info.Position = Position + Rotation.Up * 200f;
 			info.StayOnScreen = true;
-
-			var friendState = TeamSystem.GetFriendState( Team, TeamSystem.MyTeam );
-			bool flipflop = ((float)TimeSinceStateChanged).FloorToInt() % 1 == 0;
-
-			// This isn't great.
-			info.Classes[ "friendly" ] = friendState == TeamSystem.FriendlyStatus.Friendly;
-			info.Classes[ "enemy" ] = friendState == TeamSystem.FriendlyStatus.Hostile;
-			info.Classes[ "contested" ] = CurrentState == State.Contested;
-			info.Classes[ "contestedFlash" ] = CurrentState == State.Contested && flipflop;
-			info.Classes[ "capturing" ] = CurrentState == State.Capturing;
-			info.Classes[ "capturingFlash" ] = CurrentState == State.Capturing && flipflop;
+			info.Classes = GetUIClasses();
 
 			return true;
 		}

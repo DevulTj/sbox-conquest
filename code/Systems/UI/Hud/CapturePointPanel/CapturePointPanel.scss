@@ -1,0 +1,117 @@
+@import "../../Theme.scss";
+
+capturepointpanel {
+    width: 256px;
+    height: 64px;
+    justify-content: center;
+
+    &.withName {
+        width: 256px;
+
+        .nicename {
+            height: 100%;
+            align-items: center;
+            left: 16px;
+            text-align: center;
+            color: rgba( 200, 200, 200, 1 );
+            text-shadow: 0px 0px 5px rgba( grey, 0.25 );
+            font-family: $font-primary;
+            font-weight: 900;
+            font-size: 24px;
+        }
+    }
+
+    &:not( .withName ) {
+        width: 64px;
+
+        .nicename {
+            display: none;
+        }
+    }
+
+    &.friendly {
+        .capturepoint {
+            border: 2px solid rgba( $friendly-marker, 0.5 );
+
+            .name {
+                text-shadow: 0px 0px 5px $friendly-marker;
+                color: rgba( $friendly-marker, 1 );
+            }
+        }
+
+        .nicename {
+            text-shadow: 0px 0px 10px $friendly-marker;
+            color: rgba( $friendly-marker, 1 );
+        }
+    }
+
+    &.enemy {
+        .capturepoint {
+            border: 2px solid rgba( $enemy-marker, 0.5 );
+
+            .name {
+                text-shadow: 0px 0px 2px rgba( $enemy-marker, 0.5 );
+                color: rgba( $enemy-marker, 1 );
+            }
+        }
+
+        .nicename {
+            text-shadow: 0px 0px 5px rgba( $enemy-marker, 0.25 );
+            color: rgba( $enemy-marker, 1 );
+        }
+    }
+    // States
+    &.capturing {
+        .capturepoint {
+            width: 50px;
+            height: 50px;
+            border-radius: 0px;
+        }
+    }
+
+    &.contestedFlash {
+        .capturepoint {
+            width: 40px;
+            height: 40px;
+            border-radius: 0px;
+        }
+    }
+
+    &.capturingFlash {
+        .capturepoint {
+            border: 2.5px solid rgba( $unowned-marker, 1 );
+
+            label {
+                text-shadow: 0px 0px 2px $unowned-marker;
+                color: rgba( $unowned-marker, 1 );
+            }
+
+            .nicename {
+                text-shadow: 0px 0px 2px $unowned-marker;
+                color: rgba( $unowned-marker, 1 );
+            }
+        }
+    }
+
+    .capturepoint {
+        align-self: center;
+        width: 55px;
+        height: 55px;
+        border-radius: 100px;
+        background-color: rgba( black, 0.3 );
+        backdrop-filter: blur( 50px );
+        border: 3px solid rgba( $unowned-marker, 0.5 );
+
+        text {
+            left: 0px;
+            text-shadow: 0px 0px 2px $unowned-marker;
+            width: 100%;
+            align-self: center;
+            text-align: center;
+            font-size: 25px;
+            font-family: $font-primary;
+            font-weight: 400;
+            color: rgba( $unowned-marker, 1 );
+        }
+    }
+}
