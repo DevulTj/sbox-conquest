@@ -53,6 +53,7 @@ namespace Conquest
 		// @ref
 		public Button DeployButton { get; set; }
 		public Label GameName { get; set; }
+		public Label MapName { get; set; }
 		public Label LoadoutPanel { get; set; }
 		// -
 
@@ -81,6 +82,8 @@ namespace Conquest
 				OverviewPosition = FallbackOverviewPos;
 				OverviewRotation = FallbackOverviewAngles.ToRotation();
 			}
+
+			MapName.Text = Global.MapName;
 		}
 
 		public static Vector3 Position => GetStartPos().LerpTo( GetTargetPos(), TransitionProgress );
