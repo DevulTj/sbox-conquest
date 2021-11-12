@@ -96,6 +96,16 @@ teamstatus {
         background-color: rgba( black, 0.5 );
         box-shadow: 2px 2px 20px rgba( black, 0.4 );
 
+        &.friendly {
+            background-color: rgba( #6cfed7, 0.1 );
+            box-shadow: 2px 2px 20px rgba( #6cfed7, 0.05 );
+        }
+
+        &.enemy {
+            background-color: rgba( #de4a38, 0.1 );
+            box-shadow: 2px 2px 20px rgba( #de4a38, 0.05 );
+        }
+
         .fill {
             height: 100%;
             width: 100%;
