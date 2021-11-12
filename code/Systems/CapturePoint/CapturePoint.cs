@@ -21,8 +21,11 @@ namespace Conquest
 			Capturing
 		}
 
-		[Net, Category("Capture Point"), Property]
+		[Net, Category( "Capture Point" ), Property]
 		public string Identity { get; set; }
+
+		[Net, Category( "Capture Point" ), Property]
+		public string NiceName { get; set; } = "ZONE";
 
 		[Property]
 		public float TriggerRadius { get; set; } = 386f;
