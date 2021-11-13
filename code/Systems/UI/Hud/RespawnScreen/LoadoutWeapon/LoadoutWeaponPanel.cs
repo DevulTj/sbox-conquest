@@ -51,7 +51,7 @@ namespace Conquest
 			}
 			else if ( Slot == WeaponSlot.Secondary )
 			{
-				asset = weaponsOfThisSlot.Where( x => x.Class == primaryLoadoutStr ).FirstOrDefault();
+				asset = weaponsOfThisSlot.Where( x => x.Class == secondaryLoadoutStr ).FirstOrDefault();
 			}
 
 			if ( asset != null )
