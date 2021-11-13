@@ -59,6 +59,8 @@ namespace Conquest
 		public override float BurstSprintUpRotation => -30f;
 		public override float BurstSprintLeftOffset => -35f;
 		public override float BurstPostSprintLeftOffset => 5f;
+
+		public override Vector3 AimOffset => new Vector3( -20f, 18.48f, 2.7f );
 	}
 
 	public interface ICarriable
