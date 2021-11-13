@@ -17,7 +17,7 @@ namespace Conquest
 		public override int Bucket => 3;
 		public override AmmoType AmmoType => AmmoType.Rifle;
 
-		public override ViewModelInfo VMInfo => new SMGViewModelInfo( this );
+		public override ViewModelInfo VMInfo => new AK47ViewModelInfo( this );
 
 		public override void Spawn()
 		{

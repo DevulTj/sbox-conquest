@@ -15,7 +15,7 @@ namespace Conquest
 		public override int ClipSize => 6;
 		public override int Bucket => 2;
 
-		public override ViewModelInfo VMInfo => new PistolViewModelInfo( this );
+		public override ViewModelInfo VMInfo => new MR96ViewModelInfo( this );
 
 		public override void Spawn()
 		{

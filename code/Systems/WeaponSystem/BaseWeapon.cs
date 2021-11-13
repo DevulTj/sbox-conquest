@@ -32,11 +32,10 @@ namespace Conquest
 		public virtual float BurstPostSprintLeftOffset => 5f;
 	}
 
-	public class PistolViewModelInfo : ViewModelInfo
+	public class MR96ViewModelInfo : ViewModelInfo
 	{
-		public PistolViewModelInfo( Carriable weaponRef ) : base( weaponRef )
+		public MR96ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
 		{
-
 		}
 
 		public override float BurstSprintRightRotation => 2f;
@@ -47,11 +46,10 @@ namespace Conquest
 		public override Vector3 AimOffset => new Vector3( -10f, 17.5f, 2f );
 	}
 
-	public class SMGViewModelInfo : ViewModelInfo
+	public class AK47ViewModelInfo : ViewModelInfo
 	{
-		public SMGViewModelInfo( Carriable weaponRef ) : base( weaponRef )
+		public AK47ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
 		{
-
 		}
 
 		public override float SprintRightRotation => 2f;
@@ -65,10 +63,25 @@ namespace Conquest
 		public override Vector3 AimOffset => new Vector3( -20f, 18.48f, 2.7f );
 	}
 
+	public class M4A1ViewModelInfo : ViewModelInfo
+	{
+		public M4A1ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
+		{
+		}
+
+		public override float SprintRightRotation => 2f;
+		public override float SprintUpRotation => 2f;
+		public override float BurstSprintRightRotation => 20f;
+		public override float BurstSprintUpRotation => -30f;
+		public override float BurstSprintLeftOffset => -35f;
+		public override float BurstPostSprintLeftOffset => 10f;
+
+		public override Vector3 AimOffset => new Vector3( -5f, 19f, 2.7f );
+	}
+
 	public interface ICarriable
 	{
 		public Entity Entity => this as Entity;
-
 		public virtual int Bucket => 1;
 		public virtual int BucketWeight => 100;
 		public bool IsUsable();

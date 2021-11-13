@@ -8,22 +8,22 @@ namespace Conquest
 	partial class M4A1 : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Primary;
-		public override string ViewModelPath => "weapons/ak47/v_ak47.vmdl";
+		public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 
-		public override float PrimaryRate => 12.0f;
+		public override float PrimaryRate => 15.0f;
 		public override float SecondaryRate => 1.0f;
 		public override int ClipSize => 30;
 		public override float ReloadTime => 2.8f;
 		public override int Bucket => 3;
 		public override AmmoType AmmoType => AmmoType.Rifle;
 
-		public override ViewModelInfo VMInfo => new SMGViewModelInfo( this );
+		public override ViewModelInfo VMInfo => new M4A1ViewModelInfo( this );
 
 		public override void Spawn()
 		{
 			base.Spawn();
 
-			SetModel( "weapons/ak47/ak47.vmdl" );
+			SetModel( "weapons/rust_smg/rust_smg.vmdl" );
 			AmmoClip = 30;
 		}
 
@@ -44,7 +44,8 @@ namespace Conquest
 			// Tell the clients to play the shoot effects
 			//
 			ShootEffects();
-			PlaySound( "ak47.shoot" );
+			PerformRecoil();
+			PlaySound( "rust_smg.shoot" );
 
 			//
 			// Shoot the bullets
