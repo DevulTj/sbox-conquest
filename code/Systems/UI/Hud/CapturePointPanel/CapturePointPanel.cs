@@ -22,8 +22,8 @@ namespace Conquest
 
 			if ( CapturePoint.IsValid() )
 			{
-				NiceName = CapturePoint.NiceName;
-				Identity = CapturePoint.Identity;
+				NiceName = CapturePoint.NiceName.ToUpper();
+				Identity = CapturePoint.Identity.ToUpper();
 
 				foreach( var kv in CapturePoint.GetUIClasses() )
 				{
