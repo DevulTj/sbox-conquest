@@ -9,6 +9,32 @@ namespace Conquest
 {
 	public partial class Player 
 	{
+		private Particles SpeedLines { get; set; }
+
+		private void InitSpeedLines()
+		{
+			if ( IsLocalPawn )
+				SpeedLines = Particles.Create( "particles/player/speed_lines.vpcf" );
+		}
+
+		private void DestroySpeedLines()
+		{
+			if ( IsLocalPawn )
+				SpeedLines?.Destroy();
+		}
+
+		[Event.Tick.Client]
+		private void SpeedLinesTick()
+		{
+			if ( IsLocalPawn && Controller is WalkController controller )
+			{
+				float targetSpeed = controller.Slide.IsActive ? 500f : controller.BurstSprintSpeed * 1.7f;
+				var speed = Velocity.Length.Remap( 0f, targetSpeed, 0f, 1f );
+				speed = Math.Min( Easing.EaseIn( speed ) * 60f, 60f );
+				SpeedLines.SetPosition( 1, new Vector3( speed, 0f, 0f ) );
+			}
+		}
+
 		public string GetMainClass() => "player";
 
 		bool CalculateVis()

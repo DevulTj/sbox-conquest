@@ -45,6 +45,8 @@ namespace Conquest
 				CapturePoint.RemovePlayer( this );
 			}
 
+			DestroySpeedLines();
+
 			base.OnDestroy();
 		}
 
@@ -79,6 +81,8 @@ namespace Conquest
 		public override void ClientSpawn()
 		{
 			base.ClientSpawn();
+
+			InitSpeedLines();
 
 			_ = TryMakeMarker();
 		}
