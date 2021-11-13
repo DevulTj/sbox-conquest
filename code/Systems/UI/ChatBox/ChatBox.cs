@@ -109,7 +109,7 @@ namespace Conquest
 
 			Log.Info( $"{ConsoleSystem.Caller}: {message}" );
 
-			AddChatEntry( To.Everyone, ConsoleSystem.Caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team );
+			AddChatEntry( To.Everyone, ConsoleSystem.Caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}", player.Team );
 		}
 
 	}

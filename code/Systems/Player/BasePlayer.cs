@@ -99,7 +99,7 @@ namespace Conquest
 
 		public override string ToString()
 		{
-			return $"Player: {Client?.SteamId}/{Client?.Name}";
+			return $"Player: {Client?.PlayerId}/{Client?.Name}";
 		}
 	}
 }

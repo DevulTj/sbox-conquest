@@ -46,12 +46,12 @@ namespace Conquest
 			Current = this;
 		}
 
-		public static Client FromSteamId( ulong steamId )
+		public static Client FromSteamId( long steamId )
 		{
-			return Client.All.Where( x => x.SteamId == steamId ).FirstOrDefault();
+			return Client.All.Where( x => x.PlayerId == steamId ).FirstOrDefault();
 		}
 
-		public virtual Panel AddKill( ulong lsteamid, string left, ulong rsteamid, string right, string method )
+		public virtual Panel AddKill( long lsteamid, string left, long rsteamid, string right, string method )
 		{
 			var e = Current.AddChild<KillFeedEntryPanel>();
 
@@ -63,14 +63,14 @@ namespace Conquest
 			e.Left.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, leftTeam ) );
 			e.Left.SetClass( "enemy", TeamSystem.IsHostile( myTeam, leftTeam ) );
 
-			e.Left.SetClass( "me", lsteamid == (Local.Client?.SteamId) );
+			e.Left.SetClass( "me", lsteamid == (Local.Client?.PlayerId) );
 
 			e.Method.Text = $"[{method}]";
 
 			e.Right.Text = right;
 			e.Right.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, rightTeam ) );
 			e.Right.SetClass( "enemy", TeamSystem.IsHostile( myTeam, rightTeam ) );
-			e.Right.SetClass( "me", rsteamid == (Local.Client?.SteamId) );
+			e.Right.SetClass( "me", rsteamid == (Local.Client?.PlayerId) );
 
 			return e;
 		}

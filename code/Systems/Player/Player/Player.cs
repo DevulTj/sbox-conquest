@@ -139,7 +139,7 @@ namespace Conquest
 		}
 
 		[ClientRpc]
-		protected void UpdateKillFeed( ulong lsteamid, string leftName, ulong rsteamid, string rightName, string method )
+		protected void UpdateKillFeed( long lsteamid, string leftName, long rsteamid, string rightName, string method )
 		{
 			KillFeedPanel.Current.AddKill( lsteamid, leftName, rsteamid, rightName, method );
 		}
@@ -153,7 +153,7 @@ namespace Conquest
 			else
 				GiveAward( "Kill" );
 
-			UpdateKillFeed( this.Client.SteamId, this.Client.Name, victim.Client.SteamId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
+			UpdateKillFeed( this.Client.PlayerId, this.Client.Name, victim.Client.PlayerId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
 		}
 
 		public override void OnKilled()

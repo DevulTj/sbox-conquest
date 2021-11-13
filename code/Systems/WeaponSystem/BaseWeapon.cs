@@ -516,7 +516,7 @@ namespace Conquest
 			CrosshairPanel.AddClass( ClassInfo.Name );
 		}
 
-		public bool IsUsable()
+		public override bool IsUsable()
 		{
 			if ( AmmoClip > 0 ) return true;
 			return AvailableAmmo() > 0;
