@@ -7,7 +7,7 @@ namespace Conquest
 	partial class MR96 : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Secondary; 
-		public override string ViewModelPath => "weapons/magnum/v_magnum.vmdl";
+		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
@@ -21,7 +21,7 @@ namespace Conquest
 		{
 			base.Spawn();
 
-			SetModel( "weapons/magnum/magnum.vmdl" );
+			SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
 			AmmoClip = 6;
 		}
 

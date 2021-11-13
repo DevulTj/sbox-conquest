@@ -43,6 +43,8 @@ namespace Conquest
 		public override float BurstSprintUpRotation => 2f;
 		public override float BurstSprintLeftOffset => -35f;
 		public override float BurstPostSprintLeftOffset => 5f;
+
+		public override Vector3 AimOffset => new Vector3( -10f, 17.5f, 2f );
 	}
 
 	public class SMGViewModelInfo : ViewModelInfo
@@ -179,7 +181,6 @@ namespace Conquest
 
 		public virtual void AttackPrimary()
 		{
-
 		}
 
 		public virtual bool CanSecondaryAttack()
@@ -261,6 +262,12 @@ namespace Conquest
 		public virtual AmmoType AmmoType => AmmoType.Pistol;
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
+
+		public virtual Vector3 RecoilOnShot => new Vector3( Rand.Float(-7f, 7f ), 15f, 0 );
+		public virtual float RecoilRecoveryScaleFactor => 10f;
+
+		// client driven
+		public Vector3 CurrentRecoilAmount { get; set; } = Vector3.Zero;
 
 		[Net, Predicted]
 		public int AmmoClip { get; set; }
@@ -453,6 +460,11 @@ namespace Conquest
 			ShootEffects();
 
 			//
+			// Do recoil
+			//
+			PerformRecoil();
+
+			//
 			// ShootBullet is coded in a way where we can have bullets pass through shit
 			// or bounce off shit, in which case it'll return multiple results
 			//
@@ -476,6 +488,12 @@ namespace Conquest
 					tr.Entity.TakeDamage( damage );
 				}
 			}
+		}
+
+		[ClientRpc]
+		protected virtual void PerformRecoil()
+		{
+			CurrentRecoilAmount += RecoilOnShot;
 		}
 
 		[ClientRpc]

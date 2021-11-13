@@ -63,5 +63,24 @@ namespace Conquest
 			Viewer = pawn;
 			lastPos = Position;
 		}
+
+		public override void BuildInput( InputBuilder input )
+		{
+			var pawn = Local.Pawn;
+			if ( pawn == null ) return;
+
+			var weapon = pawn.ActiveChild as BaseWeapon;
+
+			if ( weapon == null )
+				return;
+
+			var oldPitch = input.ViewAngles.pitch;
+			var oldYaw = input.ViewAngles.yaw;
+			input.ViewAngles.pitch -= weapon.CurrentRecoilAmount.y * Time.Delta;
+			input.ViewAngles.yaw -= weapon.CurrentRecoilAmount.x * Time.Delta;
+			weapon.CurrentRecoilAmount -= weapon.CurrentRecoilAmount.WithY( (oldPitch - input.ViewAngles.pitch) * weapon.RecoilRecoveryScaleFactor * 1f ).WithX( (oldYaw - input.ViewAngles.yaw) * weapon.RecoilRecoveryScaleFactor * 1f );
+
+			base.BuildInput( input );
+		}
 	}
 }
