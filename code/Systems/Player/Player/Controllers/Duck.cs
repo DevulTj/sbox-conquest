@@ -45,7 +45,6 @@ namespace Conquest
 		// and we should probably be changing the bbox size in PreTick
 		Vector3 originalMins;
 		Vector3 originalMaxs;
-		Vector3 lerpMaxs;
 
 		public virtual void UpdateBBox( ref Vector3 mins, ref Vector3 maxs, float scale )
 		{
