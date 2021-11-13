@@ -63,7 +63,7 @@ respawnscreen {
         position: absolute;
         width: 100%;
         bottom: 0;
-        height: 10%;
+        height: 128px;
         background-color: black;
 
         .deploy {
@@ -92,9 +92,9 @@ respawnscreen {
                 align-content: center;
                 align-self: center;
                 font-family: $font-primary;
-                color: black;
-                font-weight: 500;
-                font-size: 24px;
+                color: rgba( 55, 55, 55, 1 );
+                font-weight: 900;
+                font-size: 40px;
             }
         }
     }

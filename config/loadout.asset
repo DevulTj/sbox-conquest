@@ -1,0 +1,14 @@
+//
+// Conquest.LoadoutAsset
+//
+@BaseClass = loadout : ""
+[
+	class(string) : "Class" :  : ""
+	slot(choices) : "Slot" : 0 : "" =
+	[
+		0 : "Primary"
+		1 : "Secondary"
+		2 : "Gadget"
+	]
+]
+

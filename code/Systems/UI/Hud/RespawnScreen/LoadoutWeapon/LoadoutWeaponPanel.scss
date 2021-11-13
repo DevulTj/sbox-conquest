@@ -1,0 +1,141 @@
+@import "../../../Theme.scss";
+
+loadoutweaponpanel {
+    width: 256px;
+    height: 100%;
+    background-color: rgba( $friendly-marker, 0.1 );
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba( $friendly-marker, 0.5 );
+    }
+
+    &:active {
+        background-color: rgba( $friendly-marker, 0.85 );
+
+        label {
+            color: white;
+        }
+    }
+
+    .icon {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .name {
+        position: absolute;
+        bottom: 2px;
+        width: 100%;
+        right: 8px;
+        text-align: right;
+        font-family: $font-primary;
+        font-weight: 600;
+        text-shadow: 2px 2px 5px rgba( #2cc79d, 1 );
+        color: $friendly-marker;
+        font-size: 18px;
+    }
+}
+
+.popup-panel {
+    background-image: linear-gradient( #2b303c, #1d2028 );
+    box-shadow: 5px 5px 30px rgba( black, 0.8 );
+    flex-direction: column;
+    color: #cfdbf2;
+    transition: all 0.1s ease-out;
+    position: absolute;
+    font-family: $font-primary;
+    font-weight: 600;
+    font-size: 20px;
+    pointer-events: all;
+
+    &.flat-top {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+
+        .button:nth-child(1) {
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+        }
+    }
+
+    &.above-left {
+        transform-origin: 0% 100%;
+    }
+
+    &:intro {
+        transform: scaleY( 0 );
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    &:outro {
+        opacity: 0;
+        transition: all 0.1s ease-in;
+        margin-top: 50px;
+        pointer-events: none;
+    }
+
+    &.success:outro {
+        opacity: 0;
+        transition: all 0.1s ease;
+        margin-top: 0px;
+        transform: scale( 0.7 );
+
+        &.center-horizontal {
+            transform: scale( 1.4 ) translateX( -50% );
+            transform-origin: center;
+        }
+    }
+
+    > .canvas {
+        flex-direction: column;
+    }
+
+    .button {
+        align-items: center;
+        z-index: 1001;
+        width: 256px;
+        height: 40px;
+        background-color: rgba( $friendly-marker, 0.1 );
+
+        label {
+            text-align: center;
+            width: 100%;
+        }
+
+        .iconpanel {
+            color: $primary;
+        }
+
+        &:hover, &.active {
+            color: $primary-fg;
+            background-color: $friendly-marker;
+  
+            label {
+                color: black;
+            }
+
+            .iconpanel {
+                color: $primary-fg;
+            }
+        }
+
+        &:active {
+            color: $primary-fg;
+            background-color: rgba( #a1b7e1, 0.3 );
+
+            .iconpanel {
+                color: $primary-fg;
+            }
+        }
+
+        &.disabled {
+            pointer-events: none;
+            opacity: 0.2;
+        }
+    }
+}

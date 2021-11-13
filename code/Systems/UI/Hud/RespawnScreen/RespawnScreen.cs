@@ -53,6 +53,7 @@ namespace Conquest
 		// @ref
 		public Button DeployButton { get; set; }
 		public Label GameName { get; set; }
+		public Panel Footer { get; set; }
 		public Panel Points { get; set; }
 		public string MapName { get { return Global.MapName; } }
 		public Label LoadoutPanel { get; set; }
@@ -90,6 +91,14 @@ namespace Conquest
 				panel.CapturePoint = capturePoint;
 				panel.SetShowName();
 			}
+
+			var primary = Footer.AddChild<LoadoutWeaponPanel>();
+			primary.IsSelector = true;
+			primary.Slot = WeaponSlot.Primary;
+
+			var secondary = Footer.AddChild<LoadoutWeaponPanel>();
+			secondary.IsSelector = true;
+			secondary.Slot = WeaponSlot.Secondary;
 		}
 
 		public static Vector3 Position => GetStartPos().LerpTo( GetTargetPos(), TransitionProgress );
