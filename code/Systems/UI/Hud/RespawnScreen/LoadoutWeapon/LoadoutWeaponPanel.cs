@@ -39,7 +39,7 @@ namespace Conquest
 		public void Fetch()
 		{
 			var primaryLoadoutStr = Player.ChosenPrimaryLoadout;
-			var secondaryLoadoutStr = Player.ChosenPrimaryLoadout;
+			var secondaryLoadoutStr = Player.ChosenSecondaryLoadout;
 
 			var weaponsOfThisSlot = LoadoutAsset.Sorted[Slot];
 
