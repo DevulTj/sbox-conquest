@@ -54,6 +54,7 @@ crosshair {
 		opacity: 1;
 		transition: opacity 0.3s ease-out;
 
+
 		.el0, .el1, .el2, .el3 {
 			background-color: white;
 			border-radius: 0;
@@ -155,12 +156,13 @@ crosshair {
 
 
 		&.aim {
-			opacity: 0.8;
+			transition: opacity 0.05s ease-out;
+			opacity: 0;
 		}
 
 
 		&.fire {
-			opacity: 1;
+			opacity: 0;
 
 			.el0, .el1, .el2, .el3 {
 				transition: all 0.01s ease-out;
