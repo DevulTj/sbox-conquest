@@ -95,10 +95,12 @@ namespace Conquest
 			var primary = Footer.AddChild<LoadoutWeaponPanel>();
 			primary.IsSelector = true;
 			primary.Slot = WeaponSlot.Primary;
+			primary.Fetch();
 
 			var secondary = Footer.AddChild<LoadoutWeaponPanel>();
 			secondary.IsSelector = true;
 			secondary.Slot = WeaponSlot.Secondary;
+			secondary.Fetch();
 		}
 
 		public static Vector3 Position => GetStartPos().LerpTo( GetTargetPos(), TransitionProgress );

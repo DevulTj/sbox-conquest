@@ -1,6 +1,7 @@
 
 using Sandbox;
 using Sandbox.UI;
+using System.Linq;
 
 namespace Conquest
 {
@@ -34,6 +35,29 @@ namespace Conquest
 			}
 		}
 
+		// Fetch from game data
+		public void Fetch()
+		{
+			var primaryLoadoutStr = Player.ChosenPrimaryLoadout;
+			var secondaryLoadoutStr = Player.ChosenPrimaryLoadout;
+
+			var weaponsOfThisSlot = LoadoutAsset.Sorted[Slot];
+
+			LoadoutAsset asset = null;
+			
+			if ( Slot == WeaponSlot.Primary )
+			{
+				asset = weaponsOfThisSlot.Where( x => x.Class == primaryLoadoutStr ).FirstOrDefault();
+			}
+			else if ( Slot == WeaponSlot.Secondary )
+			{
+				asset = weaponsOfThisSlot.Where( x => x.Class == primaryLoadoutStr ).FirstOrDefault();
+			}
+
+			if ( asset != null )
+				SetActive( asset );
+		}
+
 		public void SetActive( LoadoutAsset loadout, LibraryAttribute library = null )
 		{
 			if ( library == null )
@@ -41,6 +65,26 @@ namespace Conquest
 
 			WeaponName = library.Title;
 			WeaponIcon.SetTexture( $"ui/weaponicons/{loadout.Class}.png" );
+
+			switch ( loadout.Slot )
+			{
+				case WeaponSlot.Primary:
+				{
+					Player.ChosenPrimaryLoadout = loadout.Class;
+					ConsoleSystem.Run( "conquest_loadout_primary", loadout.Class );
+					break;
+				}
+				case WeaponSlot.Secondary:
+				{
+					Player.ChosenSecondaryLoadout = loadout.Class;
+					ConsoleSystem.Run( "conquest_loadout_secondary", loadout.Class );
+
+					break;
+				}
+				default:
+					Log.Warning( "Failed to assign a loadout slot" );
+					break;
+			}
 		}
 
 		public override void Open()
