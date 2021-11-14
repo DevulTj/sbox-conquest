@@ -44,6 +44,10 @@ squadoverview {
                 background-repeat: no-repeat;
 
 
+                &:not( .valid ) {
+                    opacity: 0;
+                }
+
                 .icon {
                     position: absolute;
                     width: 24px;
@@ -66,15 +70,14 @@ squadoverview {
                     width: 50px;
                     height: 6px;
                     background-color: rgba( $primary, 0.5 );
+
+                    .fill {
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba( $primary, 1 );
+                    }
                 }
 
-                .fill {
-                    position: absolute;
-                    bottom: 0px;
-                    width: 50px;
-                    height: 6px;
-                    background-color: rgba( $primary, 1 );
-                }
 
                 .name {
                     position: absolute;
