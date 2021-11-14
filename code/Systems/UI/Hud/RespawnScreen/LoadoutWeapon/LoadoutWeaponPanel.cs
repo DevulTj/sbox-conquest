@@ -40,19 +40,14 @@ namespace Conquest
 		{
 			var primaryLoadoutStr = Player.ChosenPrimaryLoadout;
 			var secondaryLoadoutStr = Player.ChosenSecondaryLoadout;
-
 			var weaponsOfThisSlot = LoadoutAsset.Sorted[Slot];
 
 			LoadoutAsset asset = null;
 			
 			if ( Slot == WeaponSlot.Primary )
-			{
 				asset = weaponsOfThisSlot.Where( x => x.Class == primaryLoadoutStr ).FirstOrDefault();
-			}
 			else if ( Slot == WeaponSlot.Secondary )
-			{
 				asset = weaponsOfThisSlot.Where( x => x.Class == secondaryLoadoutStr ).FirstOrDefault();
-			}
 
 			if ( asset != null )
 				SetActive( asset );
