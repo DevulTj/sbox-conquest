@@ -8,6 +8,22 @@ namespace Conquest
 {
 	public class SquadManager : BaseNetworkable
 	{
+		[AdminCmd("conquest_squad_print")]
+		public static void Print()
+		{
+			Log.Info( $"[Conquest] There are { (Current.Squads[Team.OPFOR].Count + Current.Squads[Team.BLUFOR].Count) } squads." );
+
+			foreach( var kv in Current.Squads )
+			{
+				Log.Info( $"	> {kv.Key}" );
+				foreach( var squad in kv.Value )
+				{
+					Log.Info( $"	- {squad}" );
+
+				}
+			}
+		}
+
 		public List<string> SquadNames = new()
 		{
 			"Alpha",

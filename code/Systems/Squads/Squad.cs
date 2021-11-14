@@ -7,6 +7,10 @@ namespace Conquest
 {
 	public partial class Squad : BaseNetworkable
 	{
+		public override string ToString()
+		{
+			return $"Conquest.Squad[{Identity}](Leader: {SquadLeader.Name}, Members: {string.Join( $", ", Members?.Select( x => x.Name ) )})";
+		}
 		public int MaxMembers => 4;
 		public int CurrentMembers => Members.Count;
 
