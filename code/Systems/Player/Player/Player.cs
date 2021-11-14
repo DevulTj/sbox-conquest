@@ -348,6 +348,8 @@ namespace Conquest
 			TickPlayerUse();
 
 			SimulateActiveChild( cl, ActiveChild );
+
+			SimulateDamage();
 		}
 
 		public override PawnController GetActiveController()

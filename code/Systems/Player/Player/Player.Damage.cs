@@ -7,10 +7,16 @@ namespace Conquest
 {
 	partial class Player
 	{
+		public float MaxHealth => 100f;
+		public float RegenerateTime => 5f;
+		public float RegenerateSpeed => 10f;
+
 		protected DamageInfo LastDamage;
+		protected TimeSince SinceTakenDamage;
 		public override void TakeDamage( DamageInfo info )
 		{
 			LastDamage = info;
+			SinceTakenDamage = 0;
 
 			bool isHeadshot = info.HitboxIndex == 5;
 			// hack - hitbox 0 is head
@@ -61,6 +67,24 @@ namespace Conquest
 			//DebugOverlay.Sphere( pos, 5.0f, Color.Red, false, 50.0f );
 
 			HurtIndicator.Current?.OnHit( pos );
+		}
+
+		[AdminCmd( "conquest_sethp" )]
+		public static void SetHealth( float amt )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				player.Health = amt;
+			}
+		}
+
+		protected void SimulateDamage()
+		{
+			if ( Health <= MaxHealth && SinceTakenDamage >= RegenerateTime )
+			{
+				Health += RegenerateSpeed * Time.Delta;
+				Health = Health.Clamp( 0, MaxHealth );
+			}
 		}
 	}
 }
