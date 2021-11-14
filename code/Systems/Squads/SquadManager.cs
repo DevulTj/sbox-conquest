@@ -51,26 +51,26 @@ namespace Conquest
 
 		public static Squad MySquad => Local.Client.Components.Get<SquadMemberComponent>()?.SquadRef;
 
-		public List<Squad> Squads { get; set; } = new();
+		public Dictionary<Team, List<Squad>> Squads { get; set; } = new() { { Team.BLUFOR, new List<Squad>() }, { Team.OPFOR, new List<Squad>() } };
 
-		public Squad New()
+		public Squad New( Team team )
 		{
 			var newSquad = new Squad();
-			Squads.Add( newSquad );
+			Squads[team].Add( newSquad );
 
-			newSquad.Identity = SquadNames[ Squads.Count - 1 ];
+			newSquad.Identity = SquadNames[ Squads[team].Count - 1 ];
 
 			Log.Info( $"[Conquest] Squad created. It's called \"{newSquad.Identity}\"" );
 
 			return newSquad;
 		}
 
-		public Squad GetOrCreateSquad()
+		public Squad GetOrCreateSquad( Team team )
 		{
-			var squad = Squads.LastOrDefault();
+			var squad = Squads[team].LastOrDefault();
 			if ( squad is null || squad.IsFull )
 			{
-				squad = New();
+				squad = New( team );
 			}
 
 			return squad;
@@ -87,7 +87,7 @@ namespace Conquest
 			if ( squadComponent.SquadRef is not null )
 				return;
 
-			var squadRef = GetOrCreateSquad();
+			var squadRef = GetOrCreateSquad( TeamSystem.GetTeam( client ) );
 
 			squadComponent.SquadRef = squadRef;
 			squadRef.Add( client );

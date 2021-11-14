@@ -52,8 +52,7 @@ namespace Conquest
 	{
 		public SquadOverview()
 		{
-			var panel = Members.AddChild<SquadmatePanel>();
-			panel.SetClient( Local.Client );
+
 		}
 
 		// @ref
@@ -63,9 +62,25 @@ namespace Conquest
 
 		public string SquadName => ( SquadManager.MySquad?.Identity ?? "Alpha" ) + " Squad";
 
+		public void AddMember( Client cl )
+		{
+			var panel = Members.AddChild<SquadmatePanel>();
+			panel.SetClient( cl );
+		}
+
 		public override void Tick()
 		{
-			base.Tick();
+			Members.DeleteChildren( true );
+
+			var squad = SquadManager.MySquad;
+
+			if ( squad is not null )
+			{
+				foreach( var member in squad.Members )
+				{
+					AddMember( member );
+				}
+			}
 		}
 	}
 }
