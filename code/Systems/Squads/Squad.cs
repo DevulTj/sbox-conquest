@@ -9,7 +9,7 @@ namespace Conquest
 	{
 		public override string ToString()
 		{
-			return $"Conquest.Squad[{Identity}](Leader: {SquadLeader.Name}, Members: {string.Join( $", ", Members?.Select( x => x.Name ) )})";
+			return $"Conquest.Squad[{Identity}](Leader: {SquadLeader.Name}, Members: {string.Join( $", ", Members?.Where( x => x != SquadLeader ).Select( x => x.Name ) )})";
 		}
 		public int MaxMembers => 4;
 		public int CurrentMembers => Members.Count;
