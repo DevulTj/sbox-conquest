@@ -1,5 +1,6 @@
 
 using Sandbox;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,6 +43,11 @@ namespace Conquest
 		}
 
 		public static SquadManager Current;
+
+		public  static Squad GetSquad( Client cl )
+		{
+			return cl.Components.Get<SquadMemberComponent>().SquadRef;
+		}
 
 		public static Squad MySquad => Local.Client.Components.Get<SquadMemberComponent>()?.SquadRef;
 
