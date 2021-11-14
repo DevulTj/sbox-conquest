@@ -56,6 +56,11 @@ namespace Conquest
 			{
 				Ammo.Text = $"{player.AmmoCount( weapon.AmmoType ) + weapon.AmmoClip}";
 			}
+			else if ( weaponFromSlot is BaseGadget gadget )
+			{
+				Ammo.Text = $"∞";
+				showInfinity = true;
+			}
 			else if ( weaponFromSlot is null )
 			{
 				Ammo.Text = "∞";

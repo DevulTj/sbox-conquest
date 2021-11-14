@@ -71,8 +71,21 @@ inventoryitem {
         height: 70px;
         width: 70px;
 
+        justify-content: center;
+        align-content: center;
+
         &:last-child {
             margin-right: 0px;
+        }
+
+        &.active {
+            background-color: rgba( $friendly-marker, 1 );
+        }
+
+        .icon {
+            top: 16px;
+            width: 50%;
+            height: 50%;
         }
     }
 }
