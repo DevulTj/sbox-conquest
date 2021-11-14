@@ -9,7 +9,7 @@ hudmarkers {
 hudmarker {
     position: absolute;
     transform: translateX( -50% );
-    transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
+    transition: width 0.1s linear, height 0.1s linear, opacity 0.05s linear, border 0.1s linear, border-radius 0.2s linear;
 
     &.ammocrate {
         border-radius: 60px;
@@ -22,6 +22,14 @@ hudmarker {
         background-image: url( ui/bullets.png );
         background-repeat: no-repeat;
         background-position: center;
+    }
+
+    &:intro {
+        opacity: 0;
+    }
+
+    &:outro {
+        opacity: 0;
     }
 
     &.capturepoint {

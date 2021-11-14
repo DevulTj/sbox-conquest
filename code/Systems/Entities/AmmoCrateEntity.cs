@@ -3,7 +3,7 @@ using Sandbox;
 namespace Conquest
 {
 	[Library( "conquest_ammocrate" )]
-	public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity
+	public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity, IMiniMapEntity, IGameStateAddressable
 	{
 		[AdminCmd( "conquest_debug_ammocrate" )]
 		public static void CreateAmmoCrate()
@@ -64,12 +64,9 @@ namespace Conquest
 			base.TakeDamage( info );
 		}
 
-		string IHudMarkerEntity.GetMainClass()
-		{
-			return "ammocrate";
-		}
+		public string GetMainClass() => "ammocrate";
 
-		bool CalculateVis()
+		protected bool CalculateVis()
 		{
 			var tr = Trace.Ray( CurrentView.Position, Position + CollisionBounds.Center	 )
 				.WorldAndEntities()
@@ -100,6 +97,27 @@ namespace Conquest
 			info.Position = Position + CollisionBounds.Center;
 
 			return true;	
+		}
+
+		bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
+		{
+			if ( !this.IsValid() )
+				return false;
+
+			if ( LifeState != LifeState.Alive )
+				return false;
+
+			if ( !CalculateVis() )
+				return false;
+
+			info.Position = Position + CollisionBounds.Center;
+
+			return true;
+		}
+
+		void IGameStateAddressable.ResetState()
+		{
+			Delete();
 		}
 	}
 }

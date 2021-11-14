@@ -100,6 +100,19 @@ minimap {
                 &:outro {
                     opacity: 0;
                 }
+
+                &.ammocrate {
+                    border-radius: 60px;
+                    width: 16px;
+                    height: 16px;
+                    box-shadow: 0px 0px 20px rgba(#B2DEEE, 0.2 );
+                    background-color: rgba( #B2DEEE, 0.8 );
+                    background-image-tint: #ffffff;
+                    background-size: 60%;
+                    background-image: url( ui/bullets.png );
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
                 // Capture point
                 &.capturepoint {
                     width: 32px;
