@@ -82,7 +82,7 @@
 
 		.armorBarFill {
 			width: 100%;
-			background-color: rgb(0, 148, 255, 1 );
+			background-color: rgba( 0, 108, 205, 1 );
 			box-shadow: 2px 2px 20px rgba( black, 0.4 );
 		}
 
@@ -97,11 +97,11 @@
 			box-shadow: 2px 2px 20px rgba( black, 0.4 );
 
 			&.hurt {
-				background-color: #e69138;
+				background-color: #e69138 !important;
 			}
 
 			&.dying {
-				background-color: #c7453b;
+				background-color: #c7453b !important;
 			}
 		}
 
@@ -149,7 +149,7 @@
 	.gunvitals {
 		box-shadow: 0px 0px 40px rgba($friendly-marker, 0.07 );
 		transform: rotateY(10deg) rotateX(10deg);
-		text-align: right !important;
+		text-align: right;
 		right: 48px;
 		height: 108px;
 		bottom: 140px;
@@ -172,7 +172,7 @@
 			font-size: 16px;
 			text-shadow: 2px 2px 10px $friendly-marker;
 			transition: all 0.5s ease;
-			text-align: right !important;
+			text-align: right;
 		}
 
 		.spacer {
@@ -194,7 +194,7 @@
 			font-size: 45px;
 			text-shadow: 2px 2px 5px $friendly-marker;
 			transition: all 0.5s ease;
-			text-align: right !important;
+			text-align: right;
 		}
 
 		.reserve {
@@ -207,7 +207,7 @@
 			font-size: 25px;
 			text-shadow: 2px 2px 10px $friendly-marker;
 			transition: all 0.5s ease;
-			text-align: right !important;
+			text-align: right;
 		}
 	}
 }

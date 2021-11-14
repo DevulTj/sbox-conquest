@@ -100,6 +100,15 @@ namespace Conquest
 				GunReserve.Text = $"{weapon.AvailableAmmo().ToString("D3")}";
 				GunVitals.Style.Opacity = 1;
 			}
+			else if ( Local.Pawn.ActiveChild is BaseGadget gadget )
+			{
+				GunVitals.Style.Opacity = 1;
+
+				GunName.Text = $"{gadget.ClassInfo.Title.ToUpper()}";
+				GunAmmo.Text = $"∞";
+				GunReserve.Text = $"∞";
+				GunVitals.Style.Opacity = 1;
+			}
 			else
 			{
 				GunVitals.Style.Opacity = 0;

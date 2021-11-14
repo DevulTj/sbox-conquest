@@ -2,7 +2,7 @@
 
 namespace Conquest
 {
-	[Library( "conquest_deployableammocrate" )]
+	[Library( "conquest_deployableammocrate", Title = "Ammo Crate" )]
 	partial class AmmoCrateGadget : BaseGadget
 	{
 		[Net] public AmmoCrateEntity CurrentAmmoCrate { get; set; }
