@@ -105,9 +105,11 @@ namespace Conquest
 
 			Inventory.Add( primary, true );
 			Inventory.Add( secondary );
+			Inventory.Add( new AmmoCrateGadget() );
 
 			GiveAmmo( AmmoType.Pistol, 36 );
 			GiveAmmo( AmmoType.Rifle, 180 );
+
 		}
 
 		protected virtual void SoftRespawn()

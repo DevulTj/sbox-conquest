@@ -101,6 +101,31 @@ metadata
 ]
 
 //
+// Conquest.WorldOverview
+//
+@PointClass base(BaseProperties_conquest) editormodel( "models/editor/camera.vmdl" ) 
+metadata
+{
+	entity_tool_name = "World Overview"
+	entity_tool_group = "Conquest"
+	entity_tool_tip = "Used to specify the world overview position / rotation."
+}
+= conquest_worldoverview : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
+// Conquest.AmmoCrateGadget
+//
+@PointClass base(BaseProperties_conquest) = conquest_deployableammocrate : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Conquest.AK47
 //
 @PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_ak47 : ""
@@ -128,20 +153,5 @@ metadata
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
-// Conquest.WorldOverview
-//
-@PointClass base(BaseProperties_conquest) editormodel( "models/editor/camera.vmdl" ) 
-metadata
-{
-	entity_tool_name = "World Overview"
-	entity_tool_group = "Conquest"
-	entity_tool_tip = "Used to specify the world overview position / rotation."
-}
-= conquest_worldoverview : ""
-[
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
