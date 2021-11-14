@@ -223,7 +223,7 @@ namespace Conquest
 					.UseLagCompensation()
 					.UseHitboxes()
 					.HitLayer( CollisionLayer.Water, !InWater )
-					.HitLayer( CollisionLayer.Debris)
+					.HitLayer( CollisionLayer.Debris )
 					.Ignore( Owner )
 					.Ignore( this )
 					.Size( radius )
