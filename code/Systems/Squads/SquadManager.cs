@@ -43,6 +43,8 @@ namespace Conquest
 
 		public static SquadManager Current;
 
+		public static Squad MySquad => Local.Client.Components.Get<SquadMemberComponent>()?.SquadRef;
+
 		public List<Squad> Squads { get; set; } = new();
 
 		public Squad New()
