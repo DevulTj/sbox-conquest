@@ -6,7 +6,7 @@ namespace Conquest
 {
 	public partial class SquadMemberComponent : EntityComponent
 	{
-		[Net, Category( "SquadSystem" ), Property]
+		[Net]
 		public Squad SquadRef { get; set; }
 	}
 }

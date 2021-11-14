@@ -75,7 +75,6 @@ namespace Conquest
 			info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
 			info.Classes["me"] = Local.Pawn == this;
 
-
 			return true;
 		}
 
@@ -103,6 +102,8 @@ namespace Conquest
 
 			info.Classes["friendly"] = friendState == TeamSystem.FriendlyStatus.Friendly;
 			info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
+			info.Classes["squadmate"] = SquadManager.IsSquadmate( Client );
+
 
 			return true;
 		}

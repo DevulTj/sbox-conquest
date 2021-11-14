@@ -44,9 +44,15 @@ namespace Conquest
 
 		public static SquadManager Current;
 
-		public  static Squad GetSquad( Client cl )
+		public static Squad GetSquad( Client cl )
 		{
 			return cl.Components.Get<SquadMemberComponent>().SquadRef;
+		}
+
+		// Local
+		public static bool IsSquadmate( Client cl )
+		{
+			return MySquad.Members.Contains( cl );
 		}
 
 		public static Squad MySquad => Local.Client.Components.Get<SquadMemberComponent>()?.SquadRef;
