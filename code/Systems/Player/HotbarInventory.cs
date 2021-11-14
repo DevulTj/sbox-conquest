@@ -105,7 +105,10 @@ namespace Conquest
 			PrimaryWeapon?.Delete();
 			SecondaryWeapon?.Delete();
 
-			Gadgets.ForEach( x => x.Delete() );
+			for ( int i = Gadgets.Count - 1; i >= 0; i-- )
+			{
+				Gadgets[i]?.Delete();
+			}
 		}
 
 		public bool Drop( Entity ent )
