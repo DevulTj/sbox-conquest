@@ -3,7 +3,7 @@ using Sandbox;
 namespace Conquest
 {
 	[Library( "conquest_ammocrate" )]
-	public partial class AmmoCrateEntity : Prop, IUse
+	public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity
 	{
 		[AdminCmd( "conquest_debug_ammocrate" )]
 		public static void CreateAmmoCrate()
@@ -62,6 +62,42 @@ namespace Conquest
 		public override void TakeDamage( DamageInfo info )
 		{
 			base.TakeDamage( info );
+		}
+
+		string IHudMarkerEntity.GetMainClass()
+		{
+			return "ammocrate";
+		}
+
+		bool CalculateVis()
+		{
+			var tr = Trace.Ray( CurrentView.Position, EyePos )
+				.WorldAndEntities()
+				.Ignore( Local.Pawn )
+				.Run();
+
+			if ( tr.Distance > 768 ) return false;
+
+			if ( tr.Hit && tr.Entity == this )
+				return true;
+			else
+				return false;
+		}
+
+		bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
+		{
+			if ( !this.IsValid() )
+				return false;
+
+			if ( LifeState != LifeState.Alive )
+				return false;
+
+			if ( !CalculateVis() )
+				return false;
+
+			info.Position = Position + Rotation.Up * 50f;
+
+			return true;	
 		}
 	}
 }

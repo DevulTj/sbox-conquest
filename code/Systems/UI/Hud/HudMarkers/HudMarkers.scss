@@ -11,6 +11,19 @@ hudmarker {
     transform: translateX( -50% );
     transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
 
+    &.ammocrate {
+        border-radius: 60px;
+        width: 32px;
+        height: 32px;
+        box-shadow: 0px 0px 20px rgba(#B2DEEE, 0.2 );
+        background-color: rgba( #B2DEEE, 0.8 );
+        background-image-tint: #ffffff;
+        background-size: 60%;
+        background-image: url( ui/bullets.png );
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
     &.capturepoint {
         width: 45px;
         height: 45px;
