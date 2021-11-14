@@ -71,17 +71,19 @@ namespace Conquest
 
 		bool CalculateVis()
 		{
-			var tr = Trace.Ray( CurrentView.Position, EyePos )
+			var tr = Trace.Ray( CurrentView.Position, Position + CollisionBounds.Center	 )
 				.WorldAndEntities()
 				.Ignore( Local.Pawn )
+				.Ignore( this )
 				.Run();
+
 
 			if ( tr.Distance > 768 ) return false;
 
-			if ( tr.Hit && tr.Entity == this )
-				return true;
-			else
+			if ( tr.Hit && tr.Entity != this )
 				return false;
+
+			return true;
 		}
 
 		bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
@@ -95,7 +97,7 @@ namespace Conquest
 			if ( !CalculateVis() )
 				return false;
 
-			info.Position = Position + Rotation.Up * 50f;
+			info.Position = Position + CollisionBounds.Center;
 
 			return true;	
 		}
