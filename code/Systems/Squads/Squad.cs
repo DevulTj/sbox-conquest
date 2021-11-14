@@ -1,6 +1,7 @@
 
 using Sandbox;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Conquest
 {
@@ -14,6 +15,8 @@ namespace Conquest
 		[Net] public string Identity { get; set; } = "";
 		[Net] public IList<Client> Members { get; set; }
 
+		[Net] public Client SquadLeader { get; set; }
+
 		public bool Add( Client cl )
 		{
 			if ( IsFull )
@@ -23,12 +26,20 @@ namespace Conquest
 
 			Members.Add( cl );
 
+			if ( SquadLeader is null )
+				SquadLeader = cl;
+
 			return true;
 		}
 
 		public bool Remove( Client cl )
 		{
-			return Members.Remove( cl );
+			Members.Remove( cl );
+
+			if ( SquadLeader == cl )
+				SquadLeader = Members.FirstOrDefault();
+
+			return true;
 		}
 	}
 }
