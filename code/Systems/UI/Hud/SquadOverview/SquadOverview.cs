@@ -21,6 +21,12 @@ namespace Conquest
 
 		public void SetClient( Client cl )
 		{
+			if ( cl is null )
+			{
+				Delete( true );
+				return;
+			}
+
 			Client = cl;
 
 			PlayerName.Text = cl.Name;
