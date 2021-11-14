@@ -167,6 +167,12 @@ minimap {
                         box-shadow: 0 0px 15px rgba($enemy-marker,0.1);
                     }
 
+
+                    &.squadmate {
+                        box-shadow: 0px 0px 15px rgba( $primary, 0.2 );
+                        background-color: rgba( $primary, 0.8 );
+                    }
+
                     &.me {
                         background-image: url( /ui/minimap/playermarker.png );
                         background-size: 100%;
