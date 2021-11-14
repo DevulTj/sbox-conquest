@@ -11,6 +11,9 @@ namespace Conquest
 		[Net]
 		public TeamScores Scores { get; set; }
 
+		[Net]
+		public SquadManager SquadManager { get; set; }
+
 		public Game()
 		{
 			Current = this;
@@ -21,6 +24,7 @@ namespace Conquest
 			if ( Host.IsServer )
 			{
 				Scores = new();
+				SquadManager = new();
 			}
 		}
 
@@ -28,6 +32,9 @@ namespace Conquest
 		{
 			var teamComponent = cl.Components.GetOrCreate<TeamComponent>();
 			teamComponent.Team = teamComponent.Team.GetLowestCount();
+
+			// Set up the player in a squad.
+			SquadManager.Assign( cl );
 
 			BasePlayer player = cl.IsBot ? new AIPlayer( cl ) : new SpectatorPlayer( cl );
 			cl.Pawn = player;
@@ -62,6 +69,9 @@ namespace Conquest
 				cl.Pawn.Delete();
 				cl.Pawn = null;
 			}
+
+			// Remove the player from squad
+			SquadManager.Clear( cl );
 		}
 
 		/// <summary>
