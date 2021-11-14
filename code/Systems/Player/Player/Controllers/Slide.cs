@@ -61,6 +61,9 @@ namespace Conquest
 			if ( Activated < Cooldown )
 				return;
 
+			if ( controller.GroundEntity == null )
+				return;
+
 			var change = IsActive != true;
 
 			IsActive = true;
