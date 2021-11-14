@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Conquest
 {
-	[Library("KillFeedEntryPanel")]
+	[Library( "KillFeedEntryPanel" )]
 	public class KillFeedEntryPanel : Panel
 	{
 		public TimeSince CreationTime { get; set; } = 0;
@@ -23,6 +23,30 @@ namespace Conquest
 			Left = Add.Label( "DevulTj", "friendly" );
 			Method = Add.Label( "[AK-47]", "method" );
 			Right = Add.Label( "Bot", "enemy" );
+		}
+
+		public override void Tick()
+		{
+			base.Tick();
+
+			if ( CreationTime > TimeToShow && !IsDeleting )
+			{
+				Delete();
+			}
+		}
+	}
+
+	[Library( "KillFeedMessagePanel" )]
+	public class KillFeedMessagePanel : Panel
+	{
+		public TimeSince CreationTime { get; set; } = 0;
+		public float TimeToShow { get; set; } = 5f;
+
+		public Label Left { get; set; }
+
+		public KillFeedMessagePanel()
+		{
+			Left = Add.Label( "hey!", "message" );
 		}
 
 		public override void Tick()
@@ -71,6 +95,14 @@ namespace Conquest
 			e.Right.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, rightTeam ) );
 			e.Right.SetClass( "enemy", TeamSystem.IsHostile( myTeam, rightTeam ) );
 			e.Right.SetClass( "me", rsteamid == (Local.Client?.PlayerId) );
+
+			return e;
+		}
+
+		public virtual Panel AddMessage( string message )
+		{
+			var e = Current.AddChild<KillFeedMessagePanel>();
+			e.Left.Text = message;
 
 			return e;
 		}
