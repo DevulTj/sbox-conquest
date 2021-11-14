@@ -53,6 +53,7 @@ namespace Conquest
 			base.Tick();
 
 			SetClass( "valid", Client is not null );
+			SetClass( "dead", Client?.Pawn is null || Client.Pawn.LifeState != LifeState.Alive );
 
 			var player = Client?.Pawn as Player;
 

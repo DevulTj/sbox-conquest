@@ -44,6 +44,11 @@ squadoverview {
                 background-repeat: no-repeat;
 
 
+                &.dead {
+                    box-shadow: 0px 0px 20px rgba( red, 0.2 );
+                }
+
+
                 &:not( .valid ) {
                     opacity: 0;
                 }
