@@ -95,6 +95,14 @@
 			width: 50%;
 			background-color: $primary;
 			box-shadow: 2px 2px 20px rgba( black, 0.4 );
+
+			&.hurt {
+				background-color: #e69138;
+			}
+
+			&.dying {
+				background-color: #c7453b;
+			}
 		}
 
 		.health {

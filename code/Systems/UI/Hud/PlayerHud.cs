@@ -50,6 +50,9 @@ namespace Conquest
 		float Forward;
 		float Left;
 
+
+		float storedHpPercent = 1;
+
 		public override void Tick()
 		{
 			base.Tick();
@@ -83,10 +86,11 @@ namespace Conquest
 			Health.Text = $"{player?.Health:n0}";
 			var healthPercent = ( player.Health / 100f ) * 100f;
 
-			// Danger if at 20% hp
-			Health.SetClass( "danger", healthPercent < 0.2 );
+			storedHpPercent = storedHpPercent.LerpTo( healthPercent, Time.Delta * 10f );
+			HealthBar.Style.Width = Length.Percent( storedHpPercent );
 
-			HealthBar.Style.Width = Length.Percent( healthPercent );
+			HealthBar.SetClass( "hurt", healthPercent < 0.4 );
+			HealthBar.SetClass( "dying", healthPercent < 0.2 );
 
 			var weapon = Local.Pawn.ActiveChild as BaseWeapon;
 			if ( weapon is not null && weapon.ShowAmmoCount )
