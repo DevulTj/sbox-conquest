@@ -126,10 +126,15 @@ namespace Conquest
 
 			if ( (Owner as Player).SinceSprintStopped < 0.2f ) return false;
 
-			var rate = ConvertRPM( WeaponInfo.RPM );
-			if ( rate <= 0 ) return true;
+			if ( WeaponInfo is not null )
+			{
+				var rate = ConvertRPM( WeaponInfo.RPM );
+				if ( rate <= 0 ) return true;
 
-			return TimeSincePrimaryAttack > rate;
+				return TimeSincePrimaryAttack > rate;
+			}
+
+			return true;
 		}
 
 		public virtual void AttackPrimary()
@@ -176,6 +181,9 @@ namespace Conquest
 		public override void CreateViewModel()
 		{
 			Host.AssertClient();
+
+			if ( WeaponInfo is null )
+				return;
 
 			if ( string.IsNullOrEmpty( WeaponInfo.ViewModel ) )
 				return;
