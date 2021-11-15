@@ -30,7 +30,7 @@
 		loadouticon = "ui/WeaponIcons/conquest_deserteagle.png"
 		viewmodel = resource:"weapons/swb/pistols/deagle/v_deagle.vmdl"
 		worldmodel = resource:"weapons/swb/pistols/deagle/v_deagle.vmdl"
-		firesound = "fal.fire"
+		firesound = "deagle.fire"
 		dryfiresound = "rust_smg_dryfire"
 		bulletspread = 0.0
 		bulletbasedamage = 50.0
