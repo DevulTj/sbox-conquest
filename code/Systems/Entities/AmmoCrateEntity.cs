@@ -31,7 +31,9 @@ namespace Conquest
 			Health = 100;
 			Transmit = TransmitType.Default;
 
-			SetModel( "models/citizen_props/crate01.vmdl" );
+			SetModel( "assets/ammobox/ammo_box.vmdl" );
+
+			PlaySound( "ammobox.deploy" );
 		}
 
 		public bool OnUse( Entity user )
@@ -40,6 +42,8 @@ namespace Conquest
 			{
 				player.GiveAll( 120 );
 				ClientUsed( To.Single( player.Client ) );
+
+				PlaySound( "ammobox.replenish" );
 
 				LastUsedTime = 0;
 			}
