@@ -28,5 +28,9 @@
 		clipsize = 30
 		allowchamberreload = false
 		loadouticon = "ui/WeaponIcons/conquest_fal.png"
+		viewmodel = resource:"weapons/swb/rifles/fal/v_fal.vmdl"
+		worldmodel = resource:"weapons/swb/rifles/fal/w_fal.vmdl"
+		firesound = "weapons/swb/rifles/fal/sounds/fal.fire.sound"
+		dryfiresound = "weapons/rust_smg/sounds/rust_smg.dryfire.sound"
 	}
 }

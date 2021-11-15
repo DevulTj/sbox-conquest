@@ -28,5 +28,9 @@
 		clipsize = 6
 		allowchamberreload = false
 		loadouticon = "ui/WeaponIcons/conquest_deserteagle.png"
+		viewmodel = resource:"weapons/swb/pistols/deagle/v_deagle.vmdl"
+		worldmodel = resource:"weapons/swb/pistols/deagle/v_deagle.vmdl"
+		firesound = "weapons/swb/rifles/fal/sounds/fal.fire.vsnd"
+		dryfiresound = "weapons/rust_smg/sounds/rust_smg_dryfire.vsnd"
 	}
 }
