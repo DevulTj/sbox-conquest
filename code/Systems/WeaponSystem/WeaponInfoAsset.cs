@@ -37,6 +37,8 @@ namespace Conquest
 		[Property, Category( "Stats" )] public float BulletSpread { get; set; } = 0f;
 		[Property, Category( "Stats" )] public float BulletBaseDamage { get; set; } = 30f;
 		[Property, Category( "Stats" )] public float BulletRadius { get; set; } = 1f;
+		[Property, Category( "Stats" )] public int Pellets { get; set; } = 1;
+		[Property, Category( "Stats" )] public bool ReloadSingle { get; set; } = false;
 
 		// Hands
 		[Property, Category( "Hands" )] public bool UseCustomHands { get; set; } = false;

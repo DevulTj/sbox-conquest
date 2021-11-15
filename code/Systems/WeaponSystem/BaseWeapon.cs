@@ -283,9 +283,6 @@ namespace Conquest
 
 		public override void Reload()
 		{
-			if ( IsReloading )
-				return;
-
 			if ( AmmoClip >= WeaponInfo.ClipSize )
 				return;
 
@@ -320,17 +317,34 @@ namespace Conquest
 			}
 		}
 
+		[ClientRpc]
+		protected void SendReloadFinished()
+		{
+			ViewModelEntity?.SetAnimBool( "reload_finished", true );
+		}
+
 		public virtual void OnReloadFinish()
 		{
-			IsReloading = false;
-
 			if ( Owner is Player player )
 			{
-				var ammo = player.TakeAmmo( WeaponInfo.AmmoType, WeaponInfo.ClipSize - AmmoClip );
+				var amountToTake = WeaponInfo.ReloadSingle ? 1 : WeaponInfo.ClipSize - AmmoClip;
+
+				var ammo = player.TakeAmmo( WeaponInfo.AmmoType, amountToTake );
 				if ( ammo == 0 )
 					return;
 
 				AmmoClip += ammo;
+
+				if ( WeaponInfo.ReloadSingle && AmmoClip < WeaponInfo.ClipSize )
+				{
+					Reload();
+				}
+				else
+				{
+					IsReloading = false;
+
+					SendReloadFinished();
+				}
 			}
 		}
 
@@ -338,8 +352,6 @@ namespace Conquest
 		public virtual void StartReloadEffects()
 		{
 			ViewModelEntity?.SetAnimBool( "reload", true );
-
-			// TODO - player third person model reload
 		}
 
 		protected bool CanPrimaryAttackSemi()
@@ -395,36 +407,30 @@ namespace Conquest
 			return radius;
 		}
 
-		protected Vector3 SeededRandom()
+		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int bulletCount = 1 )
 		{
-			Rand.SetSeed( DateTime.Now.GetEpoch() );
-			return Vector3.Random;
-		}
-
-		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
-		{
-			spread *= GetAttackSpreadMultiplier();
-
-			var forward = Owner.EyeRot.Forward;
-			forward += SeededRandom() * spread * 0.25f;
-			forward = forward.Normal;
-
 			//
-			// ShootBullet is coded in a way where we can have bullets pass through shit
-			// or bounce off shit, in which case it'll return multiple results
+			// Seed rand using the tick, so bullet cones match on client and server
 			//
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
+			Rand.SetSeed( Time.Tick );
+
+			for ( int i = 0; i < bulletCount; i++ )
 			{
-				tr.Surface.DoBulletImpact( tr );
-
-				if ( !IsServer ) continue;
-				if ( !tr.Entity.IsValid() ) continue;
+				var forward = Owner.EyeRot.Forward;
+				forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
+				forward = forward.Normal;
 
 				//
-				// We turn predictiuon off for this, so any exploding effects don't get culled etc
+				// ShootBullet is coded in a way where we can have bullets pass through shit
+				// or bounce off shit, in which case it'll return multiple results
 				//
-				using ( Prediction.Off() )
+				foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
 				{
+					tr.Surface.DoBulletImpact( tr );
+
+					if ( !IsServer ) continue;
+					if ( !tr.Entity.IsValid() ) continue;
+
 					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
 						.UsingTraceResult( tr )
 						.WithAttacker( Owner )
@@ -485,9 +491,9 @@ namespace Conquest
 			PerformRecoil();
 
 			//
-			// Shoot the bullet
+			// Shoot some bullets
 			//
-			ShootBullet( GetBulletSpread(), GetBulletForce(), GetBulletDamage(), GetBulletRadius() );
+			ShootBullet( GetBulletSpread(), GetBulletForce(), GetBulletDamage(), GetBulletRadius(), Math.Clamp( WeaponInfo.Pellets, 1, 16 ) );
 
 			//
 			// Set animation property
