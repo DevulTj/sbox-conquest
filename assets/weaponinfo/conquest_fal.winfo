@@ -35,5 +35,6 @@
 		bulletspread = 0.0
 		bulletbasedamage = 20.0
 		bulletradius = 1.0
+		firemode = "2"
 	}
 }

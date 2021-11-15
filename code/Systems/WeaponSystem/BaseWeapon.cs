@@ -22,7 +22,7 @@ namespace Conquest
 
 	public partial class Carriable : BaseCarriable, IUse, ICarriable
 	{
-		public virtual WeaponSlot Slot => WeaponSlot.Primary;
+		public virtual WeaponSlot Slot => WeaponInfo.Slot;
 
 		public virtual bool ShowAmmoCount => true;
 
@@ -32,31 +32,18 @@ namespace Conquest
 		public virtual float PrimaryRate => 5.0f;
 		public virtual float SecondaryRate => 15.0f;
 
-		public WeaponInfoAsset WeaponInfo { get; set; }
-
-
-		protected void LoadAsset()
+		public WeaponInfoAsset WeaponInfo
 		{
-			WeaponInfoAsset.Registry.TryGetValue( this.ClassInfo.Name, out var asset );
-
-			if ( asset is not null )
-				WeaponInfo = asset;
-			else
-				WeaponInfo = new WeaponInfoAsset();
-		}
-
-		public override void ClientSpawn()
-		{
-			base.ClientSpawn();
-
-			LoadAsset();
+			get
+			{
+				WeaponInfoAsset.Registry.TryGetValue( this.ClassInfo.Name, out var asset );
+				return asset;
+			}
 		}
 
 		public override void Spawn()
 		{
 			base.Spawn();
-
-			LoadAsset();
 
 			CollisionGroup = CollisionGroup.Weapon; // so players touch it as a trigger but not as a solid
 			SetInteractsAs( CollisionLayer.Debris ); // so player movement doesn't walk into it
@@ -161,7 +148,6 @@ namespace Conquest
 
 		public virtual void AttackSecondary()
 		{
-
 		}
 
 		/// <summary>
@@ -183,10 +169,6 @@ namespace Conquest
 					.Run();
 
 			yield return tr;
-
-			//
-			// Another trace, bullet going through thin material, penetrating water surface?
-			//
 		}
 
 		public BaseViewModel HandsModel;
@@ -241,24 +223,17 @@ namespace Conquest
 		public virtual Vector3 RecoilOnShot => new Vector3( Rand.Float(-7f, 7f ), 15f, 0 );
 		public virtual float RecoilRecoveryScaleFactor => 10f;
 
-		// client driven
+		// @Client
 		public Vector3 CurrentRecoilAmount { get; set; } = Vector3.Zero;
 
-		[Net, Predicted]
-		public int AmmoClip { get; set; }
-
-		[Net, Predicted]
-		public TimeSince TimeSinceReload { get; set; }
-
-		[Net, Predicted]
-		public bool IsReloading { get; set; }
-
-		[Net, Predicted]
-		public TimeSince TimeSinceDeployed { get; set; }
+		[Net, Predicted] public int AmmoClip { get; set; }
+		[Net, Predicted] public TimeSince TimeSinceReload { get; set; }
+		[Net, Predicted] public bool IsReloading { get; set; }
+		[Net, Predicted] public TimeSince TimeSinceDeployed { get; set; }
+		[Net, Predicted] protected int BurstCount { get; set; } = 0;
 
 
 		public PickupTrigger PickupTrigger { get; protected set; }
-
 
 		public override bool CanReload()
 		{
@@ -269,7 +244,6 @@ namespace Conquest
 
 			return true;
 		}
-
 
 		public int AvailableAmmo()
 		{
@@ -318,7 +292,7 @@ namespace Conquest
 
 			IsReloading = true;
 
-			(Owner as AnimEntity).SetAnimBool( "b_reload", true );
+			( Owner as AnimEntity ).SetAnimBool( "b_reload", true );
 
 			StartReloadEffects();
 		}
@@ -361,6 +335,24 @@ namespace Conquest
 			// TODO - player third person model reload
 		}
 
+		protected bool CanPrimaryAttackSemi()
+		{
+			return base.CanPrimaryAttack() && Input.Pressed( InputButton.Attack1 );
+		}
+
+		protected bool CanPrimaryAttackBurst()
+		{
+			if ( !Input.Down( InputButton.Attack1 ) )
+			{
+				BurstCount = 0;
+			}
+
+			if ( BurstCount >= WeaponInfo.BurstAmount )
+				return false;
+
+			return base.CanPrimaryAttack();
+		}
+
 		public override bool CanPrimaryAttack()
 		{
 			if ( Owner is Player player )
@@ -368,7 +360,17 @@ namespace Conquest
 				if ( player.IsSprinting )
 					return false;
 			}
-	
+
+			var fireMode = WeaponInfo.FireMode;
+			if ( fireMode == FireMode.Semi )
+			{
+				return CanPrimaryAttackSemi();
+			}
+			else if ( fireMode == FireMode.Burst )
+			{
+				return CanPrimaryAttackBurst();
+			}
+
 			return base.CanPrimaryAttack();
 		}
 
@@ -484,6 +486,9 @@ namespace Conquest
 			// Set animation property
 			//
 			( Owner as AnimEntity ).SetAnimBool( "b_attack", true );
+
+			if ( WeaponInfo.FireMode == FireMode.Burst )
+				BurstCount++;
 		}
 
 		[ClientRpc]

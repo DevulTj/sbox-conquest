@@ -49,7 +49,7 @@ namespace Conquest
 			if ( Weapon is null && weaponFromSlot is not null )
 			{
 				Weapon = weaponFromSlot;
-				Icon?.SetTexture( Weapon.WeaponInfo.LoadoutIcon );
+				Icon?.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
 			}
 
 			if ( weaponFromSlot is BaseWeapon weapon )

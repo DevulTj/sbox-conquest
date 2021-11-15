@@ -24,7 +24,7 @@
 		rpm = 100
 		reloadtime = 2.0
 		slot = "1"
-		ammotype = "2"
+		ammotype = "0"
 		clipsize = 6
 		allowchamberreload = false
 		loadouticon = "ui/WeaponIcons/conquest_deserteagle.png"
@@ -35,5 +35,6 @@
 		bulletspread = 0.0
 		bulletbasedamage = 50.0
 		bulletradius = 1.0
+		firemode = "1"
 	}
 }

@@ -8,10 +8,5 @@ namespace Conquest
 	{
 		public override Vector3 RecoilOnShot => new Vector3( Rand.Float( -40f, 40f ), 100f, 0 );
 		public override float RecoilRecoveryScaleFactor => base.RecoilRecoveryScaleFactor * 2f;
-
-		public override bool CanPrimaryAttack()
-		{
-			return base.CanPrimaryAttack() && Input.Pressed( InputButton.Attack1 );
-		}
 	}
 }

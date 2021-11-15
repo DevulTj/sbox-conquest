@@ -5,6 +5,13 @@ using System.ComponentModel;
 
 namespace Conquest
 {
+	public enum FireMode
+	{
+		Automatic,
+		Semi,
+		Burst
+	}
+
 	[Library( "winfo" ), AutoGenerate]
 	public class WeaponInfoAsset : Asset
 	{
@@ -16,7 +23,8 @@ namespace Conquest
 		[Property, Category( "Important" )] public string WeaponClass { get; set; } = "";
 		[Property, Category( "Important" )] public WeaponSlot Slot { get; set; } = WeaponSlot.Primary;
 		[Property, Category( "Important" )] public AmmoType AmmoType { get; set; } = AmmoType.Rifle;
-
+		[Property, Category( "Important" )] public FireMode FireMode { get; set; } = FireMode.Automatic;
+		[Property, Category( "Important" )] public int BurstAmount { get; set; } = 3;
 
 		// Weapon Stats
 		[Property( Title = "Rounds Per Minute" ), Category( "Stats" )] public int RPM { get; set; } = 600;
