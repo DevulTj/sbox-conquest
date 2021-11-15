@@ -1,0 +1,42 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		weaponclass = "conquest_fal"
+		walkcycleoffsets = [ 0.0, 10.0, 10.0 ]
+		forwardbobbing = 4.0
+		sidewalkoffset = 10.0
+		aimoffset = [ -5.0, 10.03, 0.5 ]
+		aimangleoffset = [ 0.0, 0.83, -0.5 ]
+		offset = [ 2.0, 5.0, -2.0 ]
+		crouchoffset = [ -100.0, 0.0, 0.0 ]
+		offsetlerpamount = 30.0
+		sprintrightrotation = -10.0
+		sprintuprotation = -10.0
+		sprintleftoffset = 0.0
+		postsprintleftoffset = 10.0
+		burstsprintrightrotation = -30.0
+		burstsprintuprotation = -30.0
+		burstsprintleftoffset = 0.0
+		burstpostsprintleftoffset = 10.0
+		usecustomhands = true
+		handsasset = "weapons/swb/hands/swat/v_hands_swat.vmdl"
+		rpm = 700
+		reloadtime = 2.0
+		slot = "0"
+		ammotype = "2"
+		clipsize = 30
+		allowchamberreload = false
+		loadouticon = "ui/WeaponIcons/conquest_fal.png"
+		viewmodel = resource:"weapons/swb/rifles/fal/v_fal.vmdl"
+		worldmodel = resource:"weapons/swb/rifles/fal/w_fal.vmdl"
+		firesound = "fal.fire"
+		dryfiresound = "rust_smg.dryfire"
+		bulletspread = 0.0
+		bulletbasedamage = 20.0
+		bulletradius = 1.0
+		defaultfiremode = "1"
+		supported_fire_modes = "7"
+		burstamount = 3
+	}
+}

@@ -32,7 +32,7 @@ namespace Conquest
 			var player = Local.Pawn as Player;
 			var active = player?.ActiveChild as Carriable;
 
-			var weaponFromSlot = player.Inventory.GetSlot( SlotIndex ) as Carriable;
+			var weaponFromSlot = player.Inventory?.GetSlot( SlotIndex ) as Carriable;
 
 			if ( weaponFromSlot is null )
 			{
@@ -49,12 +49,12 @@ namespace Conquest
 			if ( Weapon is null && weaponFromSlot is not null )
 			{
 				Weapon = weaponFromSlot;
-				Icon?.SetTexture( $"ui/WeaponIcons/{Weapon.ClassInfo.Name}.png" );
+				Icon?.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
 			}
 
 			if ( weaponFromSlot is BaseWeapon weapon )
 			{
-				Ammo.Text = $"{player.AmmoCount( weapon.AmmoType ) + weapon.AmmoClip}";
+				Ammo.Text = $"{player.AmmoCount( weapon.WeaponInfo.AmmoType ) + weapon.AmmoClip}";
 			}
 			else if ( weaponFromSlot is BaseGadget gadget )
 			{

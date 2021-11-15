@@ -126,9 +126,9 @@ metadata
 ]
 
 //
-// Conquest.AK47
+// Conquest.FAL
 //
-@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_ak47 : ""
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_fal : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -136,9 +136,9 @@ metadata
 ]
 
 //
-// Conquest.M4A1
+// Conquest.SPAS12
 //
-@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_m4a1 : ""
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_spas12 : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -146,9 +146,9 @@ metadata
 ]
 
 //
-// Conquest.MR96
+// Conquest.DesertEagle
 //
-@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_pistol/rust_pistol.vmdl" ) = conquest_mr96 : ""
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_pistol/rust_pistol.vmdl" ) = conquest_deserteagle : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

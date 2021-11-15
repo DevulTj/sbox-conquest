@@ -1,84 +1,10 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Conquest
 {
-	public class ViewModelInfo
-	{
-		public ViewModelInfo( Carriable weaponRef )
-		{
-			Weapon = weaponRef;
-		}
-
-		public virtual Carriable Weapon { get; set; }
-
-		public virtual Vector3 WalkCycleOffsets => new Vector3( 50f, 20f, 50f );
-		public virtual float ForwardBobbing => 4f;
-		public virtual float SideWalkOffset => 100f;
-		public virtual Vector3 AimOffset => new Vector3( 10f, 10, 1.8f );
-		public virtual Vector3 Offset => new Vector3( -6f, 5f, -5f );
-		public virtual Vector3 CrouchOffset => new Vector3( -10f, -50f, -0f );
-		public virtual float OffsetLerpAmount => 30f;
-
-		public virtual float SprintRightRotation => 20f;
-		public virtual float SprintUpRotation => -30f;
-		public virtual float SprintLeftOffset => -35f;
-		public virtual float PostSprintLeftOffset => 5f;
-
-		public virtual float BurstSprintRightRotation => 20f;
-		public virtual float BurstSprintUpRotation => -30f;
-		public virtual float BurstSprintLeftOffset => -35f;
-		public virtual float BurstPostSprintLeftOffset => 5f;
-	}
-
-	public class MR96ViewModelInfo : ViewModelInfo
-	{
-		public MR96ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
-		{
-		}
-
-		public override float BurstSprintRightRotation => 2f;
-		public override float BurstSprintUpRotation => 2f;
-		public override float BurstSprintLeftOffset => -35f;
-		public override float BurstPostSprintLeftOffset => 5f;
-
-		public override Vector3 AimOffset => new Vector3( -10f, 17.5f, 2f );
-	}
-
-	public class AK47ViewModelInfo : ViewModelInfo
-	{
-		public AK47ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
-		{
-		}
-
-		public override float SprintRightRotation => 2f;
-		public override float SprintUpRotation => 2f;
-
-		public override float BurstSprintRightRotation => 20f;
-		public override float BurstSprintUpRotation => -30f;
-		public override float BurstSprintLeftOffset => -35f;
-		public override float BurstPostSprintLeftOffset => 5f;
-
-		public override Vector3 AimOffset => new Vector3( -20f, 18.48f, 2.7f );
-	}
-
-	public class M4A1ViewModelInfo : ViewModelInfo
-	{
-		public M4A1ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
-		{
-		}
-
-		public override float SprintRightRotation => 2f;
-		public override float SprintUpRotation => 2f;
-		public override float BurstSprintRightRotation => 20f;
-		public override float BurstSprintUpRotation => -30f;
-		public override float BurstSprintLeftOffset => -35f;
-		public override float BurstPostSprintLeftOffset => 10f;
-
-		public override Vector3 AimOffset => new Vector3( -5f, 19f, 2.7f );
-	}
-
 	public interface ICarriable
 	{
 		public Entity Entity => this as Entity;
@@ -96,7 +22,7 @@ namespace Conquest
 
 	public partial class Carriable : BaseCarriable, IUse, ICarriable
 	{
-		public virtual WeaponSlot Slot => WeaponSlot.Primary;
+		public virtual WeaponSlot Slot => WeaponInfo.Slot;
 
 		public virtual bool ShowAmmoCount => true;
 
@@ -106,7 +32,14 @@ namespace Conquest
 		public virtual float PrimaryRate => 5.0f;
 		public virtual float SecondaryRate => 15.0f;
 
-		public virtual ViewModelInfo VMInfo => new ViewModelInfo( this );
+		public WeaponInfoAsset WeaponInfo
+		{
+			get
+			{
+				WeaponInfoAsset.Registry.TryGetValue( this.ClassInfo.Name, out var asset );
+				return asset;
+			}
+		}
 
 		public override void Spawn()
 		{
@@ -114,6 +47,9 @@ namespace Conquest
 
 			CollisionGroup = CollisionGroup.Weapon; // so players touch it as a trigger but not as a solid
 			SetInteractsAs( CollisionLayer.Debris ); // so player movement doesn't walk into it
+
+			if ( WeaponInfo is not null )
+				SetModel( WeaponInfo.WorldModel );
 		}
 
 		[Net, Predicted]
@@ -167,6 +103,11 @@ namespace Conquest
 			}
 		}
 
+		protected float ConvertRPM( int rpm )
+		{
+			return 60f / rpm;
+		}
+
 		public virtual bool CanReload()
 		{
 			if ( !Owner.IsValid() ) return false;
@@ -186,10 +127,15 @@ namespace Conquest
 
 			if ( (Owner as Player).SinceSprintStopped < 0.2f ) return false;
 
-			var rate = PrimaryRate;
-			if ( rate <= 0 ) return true;
+			if ( WeaponInfo is not null )
+			{
+				var rate = ConvertRPM( WeaponInfo.RPM );
+				if ( rate <= 0 ) return true;
 
-			return TimeSincePrimaryAttack > (1 / rate);
+				return TimeSincePrimaryAttack > rate;
+			}
+
+			return true;
 		}
 
 		public virtual void AttackPrimary()
@@ -208,7 +154,6 @@ namespace Conquest
 
 		public virtual void AttackSecondary()
 		{
-
 		}
 
 		/// <summary>
@@ -230,17 +175,18 @@ namespace Conquest
 					.Run();
 
 			yield return tr;
-
-			//
-			// Another trace, bullet going through thin material, penetrating water surface?
-			//
 		}
+
+		public BaseViewModel HandsModel;
 
 		public override void CreateViewModel()
 		{
 			Host.AssertClient();
 
-			if ( string.IsNullOrEmpty( ViewModelPath ) )
+			if ( WeaponInfo is null )
+				return;
+
+			if ( string.IsNullOrEmpty( WeaponInfo.ViewModel ) )
 				return;
 
 			var viewmodel = new ViewModel
@@ -248,11 +194,21 @@ namespace Conquest
 				Position = Position,
 				Owner = Owner,
 				EnableViewmodelRendering = true,
-				VMInfo = VMInfo
+				WeaponInfo = WeaponInfo
 			};
 
 			ViewModelEntity = viewmodel;
-			ViewModelEntity.SetModel( ViewModelPath );
+			ViewModelEntity.SetModel( WeaponInfo.ViewModel );
+
+			// Bonemerge hands
+			if ( WeaponInfo.UseCustomHands && !string.IsNullOrEmpty( WeaponInfo.HandsAsset ) )
+			{
+				HandsModel = new BaseViewModel();
+				HandsModel.Owner = Owner;
+				HandsModel.EnableViewmodelRendering = true;
+				HandsModel.SetModel( WeaponInfo.HandsAsset );
+				HandsModel.SetParent( ViewModelEntity, true );
+			}
 		}
 
 		public bool OnUse( Entity user )
@@ -273,48 +229,35 @@ namespace Conquest
 
 	public partial class BaseWeapon : Carriable
 	{
-		public virtual AmmoType AmmoType => AmmoType.Pistol;
-		public virtual int ClipSize => 16;
-		public virtual float ReloadTime => 3.0f;
-
 		public virtual Vector3 RecoilOnShot => new Vector3( Rand.Float(-7f, 7f ), 15f, 0 );
 		public virtual float RecoilRecoveryScaleFactor => 10f;
 
-		// client driven
+		// @Client
 		public Vector3 CurrentRecoilAmount { get; set; } = Vector3.Zero;
 
-		[Net, Predicted]
-		public int AmmoClip { get; set; }
-
-		[Net, Predicted]
-		public TimeSince TimeSinceReload { get; set; }
-
-		[Net, Predicted]
-		public bool IsReloading { get; set; }
-
-		[Net, Predicted]
-		public TimeSince TimeSinceDeployed { get; set; }
-
+		[Net, Predicted] public int AmmoClip { get; set; }
+		[Net, Predicted] public TimeSince TimeSinceReload { get; set; }
+		[Net, Predicted] public bool IsReloading { get; set; }
+		[Net, Predicted] public TimeSince TimeSinceDeployed { get; set; }
+		[Net, Predicted] protected int BurstCount { get; set; } = 0;
 
 		public PickupTrigger PickupTrigger { get; protected set; }
-
 
 		public override bool CanReload()
 		{
 			if ( !Owner.IsValid() ) return false;
-			if ( AmmoClip > 0 && !Input.Down( InputButton.Reload ) ) return false;
 
+			if ( AmmoClip > 0 && !Input.Down( InputButton.Reload ) ) return false;
 			if ( AmmoClip == 0 ) return true;
 
 			return true;
 		}
 
-
 		public int AvailableAmmo()
 		{
 			var owner = Owner as Player;
 			if ( owner == null ) return 0;
-			return owner.AmmoCount( AmmoType );
+			return owner.AmmoCount( WeaponInfo.AmmoType );
 		}
 
 		public override void ActiveStart( Entity ent )
@@ -335,27 +278,26 @@ namespace Conquest
 			PickupTrigger = new PickupTrigger();
 			PickupTrigger.Parent = this;
 			PickupTrigger.Position = Position;
+
+			AmmoClip = WeaponInfo.ClipSize;
 		}
 
 		public override void Reload()
 		{
-			if ( IsReloading )
-				return;
-
-			if ( AmmoClip >= ClipSize )
+			if ( AmmoClip >= WeaponInfo.ClipSize )
 				return;
 
 			TimeSinceReload = 0;
 
 			if ( Owner is Player player )
 			{
-				if ( player.AmmoCount( AmmoType ) <= 0 )
+				if ( player.AmmoCount( WeaponInfo.AmmoType ) <= 0 )
 					return;
 			}
 
 			IsReloading = true;
 
-			(Owner as AnimEntity).SetAnimBool( "b_reload", true );
+			( Owner as AnimEntity ).SetAnimBool( "b_reload", true );
 
 			StartReloadEffects();
 		}
@@ -370,23 +312,40 @@ namespace Conquest
 				base.Simulate( owner );
 			}
 
-			if ( IsReloading && TimeSinceReload > ReloadTime )
+			if ( IsReloading && TimeSinceReload > WeaponInfo.ReloadTime )
 			{
 				OnReloadFinish();
 			}
 		}
 
+		[ClientRpc]
+		protected void SendReloadFinished()
+		{
+			ViewModelEntity?.SetAnimBool( "reload_finished", true );
+		}
+
 		public virtual void OnReloadFinish()
 		{
-			IsReloading = false;
-
 			if ( Owner is Player player )
 			{
-				var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
+				var amountToTake = WeaponInfo.ReloadSingle ? 1 : WeaponInfo.ClipSize - AmmoClip;
+
+				var ammo = player.TakeAmmo( WeaponInfo.AmmoType, amountToTake );
 				if ( ammo == 0 )
 					return;
 
 				AmmoClip += ammo;
+
+				if ( WeaponInfo.ReloadSingle && AmmoClip < WeaponInfo.ClipSize )
+				{
+					Reload();
+				}
+				else
+				{
+					IsReloading = false;
+
+					SendReloadFinished();
+				}
 			}
 		}
 
@@ -394,8 +353,24 @@ namespace Conquest
 		public virtual void StartReloadEffects()
 		{
 			ViewModelEntity?.SetAnimBool( "reload", true );
+		}
 
-			// TODO - player third person model reload
+		protected bool CanPrimaryAttackSemi()
+		{
+			return base.CanPrimaryAttack() && Input.Pressed( InputButton.Attack1 );
+		}
+
+		protected bool CanPrimaryAttackBurst()
+		{
+			if ( !Input.Down( InputButton.Attack1 ) )
+			{
+				BurstCount = 0;
+			}
+
+			if ( BurstCount >= WeaponInfo.BurstAmount )
+				return false;
+
+			return base.CanPrimaryAttack();
 		}
 
 		public override bool CanPrimaryAttack()
@@ -405,7 +380,17 @@ namespace Conquest
 				if ( player.IsSprinting )
 					return false;
 			}
-	
+
+			var fireMode = WeaponInfo.DefaultFireMode;
+			if ( fireMode == FireMode.Semi )
+			{
+				return CanPrimaryAttackSemi();
+			}
+			else if ( fireMode == FireMode.Burst )
+			{
+				return CanPrimaryAttackBurst();
+			}
+
 			return base.CanPrimaryAttack();
 		}
 
@@ -423,36 +408,30 @@ namespace Conquest
 			return radius;
 		}
 
-		protected Vector3 SeededRandom()
+		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int bulletCount = 1 )
 		{
-			Rand.SetSeed( DateTime.Now.GetEpoch() );
-			return Vector3.Random;
-		}
-
-		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
-		{
-			spread *= GetAttackSpreadMultiplier();
-
-			var forward = Owner.EyeRot.Forward;
-			forward += SeededRandom() * spread * 0.25f;
-			forward = forward.Normal;
-
 			//
-			// ShootBullet is coded in a way where we can have bullets pass through shit
-			// or bounce off shit, in which case it'll return multiple results
+			// Seed rand using the tick, so bullet cones match on client and server
 			//
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
+			Rand.SetSeed( Time.Tick );
+
+			for ( int i = 0; i < bulletCount; i++ )
 			{
-				tr.Surface.DoBulletImpact( tr );
-
-				if ( !IsServer ) continue;
-				if ( !tr.Entity.IsValid() ) continue;
+				var forward = Owner.EyeRot.Forward;
+				forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
+				forward = forward.Normal;
 
 				//
-				// We turn predictiuon off for this, so any exploding effects don't get culled etc
+				// ShootBullet is coded in a way where we can have bullets pass through shit
+				// or bounce off shit, in which case it'll return multiple results
 				//
-				using ( Prediction.Off() )
+				foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
 				{
+					tr.Surface.DoBulletImpact( tr );
+
+					if ( !IsServer ) continue;
+					if ( !tr.Entity.IsValid() ) continue;
+
 					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
 						.UsingTraceResult( tr )
 						.WithAttacker( Owner )
@@ -463,10 +442,44 @@ namespace Conquest
 			}
 		}
 
+		protected virtual float GetBulletSpread()
+		{
+			return WeaponInfo.BulletSpread;
+		}
+
+		protected virtual float GetBulletForce()
+		{
+			return 10f;
+		}
+
+		protected virtual float GetBulletDamage()
+		{
+			return WeaponInfo.BulletBaseDamage;
+		}
+
+		protected virtual float GetBulletRadius()
+		{
+			return WeaponInfo.BulletRadius;
+		}
+
 		public override void AttackPrimary()
 		{
 			TimeSincePrimaryAttack = 0;
 			TimeSinceSecondaryAttack = 0;
+
+			//
+			// If we have no ammo, play a sound
+			//
+			if ( !TakeAmmo( 1 ) )
+			{
+				DryFire();
+				return;
+			}
+
+			//
+			// Play the fire sound
+			//
+			PlaySound( WeaponInfo.FireSound );
 
 			//
 			// Tell the clients to play the shoot effects
@@ -479,29 +492,17 @@ namespace Conquest
 			PerformRecoil();
 
 			//
-			// ShootBullet is coded in a way where we can have bullets pass through shit
-			// or bounce off shit, in which case it'll return multiple results
+			// Shoot some bullets
 			//
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + Owner.EyeRot.Forward * 5000 ) )
-			{
-				tr.Surface.DoBulletImpact( tr );
+			ShootBullet( GetBulletSpread(), GetBulletForce(), GetBulletDamage(), GetBulletRadius(), Math.Clamp( WeaponInfo.Pellets, 1, 16 ) );
 
-				if ( !IsServer ) continue;
-				if ( !tr.Entity.IsValid() ) continue;
+			//
+			// Set animation property
+			//
+			( Owner as AnimEntity ).SetAnimBool( "b_attack", true );
 
-				//
-				// We turn predictiuon off for this, so aany exploding effects don't get culled etc
-				//
-				using ( Prediction.Off() )
-				{
-					var damage = DamageInfo.FromBullet( tr.EndPos, Owner.EyeRot.Forward * 100, 15 )
-						.UsingTraceResult( tr )
-						.WithAttacker( Owner )
-						.WithWeapon( this );
-
-					tr.Entity.TakeDamage( damage );
-				}
-			}
+			if ( WeaponInfo.DefaultFireMode == FireMode.Burst )
+				BurstCount++;
 		}
 
 		[ClientRpc]
@@ -538,7 +539,7 @@ namespace Conquest
 		[ClientRpc]
 		public virtual void DryFire()
 		{
-			// CLICK
+			PlaySound( WeaponInfo.DryFireSound );
 		}
 
 		public override void CreateHudElements()

@@ -1,0 +1,68 @@
+//
+// Conquest.WeaponInfoAsset
+//
+@BaseClass = winfo : ""
+[
+	weaponclass(string) { group = "Important" } : "Weapon Class" : "" : ""
+	slot(choices) { group = "Important" } : "Slot" : 0 : "" =
+	[
+		0 : "Primary"
+		1 : "Secondary"
+		2 : "Gadget"
+	]
+	ammotype(choices) { group = "Important" } : "Ammo Type" : 2 : "" =
+	[
+		0 : "Pistol"
+		1 : "Shotgun"
+		2 : "Rifle"
+		3 : "Sniper"
+		4 : "Rocket"
+		5 : "Grenade"
+	]
+	defaultfiremode(choices) { group = "Important" } : "Default Fire Mode" : 1 : "" =
+	[
+		1 : "Automatic"
+		2 : "Semi"
+		4 : "Burst"
+	]
+	supported_fire_modes(flags) { group = "Important" editor = "BitFlags()" } : "Supported Fire Modes" : : "" =
+	[
+		1 : "Automatic" : 0
+		2 : "Semi" : 0
+		4 : "Burst" : 0
+	]
+	burstamount(integer) { group = "Important" } : "Burst Amount" : 3 : ""
+	rpm(integer) { group = "Stats" } : "Rounds Per Minute" : 600 : ""
+	reloadtime(float) { group = "Stats" } : "Reload Time" : 2 : ""
+	clipsize(integer) { group = "Stats" } : "Clip Size" : 30 : ""
+	allowchamberreload(boolean) { group = "Stats" } : "Allow Chamber Reload" : 0 : ""
+	bulletspread(float) { group = "Stats" } : "Bullet Spread" : 0 : ""
+	bulletbasedamage(float) { group = "Stats" } : "Bullet Base Damage" : 30 : ""
+	bulletradius(float) { group = "Stats" } : "Bullet Radius" : 1 : ""
+	pellets(integer) { group = "Stats" } : "Pellets" : 1 : ""
+	reloadsingle(boolean) { group = "Stats" } : "Reload Single" : 0 : ""
+	usecustomhands(boolean) { group = "Hands" } : "Use Custom Hands" : 0 : ""
+	handsasset(resource:vmdl) { group = "Hands" } : "Hands Asset" : "weapons/swb/hands/rebel/v_hands_rebel.vmdl" : ""
+	viewmodel(resource:vmdl) { group = "Models" } : "View Model" : "" : ""
+	worldmodel(resource:vmdl) { group = "Models" } : "World Model" : "" : ""
+	firesound(string) { group = "Sounds" } : "Fire Sound" : "" : ""
+	dryfiresound(string) { group = "Sounds" } : "Dry Fire Sound" : "" : ""
+	loadouticon(string) { group = "UI" editor = "AssetBrowse(png)" } : "Loadout Icon" : "" : ""
+	walkcycleoffsets(vector) { group = "ViewModel" } : "Walk Cycle Offsets" :  : ""
+	forwardbobbing(float) { group = "ViewModel" } : "Forward Bobbing" : 4 : ""
+	sidewalkoffset(float) { group = "ViewModel" } : "Side Walk Offset" : 100 : ""
+	aimoffset(vector) { group = "ViewModel" } : "Aim Offset" :  : ""
+	aimangleoffset(angle) { group = "ViewModel" } : "Aim Angle Offset" :  : ""
+	offset(vector) { group = "ViewModel" } : "Offset" :  : ""
+	crouchoffset(vector) { group = "ViewModel" } : "Crouch Offset" :  : ""
+	offsetlerpamount(float) { group = "ViewModel" } : "Offset Lerp Amount" : 30 : ""
+	sprintrightrotation(float) { group = "ViewModel" } : "Sprint Right Rotation" : 20 : ""
+	sprintuprotation(float) { group = "ViewModel" } : "Sprint Up Rotation" : -30 : ""
+	sprintleftoffset(float) { group = "ViewModel" } : "Sprint Left Offset" : -35 : ""
+	postsprintleftoffset(float) { group = "ViewModel" } : "Post Sprint Left Offset" : 5 : ""
+	burstsprintrightrotation(float) { group = "ViewModel" } : "Burst Sprint Right Rotation" : 20 : ""
+	burstsprintuprotation(float) { group = "ViewModel" } : "Burst Sprint Up Rotation" : -30 : ""
+	burstsprintleftoffset(float) { group = "ViewModel" } : "Burst Sprint Left Offset" : -35 : ""
+	burstpostsprintleftoffset(float) { group = "ViewModel" } : "Burst Post Sprint Left Offset" : 5 : ""
+]
+

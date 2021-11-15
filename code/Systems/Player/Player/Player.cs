@@ -99,9 +99,9 @@ namespace Conquest
 		{
 
 			var primaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_primary" ) );
-			BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new AK47();
+			BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new FAL();
 			var secondaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_secondary" ) );
-			BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new MR96();
+			BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new DesertEagle();
 
 			Inventory.Add( primary, true );
 			Inventory.Add( secondary );
@@ -109,6 +109,7 @@ namespace Conquest
 
 			GiveAmmo( AmmoType.Pistol, 36 );
 			GiveAmmo( AmmoType.Rifle, 180 );
+			GiveAmmo( AmmoType.Shotgun, 36 );
 
 		}
 
@@ -166,8 +167,8 @@ namespace Conquest
 
 			Inventory.DeleteContents();
 
-			BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
-
+			BecomeRagdollOnClient( Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
+			
 			// Remove a ticket.
 			Game.Current.Scores.RemoveScore( Team, 1 );
 
@@ -184,6 +185,11 @@ namespace Conquest
 				{
 					killer.OnPlayerKill( this, LastDamage );
 				}
+			}
+
+			foreach ( var child in Children.OfType<ModelEntity>() )
+			{
+				child.EnableDrawing = false;
 			}
 		}
 

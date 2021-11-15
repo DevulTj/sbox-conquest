@@ -21,13 +21,13 @@ namespace Conquest
 		float NoiseSpeed => 0.8f;
 		float NoiseScale => 20f;
 
-		Vector3 WalkCycleOffsets => VMInfo.WalkCycleOffsets;
-		float ForwardBobbing => VMInfo.ForwardBobbing;
-		float SideWalkOffset => VMInfo.SideWalkOffset;
-		public Vector3 AimOffset => VMInfo.AimOffset;
-		Vector3 Offset => VMInfo.Offset;
-		Vector3 CrouchOffset => VMInfo.CrouchOffset;
-		float OffsetLerpAmount => VMInfo.OffsetLerpAmount;
+		Vector3 WalkCycleOffsets => WeaponInfo.WalkCycleOffsets;
+		float ForwardBobbing => WeaponInfo.ForwardBobbing;
+		float SideWalkOffset => WeaponInfo.SideWalkOffset;
+		public Vector3 AimOffset => WeaponInfo.AimOffset;
+		Vector3 Offset => WeaponInfo.Offset;
+		Vector3 CrouchOffset => WeaponInfo.CrouchOffset;
+		float OffsetLerpAmount => WeaponInfo.OffsetLerpAmount;
 		Vector3 SmoothedVelocity;
 		float VelocityClamp => 3f;
 
@@ -44,7 +44,7 @@ namespace Conquest
 
 		float DeltaTime => smoothedDelta;
 
-		public ViewModelInfo VMInfo { get; set; }
+		public WeaponInfoAsset WeaponInfo { get; set; }
 
 		public ViewModel()
 		{
@@ -96,7 +96,7 @@ namespace Conquest
 			LerpTowards( ref burstSprintLerp, burstSprint ? 1 : 0, 8f );
 
 			LerpTowards( ref aimLerp, aim ? 1 : 0, 7f );
-			LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
+			//LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
 
 			FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
 			FieldOfView -= burstSprintLerp * 10f;
@@ -175,16 +175,18 @@ namespace Conquest
 			var offsetLerp = MathF.Max( sprintLerp, burstSprintLerp );
 
 			Rotation *= Rotation.FromAxis( Vector3.Up, ( velocity.y * ( (sprintLerp * 40f) + (burstSprintLerp * 40f) ) + offsetLerp * OffsetLerpAmount ) * (1 - aimLerp) );
-			Rotation *= Rotation.FromAxis( Vector3.Right,(sprintLerp * VMInfo.SprintRightRotation) + ( burstSprintLerp * VMInfo.BurstSprintRightRotation ) * (1 - aimLerp) );
-			Rotation *= Rotation.FromAxis( Vector3.Up, ( ( sprintLerp * VMInfo.SprintUpRotation ) + ( burstSprintLerp * VMInfo.BurstSprintUpRotation ) ) * (1 - aimLerp) );
+			Rotation *= Rotation.FromAxis( Vector3.Right,(sprintLerp * WeaponInfo.SprintRightRotation) + ( burstSprintLerp * WeaponInfo.BurstSprintRightRotation ) * (1 - aimLerp) );
+			Rotation *= Rotation.FromAxis( Vector3.Up, ( ( sprintLerp * WeaponInfo.SprintUpRotation ) + ( burstSprintLerp * WeaponInfo.BurstSprintUpRotation ) ) * (1 - aimLerp) );
 
 			Rotation *= Rotation.FromAxis( Vector3.Forward, -1f );
 			Rotation *= Rotation.FromAxis( Vector3.Up, -1f );
 
+			Rotation *= Rotation.From( WeaponInfo.AimAngleOffset * aimLerp );
+
 			Position += forward * avoidance;
 
-			Position += left * (velocity.y * ( ( sprintLerp * VMInfo.SprintLeftOffset ) + ( burstSprintLerp * VMInfo.BurstSprintLeftOffset ) ) + offsetLerp * -10f * (1 - aimLerp));
-			Position += left * ( (VMInfo.PostSprintLeftOffset * sprintLerp) + (VMInfo.BurstPostSprintLeftOffset * burstSprintLerp ) );
+			Position += left * (velocity.y * ( ( sprintLerp * WeaponInfo.SprintLeftOffset ) + ( burstSprintLerp * WeaponInfo.BurstSprintLeftOffset ) ) + offsetLerp * -10f * (1 - aimLerp));
+			Position += left * ( (WeaponInfo.PostSprintLeftOffset * sprintLerp) + (WeaponInfo.BurstPostSprintLeftOffset * burstSprintLerp ) );
 
 			Position += up * (offsetLerp * -0f + avoidance * -10 * (1 - aimLerp));
 		}
