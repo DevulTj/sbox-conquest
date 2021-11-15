@@ -109,6 +109,7 @@ namespace Conquest
 
 			GiveAmmo( AmmoType.Pistol, 36 );
 			GiveAmmo( AmmoType.Rifle, 180 );
+			GiveAmmo( AmmoType.Shotgun, 36 );
 
 		}
 
