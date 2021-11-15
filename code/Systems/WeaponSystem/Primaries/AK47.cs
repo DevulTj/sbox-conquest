@@ -52,7 +52,7 @@ namespace Conquest
 			// Shoot the bullets
 			//
 			Rand.SetSeed( Time.Tick );
-			ShootBullet( 0.1f, 1.5f, 15f, 3.0f );
+			ShootBullet( 0f, 1.5f, 15f, 3.0f );
 
 		}
 
