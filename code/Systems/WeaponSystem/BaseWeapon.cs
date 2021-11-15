@@ -10,9 +10,24 @@ namespace Conquest
 	{
 		public static Dictionary<string, WeaponInfoAsset> Registry { get; set; } = new();
 
-		[Property, Category("Important")] public string WeaponClass { get; set; } = "";
+		#region Configuration
 
+		// Important
+		[Property, Category( "Important" )] public string WeaponClass { get; set; } = "";
+		[Property, Category( "Important" )] public WeaponSlot Slot { get; set; } = WeaponSlot.Primary;
+		[Property, Category( "Important" )] public AmmoType AmmoType { get; set; } = AmmoType.Rifle;
 
+		// Weapon Stats
+		[Property( Title = "Rounds Per Minute" ), Category( "Stats" )] public int RPM { get; set; } = 600;
+		[Property, Category( "Stats" )] public float ReloadTime { get; set; } = 2f;
+		[Property, Category( "Stats" )] public int ClipSize { get; set; } = 30;
+		[Property, Category( "Stats" )] public bool AllowChamberReload { get; set; } = false;
+
+		// Hands
+		[Property, Category( "Hands" )] public bool UseCustomHands { get; set; } = false;
+		[Property, Category( "Hands" )] public string HandsAsset { get; set; } = "weapons/swb/hands/rebel/v_hands_rebel.vmdl";
+
+		// ViewModel
 		[Property, Category( "ViewModel" )] public Vector3 WalkCycleOffsets { get; set; } = new Vector3( 50f, 20f, 50f );
 		[Property, Category( "ViewModel" )] public float ForwardBobbing { get; set; } = 4f;
 		[Property, Category( "ViewModel" )] public float SideWalkOffset { get; set; } = 100f;
@@ -32,6 +47,7 @@ namespace Conquest
 		[Property, Category( "ViewModel" )] public float BurstSprintUpRotation { get; set; } = -30f;
 		[Property, Category( "ViewModel" )] public float BurstSprintLeftOffset { get; set; } = -35f;
 		[Property, Category( "ViewModel" )] public float BurstPostSprintLeftOffset { get; set; } = 5f;
+		#endregion
 
 		protected override void PostLoad()
 		{
@@ -166,24 +182,10 @@ namespace Conquest
 
 		public WeaponInfoAsset WeaponInfo { get; set; }
 
-		public override void ClientSpawn()
+
+		protected void LoadAsset()
 		{
-			base.ClientSpawn();
-
-			Log.Info( this.ClassInfo.Name );
-
-			foreach( var registryAsset in WeaponInfoAsset.Registry )
-			{
-				Log.Info( "inlist:" );
-				Log.Info( registryAsset );
-			}
-
-			Log.Info( "list over" );
-
-
 			WeaponInfoAsset.Registry.TryGetValue( this.ClassInfo.Name, out var asset );
-
-			Log.Info( asset );
 
 			if ( asset is not null )
 				WeaponInfo = asset;
@@ -191,9 +193,18 @@ namespace Conquest
 				WeaponInfo = new WeaponInfoAsset();
 		}
 
+		public override void ClientSpawn()
+		{
+			base.ClientSpawn();
+
+			LoadAsset();
+		}
+
 		public override void Spawn()
 		{
 			base.Spawn();
+
+			LoadAsset();
 
 			CollisionGroup = CollisionGroup.Weapon; // so players touch it as a trigger but not as a solid
 			SetInteractsAs( CollisionLayer.Debris ); // so player movement doesn't walk into it
@@ -250,6 +261,11 @@ namespace Conquest
 			}
 		}
 
+		protected float ConvertRPM( int rpm )
+		{
+			return 60f / rpm;
+		}
+
 		public virtual bool CanReload()
 		{
 			if ( !Owner.IsValid() ) return false;
@@ -269,10 +285,10 @@ namespace Conquest
 
 			if ( (Owner as Player).SinceSprintStopped < 0.2f ) return false;
 
-			var rate = PrimaryRate;
+			var rate = ConvertRPM( WeaponInfo.RPM );
 			if ( rate <= 0 ) return true;
 
-			return TimeSincePrimaryAttack > (1 / rate);
+			return TimeSincePrimaryAttack > rate;
 		}
 
 		public virtual void AttackPrimary()
@@ -368,10 +384,6 @@ namespace Conquest
 
 	public partial class BaseWeapon : Carriable
 	{
-		public virtual AmmoType AmmoType => AmmoType.Pistol;
-		public virtual int ClipSize => 16;
-		public virtual float ReloadTime => 3.0f;
-
 		public virtual Vector3 RecoilOnShot => new Vector3( Rand.Float(-7f, 7f ), 15f, 0 );
 		public virtual float RecoilRecoveryScaleFactor => 10f;
 
@@ -409,7 +421,7 @@ namespace Conquest
 		{
 			var owner = Owner as Player;
 			if ( owner == null ) return 0;
-			return owner.AmmoCount( AmmoType );
+			return owner.AmmoCount( WeaponInfo.AmmoType );
 		}
 
 		public override void ActiveStart( Entity ent )
@@ -437,14 +449,14 @@ namespace Conquest
 			if ( IsReloading )
 				return;
 
-			if ( AmmoClip >= ClipSize )
+			if ( AmmoClip >= WeaponInfo.ClipSize )
 				return;
 
 			TimeSinceReload = 0;
 
 			if ( Owner is Player player )
 			{
-				if ( player.AmmoCount( AmmoType ) <= 0 )
+				if ( player.AmmoCount( WeaponInfo.AmmoType ) <= 0 )
 					return;
 			}
 
@@ -465,7 +477,7 @@ namespace Conquest
 				base.Simulate( owner );
 			}
 
-			if ( IsReloading && TimeSinceReload > ReloadTime )
+			if ( IsReloading && TimeSinceReload > WeaponInfo.ReloadTime )
 			{
 				OnReloadFinish();
 			}
@@ -477,7 +489,7 @@ namespace Conquest
 
 			if ( Owner is Player player )
 			{
-				var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
+				var ammo = player.TakeAmmo( WeaponInfo.AmmoType, WeaponInfo.ClipSize - AmmoClip );
 				if ( ammo == 0 )
 					return;
 

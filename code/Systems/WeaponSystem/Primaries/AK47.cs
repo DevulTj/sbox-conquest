@@ -12,12 +12,7 @@ namespace Conquest
 
 		public override float PrimaryRate => 12.0f;
 		public override float SecondaryRate => 1.0f;
-		public override int ClipSize => 30;
-		public override float ReloadTime => 2.8f;
 		public override int Bucket => 3;
-		public override AmmoType AmmoType => AmmoType.Rifle;
-
-		public override ViewModelInfo VMInfo => new AK47ViewModelInfo( this );
 
 		public override void Spawn()
 		{

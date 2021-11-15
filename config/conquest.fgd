@@ -136,6 +136,16 @@ metadata
 ]
 
 //
+// Conquest.FAL
+//
+@PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_fal : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Conquest.M4A1
 //
 @PointClass base(BaseProperties_conquest) editormodel( "weapons/rust_smg/rust_smg.vmdl" ) = conquest_m4a1 : ""

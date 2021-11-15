@@ -96,7 +96,7 @@ namespace Conquest
 			LerpTowards( ref burstSprintLerp, burstSprint ? 1 : 0, 8f );
 
 			LerpTowards( ref aimLerp, aim ? 1 : 0, 7f );
-			LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
+			//LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
 
 			FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
 			FieldOfView -= burstSprintLerp * 10f;

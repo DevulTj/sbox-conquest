@@ -4,6 +4,27 @@
 @BaseClass = winfo : ""
 [
 	weaponclass(string) { group = "Important" } : "Weapon Class" : "" : ""
+	slot(choices) { group = "Important" } : "Slot" : 0 : "" =
+	[
+		0 : "Primary"
+		1 : "Secondary"
+		2 : "Gadget"
+	]
+	ammotype(choices) { group = "Important" } : "Ammo Type" : 2 : "" =
+	[
+		0 : "Pistol"
+		1 : "Shotgun"
+		2 : "Rifle"
+		3 : "Sniper"
+		4 : "Rocket"
+		5 : "Grenade"
+	]
+	rpm(integer) { group = "Stats" } : "Rounds Per Minute" : 600 : ""
+	reloadtime(float) { group = "Stats" } : "Reload Time" : 2 : ""
+	clipsize(integer) { group = "Stats" } : "Clip Size" : 30 : ""
+	allowchamberreload(boolean) { group = "Stats" } : "Allow Chamber Reload" : 0 : ""
+	usecustomhands(boolean) { group = "Hands" } : "Use Custom Hands" : 0 : ""
+	handsasset(string) { group = "Hands" } : "Hands Asset" : "weapons/swb/hands/rebel/v_hands_rebel.vmdl" : ""
 	walkcycleoffsets(vector) { group = "ViewModel" } : "Walk Cycle Offsets" :  : ""
 	forwardbobbing(float) { group = "ViewModel" } : "Forward Bobbing" : 4 : ""
 	sidewalkoffset(float) { group = "ViewModel" } : "Side Walk Offset" : 100 : ""

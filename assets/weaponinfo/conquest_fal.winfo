@@ -2,24 +2,26 @@
 {
 	data = 
 	{
-		weaponclass = "conquest_mr96"
-		walkcycleoffsets = [ 50.0, -10.0, -25.0 ]
+		weaponclass = "conquest_fal"
+		walkcycleoffsets = [ 0.0, 10.0, 10.0 ]
 		forwardbobbing = 4.0
 		sidewalkoffset = 10.0
-		aimoffset = [ -2.0, 10.1, 2.3 ]
-		aimangleoffset = [ 0.0, 0.0, 0.0 ]
+		aimoffset = [ -5.0, 10.03, 0.5 ]
+		aimangleoffset = [ 0.0, 0.83, -0.5 ]
 		offset = [ 2.0, 5.0, -2.0 ]
 		crouchoffset = [ -100.0, 0.0, 0.0 ]
 		offsetlerpamount = 30.0
 		sprintrightrotation = -10.0
 		sprintuprotation = -10.0
 		sprintleftoffset = 0.0
-		postsprintleftoffset = 5.0
-		burstsprintrightrotation = 20.0
+		postsprintleftoffset = 10.0
+		burstsprintrightrotation = -30.0
 		burstsprintuprotation = -30.0
-		burstsprintleftoffset = -35.0
-		burstpostsprintleftoffset = 5.0
+		burstsprintleftoffset = 0.0
+		burstpostsprintleftoffset = 10.0
 		usecustomhands = true
 		handsasset = "weapons/swb/hands/rebel/v_hands_rebel.vmdl"
+		rpm = 700
+		reloadtime = 2.0
 	}
 }

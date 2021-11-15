@@ -3,19 +3,19 @@ using System;
 
 namespace Conquest
 {
-	[Library( "conquest_m4a1", Title = "M4A1" )]
+	[Library( "conquest_fal", Title = "FN-FAL" )]
 	[Hammer.EditorModel( "weapons/rust_smg/rust_smg.vmdl" )]
-	partial class M4A1 : BaseWeapon
+	partial class FAL : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Primary;
-		public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
+		public override string ViewModelPath => "weapons/swb/rifles/fal/v_fal.vmdl";
 		public override int Bucket => 3;
 
 		public override void Spawn()
 		{
 			base.Spawn();
 
-			SetModel( "weapons/rust_smg/rust_smg.vmdl" );
+			SetModel( "weapons/swb/rifles/fal/w_fal.vmdl" );
 			AmmoClip = 30;
 		}
 
@@ -37,7 +37,7 @@ namespace Conquest
 			//
 			ShootEffects();
 			PerformRecoil();
-			PlaySound( "rust_smg.shoot" );
+			PlaySound( "fal.fire" );
 
 			//
 			// Shoot the bullets
@@ -57,12 +57,12 @@ namespace Conquest
 		{
 			Host.AssertClient();
 
-			Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
+			Particles.Create( "particles/swb/muzzle/flash_medium.vpcf", EffectEntity, "muzzle" );
 			Particles.Create( "particles/pistol_ejectbrass.vpcf", EffectEntity, "ejection_point" );
 
 			if ( Owner == Local.Pawn )
 			{
-				new Sandbox.ScreenShake.Perlin( 0.5f, 4.0f, 1.0f, 0.5f );
+				new Sandbox.ScreenShake.Perlin( 0.1f, 1f, 0.5f, 0.8f );
 			}
 
 			ViewModelEntity?.SetAnimBool( "fire", true );

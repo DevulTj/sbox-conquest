@@ -8,17 +8,10 @@ namespace Conquest
 	{
 		public override WeaponSlot Slot => WeaponSlot.Secondary; 
 		public override string ViewModelPath => "weapons/swb/pistols/deagle/v_deagle.vmdl";
-
-		public override float PrimaryRate => 2.0f;
-		public override float SecondaryRate => 1.0f;
-		public override float ReloadTime => 3.0f;
-		public override int ClipSize => 6;
 		public override int Bucket => 2;
 
 		public override Vector3 RecoilOnShot => new Vector3( Rand.Float( -40f, 40f ), 100f, 0 );
 		public override float RecoilRecoveryScaleFactor => base.RecoilRecoveryScaleFactor * 2f;
-
-		public override ViewModelInfo VMInfo => new MR96ViewModelInfo( this );
 
 		public override void Spawn()
 		{
