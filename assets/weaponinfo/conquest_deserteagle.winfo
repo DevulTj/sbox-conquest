@@ -20,12 +20,13 @@
 		burstsprintleftoffset = -35.0
 		burstpostsprintleftoffset = 5.0
 		usecustomhands = true
-		handsasset = "weapons/swb/hands/rebel/v_hands_rebel.vmdl"
+		handsasset = "weapons/swb/hands/swat/v_hands_swat.vmdl"
 		rpm = 100
 		reloadtime = 2.0
 		slot = "1"
 		ammotype = "2"
 		clipsize = 6
 		allowchamberreload = false
+		loadouticon = "ui/WeaponIcons/conquest_deserteagle.png"
 	}
 }

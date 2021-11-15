@@ -17,6 +17,7 @@ namespace Conquest
 		[Property, Category( "Important" )] public WeaponSlot Slot { get; set; } = WeaponSlot.Primary;
 		[Property, Category( "Important" )] public AmmoType AmmoType { get; set; } = AmmoType.Rifle;
 
+
 		// Weapon Stats
 		[Property( Title = "Rounds Per Minute" ), Category( "Stats" )] public int RPM { get; set; } = 600;
 		[Property, Category( "Stats" )] public float ReloadTime { get; set; } = 2f;
@@ -26,6 +27,10 @@ namespace Conquest
 		// Hands
 		[Property, Category( "Hands" )] public bool UseCustomHands { get; set; } = false;
 		[Property, Category( "Hands" )] public string HandsAsset { get; set; } = "weapons/swb/hands/rebel/v_hands_rebel.vmdl";
+
+
+		// UI
+		[Property, Category( "UI" )] public string LoadoutIcon { get; set; } = "";
 
 		// ViewModel
 		[Property, Category( "ViewModel" )] public Vector3 WalkCycleOffsets { get; set; } = new Vector3( 50f, 20f, 50f );
@@ -85,8 +90,6 @@ namespace Conquest
 
 	public partial class Carriable : BaseCarriable, IUse, ICarriable
 	{
-		public virtual string HandsModelPath => "weapons/swb/hands/rebel/v_hands_rebel.vmdl";
-
 		public virtual WeaponSlot Slot => WeaponSlot.Primary;
 
 		public virtual bool ShowAmmoCount => true;
@@ -273,12 +276,12 @@ namespace Conquest
 			ViewModelEntity.SetModel( ViewModelPath );
 
 			// Bonemerge hands
-			if ( !string.IsNullOrEmpty( HandsModelPath ) )
+			if ( WeaponInfo.UseCustomHands && !string.IsNullOrEmpty( WeaponInfo.HandsAsset ) )
 			{
 				HandsModel = new BaseViewModel();
 				HandsModel.Owner = Owner;
 				HandsModel.EnableViewmodelRendering = true;
-				HandsModel.SetModel( HandsModelPath );
+				HandsModel.SetModel( WeaponInfo.HandsAsset );
 				HandsModel.SetParent( ViewModelEntity, true );
 			}
 		}

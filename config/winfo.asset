@@ -25,6 +25,7 @@
 	allowchamberreload(boolean) { group = "Stats" } : "Allow Chamber Reload" : 0 : ""
 	usecustomhands(boolean) { group = "Hands" } : "Use Custom Hands" : 0 : ""
 	handsasset(string) { group = "Hands" } : "Hands Asset" : "weapons/swb/hands/rebel/v_hands_rebel.vmdl" : ""
+	loadouticon(string) { group = "UI" } : "Loadout Icon" : "" : ""
 	walkcycleoffsets(vector) { group = "ViewModel" } : "Walk Cycle Offsets" :  : ""
 	forwardbobbing(float) { group = "ViewModel" } : "Forward Bobbing" : 4 : ""
 	sidewalkoffset(float) { group = "ViewModel" } : "Side Walk Offset" : 100 : ""

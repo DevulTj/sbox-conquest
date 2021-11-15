@@ -20,8 +20,13 @@
 		burstsprintleftoffset = 0.0
 		burstpostsprintleftoffset = 10.0
 		usecustomhands = true
-		handsasset = "weapons/swb/hands/rebel/v_hands_rebel.vmdl"
+		handsasset = "weapons/swb/hands/swat/v_hands_swat.vmdl"
 		rpm = 700
 		reloadtime = 2.0
+		slot = "0"
+		ammotype = "2"
+		clipsize = 30
+		allowchamberreload = false
+		loadouticon = "ui/WeaponIcons/conquest_fal.png"
 	}
 }
