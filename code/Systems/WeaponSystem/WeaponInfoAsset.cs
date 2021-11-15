@@ -5,11 +5,12 @@ using System.ComponentModel;
 
 namespace Conquest
 {
+	[Flags]
 	public enum FireMode
 	{
-		Automatic,
-		Semi,
-		Burst
+		Automatic = 1 << 0,
+		Semi = 1 << 1,
+		Burst = 1 << 2
 	}
 
 	[Library( "winfo" ), AutoGenerate]
@@ -23,7 +24,8 @@ namespace Conquest
 		[Property, Category( "Important" )] public string WeaponClass { get; set; } = "";
 		[Property, Category( "Important" )] public WeaponSlot Slot { get; set; } = WeaponSlot.Primary;
 		[Property, Category( "Important" )] public AmmoType AmmoType { get; set; } = AmmoType.Rifle;
-		[Property, Category( "Important" )] public FireMode FireMode { get; set; } = FireMode.Automatic;
+		[Property, Category( "Important" )] public FireMode DefaultFireMode { get; set; } = FireMode.Automatic;
+		[Property( "Supported Fire Modes" ), Category( "Important" ), BitFlags] public FireMode SupportedfireModes { get; set; }
 		[Property, Category( "Important" )] public int BurstAmount { get; set; } = 3;
 
 		// Weapon Stats

@@ -232,7 +232,6 @@ namespace Conquest
 		[Net, Predicted] public TimeSince TimeSinceDeployed { get; set; }
 		[Net, Predicted] protected int BurstCount { get; set; } = 0;
 
-
 		public PickupTrigger PickupTrigger { get; protected set; }
 
 		public override bool CanReload()
@@ -361,7 +360,7 @@ namespace Conquest
 					return false;
 			}
 
-			var fireMode = WeaponInfo.FireMode;
+			var fireMode = WeaponInfo.DefaultFireMode;
 			if ( fireMode == FireMode.Semi )
 			{
 				return CanPrimaryAttackSemi();
@@ -487,7 +486,7 @@ namespace Conquest
 			//
 			( Owner as AnimEntity ).SetAnimBool( "b_attack", true );
 
-			if ( WeaponInfo.FireMode == FireMode.Burst )
+			if ( WeaponInfo.DefaultFireMode == FireMode.Burst )
 				BurstCount++;
 		}
 

@@ -19,11 +19,17 @@
 		4 : "Rocket"
 		5 : "Grenade"
 	]
-	firemode(choices) { group = "Important" } : "Fire Mode" : 0 : "" =
+	defaultfiremode(choices) { group = "Important" } : "Default Fire Mode" : 1 : "" =
 	[
-		0 : "Automatic"
-		1 : "Semi"
-		2 : "Burst"
+		1 : "Automatic"
+		2 : "Semi"
+		4 : "Burst"
+	]
+	supported_fire_modes(flags) { group = "Important" editor = "BitFlags()" } : "Supported Fire Modes" : : "" =
+	[
+		1 : "Automatic" : 0
+		2 : "Semi" : 0
+		4 : "Burst" : 0
 	]
 	burstamount(integer) { group = "Important" } : "Burst Amount" : 3 : ""
 	rpm(integer) { group = "Stats" } : "Rounds Per Minute" : 600 : ""

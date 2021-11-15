@@ -35,6 +35,8 @@
 		bulletspread = 0.0
 		bulletbasedamage = 50.0
 		bulletradius = 1.0
-		firemode = "1"
+		defaultfiremode = "1"
+		supported_fire_modes = "0"
+		burstamount = 3
 	}
 }
