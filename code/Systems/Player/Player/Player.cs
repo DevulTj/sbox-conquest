@@ -167,8 +167,8 @@ namespace Conquest
 
 			Inventory.DeleteContents();
 
-			BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
-
+			BecomeRagdollOnClient( Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
+			
 			// Remove a ticket.
 			Game.Current.Scores.RemoveScore( Team, 1 );
 
@@ -185,6 +185,11 @@ namespace Conquest
 				{
 					killer.OnPlayerKill( this, LastDamage );
 				}
+			}
+
+			foreach ( var child in Children.OfType<ModelEntity>() )
+			{
+				child.EnableDrawing = false;
 			}
 		}
 

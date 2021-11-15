@@ -449,7 +449,7 @@ namespace Conquest
 
 		protected virtual float GetBulletForce()
 		{
-			return 1f;
+			return 10f;
 		}
 
 		protected virtual float GetBulletDamage()

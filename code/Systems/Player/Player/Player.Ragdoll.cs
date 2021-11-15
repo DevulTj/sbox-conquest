@@ -6,64 +6,75 @@ namespace Conquest
 {
 	partial class Player
 	{
-		// TODO - make ragdolls one per entity
-		// TODO - make ragdolls dissapear after a load of seconds
-		static EntityLimit RagdollLimit = new EntityLimit { MaxTotal = 20 };
-
 		[ClientRpc]
-		void BecomeRagdollOnClient( Vector3 force, int forceBone )
+		private void BecomeRagdollOnClient( Vector3 velocity, DamageFlags damageFlags, Vector3 forcePos, Vector3 force, int bone )
 		{
-			// TODO - lets not make everyone write this shit out all the time
-			// maybe a CreateRagdoll<T>() on ModelEntity?
 			var ent = new ModelEntity();
 			ent.Position = Position;
 			ent.Rotation = Rotation;
+			ent.Scale = Scale;
 			ent.MoveType = MoveType.Physics;
 			ent.UsePhysicsCollision = true;
+			ent.EnableAllCollisions = true;
+			ent.CollisionGroup = CollisionGroup.Debris;
+			ent.SetModel( GetModelName() );
+			ent.CopyBonesFrom( this );
+			ent.CopyBodyGroups( this );
+			ent.CopyMaterialGroup( this );
+			ent.TakeDecalsFrom( this );
+			ent.EnableHitboxes = true;
+			ent.EnableAllCollisions = true;
+			ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
+			ent.RenderColor = RenderColor;
+			ent.PhysicsGroup.Velocity = velocity;
+
 			ent.SetInteractsAs( CollisionLayer.Debris );
 			ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
 			ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
 
-			ent.SetModel( GetModelName() );
-			ent.CopyBonesFrom( this );
-			ent.TakeDecalsFrom( this );
-			ent.SetRagdollVelocityFrom( this );
-			ent.DeleteAsync( 20.0f );
-
-			// Copy the clothes over
 			foreach ( var child in Children )
 			{
-				if ( child is ModelEntity e )
-				{
-					var model = e.GetModelName();
-					if ( model != null && !model.Contains( "clothes" ) ) // Uck we 're better than this, entity tags, entity type or something?
-						continue;
+				if ( !child.Tags.Has( "clothes" ) ) continue;
+				if ( child is not ModelEntity e ) continue;
 
-					var clothing = new ModelEntity();
-					clothing.SetModel( model );
-					clothing.SetParent( ent, true );
-				}
+				var model = e.GetModelName();
+
+				var clothing = new ModelEntity();
+				clothing.SetModel( model );
+				clothing.SetParent( ent, true );
+				clothing.RenderColor = e.RenderColor;
+				clothing.CopyBodyGroups( e );
+				clothing.CopyMaterialGroup( e );
 			}
 
-			ent.PhysicsGroup.AddVelocity( force );
-
-			if ( forceBone >= 0 )
+			if ( damageFlags.HasFlag( DamageFlags.Bullet ) ||
+				 damageFlags.HasFlag( DamageFlags.PhysicsImpact ) )
 			{
-				var body = ent.GetBonePhysicsBody( forceBone );
+				PhysicsBody body = bone > 0 ? ent.GetBonePhysicsBody( bone ) : null;
+
 				if ( body != null )
 				{
-					body.ApplyForce( force * 1000 );
+					body.ApplyImpulseAt( forcePos, force * body.Mass );
 				}
 				else
 				{
-					ent.PhysicsGroup.AddVelocity( force );
+					ent.PhysicsGroup.ApplyImpulse( force );
 				}
 			}
 
+			if ( damageFlags.HasFlag( DamageFlags.Blast ) )
+			{
+				if ( ent.PhysicsGroup != null )
+				{
+					ent.PhysicsGroup.AddVelocity( (Position - (forcePos + Vector3.Down * 100.0f)).Normal * (force.Length * 0.2f) );
+					var angularDir = (Rotation.FromYaw( 90 ) * force.WithZ( 0 ).Normal).Normal;
+					ent.PhysicsGroup.AddAngularVelocity( angularDir * (force.Length * 0.02f) );
+				}
+			}
 
 			Corpse = ent;
 
-			RagdollLimit.Watch( ent );
+			ent.DeleteAsync( 10.0f );
 		}
 	}
 }
