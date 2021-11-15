@@ -26,7 +26,7 @@ namespace Conquest
 		{
 			var downBefore = IsDown;
 
-			IsDown = Input.Down( InputButton.Duck ) && ( !Input.Down( InputButton.Attack2 ) );
+			IsDown = Input.Down( InputButton.Duck );
 
 			var oldWish = Wish;
 			Wish = IsDown;
