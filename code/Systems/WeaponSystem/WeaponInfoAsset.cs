@@ -24,6 +24,10 @@ namespace Conquest
 		[Property, Category( "Stats" )] public int ClipSize { get; set; } = 30;
 		[Property, Category( "Stats" )] public bool AllowChamberReload { get; set; } = false;
 
+		[Property, Category( "Stats" )] public float BulletSpread { get; set; } = 0f;
+		[Property, Category( "Stats" )] public float BulletBaseDamage { get; set; } = 30f;
+		[Property, Category( "Stats" )] public float BulletRadius { get; set; } = 1f;
+
 		// Hands
 		[Property, Category( "Hands" )] public bool UseCustomHands { get; set; } = false;
 		[Property, Category( "Hands" ), ResourceType( "vmdl" )] public string HandsAsset { get; set; } = "weapons/swb/hands/rebel/v_hands_rebel.vmdl";
@@ -34,8 +38,8 @@ namespace Conquest
 
 
 		// Sounds
-		[Property, Category( "Sounds" ), ResourceType( "sound" )] public string FireSound { get; set; } = "";
-		[Property, Category( "Sounds" ), ResourceType( "sound" )] public string DryFireSound { get; set; } = "";
+		[Property, Category( "Sounds" )] public string FireSound { get; set; } = "";
+		[Property, Category( "Sounds" )] public string DryFireSound { get; set; } = "";
 
 		// UI
 		[Property, Category( "UI" ), ResourceType( "png" )] public string LoadoutIcon { get; set; } = "";

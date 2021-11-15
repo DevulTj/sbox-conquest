@@ -263,8 +263,8 @@ namespace Conquest
 		public override bool CanReload()
 		{
 			if ( !Owner.IsValid() ) return false;
-			if ( AmmoClip > 0 && !Input.Down( InputButton.Reload ) ) return false;
 
+			if ( AmmoClip > 0 && !Input.Down( InputButton.Reload ) ) return false;
 			if ( AmmoClip == 0 ) return true;
 
 			return true;
@@ -296,6 +296,8 @@ namespace Conquest
 			PickupTrigger = new PickupTrigger();
 			PickupTrigger.Parent = this;
 			PickupTrigger.Position = Position;
+
+			AmmoClip = WeaponInfo.ClipSize;
 		}
 
 		public override void Reload()
@@ -424,10 +426,44 @@ namespace Conquest
 			}
 		}
 
+		protected virtual float GetBulletSpread()
+		{
+			return WeaponInfo.BulletSpread;
+		}
+
+		protected virtual float GetBulletForce()
+		{
+			return 1f;
+		}
+
+		protected virtual float GetBulletDamage()
+		{
+			return WeaponInfo.BulletBaseDamage;
+		}
+
+		protected virtual float GetBulletRadius()
+		{
+			return WeaponInfo.BulletRadius;
+		}
+
 		public override void AttackPrimary()
 		{
 			TimeSincePrimaryAttack = 0;
 			TimeSinceSecondaryAttack = 0;
+
+			//
+			// If we have no ammo, play a sound
+			//
+			if ( !TakeAmmo( 1 ) )
+			{
+				DryFire();
+				return;
+			}
+
+			//
+			// Play the fire sound
+			//
+			PlaySound( WeaponInfo.FireSound );
 
 			//
 			// Tell the clients to play the shoot effects
@@ -440,29 +476,14 @@ namespace Conquest
 			PerformRecoil();
 
 			//
-			// ShootBullet is coded in a way where we can have bullets pass through shit
-			// or bounce off shit, in which case it'll return multiple results
+			// Shoot the bullet
 			//
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + Owner.EyeRot.Forward * 5000 ) )
-			{
-				tr.Surface.DoBulletImpact( tr );
+			ShootBullet( GetBulletSpread(), GetBulletForce(), GetBulletDamage(), GetBulletRadius() );
 
-				if ( !IsServer ) continue;
-				if ( !tr.Entity.IsValid() ) continue;
-
-				//
-				// We turn predictiuon off for this, so aany exploding effects don't get culled etc
-				//
-				using ( Prediction.Off() )
-				{
-					var damage = DamageInfo.FromBullet( tr.EndPos, Owner.EyeRot.Forward * 100, 15 )
-						.UsingTraceResult( tr )
-						.WithAttacker( Owner )
-						.WithWeapon( this );
-
-					tr.Entity.TakeDamage( damage );
-				}
-			}
+			//
+			// Set animation property
+			//
+			( Owner as AnimEntity ).SetAnimBool( "b_attack", true );
 		}
 
 		[ClientRpc]
@@ -499,7 +520,7 @@ namespace Conquest
 		[ClientRpc]
 		public virtual void DryFire()
 		{
-			// CLICK
+			PlaySound( WeaponInfo.DryFireSound );
 		}
 
 		public override void CreateHudElements()

@@ -30,7 +30,10 @@
 		loadouticon = "ui/WeaponIcons/conquest_fal.png"
 		viewmodel = resource:"weapons/swb/rifles/fal/v_fal.vmdl"
 		worldmodel = resource:"weapons/swb/rifles/fal/w_fal.vmdl"
-		firesound = "weapons/swb/rifles/fal/sounds/fal.fire.sound"
-		dryfiresound = "weapons/rust_smg/sounds/rust_smg.dryfire.sound"
+		firesound = "fal.fire"
+		dryfiresound = "rust_smg.dryfire"
+		bulletspread = 0.0
+		bulletbasedamage = 20.0
+		bulletradius = 1.0
 	}
 }
