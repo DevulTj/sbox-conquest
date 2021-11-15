@@ -48,7 +48,8 @@ namespace Conquest
 			CollisionGroup = CollisionGroup.Weapon; // so players touch it as a trigger but not as a solid
 			SetInteractsAs( CollisionLayer.Debris ); // so player movement doesn't walk into it
 
-			SetModel( WeaponInfo.WorldModel );
+			if ( WeaponInfo is not null )
+				SetModel( WeaponInfo.WorldModel );
 		}
 
 		[Net, Predicted]
