@@ -68,87 +68,6 @@ namespace Conquest
 		}
 	}
 
-	public class ViewModelInfo
-	{
-		public ViewModelInfo( Carriable weaponRef )
-		{
-			Weapon = weaponRef;
-		}
-
-		public virtual Carriable Weapon { get; set; }
-
-		public virtual Vector3 WalkCycleOffsets => new Vector3( 50f, 20f, 50f );
-		public virtual float ForwardBobbing => 4f;
-		public virtual float SideWalkOffset => 100f;
-		public virtual Vector3 AimOffset => new Vector3( 10f, 10, 1.8f );
-		public virtual Angles AimAngleOffset => new Angles( 0f, 0f, 0f );
-
-		public virtual Vector3 Offset => new Vector3( -6f, 5f, -5f );
-		public virtual Vector3 CrouchOffset => new Vector3( -10f, -50f, -0f );
-		public virtual float OffsetLerpAmount => 30f;
-
-		public virtual float SprintRightRotation => 20f;
-		public virtual float SprintUpRotation => -30f;
-		public virtual float SprintLeftOffset => -35f;
-		public virtual float PostSprintLeftOffset => 5f;
-
-		public virtual float BurstSprintRightRotation => 20f;
-		public virtual float BurstSprintUpRotation => -30f;
-		public virtual float BurstSprintLeftOffset => -35f;
-		public virtual float BurstPostSprintLeftOffset => 5f;
-	}
-
-	public class MR96ViewModelInfo : ViewModelInfo
-	{
-		public MR96ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
-		{
-		}
-
-		public override Vector3 Offset => new Vector3( 0f, 5f, -2f );
-		public override Vector3 CrouchOffset => new Vector3( 0f, -20f, -2f );
-
-		public override float BurstSprintRightRotation => 2f;
-		public override float BurstSprintUpRotation => 2f;
-		public override float BurstSprintLeftOffset => -35f;
-		public override float BurstPostSprintLeftOffset => 5f;
-
-		public override Vector3 AimOffset => new Vector3( -5f, 10.15f, 2.2f );
-		public override Angles AimAngleOffset => new Angles( 1f, 1.5f, -1f );
-	}
-
-	public class AK47ViewModelInfo : ViewModelInfo
-	{
-		public AK47ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
-		{
-		}
-
-		public override float SprintRightRotation => 2f;
-		public override float SprintUpRotation => 2f;
-
-		public override float BurstSprintRightRotation => 20f;
-		public override float BurstSprintUpRotation => -30f;
-		public override float BurstSprintLeftOffset => -35f;
-		public override float BurstPostSprintLeftOffset => 5f;
-
-		public override Vector3 AimOffset => new Vector3( -20f, 18.48f, 2.7f );
-	}
-
-	public class M4A1ViewModelInfo : ViewModelInfo
-	{
-		public M4A1ViewModelInfo( Carriable weaponRef ) : base( weaponRef )
-		{
-		}
-
-		public override float SprintRightRotation => 2f;
-		public override float SprintUpRotation => 2f;
-		public override float BurstSprintRightRotation => 20f;
-		public override float BurstSprintUpRotation => -30f;
-		public override float BurstSprintLeftOffset => -35f;
-		public override float BurstPostSprintLeftOffset => 10f;
-
-		public override Vector3 AimOffset => new Vector3( -5f, 19f, 2.7f );
-	}
-
 	public interface ICarriable
 	{
 		public Entity Entity => this as Entity;
@@ -177,8 +96,6 @@ namespace Conquest
 
 		public virtual float PrimaryRate => 5.0f;
 		public virtual float SecondaryRate => 15.0f;
-
-		public virtual ViewModelInfo VMInfo => new ViewModelInfo( this );
 
 		public WeaponInfoAsset WeaponInfo { get; set; }
 

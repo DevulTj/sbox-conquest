@@ -11,9 +11,9 @@ namespace Conquest
 	{
 
 		[ConVar.ClientData( "conquest_loadout_primary", Saved = true )]
-		public static string ChosenPrimaryLoadout { get; set; } = "conquest_ak47";
+		public static string ChosenPrimaryLoadout { get; set; } = "conquest_fal";
 
 		[ConVar.ClientData( "conquest_loadout_secondary", Saved = true )]
-		public static string ChosenSecondaryLoadout { get; set; } = "conquest_mr96";
+		public static string ChosenSecondaryLoadout { get; set; } = "conquest_deserteagle";
 	}
 }

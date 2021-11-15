@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		class = "conquest_m4a1"
-		slot = "0"
+		class = "conquest_deserteagle"
+		slot = "1"
 	}
 }

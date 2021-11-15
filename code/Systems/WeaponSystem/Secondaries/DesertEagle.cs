@@ -2,9 +2,9 @@
 
 namespace Conquest
 {
-	[Library( "conquest_mr96", Title = "MR-96" )]
+	[Library( "conquest_deserteagle", Title = "Desert Eagle" )]
 	[Hammer.EditorModel( "weapons/rust_pistol/rust_pistol.vmdl" )]
-	partial class MR96 : BaseWeapon
+	partial class DesertEagle : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Secondary; 
 		public override string ViewModelPath => "weapons/swb/pistols/deagle/v_deagle.vmdl";

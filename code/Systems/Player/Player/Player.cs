@@ -99,9 +99,9 @@ namespace Conquest
 		{
 
 			var primaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_primary" ) );
-			BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new AK47();
+			BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new FAL();
 			var secondaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_secondary" ) );
-			BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new MR96();
+			BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new DesertEagle();
 
 			Inventory.Add( primary, true );
 			Inventory.Add( secondary );
