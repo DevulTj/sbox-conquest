@@ -1,0 +1,23 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		weaponclass = "conquest_mr96"
+		walkcycleoffsets = [ 50.0, -10.0, -25.0 ]
+		forwardbobbing = 4.0
+		sidewalkoffset = 10.0
+		aimoffset = [ -2.0, 10.1, 2.3 ]
+		aimangleoffset = [ 0.0, 0.0, 0.0 ]
+		offset = [ 2.0, 5.0, -2.0 ]
+		crouchoffset = [ -100.0, 0.0, 0.0 ]
+		offsetlerpamount = 30.0
+		sprintrightrotation = -10.0
+		sprintuprotation = -10.0
+		sprintleftoffset = 0.0
+		postsprintleftoffset = 5.0
+		burstsprintrightrotation = 20.0
+		burstsprintuprotation = -30.0
+		burstsprintleftoffset = -35.0
+		burstpostsprintleftoffset = 5.0
+	}
+}

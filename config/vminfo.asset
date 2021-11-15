@@ -1,0 +1,24 @@
+//
+// Conquest.ViewModelInfoAsset
+//
+@BaseClass = vminfo : ""
+[
+	weaponclass(string) : "Weapon Class" : "" : ""
+	walkcycleoffsets(vector) : "Walk Cycle Offsets" :  : ""
+	forwardbobbing(float) : "Forward Bobbing" : 4 : ""
+	sidewalkoffset(float) : "Side Walk Offset" : 100 : ""
+	aimoffset(vector) : "Aim Offset" :  : ""
+	aimangleoffset(angle) : "Aim Angle Offset" :  : ""
+	offset(vector) : "Offset" :  : ""
+	crouchoffset(vector) : "Crouch Offset" :  : ""
+	offsetlerpamount(float) : "Offset Lerp Amount" : 30 : ""
+	sprintrightrotation(float) : "Sprint Right Rotation" : 20 : ""
+	sprintuprotation(float) : "Sprint Up Rotation" : -30 : ""
+	sprintleftoffset(float) : "Sprint Left Offset" : -35 : ""
+	postsprintleftoffset(float) : "Post Sprint Left Offset" : 5 : ""
+	burstsprintrightrotation(float) : "Burst Sprint Right Rotation" : 20 : ""
+	burstsprintuprotation(float) : "Burst Sprint Up Rotation" : -30 : ""
+	burstsprintleftoffset(float) : "Burst Sprint Left Offset" : -35 : ""
+	burstpostsprintleftoffset(float) : "Burst Post Sprint Left Offset" : 5 : ""
+]
+

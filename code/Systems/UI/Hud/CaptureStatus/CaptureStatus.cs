@@ -79,7 +79,7 @@ namespace Conquest
 			SetCaptureClass( "friendly", capturePoint.Team == localPlayer.Team );
 			SetCaptureClass( "enemy", capturePoint.Team == TeamSystem.GetEnemyTeam( localPlayer.Team ) );
 
-			var percent = capturePoint.Captured * 100f;
+			var percent = MathF.Round( capturePoint.Captured * 100f );
 			Point.Style.Set( "background", $"conic-gradient(transparent {percent}%, rgba(50, 50, 50, 0.8) {percent}%);" );
 		}
 	}

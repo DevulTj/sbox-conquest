@@ -1,9 +1,57 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Conquest
 {
+	[Library("winfo"), AutoGenerate]
+	public class WeaponInfoAsset : Asset
+	{
+		public static Dictionary<string, WeaponInfoAsset> Registry { get; set; } = new();
+
+		[Property, Category("Important")] public string WeaponClass { get; set; } = "";
+
+
+		[Property, Category( "ViewModel" )] public Vector3 WalkCycleOffsets { get; set; } = new Vector3( 50f, 20f, 50f );
+		[Property, Category( "ViewModel" )] public float ForwardBobbing { get; set; } = 4f;
+		[Property, Category( "ViewModel" )] public float SideWalkOffset { get; set; } = 100f;
+		[Property, Category( "ViewModel" )] public Vector3 AimOffset { get; set; } = new Vector3( 10f, 10, 1.8f );
+		[Property, Category( "ViewModel" )] public Angles AimAngleOffset { get; set; } = new Angles( 0f, 0f, 0f );
+
+		[Property, Category( "ViewModel" )] public Vector3 Offset { get; set; } = new Vector3( -6f, 5f, -5f );
+		[Property, Category( "ViewModel" )] public Vector3 CrouchOffset { get; set; } = new Vector3( -10f, -50f, -0f );
+		[Property, Category( "ViewModel" )] public float OffsetLerpAmount { get; set; } = 30f;
+
+		[Property, Category( "ViewModel" )] public float SprintRightRotation { get; set; } = 20f;
+		[Property, Category( "ViewModel" )] public float SprintUpRotation { get; set; } = -30f;
+		[Property, Category( "ViewModel" )] public float SprintLeftOffset { get; set; } = -35f;
+		[Property, Category( "ViewModel" )] public float PostSprintLeftOffset { get; set; } = 5f;
+
+		[Property, Category( "ViewModel" )] public float BurstSprintRightRotation { get; set; } = 20f;
+		[Property, Category( "ViewModel" )] public float BurstSprintUpRotation { get; set; } = -30f;
+		[Property, Category( "ViewModel" )] public float BurstSprintLeftOffset { get; set; } = -35f;
+		[Property, Category( "ViewModel" )] public float BurstPostSprintLeftOffset { get; set; } = 5f;
+
+		protected override void PostLoad()
+		{
+			base.PostLoad();
+
+			Log.Info( "[Conquest] loading weapon info" );
+
+			if ( string.IsNullOrEmpty( WeaponClass ) )
+			{
+				return;
+			}
+
+			var libraryAttribute = Library.GetAttribute( WeaponClass );
+			if ( libraryAttribute is not null )
+			{
+				Registry[WeaponClass] = this;
+			}
+		}
+	}
+
 	public class ViewModelInfo
 	{
 		public ViewModelInfo( Carriable weaponRef )
@@ -17,6 +65,8 @@ namespace Conquest
 		public virtual float ForwardBobbing => 4f;
 		public virtual float SideWalkOffset => 100f;
 		public virtual Vector3 AimOffset => new Vector3( 10f, 10, 1.8f );
+		public virtual Angles AimAngleOffset => new Angles( 0f, 0f, 0f );
+
 		public virtual Vector3 Offset => new Vector3( -6f, 5f, -5f );
 		public virtual Vector3 CrouchOffset => new Vector3( -10f, -50f, -0f );
 		public virtual float OffsetLerpAmount => 30f;
@@ -38,12 +88,16 @@ namespace Conquest
 		{
 		}
 
+		public override Vector3 Offset => new Vector3( 0f, 5f, -2f );
+		public override Vector3 CrouchOffset => new Vector3( 0f, -20f, -2f );
+
 		public override float BurstSprintRightRotation => 2f;
 		public override float BurstSprintUpRotation => 2f;
 		public override float BurstSprintLeftOffset => -35f;
 		public override float BurstPostSprintLeftOffset => 5f;
 
-		public override Vector3 AimOffset => new Vector3( -10f, 17.5f, 2f );
+		public override Vector3 AimOffset => new Vector3( -5f, 10.15f, 2.2f );
+		public override Angles AimAngleOffset => new Angles( 1f, 1.5f, -1f );
 	}
 
 	public class AK47ViewModelInfo : ViewModelInfo
@@ -96,6 +150,8 @@ namespace Conquest
 
 	public partial class Carriable : BaseCarriable, IUse, ICarriable
 	{
+		public virtual string HandsModelPath => "weapons/swb/hands/rebel/v_hands_rebel.vmdl";
+
 		public virtual WeaponSlot Slot => WeaponSlot.Primary;
 
 		public virtual bool ShowAmmoCount => true;
@@ -107,6 +163,33 @@ namespace Conquest
 		public virtual float SecondaryRate => 15.0f;
 
 		public virtual ViewModelInfo VMInfo => new ViewModelInfo( this );
+
+		public WeaponInfoAsset WeaponInfo { get; set; }
+
+		public override void ClientSpawn()
+		{
+			base.ClientSpawn();
+
+			Log.Info( this.ClassInfo.Name );
+
+			foreach( var registryAsset in WeaponInfoAsset.Registry )
+			{
+				Log.Info( "inlist:" );
+				Log.Info( registryAsset );
+			}
+
+			Log.Info( "list over" );
+
+
+			WeaponInfoAsset.Registry.TryGetValue( this.ClassInfo.Name, out var asset );
+
+			Log.Info( asset );
+
+			if ( asset is not null )
+				WeaponInfo = asset;
+			else
+				WeaponInfo = new WeaponInfoAsset();
+		}
 
 		public override void Spawn()
 		{
@@ -236,6 +319,8 @@ namespace Conquest
 			//
 		}
 
+		public BaseViewModel HandsModel;
+
 		public override void CreateViewModel()
 		{
 			Host.AssertClient();
@@ -248,11 +333,21 @@ namespace Conquest
 				Position = Position,
 				Owner = Owner,
 				EnableViewmodelRendering = true,
-				VMInfo = VMInfo
+				WeaponInfo = WeaponInfo
 			};
 
 			ViewModelEntity = viewmodel;
 			ViewModelEntity.SetModel( ViewModelPath );
+
+			// Bonemerge hands
+			if ( !string.IsNullOrEmpty( HandsModelPath ) )
+			{
+				HandsModel = new BaseViewModel();
+				HandsModel.Owner = Owner;
+				HandsModel.EnableViewmodelRendering = true;
+				HandsModel.SetModel( HandsModelPath );
+				HandsModel.SetParent( ViewModelEntity, true );
+			}
 		}
 
 		public bool OnUse( Entity user )

@@ -7,7 +7,7 @@ namespace Conquest
 	partial class MR96 : BaseWeapon
 	{
 		public override WeaponSlot Slot => WeaponSlot.Secondary; 
-		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+		public override string ViewModelPath => "weapons/swb/pistols/deagle/v_deagle.vmdl";
 
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
@@ -49,7 +49,7 @@ namespace Conquest
 			//
 			ShootEffects();
 			PerformRecoil();
-			PlaySound( "magnum.shoot" );
+			PlaySound( "deagle.fire" );
 
 			//
 			// Shoot the bullets
