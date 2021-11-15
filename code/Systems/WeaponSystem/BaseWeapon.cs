@@ -332,7 +332,11 @@ namespace Conquest
 
 				var ammo = player.TakeAmmo( WeaponInfo.AmmoType, amountToTake );
 				if ( ammo == 0 )
+				{
+					IsReloading = false;
+					SendReloadFinished();
 					return;
+				}
 
 				AmmoClip += ammo;
 
