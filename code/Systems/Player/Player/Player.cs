@@ -220,7 +220,7 @@ namespace Conquest
 				}
 			}
 			var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
-			IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 ) && !isReloading;
+			IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 );
 
 			if ( IsSprinting && Input.Pressed( InputButton.Run ) )
 			{

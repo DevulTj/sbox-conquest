@@ -144,7 +144,7 @@ namespace Conquest
 
 		public virtual bool CanSecondaryAttack()
 		{
-			if ( !Owner.IsValid() || !Input.Down( InputButton.Attack2 ) ) return false;
+			if ( !Owner.IsValid() ) return false;
 
 			var rate = SecondaryRate;
 			if ( rate <= 0 ) return true;
