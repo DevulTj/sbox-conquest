@@ -208,8 +208,7 @@ namespace Conquest
 				.Size( radius )
 				.Run();
 
-
-				DebugOverlay.TraceResult( tr, 1 );
+				// DebugOverlay.TraceResult( tr, 1 );
 
 				if ( tr.Entity is GlassShard )
 				{
