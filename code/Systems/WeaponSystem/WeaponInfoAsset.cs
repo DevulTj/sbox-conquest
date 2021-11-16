@@ -30,11 +30,11 @@ namespace Conquest
 
 	public struct ScreenShakeData
 	{
-		[Property] ScreenShakeType Type { get; set; }
-		[Property] float Length { get; set; }
-		[Property] float Speed { get; set; }
-		[Property] float Size { get; set; }
-		[Property] float Rotation { get; set; }
+		[Property] public ScreenShakeType Type { get; set; }
+		[Property] public float Length { get; set; }
+		[Property] public float Speed { get; set; }
+		[Property] public float Size { get; set; }
+		[Property] public float Rotation { get; set; }
 
 		public void Run()
 		{
