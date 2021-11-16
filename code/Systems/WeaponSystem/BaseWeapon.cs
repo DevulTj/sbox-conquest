@@ -296,6 +296,7 @@ namespace Conquest
 			}
 
 			IsReloading = true;
+			WantsToStopReloading = false;
 
 			( Owner as AnimEntity ).SetAnimBool( "b_reload", true );
 
@@ -311,6 +312,10 @@ namespace Conquest
 			{
 				base.Simulate( owner );
 			}
+			if ( IsReloading && ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) ) )
+			{
+				StopReload();
+			}
 
 			if ( IsReloading && TimeSinceReload > WeaponInfo.ReloadTime )
 			{
@@ -324,6 +329,12 @@ namespace Conquest
 			ViewModelEntity?.SetAnimBool( "reload_finished", true );
 		}
 
+		bool WantsToStopReloading = false;
+		protected void StopReload()
+		{
+			WantsToStopReloading = true;
+		}
+
 		public virtual void OnReloadFinish()
 		{
 			if ( Owner is Player player )
@@ -335,19 +346,20 @@ namespace Conquest
 				{
 					IsReloading = false;
 					SendReloadFinished();
+					WantsToStopReloading = false;
 					return;
 				}
 
 				AmmoClip += ammo;
 
-				if ( WeaponInfo.ReloadSingle && AmmoClip < WeaponInfo.ClipSize )
+				if ( !WantsToStopReloading && WeaponInfo.ReloadSingle && AmmoClip < WeaponInfo.ClipSize )
 				{
 					Reload();
 				}
 				else
 				{
 					IsReloading = false;
-
+					WantsToStopReloading = false;
 					SendReloadFinished();
 				}
 			}
