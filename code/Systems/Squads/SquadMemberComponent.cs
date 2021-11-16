@@ -4,9 +4,9 @@ using System.ComponentModel;
 
 namespace Conquest
 {
-	// @Server
 	public partial class SquadMemberComponent : EntityComponent
 	{
+		[Net]
 		public Squad SquadRef { get; set; }
 	}
 }

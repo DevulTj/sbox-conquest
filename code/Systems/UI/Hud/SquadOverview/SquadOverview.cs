@@ -25,8 +25,6 @@ namespace Conquest
 		{
 			if ( cl is null )
 			{
-				Client = null;
-
 				return;
 			}
 
@@ -35,11 +33,11 @@ namespace Conquest
 			PlayerName.Text = cl.Name;
 			Avatar.SetTexture( $"avatarbig:{cl.PlayerId}" );
 
-			//var squad = SquadManager.GetSquad( cl );
-			//if ( squad.SquadLeader == cl )
-			//{
-			//	Icon = Add.Image( "ui/crown.png", "icon" );
-			//}
+			var squad = SquadManager.GetSquad( cl );
+			if ( squad.SquadLeader == cl )
+			{
+				Icon = Add.Image( "ui/crown.png", "icon" );
+			}
 		}
 
 		public Client Client { get; set; }
@@ -56,12 +54,8 @@ namespace Conquest
 		{
 			base.Tick();
 
-			SetClass( "valid", Client.IsValid() );
-
-			if ( !Client.IsValid() ) return;
-
-			var showDead = Client.Pawn.IsValid() && Client.Pawn.LifeState != LifeState.Alive;
-			SetClass( "dead", showDead );
+			SetClass( "valid", Client is not null );
+			SetClass( "dead", Client?.Pawn is null || Client.Pawn.LifeState != LifeState.Alive );
 
 			var player = Client?.Pawn as Player;
 
@@ -93,7 +87,7 @@ namespace Conquest
 
 		public Panel Members { get; set; }
 
-		public string SquadName => ( SquadManager.MySquadName ?? "Alpha" ) + " Squad";
+		public string SquadName => ( SquadManager.MySquad?.Identity ?? "Alpha" ) + " Squad";
 
 		public void AddMember( Client cl )
 		{
@@ -108,23 +102,15 @@ namespace Conquest
 		public override void Tick()
 		{
 			base.Tick();
-			var player = Local.Pawn as Player;
-			var playersInSquad = player.SquadMemberIds;
 
-			if ( playersInSquad is null )
-			{
-				return;
-			}
+			var squad = SquadManager.MySquad;
 
 			int i = 0;
 			foreach ( var panel in Panels )
 			{
-				panel.SetClient( null );
-
-				if ( playersInSquad.Count > i && panel.Client?.PlayerId != playersInSquad[i] )
+				if ( squad.Members.Count > i && panel.Client != squad.Members[i] )
 				{
-					var ent = KillFeedPanel.FromSteamId( playersInSquad[i] );
-					panel.SetClient( ent );
+					panel.SetClient( squad.Members[i] );
 				}
 
 				i++;

@@ -68,13 +68,12 @@ namespace Conquest
 		// Local
 		public static bool IsSquadmate( Client cl )
 		{
-			return MySquadMembers.Contains( cl.PlayerId );
+			return MySquad.Members.Contains( cl );
 		}
 
-		public static IList<long> MySquadMembers => (Local.Pawn as Player)?.SquadMemberIds;
+		public static Squad MySquad => Local.Client.Components.Get<SquadMemberComponent>()?.SquadRef;
 
 		public Dictionary<Team, List<Squad>> Squads { get; set; } = new() { { Team.BLUFOR, new List<Squad>() }, { Team.OPFOR, new List<Squad>() } };
-		public static string MySquadName => (Local.Pawn as Player)?.SquadName;
 
 		public Squad New( Team team )
 		{
