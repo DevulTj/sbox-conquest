@@ -33,6 +33,9 @@ namespace Conquest
 
 		public TimeSince TimeSinceDeath { get; set; }
 
+		[Net] public IList<long> SquadMemberIds { get; set; }
+		[Net] public string SquadName { get; set; }
+
 		protected override void MakeHud()
 		{
 			Hud = new PlayerHud();
@@ -46,6 +49,12 @@ namespace Conquest
 			}
 
 			DestroySpeedLines();
+
+			if ( Host.IsServer )
+			{
+				var squad = SquadManager.GetSquad( Client );
+				squad.OnSquadMembersChanged -= SquadMembersChanged;
+			}
 
 			base.OnDestroy();
 		}
@@ -121,6 +130,12 @@ namespace Conquest
 			MoveToSpawnpoint( this );
 		}
 
+		protected void SquadMembersChanged()
+		{
+			var squad = SquadManager.GetSquad( Client );
+			SquadMemberIds = new List<long>( squad.Members.Select( x => x.PlayerId ) );
+		}
+
 		public override void Respawn()
 		{
 			SetModel( "models/citizen/citizen.vmdl" );
@@ -137,6 +152,17 @@ namespace Conquest
 			EnableShadowInFirstPerson = true;
 
 			base.Respawn();
+
+			SquadMemberIds.Clear();
+
+			var squad = SquadManager.GetSquad( Client );
+
+			if ( squad != null )
+			{
+				SquadMemberIds = new List<long>( squad.Members.Select( x => x.PlayerId ) );
+				squad.OnSquadMembersChanged += SquadMembersChanged;
+				SquadName = squad.Identity;
+			}
 
 			SoftRespawn();
 		}

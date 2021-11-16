@@ -1,5 +1,6 @@
 
 using Sandbox;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,8 @@ namespace Conquest
 
 		[Net] public Client SquadLeader { get; set; }
 
+		public event Action OnSquadMembersChanged;
+
 		public bool Add( Client cl )
 		{
 			if ( IsFull )
@@ -33,6 +36,8 @@ namespace Conquest
 			if ( SquadLeader is null )
 				SquadLeader = cl;
 
+			OnSquadMembersChanged?.Invoke();
+
 			return true;
 		}
 
@@ -42,6 +47,8 @@ namespace Conquest
 
 			if ( SquadLeader == cl )
 				SquadLeader = Members.FirstOrDefault();
+
+			OnSquadMembersChanged?.Invoke();
 
 			return true;
 		}
