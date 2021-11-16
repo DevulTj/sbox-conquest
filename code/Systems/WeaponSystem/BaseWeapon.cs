@@ -61,6 +61,11 @@ namespace Conquest
 
 		[Net, Predicted]
 		bool WishToShoot { get; set; } = false;
+
+		protected virtual float MaxAmtOfHits => 2;
+		protected virtual float MaxRicochetAngle => 45f;
+		protected float MaxPenetration => 20f;
+
 		public void SetWantsToShoot( bool want )
 		{
 			WishToShoot = want;
@@ -117,7 +122,6 @@ namespace Conquest
 
 		public virtual void Reload()
 		{
-
 		}
 
 		public virtual bool CanPrimaryAttack()
@@ -156,25 +160,81 @@ namespace Conquest
 		{
 		}
 
+		protected virtual bool ShouldContinue( TraceResult tr, float angle = 0f )
+		{
+			float maxAngle = MaxRicochetAngle;
+
+			if ( angle > maxAngle )
+				return false;
+
+			return true;
+		}
+
+		protected virtual Vector3 CalculateDirection( TraceResult tr, ref float hits )
+		{
+			if ( tr.Entity is GlassShard )
+			{
+				// Allow us to do another hit
+				hits--;
+				return tr.Direction;
+			}
+
+			return Vector3.Reflect( tr.Direction, tr.Normal ).Normal;
+		}
+
 		/// <summary>
 		/// Does a trace from start to end, does bullet impact effects. Coded as an IEnumerable so you can return multiple
 		/// hits, like if you're going through layers or ricocet'ing or something.
 		/// </summary>
 		public virtual IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
 		{
-			bool InWater = Physics.TestPointContents( start, CollisionLayer.Water );
+			float currentAmountOfHits = 0;
+			Vector3 _start = start;
+			Vector3 _end = end;
+			List<TraceResult> hits = new();
 
-			var tr = Trace.Ray( start, end )
-					.UseLagCompensation()
-					.UseHitboxes()
-					.HitLayer( CollisionLayer.Water, !InWater )
-					.HitLayer( CollisionLayer.Debris )
-					.Ignore( Owner )
-					.Ignore( this )
-					.Size( radius )
-					.Run();
+			while ( currentAmountOfHits < MaxAmtOfHits )
+			{
+				currentAmountOfHits++;
 
-			yield return tr;
+				bool inWater = Physics.TestPointContents( _start, CollisionLayer.Water );
+				var tr = Trace.Ray( _start, _end )
+				.UseLagCompensation()
+				.UseHitboxes()
+				.HitLayer( CollisionLayer.Water, !inWater )
+				.HitLayer( CollisionLayer.Debris )
+				.Ignore( Owner )
+				.Ignore( this )
+				.Size( radius )
+				.Run();
+
+
+				DebugOverlay.TraceResult( tr, 1 );
+
+				if ( tr.Entity is GlassShard )
+				{
+					_start = tr.EndPos + (tr.Direction * 10f);
+					_end = tr.EndPos + (tr.Direction * 5000);
+
+					currentAmountOfHits--;
+				}
+				else
+				{
+					var reflectDir = CalculateDirection( tr, ref currentAmountOfHits );
+					var angle = reflectDir.Angle( tr.Direction );
+
+					_start = tr.EndPos;
+					_end = tr.EndPos + (reflectDir * 5000);
+
+					if ( !ShouldContinue( tr, angle ) )
+						break;
+				}
+
+
+				hits.Add( tr );
+			}
+
+			return hits;
 		}
 
 		public BaseViewModel HandsModel;
