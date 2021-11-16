@@ -13,6 +13,48 @@ namespace Conquest
 		Burst = 1 << 2
 	}
 
+	public enum HoldType
+	{
+		None = 0,
+		Pistol = 1,
+		Rifle = 2,
+		Shotgun = 3,
+		Default = 4
+	}
+
+	public enum ScreenShakeType
+	{
+		Perlin,
+		Random
+	}
+
+	public struct ScreenShakeData
+	{
+		[Property] ScreenShakeType Type { get; set; }
+		[Property] float Length { get; set; }
+		[Property] float Speed { get; set; }
+		[Property] float Size { get; set; }
+		[Property] float Rotation { get; set; }
+
+		public void Run()
+		{
+			switch ( Type )
+			{
+				case ScreenShakeType.Perlin:
+					{
+						new Sandbox.ScreenShake.Perlin( Length, Speed, Size, Rotation );
+						break;
+					};
+				case ScreenShakeType.Random:
+				default:
+					{
+						new Sandbox.ScreenShake.Random( Length, Speed, Size );
+						break;
+					};
+			}
+		}
+	}
+
 	[Library( "winfo" ), AutoGenerate]
 	public class WeaponInfoAsset : Asset
 	{
@@ -27,6 +69,8 @@ namespace Conquest
 		[Property, Category( "Important" )] public FireMode DefaultFireMode { get; set; } = FireMode.Automatic;
 		[Property( "Supported Fire Modes" ), Category( "Important" ), BitFlags] public FireMode SupportedfireModes { get; set; }
 		[Property, Category( "Important" )] public int BurstAmount { get; set; } = 3;
+		[Property, Category( "Important" )] public HoldType HoldType { get; set; } = HoldType.Rifle;
+
 
 		// Weapon Stats
 		[Property( Title = "Rounds Per Minute" ), Category( "Stats" )] public int RPM { get; set; } = 600;
@@ -48,6 +92,12 @@ namespace Conquest
 		[Property, Category( "Models" ), ResourceType( "vmdl" )] public string ViewModel { get; set; } = "";
 		[Property, Category( "Models" ), ResourceType( "vmdl" )] public string WorldModel { get; set; } = "";
 
+		// VFX
+		[Property, Category( "VFX" ), ResourceType( "vpcf" )] public string EjectParticle { get; set; } = "particles/pistol_ejectbrass.vpcf";
+		[Property, Category( "VFX" ), ResourceType( "vpcf" )] public string MuzzleFlashParticle { get; set; } = "particles/swb/muzzle/flash_medium.vpcf";
+
+		// Screen shake
+		[Property, Category( "Screen Shake" )] public ScreenShakeData ScreenShake { get; set; }
 
 		// Sounds
 		[Property, Category( "Sounds" )] public string FireSound { get; set; } = "";

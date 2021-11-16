@@ -303,6 +303,14 @@ namespace Conquest
 			StartReloadEffects();
 		}
 
+		public override void SimulateAnimator( PawnAnimator anim )
+		{
+			base.SimulateAnimator( anim );
+
+			anim.SetParam( "holdtype", (int)WeaponInfo.HoldType );
+			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
 		public override void Simulate( Client owner )
 		{
 			if ( TimeSinceDeployed < 0.6f )
@@ -532,12 +540,10 @@ namespace Conquest
 		{
 			Host.AssertClient();
 
-			Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
+			Particles.Create( WeaponInfo.MuzzleFlashParticle, EffectEntity, "muzzle" );
+			Particles.Create( WeaponInfo.EjectParticle, EffectEntity, "ejection_point" );
 
-			if ( IsLocalPawn )
-			{
-				new Sandbox.ScreenShake.Perlin();
-			}
+			WeaponInfo.ScreenShake.Run();
 
 			ViewModelEntity?.SetAnimBool( "fire", true );
 			CrosshairPanel?.CreateEvent( "fire" );

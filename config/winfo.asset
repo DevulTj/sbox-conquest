@@ -1,4 +1,20 @@
 //
+// Conquest.ScreenShakeData
+//
+@struct = Conquest_ScreenShakeData
+[
+	type(choices) : "Type" : 0 : "" =
+	[
+		0 : "Perlin"
+		1 : "Random"
+	]
+	length(float) : "Length" : 0 : ""
+	speed(float) : "Speed" : 0 : ""
+	size(float) : "Size" : 0 : ""
+	rotation(float) : "Rotation" : 0 : ""
+]
+
+//
 // Conquest.WeaponInfoAsset
 //
 @BaseClass = winfo : ""
@@ -25,13 +41,21 @@
 		2 : "Semi"
 		4 : "Burst"
 	]
-	supported_fire_modes(flags) { group = "Important" editor = "BitFlags()" } : "Supported Fire Modes" : : "" =
+	supported_fire_modes(flags) { group = "Important" editor = "BitFlags()" } : "Supportedfire Modes" : : "" =
 	[
 		1 : "Automatic" : 0
 		2 : "Semi" : 0
 		4 : "Burst" : 0
 	]
 	burstamount(integer) { group = "Important" } : "Burst Amount" : 3 : ""
+	holdtype(choices) { group = "Important" } : "Hold Type" : 2 : "" =
+	[
+		0 : "None"
+		1 : "Pistol"
+		2 : "Rifle"
+		3 : "Shotgun"
+		4 : "Default"
+	]
 	rpm(integer) { group = "Stats" } : "Rounds Per Minute" : 600 : ""
 	reloadtime(float) { group = "Stats" } : "Reload Time" : "2" : ""
 	clipsize(integer) { group = "Stats" } : "Clip Size" : 30 : ""
@@ -45,6 +69,9 @@
 	handsasset(resource:vmdl) { group = "Hands" } : "Hands Asset" : "weapons/swb/hands/rebel/v_hands_rebel.vmdl" : ""
 	viewmodel(resource:vmdl) { group = "Models" } : "View Model" : "" : ""
 	worldmodel(resource:vmdl) { group = "Models" } : "World Model" : "" : ""
+	ejectparticle(resource:vpcf) { group = "VFX" } : "Eject Particle" : "particles/pistol_ejectbrass.vpcf" : ""
+	muzzleflashparticle(resource:vpcf) { group = "VFX" } : "Muzzle Flash Particle" : "particles/swb/muzzle/flash_medium.vpcf" : ""
+	screenshake(struct:Conquest_ScreenShakeData) { group = "Screen Shake" } : "Screen Shake" :  : ""
 	firesound(string) { group = "Sounds" } : "Fire Sound" : "" : ""
 	dryfiresound(string) { group = "Sounds" } : "Dry Fire Sound" : "" : ""
 	loadouticon(string) { group = "UI" editor = "AssetBrowse(png)" } : "Loadout Icon" : "" : ""

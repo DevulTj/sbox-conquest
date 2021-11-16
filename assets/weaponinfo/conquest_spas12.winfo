@@ -40,5 +40,15 @@
 		burstamount = 3
 		pellets = 8
 		reloadsingle = true
+		holdtype = "3"
+		ejectparticle = resource:"particles/pistol_ejectbrass.vpcf"
+		muzzleflashparticle = resource:"particles/swb/muzzle/flash_medium.vpcf"
+		screenshake = 
+		{
+			length = 0.1
+			speed = 1.0
+			size = 0.5
+			rotation = 1.0
+		}
 	}
 }

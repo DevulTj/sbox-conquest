@@ -38,5 +38,17 @@
 		defaultfiremode = "1"
 		supported_fire_modes = "0"
 		burstamount = 3
+		holdtype = "1"
+		pellets = 1
+		reloadsingle = false
+		ejectparticle = resource:"particles/pistol_ejectbrass.vpcf"
+		muzzleflashparticle = resource:"particles/swb/muzzle/flash_medium.vpcf"
+		screenshake = 
+		{
+			length = 0.1
+			speed = 0.5
+			size = 1.0
+			rotation = 1.0
+		}
 	}
 }
