@@ -30,11 +30,11 @@ public enum ScreenShakeType
 
 public struct ScreenShakeData
 {
-	[Property] public ScreenShakeType Type { get; set; }
-	[Property] public float Length { get; set; }
-	[Property] public float Speed { get; set; }
-	[Property] public float Size { get; set; }
-	[Property] public float Rotation { get; set; }
+	public ScreenShakeType Type { get; set; }
+	public float Length { get; set; }
+	public float Speed { get; set; }
+	public float Size { get; set; }
+	public float Rotation { get; set; }
 
 	public void Run()
 	{
@@ -55,6 +55,13 @@ public struct ScreenShakeData
 	}
 }
 
+public struct RecoilPattern
+{
+	public float RecoveryTime { get; set; }
+	public Vector3[] InputVectors { get; set; }
+}
+
+
 [Library( "winfo" ), AutoGenerate]
 public class WeaponInfoAsset : Asset
 {
@@ -71,6 +78,8 @@ public class WeaponInfoAsset : Asset
 	[Property, Category( "Important" )] public int BurstAmount { get; set; } = 3;
 	[Property, Category( "Important" )] public HoldType HoldType { get; set; } = HoldType.Rifle;
 
+	// Recoil
+	[Property] public RecoilPattern Recoil { get; set; }
 
 	// Weapon Stats
 	[Property( Title = "Rounds Per Minute" ), Category( "Stats" )] public int RPM { get; set; } = 600;

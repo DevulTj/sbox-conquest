@@ -1,4 +1,13 @@
 //
+// Conquest.RecoilPattern
+//
+@struct = Conquest_RecoilPattern
+[
+	recoverytime(float) : "Recovery Time" : 0 : ""
+	inputvectors(array:vector) : "Input Vectors" :  : ""
+]
+
+//
 // Conquest.ScreenShakeData
 //
 @struct = Conquest_ScreenShakeData
@@ -56,6 +65,7 @@
 		3 : "Shotgun"
 		4 : "Default"
 	]
+	recoil(struct:Conquest_RecoilPattern) : "Recoil" :  : ""
 	rpm(integer) { group = "Stats" } : "Rounds Per Minute" : 600 : ""
 	reloadtime(float) { group = "Stats" } : "Reload Time" : "2" : ""
 	clipsize(integer) { group = "Stats" } : "Clip Size" : 30 : ""
