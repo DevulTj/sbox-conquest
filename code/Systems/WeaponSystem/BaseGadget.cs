@@ -1,8 +1,5 @@
+namespace Conquest;
 
-namespace Conquest
+public partial class BaseGadget : Carriable
 {
-	public partial class BaseGadget : Carriable
-	{
-
-	}
 }

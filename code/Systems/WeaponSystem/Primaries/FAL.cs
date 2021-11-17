@@ -1,10 +1,8 @@
 ﻿using Sandbox;
-using System;
 
-namespace Conquest
+namespace Conquest;
+
+[Library( "conquest_fal", Title = "FN-FAL" )]
+partial class FAL : BaseWeapon
 {
-	[Library( "conquest_fal", Title = "FN-FAL" )]
-	partial class FAL : BaseWeapon
-	{
-	}
 }

@@ -5,71 +5,70 @@ using Sandbox.UI.Construct;
 using System;
 using System.Threading.Tasks;
 
-namespace Conquest
+namespace Conquest;
+
+[Library("AwardImagePanel")]
+public class AwardImagePanel : Panel
 {
-	[Library("AwardImagePanel")]
-	public class AwardImagePanel : Panel
-	{
-		public TimeSince CreationTime { get; set; } = 0;
-		public float TimeToShow { get; set; } = 5f;
+	public TimeSince CreationTime { get; set; } = 0;
+	public float TimeToShow { get; set; } = 5f;
 
-		public override void Tick()
-		{
-			base.Tick();
+	public override void Tick()
+	{
+		base.Tick();
 			
-			if ( CreationTime > TimeToShow && !IsDeleting )
-			{
-				Delete();
-			}
+		if ( CreationTime > TimeToShow && !IsDeleting )
+		{
+			Delete();
 		}
 	}
+}
 
-	public class AwardDescriptionPanel : Panel
+public class AwardDescriptionPanel : Panel
+{
+	public AwardDescriptionPanel()
 	{
-		public AwardDescriptionPanel()
-		{
-			Label = Add.Label( "PLAYER KILLED	15 XP" );
-		}
-
-		public TimeSince CreationTime { get; set; } = 0;
-		public float TimeToShow { get; set; } = 5f;
-
-		public Label Label { get; set; }
-
-		public override void Tick()
-		{
-			base.Tick();
-
-			if ( CreationTime > TimeToShow && !IsDeleting )
-			{
-				Delete();
-			}
-		}
+		Label = Add.Label( "PLAYER KILLED	15 XP" );
 	}
 
-	[UseTemplate]
-	public class AwardsPanel : Panel
+	public TimeSince CreationTime { get; set; } = 0;
+	public float TimeToShow { get; set; } = 5f;
+
+	public Label Label { get; set; }
+
+	public override void Tick()
 	{
-		// @ref
-		public Panel RootPanel { get; set; }
+		base.Tick();
 
-		public Panel Images { get; set; }
-		public Panel Awards { get; set; }
-
-		public override void Tick()
+		if ( CreationTime > TimeToShow && !IsDeleting )
 		{
-			base.Tick();
+			Delete();
 		}
+	}
+}
+
+[UseTemplate]
+public class AwardsPanel : Panel
+{
+	// @ref
+	public Panel RootPanel { get; set; }
+
+	public Panel Images { get; set; }
+	public Panel Awards { get; set; }
+
+	public override void Tick()
+	{
+		base.Tick();
+	}
 
 
-		[PlayerEvent.Client.OnAwardGiven]
-		protected void OnAwardGiven( PlayerAward award )
-		{
-			var awardCoin = Images.AddChild<AwardImagePanel>( award.Title.ToLower() );
-			awardCoin.Style.SetBackgroundImage( award.IconTexture );
+	[PlayerEvent.Client.OnAwardGiven]
+	protected void OnAwardGiven( PlayerAward award )
+	{
+		var awardCoin = Images.AddChild<AwardImagePanel>( award.Title.ToLower() );
+		awardCoin.Style.SetBackgroundImage( award.IconTexture );
 
-			var awardText = Awards.AddChild<AwardDescriptionPanel>( award.Title.ToLower() );
-			awardText.Label.SetText( $"{award.Description}	{award.PointsGiven} XP" );
-		}
+		var awardText = Awards.AddChild<AwardDescriptionPanel>( award.Title.ToLower() );
+		awardText.Label.SetText( $"{award.Description}	{award.PointsGiven} XP" );
 	}
 }

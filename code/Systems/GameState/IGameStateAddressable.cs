@@ -1,13 +1,12 @@
-namespace Conquest
+namespace Conquest;
+
+/// <summary>
+/// Marked on entities that react to game state changes
+/// </summary>
+public interface IGameStateAddressable
 {
 	/// <summary>
-	/// Marked on entities that react to game state changes
+	/// On reset, such as the game restarting
 	/// </summary>
-	public interface IGameStateAddressable
-	{
-		/// <summary>
-		/// On reset, such as the game restarting
-		/// </summary>
-		public void ResetState();
-	}
+	public void ResetState();
 }

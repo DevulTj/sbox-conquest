@@ -1,127 +1,126 @@
 using Sandbox;
 
-namespace Conquest
+namespace Conquest;
+
+[Library( "conquest_ammocrate" )]
+public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity, IMiniMapEntity, IGameStateAddressable
 {
-	[Library( "conquest_ammocrate" )]
-	public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity, IMiniMapEntity, IGameStateAddressable
+	[AdminCmd( "conquest_debug_ammocrate" )]
+	public static void CreateAmmoCrate()
 	{
-		[AdminCmd( "conquest_debug_ammocrate" )]
-		public static void CreateAmmoCrate()
+		var caller = ConsoleSystem.Caller.Pawn;
+		var entity = new AmmoCrateEntity();
+
+		var tr = Trace.Ray( caller.EyePos, caller.EyeRot.Forward * 1000f )
+			.WorldAndEntities()
+			.Ignore( caller )
+			.Run();
+
+		entity.Position = tr.EndPos;
+	}
+
+	[Net] public TimeSince LastUsedTime { get; set; }
+
+	public int AmountToGive => 30;
+	public float UseCooldown => 1;
+
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		Health = 100;
+		Transmit = TransmitType.Default;
+
+		SetModel( "assets/ammobox/ammo_box.vmdl" );
+
+		PlaySound( "ammobox.deploy" );
+	}
+
+	public bool OnUse( Entity user )
+	{
+		if ( user is Player player )
 		{
-			var caller = ConsoleSystem.Caller.Pawn;
-			var entity = new AmmoCrateEntity();
+			player.GiveAll( 120 );
+			ClientUsed( To.Single( player.Client ) );
 
-			var tr = Trace.Ray( caller.EyePos, caller.EyeRot.Forward * 1000f )
-				.WorldAndEntities()
-				.Ignore( caller )
-				.Run();
+			PlaySound( "ammobox.replenish" );
 
-			entity.Position = tr.EndPos;
+			LastUsedTime = 0;
 		}
 
-		[Net] public TimeSince LastUsedTime { get; set; }
+		return false;
+	}
 
-		public int AmountToGive => 30;
-		public float UseCooldown => 1;
+	public bool IsUsable( Entity user )
+	{
+		return LastUsedTime >= UseCooldown;
+	}
 
-		public override void Spawn()
-		{
-			base.Spawn();
+	[ClientRpc]
+	protected void ClientUsed()
+	{
+		Log.Info( "testing" );
+		KillFeedPanel.Current?.AddMessage( "Ammo replenished" );
+	}
 
-			Health = 100;
-			Transmit = TransmitType.Default;
+	public override void TakeDamage( DamageInfo info )
+	{
+		base.TakeDamage( info );
+	}
 
-			SetModel( "assets/ammobox/ammo_box.vmdl" );
+	public string GetMainClass() => "ammocrate";
 
-			PlaySound( "ammobox.deploy" );
-		}
+	protected bool CalculateVis()
+	{
+		var tr = Trace.Ray( CurrentView.Position, Position + CollisionBounds.Center	 )
+			.WorldAndEntities()
+			.Ignore( Local.Pawn )
+			.Ignore( this )
+			.Run();
 
-		public bool OnUse( Entity user )
-		{
-			if ( user is Player player )
-			{
-				player.GiveAll( 120 );
-				ClientUsed( To.Single( player.Client ) );
 
-				PlaySound( "ammobox.replenish" );
+		if ( tr.Distance > 768 ) return false;
 
-				LastUsedTime = 0;
-			}
-
+		if ( tr.Hit && tr.Entity != this )
 			return false;
-		}
 
-		public bool IsUsable( Entity user )
-		{
-			return LastUsedTime >= UseCooldown;
-		}
+		return true;
+	}
 
-		[ClientRpc]
-		protected void ClientUsed()
-		{
-			Log.Info( "testing" );
-			KillFeedPanel.Current?.AddMessage( "Ammo replenished" );
-		}
+	bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
+	{
+		if ( !this.IsValid() )
+			return false;
 
-		public override void TakeDamage( DamageInfo info )
-		{
-			base.TakeDamage( info );
-		}
+		if ( LifeState != LifeState.Alive )
+			return false;
 
-		public string GetMainClass() => "ammocrate";
+		if ( !CalculateVis() )
+			return false;
 
-		protected bool CalculateVis()
-		{
-			var tr = Trace.Ray( CurrentView.Position, Position + CollisionBounds.Center	 )
-				.WorldAndEntities()
-				.Ignore( Local.Pawn )
-				.Ignore( this )
-				.Run();
+		info.Position = Position + CollisionBounds.Center;
 
+		return true;	
+	}
 
-			if ( tr.Distance > 768 ) return false;
+	bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
+	{
+		if ( !this.IsValid() )
+			return false;
 
-			if ( tr.Hit && tr.Entity != this )
-				return false;
+		if ( LifeState != LifeState.Alive )
+			return false;
 
-			return true;
-		}
+		if ( !CalculateVis() )
+			return false;
 
-		bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
-		{
-			if ( !this.IsValid() )
-				return false;
+		info.Position = Position + CollisionBounds.Center;
 
-			if ( LifeState != LifeState.Alive )
-				return false;
+		return true;
+	}
 
-			if ( !CalculateVis() )
-				return false;
-
-			info.Position = Position + CollisionBounds.Center;
-
-			return true;	
-		}
-
-		bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
-		{
-			if ( !this.IsValid() )
-				return false;
-
-			if ( LifeState != LifeState.Alive )
-				return false;
-
-			if ( !CalculateVis() )
-				return false;
-
-			info.Position = Position + CollisionBounds.Center;
-
-			return true;
-		}
-
-		void IGameStateAddressable.ResetState()
-		{
-			Delete();
-		}
+	void IGameStateAddressable.ResetState()
+	{
+		Delete();
 	}
 }

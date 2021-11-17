@@ -1,34 +1,29 @@
 using Sandbox;
-using System;
-using System.Linq;
 
-namespace Conquest
+namespace Conquest;
+
+public partial class SpectatorPlayer : BasePlayer
 {
-	public partial class SpectatorPlayer : BasePlayer
+	public SpectatorPlayer()
 	{
-		public SpectatorPlayer()
+	}
+
+	public SpectatorPlayer( Client cl ) : this()
+	{
+	}
+
+	public override void Simulate( Client cl )
+	{
+		base.Simulate( cl );
+
+		if ( cl.IsBot )
 		{
-
+			Game.Deploy( cl );
 		}
+	}
 
-		public SpectatorPlayer( Client cl ) : this()
-		{
-
-		}
-
-		public override void Simulate( Client cl )
-		{
-			base.Simulate( cl );
-
-			if ( cl.IsBot )
-			{
-				Game.Deploy( cl );
-			}
-		}
-
-		protected override void MakeHud()
-		{
-			Hud = new SpectatorHud();
-		}
+	protected override void MakeHud()
+	{
+		Hud = new SpectatorHud();
 	}
 }

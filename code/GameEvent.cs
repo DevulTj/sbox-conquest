@@ -1,38 +1,37 @@
 ﻿using Sandbox;
 
-namespace Conquest
+namespace Conquest;
+
+public class GameEvent
 {
-	public class GameEvent
+	public class Server
 	{
-		public class Server
+		public const string OnChatMessage = "OnChatMessage";
+		public const string ScoreHitZero = "ScoreHitZero";
+
+		public class OnChatMessageAttribute : EventAttribute
 		{
-			public const string OnChatMessage = "OnChatMessage";
-			public const string ScoreHitZero = "ScoreHitZero";
-
-			public class OnChatMessageAttribute : EventAttribute
-			{
-				public OnChatMessageAttribute() : base( OnChatMessage ) { }
-			}
-
-			public class ScoreHitZeroAttribute : EventAttribute
-			{
-				public ScoreHitZeroAttribute() : base( ScoreHitZero ) { }
-			}
+			public OnChatMessageAttribute() : base( OnChatMessage ) { }
 		}
 
-		public class Client
+		public class ScoreHitZeroAttribute : EventAttribute
 		{
-
+			public ScoreHitZeroAttribute() : base( ScoreHitZero ) { }
 		}
+	}
 
-		public class Shared
+	public class Client
+	{
+
+	}
+
+	public class Shared
+	{
+		public const string OnScoreChanged = "OnScoreChanged";
+
+		public class OnScoreChangedAttribute : EventAttribute
 		{
-			public const string OnScoreChanged = "OnScoreChanged";
-
-			public class OnScoreChangedAttribute : EventAttribute
-			{
-				public OnScoreChangedAttribute() : base( OnScoreChanged ) { }
-			}
+			public OnScoreChangedAttribute() : base( OnScoreChanged ) { }
 		}
 	}
 }

@@ -1,27 +1,26 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 
-namespace Conquest
+namespace Conquest;
+
+[UseTemplate]
+public class SpectatorHud : BaseHud
 {
-	[UseTemplate]
-	public class SpectatorHud : BaseHud
+	// @ref
+	public RespawnScreen RespawnScreen { get; set; }
+
+	public SpectatorHud()
 	{
-		// @ref
-		public RespawnScreen RespawnScreen { get; set; }
-		public SpectatorHud()
-		{
+	}
 
-		}
-
-		public override void Tick()
-		{
-			base.Tick();
+	public override void Tick()
+	{
+		base.Tick();
 			
-			// This is shit.
-			if ( Local.Pawn is Player && !IsDeleting )
-			{
-				Delete();
-			}
+		// This is shit.
+		if ( Local.Pawn is Player && !IsDeleting )
+		{
+			Delete();
 		}
 	}
 }

@@ -1,34 +1,33 @@
 using Sandbox;
 using Sandbox.UI;
 
-namespace Conquest
+namespace Conquest;
+
+[UseTemplate]
+public class CapturePointPanel : Panel
 {
-	[UseTemplate]
-	public class CapturePointPanel : Panel
+	public CapturePointEntity CapturePoint { get; set; }
+
+	public string NiceName { get; set; } = "POINT NAME";
+	public string Identity { get; set; } = "A";
+
+	public void SetShowName( bool shouldShowName = true )
 	{
-		public CapturePointEntity CapturePoint { get; set; }
+		SetClass( "withName", shouldShowName );
+	}
 
-		public string NiceName { get; set; } = "POINT NAME";
-		public string Identity { get; set; } = "A";
+	public override void Tick()
+	{
+		base.Tick();
 
-		public void SetShowName( bool shouldShowName = true )
+		if ( CapturePoint.IsValid() )
 		{
-			SetClass( "withName", shouldShowName );
-		}
+			NiceName = CapturePoint.NiceName.ToUpper();
+			Identity = CapturePoint.Identity.ToUpper();
 
-		public override void Tick()
-		{
-			base.Tick();
-
-			if ( CapturePoint.IsValid() )
+			foreach( var kv in CapturePoint.GetUIClasses() )
 			{
-				NiceName = CapturePoint.NiceName.ToUpper();
-				Identity = CapturePoint.Identity.ToUpper();
-
-				foreach( var kv in CapturePoint.GetUIClasses() )
-				{
-					SetClass( kv.Key, kv.Value );
-				}
+				SetClass( kv.Key, kv.Value );
 			}
 		}
 	}

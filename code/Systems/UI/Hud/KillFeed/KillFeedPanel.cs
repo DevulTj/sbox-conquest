@@ -2,109 +2,106 @@
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-using System;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Conquest
+namespace Conquest;
+
+[Library( "KillFeedEntryPanel" )]
+public class KillFeedEntryPanel : Panel
 {
-	[Library( "KillFeedEntryPanel" )]
-	public class KillFeedEntryPanel : Panel
+	public TimeSince CreationTime { get; set; } = 0;
+	public float TimeToShow { get; set; } = 5f;
+
+	public Label Left { get; set; }
+	public Label Method { get; set; }
+	public Label Right { get; set; }
+
+	public KillFeedEntryPanel()
 	{
-		public TimeSince CreationTime { get; set; } = 0;
-		public float TimeToShow { get; set; } = 5f;
-
-		public Label Left { get; set; }
-		public Label Method { get; set; }
-		public Label Right { get; set; }
-
-		public KillFeedEntryPanel()
-		{
-			Left = Add.Label( "DevulTj", "friendly" );
-			Method = Add.Label( "[AK-47]", "method" );
-			Right = Add.Label( "Bot", "enemy" );
-		}
-
-		public override void Tick()
-		{
-			base.Tick();
-
-			if ( CreationTime > TimeToShow && !IsDeleting )
-			{
-				Delete();
-			}
-		}
+		Left = Add.Label( "DevulTj", "friendly" );
+		Method = Add.Label( "[AK-47]", "method" );
+		Right = Add.Label( "Bot", "enemy" );
 	}
 
-	[Library( "KillFeedMessagePanel" )]
-	public class KillFeedMessagePanel : Panel
+	public override void Tick()
 	{
-		public TimeSince CreationTime { get; set; } = 0;
-		public float TimeToShow { get; set; } = 5f;
+		base.Tick();
 
-		public Label Left { get; set; }
-
-		public KillFeedMessagePanel()
+		if ( CreationTime > TimeToShow && !IsDeleting )
 		{
-			Left = Add.Label( "hey!", "message" );
-		}
-
-		public override void Tick()
-		{
-			base.Tick();
-
-			if ( CreationTime > TimeToShow && !IsDeleting )
-			{
-				Delete();
-			}
+			Delete();
 		}
 	}
+}
 
-	[UseTemplate]
-	public class KillFeedPanel : Panel
+[Library( "KillFeedMessagePanel" )]
+public class KillFeedMessagePanel : Panel
+{
+	public TimeSince CreationTime { get; set; } = 0;
+	public float TimeToShow { get; set; } = 5f;
+
+	public Label Left { get; set; }
+
+	public KillFeedMessagePanel()
 	{
-		public static KillFeedPanel Current;
+		Left = Add.Label( "hey!", "message" );
+	}
 
-		public KillFeedPanel()
+	public override void Tick()
+	{
+		base.Tick();
+
+		if ( CreationTime > TimeToShow && !IsDeleting )
 		{
-			Current = this;
+			Delete();
 		}
+	}
+}
 
-		public static Client FromSteamId( long steamId )
-		{
-			return Client.All.Where( x => x.PlayerId == steamId ).FirstOrDefault();
-		}
+[UseTemplate]
+public class KillFeedPanel : Panel
+{
+	public static KillFeedPanel Current;
 
-		public virtual Panel AddKill( long lsteamid, string left, long rsteamid, string right, string method )
-		{
-			var e = Current.AddChild<KillFeedEntryPanel>();
+	public KillFeedPanel()
+	{
+		Current = this;
+	}
 
-			var myTeam = TeamSystem.MyTeam;
-			var leftTeam = TeamSystem.GetTeam( FromSteamId( lsteamid ) );
-			var rightTeam = TeamSystem.GetTeam( FromSteamId( rsteamid ) );
+	public static Client FromSteamId( long steamId )
+	{
+		return Client.All.Where( x => x.PlayerId == steamId ).FirstOrDefault();
+	}
 
-			e.Left.Text = left;
-			e.Left.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, leftTeam ) );
-			e.Left.SetClass( "enemy", TeamSystem.IsHostile( myTeam, leftTeam ) );
+	public virtual Panel AddKill( long lsteamid, string left, long rsteamid, string right, string method )
+	{
+		var e = Current.AddChild<KillFeedEntryPanel>();
 
-			e.Left.SetClass( "me", lsteamid == (Local.Client?.PlayerId) );
+		var myTeam = TeamSystem.MyTeam;
+		var leftTeam = TeamSystem.GetTeam( FromSteamId( lsteamid ) );
+		var rightTeam = TeamSystem.GetTeam( FromSteamId( rsteamid ) );
 
-			e.Method.Text = $"[{method}]";
+		e.Left.Text = left;
+		e.Left.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, leftTeam ) );
+		e.Left.SetClass( "enemy", TeamSystem.IsHostile( myTeam, leftTeam ) );
 
-			e.Right.Text = right;
-			e.Right.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, rightTeam ) );
-			e.Right.SetClass( "enemy", TeamSystem.IsHostile( myTeam, rightTeam ) );
-			e.Right.SetClass( "me", rsteamid == (Local.Client?.PlayerId) );
+		e.Left.SetClass( "me", lsteamid == (Local.Client?.PlayerId) );
 
-			return e;
-		}
+		e.Method.Text = $"[{method}]";
 
-		public virtual Panel AddMessage( string message )
-		{
-			var e = Current.AddChild<KillFeedMessagePanel>();
-			e.Left.Text = message;
+		e.Right.Text = right;
+		e.Right.SetClass( "friendly", TeamSystem.IsFriendly( myTeam, rightTeam ) );
+		e.Right.SetClass( "enemy", TeamSystem.IsHostile( myTeam, rightTeam ) );
+		e.Right.SetClass( "me", rsteamid == (Local.Client?.PlayerId) );
 
-			return e;
-		}
+		return e;
+	}
+
+	public virtual Panel AddMessage( string message )
+	{
+		var e = Current.AddChild<KillFeedMessagePanel>();
+		e.Left.Text = message;
+
+		return e;
 	}
 }

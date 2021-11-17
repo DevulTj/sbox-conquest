@@ -4,79 +4,78 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Conquest.UI
+namespace Conquest.UI;
+
+public partial class HudMarkers : Panel
 {
-	public partial class HudMarkers : Panel
+	public static HudMarkers Current;
+
+	public HudMarkers()
 	{
-		public static HudMarkers Current;
+		Current = this;
 
-		public HudMarkers()
+		StyleSheet.Load( "systems/ui/hud/hudmarkers/hudmarkers.scss" );
+	}
+
+
+	protected List<HudMarker> Markers { get; set; } = new();
+
+
+	public void Clear( HudMarker marker )
+	{
+		if ( marker is null )
+			return;
+		if ( !Markers.Contains( marker ) )
+			return;
+
+		Markers.Remove( marker );
+		marker.Delete();
+
+		return;
+	}
+
+	protected void ValidateEntity( IHudMarkerEntity entity )
+	{
+		var info = new HudMarkerBuilder();
+		var styleClass = entity.GetMainClass();
+		var current = Markers.Where( x => x.Entity == entity ).FirstOrDefault();
+
+		if ( !entity.Update( ref info ) )
 		{
-			Current = this;
-
-			StyleSheet.Load( "systems/ui/hud/hudmarkers/hudmarkers.scss" );
-		}
-
-
-		protected List<HudMarker> Markers { get; set; } = new();
-
-
-		public void Clear( HudMarker marker )
-		{
-			if ( marker is null )
-				return;
-			if ( !Markers.Contains( marker ) )
-				return;
-
-			Markers.Remove( marker );
-			marker.Delete();
+			Clear( current );
 
 			return;
 		}
 
-		protected void ValidateEntity( IHudMarkerEntity entity )
+		if ( current is null )
 		{
-			var info = new HudMarkerBuilder();
-			var styleClass = entity.GetMainClass();
-			var current = Markers.Where( x => x.Entity == entity ).FirstOrDefault();
-
-			if ( !entity.Update( ref info ) )
+			current = new HudMarker( entity )
 			{
-				Clear( current );
+				Parent = this
+			};
 
-				return;
-			}
+			// Add style class
+			current.AddClass( styleClass );
 
-			if ( current is null )
-			{
-				current = new HudMarker( entity )
-				{
-					Parent = this
-				};
-
-				// Add style class
-				current.AddClass( styleClass );
-
-				Markers.Add( current );
-			}
-
-			current.Apply( info );
+			Markers.Add( current );
 		}
 
-		protected void UpdateHudMarkers()
-		{
-			var existingMarkers = Markers.Select( x => x.Entity ).ToList();
+		current.Apply( info );
+	}
 
-			Entity.All.OfType<IHudMarkerEntity>()
-							.Concat( existingMarkers )
-							.ToList()
-							.ForEach( x => ValidateEntity( x ) );
-		}
+	protected void UpdateHudMarkers()
+	{
+		var existingMarkers = Markers.Select( x => x.Entity ).ToList();
 
-		public override void Tick()
-		{
-			base.Tick();
-			UpdateHudMarkers();
-		}
+		Entity.All.OfType<IHudMarkerEntity>()
+						.Concat( existingMarkers )
+						.ToList()
+						.ForEach( x => ValidateEntity( x ) );
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+		UpdateHudMarkers();
 	}
 }

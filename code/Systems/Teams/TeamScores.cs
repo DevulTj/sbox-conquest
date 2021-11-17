@@ -1,123 +1,121 @@
 
 using Sandbox;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Conquest
+namespace Conquest;
+
+public partial class TeamScores : BaseNetworkable, INetworkSerializer
 {
-	public partial class TeamScores : BaseNetworkable, INetworkSerializer
+	public TeamScores()
 	{
-		public TeamScores()
-		{
-			Scores = new int[ ArraySize ];
-			OldScores = new int[ ArraySize ];
+		Scores = new int[ ArraySize ];
+		OldScores = new int[ ArraySize ];
 			
-			Reset();
-		}
+		Reset();
+	}
 
-		public virtual int TickInterval => 10;
-		public virtual int MinimumScore => 0;
+	public virtual int TickInterval => 10;
+	public virtual int MinimumScore => 0;
 
-		[ConVar.Replicated( "conquest_maxscore" )]
-		public static int MaximumScore { get; set; } = 250;
+	[ConVar.Replicated( "conquest_maxscore" )]
+	public static int MaximumScore { get; set; } = 250;
 
-		protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length;
-		protected int[] Scores { get; set; }
+	protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length;
+	protected int[] Scores { get; set; }
 
-		protected int[] OldScores { get; set; }
+	protected int[] OldScores { get; set; }
 
-		// Initialized by Game
-		public async Task StartTicking()
+	// Initialized by Game
+	public async Task StartTicking()
+	{
+		while ( true )
 		{
-			while ( true )
-			{
-				await GameTask.DelaySeconds( TickInterval );
+			await GameTask.DelaySeconds( TickInterval );
 
-				Tick();
-			}
+			Tick();
 		}
+	}
 
-		// Fucking hate this. @TODO: Do better.
-		protected virtual Team GetOpposingTeam( Team team )
+	// Fucking hate this. @TODO: Do better.
+	protected virtual Team GetOpposingTeam( Team team )
+	{
+		if ( team == Team.BLUFOR )
+			return Team.OPFOR;
+
+		if ( team == Team.OPFOR )
+			return Team.BLUFOR;
+
+		return Team.Unassigned;
+	}
+
+	protected virtual void Tick()
+	{
+		foreach( var capturePoint in Entity.All.OfType<CapturePointEntity>() )
 		{
-			if ( team == Team.BLUFOR )
-				return Team.OPFOR;
+			var otherTeam = GetOpposingTeam( capturePoint.Team );
 
-			if ( team == Team.OPFOR )
-				return Team.BLUFOR;
+			if ( otherTeam == Team.Unassigned )
+				continue;
 
-			return Team.Unassigned;
+			RemoveScore( otherTeam, 1 );
 		}
+	}
 
-		protected virtual void Tick()
-		{
-			foreach( var capturePoint in Entity.All.OfType<CapturePointEntity>() )
-			{
-				var otherTeam = GetOpposingTeam( capturePoint.Team );
+	public void SetScore( Team team, int score )
+	{
+		var newScore = Math.Clamp( score, MinimumScore, MaximumScore );
+		Scores[(int)team] = newScore;
 
-				if ( otherTeam == Team.Unassigned )
-					continue;
+		if ( newScore == 0 )
+			Event.Run( GameEvent.Server.ScoreHitZero, GetOpposingTeam( team ) );
 
-				RemoveScore( otherTeam, 1 );
-			}
-		}
+		WriteNetworkData();
+	}
 
-		public void SetScore( Team team, int score )
-		{
-			var newScore = Math.Clamp( score, MinimumScore, MaximumScore );
-			Scores[(int)team] = newScore;
+	public int? GetOldScore( Team team ) => OldScores?[(int)team];
 
-			if ( newScore == 0 )
-				Event.Run( GameEvent.Server.ScoreHitZero, GetOpposingTeam( team ) );
+	public int GetScore( Team team )
+	{
+		return Scores[(int)team];
+	}
 
-			WriteNetworkData();
-		}
+	public void AddScore( Team team, int score )
+	{
+		SetScore( team, GetScore( team ) + score );
+	}
 
-		public int? GetOldScore( Team team ) => OldScores?[(int)team];
+	public void RemoveScore( Team team, int score )
+	{
+		SetScore( team, GetScore( team ) - score );
+	}
 
-		public int GetScore( Team team )
-		{
-			return Scores[(int)team];
-		}
+	public void Read( ref NetRead read )
+	{
+		OldScores = Scores?.ToArray();
 
-		public void AddScore( Team team, int score )
-		{
-			SetScore( team, GetScore( team ) + score );
-		}
+		Scores = new int[ ArraySize ];
 
-		public void RemoveScore( Team team, int score )
-		{
-			SetScore( team, GetScore( team ) - score );
-		}
+		int count = read.Read<int>();
+		for ( int i = 0; i < count; i++ )
+			Scores[ i ] = read.Read<int>();
 
-		public void Read( ref NetRead read )
-		{
-			OldScores = Scores?.ToArray();
+		Event.Run( GameEvent.Shared.OnScoreChanged );
+	}
 
-			Scores = new int[ ArraySize ];
+	public void Write( NetWrite write )
+	{
+		write.Write( Scores.Length );
 
-			int count = read.Read<int>();
-			for ( int i = 0; i < count; i++ )
-				Scores[ i ] = read.Read<int>();
+		foreach( var score in Scores )
+			write.Write( score );
+	}
 
-			Event.Run( GameEvent.Shared.OnScoreChanged );
-		}
-
-		public void Write( NetWrite write )
-		{
-			write.Write( Scores.Length );
-
-			foreach( var score in Scores )
-				write.Write( score );
-		}
-
-		public void Reset()
-		{
-			// Set initializing scores.
-			SetScore( Team.BLUFOR, MaximumScore );
-			SetScore( Team.OPFOR, MaximumScore );
-		}
+	public void Reset()
+	{
+		// Set initializing scores.
+		SetScore( Team.BLUFOR, MaximumScore );
+		SetScore( Team.OPFOR, MaximumScore );
 	}
 }

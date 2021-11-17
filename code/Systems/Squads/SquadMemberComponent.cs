@@ -1,12 +1,9 @@
 
 using Sandbox;
-using System.ComponentModel;
 
-namespace Conquest
+namespace Conquest;
+
+public partial class SquadMemberComponent : EntityComponent
 {
-	public partial class SquadMemberComponent : EntityComponent
-	{
-		[Net]
-		public Squad SquadRef { get; set; }
-	}
+	[Net] public Squad SquadRef { get; set; }
 }

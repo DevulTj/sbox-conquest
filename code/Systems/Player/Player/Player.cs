@@ -5,409 +5,408 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Conquest
+namespace Conquest;
+
+public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
-	public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
+	/// <summary>
+	/// The clothing container is what dresses the citizen
+	/// </summary>
+	public Clothing.Container Clothing = new();
+
+	[Net, Predicted] public ICamera MainCamera { get; set; }
+
+	[Net, Predicted] private bool _IsSprinting { get; set; }
+
+	[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
+
+	public bool IsSprinting { get => _IsSprinting; protected set { if (_IsSprinting && !value) SinceSprintStopped = 0; _IsSprinting = value; } }
+
+	[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
+	[Net, Predicted] public bool IsAiming { get; protected set; }
+	[Net, Predicted] public bool IsFreeLooking { get; protected set; }
+
+	[Net, Local]
+	public CapturePointEntity CapturePoint { get; set; }
+
+	public ICamera LastCamera { get; set; }
+
+	public TimeSince TimeSinceDeath { get; set; }
+
+	protected override void MakeHud()
 	{
-		/// <summary>
-		/// The clothing container is what dresses the citizen
-		/// </summary>
-		public Clothing.Container Clothing = new();
+		Hud = new PlayerHud();
+	}
 
-		[Net, Predicted] public ICamera MainCamera { get; set; }
-
-		[Net, Predicted] private bool _IsSprinting { get; set; }
-
-		[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
-
-		public bool IsSprinting { get => _IsSprinting; protected set { if (_IsSprinting && !value) SinceSprintStopped = 0; _IsSprinting = value; } }
-
-		[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
-		[Net, Predicted] public bool IsAiming { get; protected set; }
-		[Net, Predicted] public bool IsFreeLooking { get; protected set; }
-
-		[Net, Local]
-		public CapturePointEntity CapturePoint { get; set; }
-
-		public ICamera LastCamera { get; set; }
-
-		public TimeSince TimeSinceDeath { get; set; }
-
-		protected override void MakeHud()
+	protected override void OnDestroy()
+	{
+		if ( CapturePoint.IsValid() )
 		{
-			Hud = new PlayerHud();
+			CapturePoint.RemovePlayer( this );
 		}
 
-		protected override void OnDestroy()
+		DestroySpeedLines();
+
+		base.OnDestroy();
+	}
+
+	public Player() : base()
+	{
+		Inventory = new PlayerInventory( this );
+	}
+
+	public Player( Client cl ) : this()
+	{
+		// Load clothing from client data
+		Clothing.LoadFromClient( cl );
+	}
+
+	public override void Spawn()
+	{
+		MainCamera = new FootCamera();
+		LastCamera = MainCamera;
+
+		base.Spawn();
+	}
+
+	protected async Task TryMakeMarker()
+	{
+		while ( HudMarkers.Current is null )
 		{
-			if ( CapturePoint.IsValid() )
-			{
-				CapturePoint.RemovePlayer( this );
-			}
-
-			DestroySpeedLines();
-
-			base.OnDestroy();
+			await GameTask.NextPhysicsFrame();
+			return;
 		}
+	}
 
-		public Player() : base()
-		{
-			Inventory = new PlayerInventory( this );
-		}
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
 
-		public Player( Client cl ) : this()
-		{
-			// Load clothing from client data
-			Clothing.LoadFromClient( cl );
-		}
+		InitSpeedLines();
 
-		public override void Spawn()
-		{
-			MainCamera = new FootCamera();
-			LastCamera = MainCamera;
+		_ = TryMakeMarker();
+	}
 
-			base.Spawn();
-		}
+	protected virtual void StripWeapons()
+	{
+		ClearAmmo();
 
-		protected async Task TryMakeMarker()
-		{
-			while ( HudMarkers.Current is null )
-			{
-				await GameTask.NextPhysicsFrame();
-				return;
-			}
-		}
+		// Clear a player's inventory
+		Inventory?.DeleteContents();
+	}
 
-		public override void ClientSpawn()
-		{
-			base.ClientSpawn();
+	protected virtual void GiveLoadout()
+	{
 
-			InitSpeedLines();
+		var primaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_primary" ) );
+		BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new FAL();
+		var secondaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_secondary" ) );
+		BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new DesertEagle();
 
-			_ = TryMakeMarker();
-		}
+		Inventory.Add( primary, true );
+		Inventory.Add( secondary );
+		Inventory.Add( new AmmoCrateGadget() );
 
-		protected virtual void StripWeapons()
-		{
-			ClearAmmo();
+		GiveAmmo( AmmoType.Pistol, 36 );
+		GiveAmmo( AmmoType.Rifle, 180 );
+		GiveAmmo( AmmoType.Shotgun, 36 );
 
-			// Clear a player's inventory
-			Inventory?.DeleteContents();
-		}
+	}
 
-		protected virtual void GiveLoadout()
-		{
+	protected virtual void SoftRespawn()
+	{
+		StripWeapons();
+		GiveLoadout();
+		Clothing.DressEntity( this );
+		MoveToSpawnpoint( this );
+	}
 
-			var primaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_primary" ) );
-			BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new FAL();
-			var secondaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_secondary" ) );
-			BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new DesertEagle();
+	public override void Respawn()
+	{
+		SetModel( "models/citizen/citizen.vmdl" );
 
-			Inventory.Add( primary, true );
-			Inventory.Add( secondary );
-			Inventory.Add( new AmmoCrateGadget() );
+		Controller = new WalkController();
+		Animator = new PlayerAnimator();
 
-			GiveAmmo( AmmoType.Pistol, 36 );
-			GiveAmmo( AmmoType.Rifle, 180 );
-			GiveAmmo( AmmoType.Shotgun, 36 );
+		MainCamera = LastCamera as FootCamera;
+		Camera = MainCamera;
 
-		}
+		EnableAllCollisions = true;
+		EnableDrawing = true;
+		EnableHideInFirstPerson = true;
+		EnableShadowInFirstPerson = true;
 
-		protected virtual void SoftRespawn()
-		{
-			StripWeapons();
-			GiveLoadout();
-			Clothing.DressEntity( this );
-			MoveToSpawnpoint( this );
-		}
+		base.Respawn();
 
-		public override void Respawn()
-		{
-			SetModel( "models/citizen/citizen.vmdl" );
+		SoftRespawn();
+	}
 
-			Controller = new WalkController();
-			Animator = new PlayerAnimator();
+	[ClientRpc]
+	protected void UpdateKillFeed( long lsteamid, string leftName, long rsteamid, string rightName, string method )
+	{
+		KillFeedPanel.Current.AddKill( lsteamid, leftName, rsteamid, rightName, method );
+	}
 
-			MainCamera = LastCamera as FootCamera;
-			Camera = MainCamera;
+	public virtual void OnPlayerKill( Player victim, DamageInfo damageInfo )
+	{
+		Event.Run( PlayerEvent.Server.OnPlayerKilled, victim, damageInfo );
 
-			EnableAllCollisions = true;
-			EnableDrawing = true;
-			EnableHideInFirstPerson = true;
-			EnableShadowInFirstPerson = true;
+		if ( TeamSystem.IsFriendly( victim.Team, Team ) )
+			GiveAward( "TeamKill" );
+		else
+			GiveAward( "Kill" );
 
-			base.Respawn();
+		UpdateKillFeed( this.Client.PlayerId, this.Client.Name, victim.Client.PlayerId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
+	}
 
-			SoftRespawn();
-		}
+	public override void OnKilled()
+	{
+		base.OnKilled();
 
-		[ClientRpc]
-		protected void UpdateKillFeed( long lsteamid, string leftName, long rsteamid, string rightName, string method )
-		{
-			KillFeedPanel.Current.AddKill( lsteamid, leftName, rsteamid, rightName, method );
-		}
+		TimeSinceDeath = 0;
 
-		public virtual void OnPlayerKill( Player victim, DamageInfo damageInfo )
-		{
-			Event.Run( PlayerEvent.Server.OnPlayerKilled, victim, damageInfo );
+		Inventory.DeleteContents();
 
-			if ( TeamSystem.IsFriendly( victim.Team, Team ) )
-				GiveAward( "TeamKill" );
-			else
-				GiveAward( "Kill" );
-
-			UpdateKillFeed( this.Client.PlayerId, this.Client.Name, victim.Client.PlayerId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
-		}
-
-		public override void OnKilled()
-		{
-			base.OnKilled();
-
-			TimeSinceDeath = 0;
-
-			Inventory.DeleteContents();
-
-			BecomeRagdollOnClient( Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
+		BecomeRagdollOnClient( Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
 			
-			// Remove a ticket.
-			Game.Current.Scores.RemoveScore( Team, 1 );
+		// Remove a ticket.
+		Game.Current.Scores.RemoveScore( Team, 1 );
 
-			Controller = null;
-			Camera = new SpectateRagdollCamera();
+		Controller = null;
+		Camera = new SpectateRagdollCamera();
 
-			EnableAllCollisions = false;
-			EnableDrawing = false;
+		EnableAllCollisions = false;
+		EnableDrawing = false;
 
-			var attacker = LastAttacker;
-			if ( attacker.IsValid() )
+		var attacker = LastAttacker;
+		if ( attacker.IsValid() )
+		{
+			if ( attacker is Player killer )
 			{
-				if ( attacker is Player killer )
-				{
-					killer.OnPlayerKill( this, LastDamage );
-				}
-			}
-
-			foreach ( var child in Children.OfType<ModelEntity>() )
-			{
-				child.EnableDrawing = false;
+				killer.OnPlayerKill( this, LastDamage );
 			}
 		}
 
-		public ICamera GetActiveCamera()
+		foreach ( var child in Children.OfType<ModelEntity>() )
 		{
-			return MainCamera;
+			child.EnableDrawing = false;
+		}
+	}
+
+	public ICamera GetActiveCamera()
+	{
+		return MainCamera;
+	}
+
+	[Net, Predicted]
+	public bool BurstSprintBlock { get; set; } = false;
+
+	[Net, Predicted]
+	public TimeSince SinceBurstActivated { get; set; }
+
+	public float BurstStaminaDuration => 5f;
+
+	protected void HandleSharedInput( Client cl )
+	{
+		if ( Input.Pressed( InputButton.Drop ) )
+		{
+			var dropped = Inventory.DropActive();
+			if ( dropped != null )
+			{
+				if ( dropped.PhysicsGroup != null )
+					dropped.PhysicsGroup.Velocity = Velocity + (EyeRot.Forward + EyeRot.Up) * 300;
+
+				SwitchToBestWeapon();
+			}
+		}
+		var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
+		IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 );
+
+		if ( IsSprinting && Input.Pressed( InputButton.Run ) )
+		{
+			if ( Input.Forward > 0.5f )
+			{
+				IsBurstSprinting = !IsBurstSprinting;
+
+				if ( IsBurstSprinting )
+					SinceBurstActivated = 0;
+			}
 		}
 
-		[Net, Predicted]
-		public bool BurstSprintBlock { get; set; } = false;
+		if ( SinceBurstActivated > BurstStaminaDuration )
+			IsBurstSprinting = false;
 
-		[Net, Predicted]
-		public TimeSince SinceBurstActivated { get; set; }
-
-		public float BurstStaminaDuration => 5f;
-
-		protected void HandleSharedInput( Client cl )
+		if ( Input.Pressed( InputButton.Run ) )
 		{
-			if ( Input.Pressed( InputButton.Drop ) )
-			{
-				var dropped = Inventory.DropActive();
-				if ( dropped != null )
-				{
-					if ( dropped.PhysicsGroup != null )
-						dropped.PhysicsGroup.Velocity = Velocity + (EyeRot.Forward + EyeRot.Up) * 300;
-
-					SwitchToBestWeapon();
-				}
-			}
-			var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
-			IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 );
-
-			if ( IsSprinting && Input.Pressed( InputButton.Run ) )
-			{
-				if ( Input.Forward > 0.5f )
-				{
-					IsBurstSprinting = !IsBurstSprinting;
-
-					if ( IsBurstSprinting )
-						SinceBurstActivated = 0;
-				}
-			}
-
-			if ( SinceBurstActivated > BurstStaminaDuration )
-				IsBurstSprinting = false;
-
-			if ( Input.Pressed( InputButton.Run ) )
-			{
-				if ( !IsSprinting )
-					IsSprinting = true;
-				else if ( IsSprinting && Input.Forward < 0.5f )
-					IsSprinting = false;
-			}
-
-			if ( !IsBurstSprinting && IsSprinting && Velocity.Length < 40 || Input.Forward < 0.5f )
-				IsSprinting = false;
-
-			if ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) )
-				IsSprinting = false;
-
 			if ( !IsSprinting )
-				IsBurstSprinting = false;
-
-			IsFreeLooking = Input.Down( InputButton.Walk );
+				IsSprinting = true;
+			else if ( IsSprinting && Input.Forward < 0.5f )
+				IsSprinting = false;
 		}
 
-		public override void FrameSimulate( Client cl )
+		if ( !IsBurstSprinting && IsSprinting && Velocity.Length < 40 || Input.Forward < 0.5f )
+			IsSprinting = false;
+
+		if ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) )
+			IsSprinting = false;
+
+		if ( !IsSprinting )
+			IsBurstSprinting = false;
+
+		IsFreeLooking = Input.Down( InputButton.Walk );
+	}
+
+	public override void FrameSimulate( Client cl )
+	{
+		base.FrameSimulate( cl );
+
+		// @TODO: This is fucking awful
+		if ( ActiveChild is BaseCarriable weapon && weapon.CrosshairPanel is not null )
 		{
-			base.FrameSimulate( cl );
-
-			// @TODO: This is fucking awful
-			if ( ActiveChild is BaseCarriable weapon && weapon.CrosshairPanel is not null )
+			if ( IsAiming && !weapon.CrosshairPanel.HasClass( "aim" ) )
 			{
-				if ( IsAiming && !weapon.CrosshairPanel.HasClass( "aim" ) )
-				{
-					weapon.CrosshairPanel.AddClass( "aim" );
-				}
-				else if ( !IsAiming && weapon.CrosshairPanel.HasClass( "aim" ) )
-				{
-					weapon.CrosshairPanel.RemoveClass( "aim" );
-				}
-
-				if ( Velocity.Length > 10 && !weapon.CrosshairPanel.HasClass( "move" ) )
-				{
-					weapon.CrosshairPanel.AddClass( "move" );
-				}
-				else if ( Velocity.Length <= 10 && weapon.CrosshairPanel.HasClass( "move" ) )
-				{
-					weapon.CrosshairPanel.RemoveClass( "move" );
-				}
-
-				if ( IsSprinting && !weapon.CrosshairPanel.HasClass( "movefast" ) )
-				{
-					weapon.CrosshairPanel.AddClass( "movefast" );
-				}
-				else if ( !IsSprinting && weapon.CrosshairPanel.HasClass( "movefast" ) )
-				{
-					weapon.CrosshairPanel.RemoveClass( "movefast" );
-				}
+				weapon.CrosshairPanel.AddClass( "aim" );
 			}
-		}
-
-		public void SwitchToBestWeapon()
-		{
-			var best = Children.Select( x => x as ICarriable )
-				.Where( x => x is not null && x.IsUsable() )
-				.OrderByDescending( x => x.BucketWeight )
-				.FirstOrDefault();
-
-			if ( best == null ) return;
-
-			ActiveChild = best as BaseCarriable;
-		}
-
-		public void BecomeSpectator()
-		{
-			var cl = Client;
-			var player = new SpectatorPlayer( cl );
-			Client.Pawn = player;
-
-			Delete();
-
-			player.Respawn();
-		}
-
-		public override void Simulate( Client cl )
-		{
-			if ( LifeState == LifeState.Dead )
+			else if ( !IsAiming && weapon.CrosshairPanel.HasClass( "aim" ) )
 			{
-				if ( TimeSinceDeath > 3 && IsServer )
-				{
-					BecomeSpectator();
-				}
-
-				return;
+				weapon.CrosshairPanel.RemoveClass( "aim" );
 			}
 
-			HandleSharedInput( cl );
-
-			if ( Input.ActiveChild != null )
-				ActiveChild = Input.ActiveChild;
-
-			if ( LifeState != LifeState.Alive )
-				return;
-
-			Camera = GetActiveCamera();
-
-			if ( Input.Released( InputButton.View ) )
+			if ( Velocity.Length > 10 && !weapon.CrosshairPanel.HasClass( "move" ) )
 			{
-				if ( MainCamera is FootCamera )
-					MainCamera = new ThirdPersonCamera();
-				else
-					MainCamera = new FootCamera();
+				weapon.CrosshairPanel.AddClass( "move" );
+			}
+			else if ( Velocity.Length <= 10 && weapon.CrosshairPanel.HasClass( "move" ) )
+			{
+				weapon.CrosshairPanel.RemoveClass( "move" );
 			}
 
-			IsFreeLooking = Input.Down( InputButton.Walk );
-
-			var controller = GetActiveController();
-			if ( controller != null )
-				EnableSolidCollisions = !controller.HasTag( "noclip" );
-
-			controller?.Simulate( cl, this, GetActiveAnimator() );
-
-			TickPlayerUse();
-
-			SimulateActiveChild( cl, ActiveChild );
-
-			SimulateDamage();
-		}
-
-		public override PawnController GetActiveController()
-		{
-			return base.GetActiveController();
-		}
-
-		public virtual void Notify( string message, string hex = "#ffffff" )
-		{
-			// NotificationBox.AddChatEntry( To.Single( Client ), message, hex );
-		}
-
-		protected int GetSlotIndexFromInput( InputButton slot )
-		{
-			return slot switch
+			if ( IsSprinting && !weapon.CrosshairPanel.HasClass( "movefast" ) )
 			{
-				InputButton.Slot1 => 0,
-				InputButton.Slot2 => 1,
-				InputButton.Slot3 => 2,
-				InputButton.Slot4 => 3,
-				InputButton.Slot5 => 4,
-				_ => -1
-			};
-		}
-
-		protected void TrySlotFromInput( InputBuilder input, InputButton slot )
-		{
-			if ( Input.Pressed( slot ) )
+				weapon.CrosshairPanel.AddClass( "movefast" );
+			}
+			else if ( !IsSprinting && weapon.CrosshairPanel.HasClass( "movefast" ) )
 			{
-				input.SuppressButton( slot );
-
-				if ( Inventory.GetSlot( GetSlotIndexFromInput( slot ) ) is Entity weapon )
-					input.ActiveChild = weapon;
+				weapon.CrosshairPanel.RemoveClass( "movefast" );
 			}
 		}
+	}
 
-		public override void BuildInput( InputBuilder input )
+	public void SwitchToBestWeapon()
+	{
+		var best = Children.Select( x => x as ICarriable )
+			.Where( x => x is not null && x.IsUsable() )
+			.OrderByDescending( x => x.BucketWeight )
+			.FirstOrDefault();
+
+		if ( best == null ) return;
+
+		ActiveChild = best as BaseCarriable;
+	}
+
+	public void BecomeSpectator()
+	{
+		var cl = Client;
+		var player = new SpectatorPlayer( cl );
+		Client.Pawn = player;
+
+		Delete();
+
+		player.Respawn();
+	}
+
+	public override void Simulate( Client cl )
+	{
+		if ( LifeState == LifeState.Dead )
 		{
-			base.BuildInput( input );
+			if ( TimeSinceDeath > 3 && IsServer )
+			{
+				BecomeSpectator();
+			}
 
-			TrySlotFromInput( input, InputButton.Slot1 );
-			TrySlotFromInput( input, InputButton.Slot2 );
-			TrySlotFromInput( input, InputButton.Slot3 );
-			TrySlotFromInput( input, InputButton.Slot4 );
-			TrySlotFromInput( input, InputButton.Slot5 );
+			return;
 		}
 
-		void IGameStateAddressable.ResetState()
+		HandleSharedInput( cl );
+
+		if ( Input.ActiveChild != null )
+			ActiveChild = Input.ActiveChild;
+
+		if ( LifeState != LifeState.Alive )
+			return;
+
+		Camera = GetActiveCamera();
+
+		if ( Input.Released( InputButton.View ) )
 		{
-			BecomeSpectator();
+			if ( MainCamera is FootCamera )
+				MainCamera = new ThirdPersonCamera();
+			else
+				MainCamera = new FootCamera();
 		}
+
+		IsFreeLooking = Input.Down( InputButton.Walk );
+
+		var controller = GetActiveController();
+		if ( controller != null )
+			EnableSolidCollisions = !controller.HasTag( "noclip" );
+
+		controller?.Simulate( cl, this, GetActiveAnimator() );
+
+		TickPlayerUse();
+
+		SimulateActiveChild( cl, ActiveChild );
+
+		SimulateDamage();
+	}
+
+	public override PawnController GetActiveController()
+	{
+		return base.GetActiveController();
+	}
+
+	public virtual void Notify( string message, string hex = "#ffffff" )
+	{
+		// NotificationBox.AddChatEntry( To.Single( Client ), message, hex );
+	}
+
+	protected int GetSlotIndexFromInput( InputButton slot )
+	{
+		return slot switch
+		{
+			InputButton.Slot1 => 0,
+			InputButton.Slot2 => 1,
+			InputButton.Slot3 => 2,
+			InputButton.Slot4 => 3,
+			InputButton.Slot5 => 4,
+			_ => -1
+		};
+	}
+
+	protected void TrySlotFromInput( InputBuilder input, InputButton slot )
+	{
+		if ( Input.Pressed( slot ) )
+		{
+			input.SuppressButton( slot );
+
+			if ( Inventory.GetSlot( GetSlotIndexFromInput( slot ) ) is Entity weapon )
+				input.ActiveChild = weapon;
+		}
+	}
+
+	public override void BuildInput( InputBuilder input )
+	{
+		base.BuildInput( input );
+
+		TrySlotFromInput( input, InputButton.Slot1 );
+		TrySlotFromInput( input, InputButton.Slot2 );
+		TrySlotFromInput( input, InputButton.Slot3 );
+		TrySlotFromInput( input, InputButton.Slot4 );
+		TrySlotFromInput( input, InputButton.Slot5 );
+	}
+
+	void IGameStateAddressable.ResetState()
+	{
+		BecomeSpectator();
 	}
 }
