@@ -210,6 +210,8 @@ namespace Conquest
 
 				// DebugOverlay.TraceResult( tr, 1 );
 
+				hits.Add( tr );
+
 				if ( tr.Entity is GlassShard )
 				{
 					_start = tr.EndPos + (tr.Direction * 10f);
@@ -228,9 +230,6 @@ namespace Conquest
 					if ( !ShouldContinue( tr, angle ) )
 						break;
 				}
-
-
-				hits.Add( tr );
 			}
 
 			return hits;
