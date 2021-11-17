@@ -624,7 +624,7 @@ public partial class BaseWeapon : Carriable
 
 	public override void CreateHudElements()
 	{
-		Log.Info( "[Conquest] Crosshair created." );
+		Log.Info( "Conquest", "Crosshair created." );
 
 		CrosshairPanel = new Crosshair();
 		CrosshairPanel.Parent = Local.Hud;

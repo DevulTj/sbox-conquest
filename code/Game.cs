@@ -39,7 +39,7 @@ public partial class Game : Sandbox.GameBase
 		BasePlayer player = cl.IsBot ? new AIPlayer( cl ) : new SpectatorPlayer( cl );
 		cl.Pawn = player;
 
-		Log.Info( $"\"{cl.Name}\" has joined the game" );
+		Log.Info( "Conquest", $"\"{cl.Name}\" has joined the game" );
 		ChatBox.AddInformation( To.Everyone, $"{cl.Name} has joined", $"avatar:{cl.PlayerId}" );
 
 		player.Respawn();
@@ -61,7 +61,7 @@ public partial class Game : Sandbox.GameBase
 	/// </summary>
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
-		Log.Info( $"\"{cl.Name}\" has left the game ({reason})" );
+		Log.Info( "Conquest", $"\"{cl.Name}\" has left the game ({reason})" );
 		ChatBox.AddInformation( To.Everyone, $"{cl.Name} has left ({reason})", $"avatar:{cl.PlayerId}" );
 
 		if ( cl.Pawn.IsValid() )

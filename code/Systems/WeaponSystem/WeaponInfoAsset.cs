@@ -132,7 +132,7 @@ public class WeaponInfoAsset : Asset
 	{
 		base.PostLoad();
 
-		Log.Info( "[Conquest] loading weapon info" );
+		Log.Info( "Conquest", "Loading weapon info" );
 
 		if ( string.IsNullOrEmpty( WeaponClass ) )
 		{

@@ -80,7 +80,7 @@ namespace Conquest
 			// Only log clientside if we're not the listen server host
 			if ( !Global.IsListenServer )
 			{
-				Log.Info( $"{name}: {message}" );
+				Log.Info( "Conquest", $"{name}: {message}" );
 			}
 		}
 
@@ -105,7 +105,7 @@ namespace Conquest
 
 			Event.Run( GameEvent.Server.OnChatMessage, ConsoleSystem.Caller, message );
 
-			Log.Info( $"{ConsoleSystem.Caller}: {message}" );
+			Log.Info( "Conquest", $"{ConsoleSystem.Caller}: {message}" );
 
 			AddChatEntry( To.Everyone, ConsoleSystem.Caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}", player.Team );
 		}

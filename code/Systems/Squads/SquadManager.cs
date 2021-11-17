@@ -10,7 +10,7 @@ public class SquadManager : BaseNetworkable
 	[AdminCmd("conquest_squad_print")]
 	public static void Print()
 	{
-		Log.Info( $"[Conquest] There are { (Current.Squads[Team.OPFOR].Count + Current.Squads[Team.BLUFOR].Count) } squads." );
+		Log.Info( "Conquest", $"There are { (Current.Squads[Team.OPFOR].Count + Current.Squads[Team.BLUFOR].Count) } squads." );
 
 		foreach( var kv in Current.Squads )
 		{
@@ -80,8 +80,8 @@ public class SquadManager : BaseNetworkable
 		Squads[team].Add( newSquad );
 
 		newSquad.Identity = SquadNames[ Squads[team].Count - 1 ];
-
-		Log.Info( $"[Conquest] Squad created. It's called \"{newSquad.Identity}\"" );
+		
+		Log.Info( "Conquest", $"Squad created. It's called \"{newSquad.Identity}\"" );
 
 		return newSquad;
 	}
@@ -113,7 +113,7 @@ public class SquadManager : BaseNetworkable
 		squadComponent.SquadRef = squadRef;
 		squadRef.Add( client );
 
-		Log.Info( $"[Conquest] Client {client.Name} was added to squad: {squadRef.Identity}" );
+		Log.Info( "Conquest", $"Client {client.Name} was added to squad: {squadRef.Identity}" );
 	}
 
 	public void Clear( Client client )
@@ -121,6 +121,6 @@ public class SquadManager : BaseNetworkable
 		var squadComponent = client.Components.GetOrCreate<SquadMemberComponent>();
 		squadComponent.SquadRef?.Remove( client );
 
-		Log.Info( $"[Conquest] Client {client.Name} was removed from squad: {(squadComponent.SquadRef?.Identity ?? "Unknown")}" );
+		Log.Info( "Conquest", $"Client {client.Name} was removed from squad: {(squadComponent.SquadRef?.Identity ?? "Unknown")}" );
 	}
 }
