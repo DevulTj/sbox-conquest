@@ -20,8 +20,10 @@ public class SquadmatePanel : Panel
 
 	public void SetClient( Client cl )
 	{
-		if ( cl is null )
+		if ( !cl.IsValid() )
 		{
+			Client = null;
+
 			return;
 		}
 
@@ -51,12 +53,16 @@ public class SquadmatePanel : Panel
 	{
 		base.Tick();
 
-		SetClass( "valid", Client is not null );
-		SetClass( "dead", Client?.Pawn is null || Client.Pawn.LifeState != LifeState.Alive );
+		SetClass( "valid", Client.IsValid() );
 
-		var player = Client?.Pawn as Player;
+		if ( !Client.IsValid() )
+			return;
 
-		if ( player is null ) return;
+		var player = Client.Pawn as Player;
+
+		SetClass( "dead", !player.IsValid() || Client.Pawn.LifeState != LifeState.Alive );
+
+		if ( !player.IsValid() ) return;
 
 		var healthPercent = (player.Health / player.MaxHealth) * 100f;
 

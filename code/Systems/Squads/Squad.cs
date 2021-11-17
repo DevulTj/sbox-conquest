@@ -7,18 +7,26 @@ namespace Conquest;
 
 public partial class Squad : BaseNetworkable
 {
+	public Squad() { }
+
+	public Squad( Team team )
+	{
+		Team = team;
+	}
+
 	public override string ToString()
 	{
-		return $"Conquest.Squad[{Identity}](Leader: {SquadLeader.Name}, Members: {string.Join( $", ", Members?.Where( x => x != SquadLeader ).Select( x => x.Name ) )})";
+		return $"Squad[{NetworkIdent}][{Identity}](Leader: {(SquadLeader?.Name ?? "No squad leader")}, Members: {string.Join( $", ", Members?.Where( x => x != SquadLeader ).Select( x => x.Name ) )})";
 	}
 	public int MaxMembers => 4;
 	public int CurrentMembers => Members.Count;
 
 	public bool IsFull => CurrentMembers >= MaxMembers;
 
-	[Net] public string Identity { get; set; } = "";
-	[Net] public IList<Client> Members { get; set; }
+	public Team Team { get; set; }
 
+	[Net] public string Identity { get; set; }
+	[Net] public IList<Client> Members { get; set; }
 	[Net] public Client SquadLeader { get; set; }
 
 	public bool Add( Client cl )
