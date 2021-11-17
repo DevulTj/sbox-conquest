@@ -61,7 +61,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 	[Net, Predicted]
 	bool WishToShoot { get; set; } = false;
 
-	protected virtual float MaxAmtOfHits => 2;
+	protected virtual float MaxAmtOfHits => 5;
 	protected virtual float MaxRicochetAngle => 45f;
 	protected float MaxPenetration => 20f;
 
@@ -192,6 +192,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		Vector3 _end = end;
 		List<TraceResult> hits = new();
 
+		Entity lastEnt = null;
 		while ( currentAmountOfHits < MaxAmtOfHits )
 		{
 			currentAmountOfHits++;
@@ -203,20 +204,20 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 			.HitLayer( CollisionLayer.Water, !inWater )
 			.HitLayer( CollisionLayer.Debris )
 			.Ignore( Owner )
-			.Ignore( this )
+			.Ignore( lastEnt.IsValid() ? lastEnt : this )
 			.Size( radius )
 			.Run();
 
-			// DebugOverlay.TraceResult( tr, 1 );
+			// DebugOverlay.p TraceResult( tr, 1 );
 
 			hits.Add( tr );
 
+			lastEnt = tr.Entity;
+
 			if ( tr.Entity is GlassShard )
 			{
-				_start = tr.EndPos + (tr.Direction * 10f);
+				_start = tr.EndPos;
 				_end = tr.EndPos + (tr.Direction * 5000);
-
-				currentAmountOfHits--;
 			}
 			else
 			{
