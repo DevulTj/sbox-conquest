@@ -200,6 +200,13 @@ minimap {
                         transform: scale( 5 );
                     }
 
+                    &.enemy {
+                        width: 32px;
+                        height: 32px;
+                        background-image-tint: rgba( 252, 35, 35, 1 );
+                        box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.1 );
+                        background-image: url( ui/target.png );
+                    }
 
                     label {
                         opacity: 1;
