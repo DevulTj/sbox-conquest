@@ -47,7 +47,6 @@ public class InventoryItem : Panel
 		{
 			Weapon = weaponFromSlot;
 
-			Log.Info( Weapon.WeaponInfo?.LoadoutIcon ?? "no icon" );
 			Icon?.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
 		}
 
