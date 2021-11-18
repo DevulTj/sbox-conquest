@@ -49,14 +49,15 @@ public class InventoryItem : Panel
 			Icon?.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
 		}
 
-		if ( weaponFromSlot is BaseWeapon weapon )
-		{
-			Ammo.Text = $"{player.AmmoCount( weapon.WeaponInfo.AmmoType ) + weapon.AmmoClip}";
-		}
-		else if ( weaponFromSlot is BaseGadget gadget )
+
+		if ( weaponFromSlot is BaseGadget gadget || weaponFromSlot.Slot == WeaponSlot.Melee )
 		{
 			Ammo.Text = $"∞";
 			showInfinity = true;
+		}
+		else if ( weaponFromSlot is BaseWeapon weapon )
+		{
+			Ammo.Text = $"{player.AmmoCount( weapon.WeaponInfo.AmmoType ) + weapon.AmmoClip}";
 		}
 		else if ( weaponFromSlot is null )
 		{

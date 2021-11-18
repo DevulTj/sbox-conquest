@@ -106,6 +106,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		Inventory.Add( primary, true );
 		Inventory.Add( secondary );
 		Inventory.Add( new AmmoCrateGadget() );
+		Inventory.Add( new Knife() );
 
 		GiveAmmo( AmmoType.Pistol, 36 );
 		GiveAmmo( AmmoType.Rifle, 180 );

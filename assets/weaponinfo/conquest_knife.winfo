@@ -1,0 +1,57 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		weaponclass = "conquest_knife"
+		slot = "2"
+		ammotype = "2"
+		defaultfiremode = "1"
+		supported_fire_modes = "1"
+		burstamount = 3
+		holdtype = "4"
+		recoil = 
+		{
+		}
+		rpm = 100
+		reloadtime = 2.0
+		clipsize = 30
+		allowchamberreload = false
+		bulletspread = 0.0
+		bulletbasedamage = 30.0
+		bulletradius = 1.0
+		pellets = 1
+		reloadsingle = false
+		usecustomhands = true
+		handsasset = resource:"weapons/swb/hands/swat/v_hands_swat.vmdl"
+		viewmodel = resource:"weapons/swb/melee/bayonet/v_bayonet.vmdl"
+		worldmodel = resource:"weapons/swb/melee/bayonet/w_bayonet.vmdl"
+		ejectparticle = resource:""
+		muzzleflashparticle = resource:""
+		screenshake = 
+		{
+			length = 1.0
+			speed = 1.0
+			size = 1.0
+			rotation = 1.0
+		}
+		firesound = ""
+		dryfiresound = ""
+		loadouticon = ""
+		walkcycleoffsets = [ 12.0, 25.0, 25.0 ]
+		forwardbobbing = -10.0
+		sidewalkoffset = 25.0
+		aimoffset = [ 0.0, 0.0, 0.0 ]
+		aimangleoffset = [ 0.0, 0.0, 0.0 ]
+		offset = [ 2.0, 2.0, -1.0 ]
+		crouchoffset = [ -200.0, 0.0, 0.0 ]
+		offsetlerpamount = 0.0
+		sprintrightrotation = -10.0
+		sprintuprotation = -25.0
+		sprintleftoffset = 0.0
+		postsprintleftoffset = 15.0
+		burstsprintrightrotation = -10.0
+		burstsprintuprotation = -25.0
+		burstsprintleftoffset = 0.0
+		burstpostsprintleftoffset = 15.0
+	}
+}

@@ -599,8 +599,11 @@ public partial class BaseWeapon : Carriable
 	{
 		Host.AssertClient();
 
-		Particles.Create( WeaponInfo.MuzzleFlashParticle, EffectEntity, "muzzle" );
-		Particles.Create( WeaponInfo.EjectParticle, EffectEntity, "ejection_point" );
+		if ( !string.IsNullOrEmpty( WeaponInfo.MuzzleFlashParticle ) )
+			Particles.Create( WeaponInfo.MuzzleFlashParticle, EffectEntity, "muzzle" );
+
+		if ( !string.IsNullOrEmpty( WeaponInfo.EjectParticle ) )
+			Particles.Create( WeaponInfo.EjectParticle, EffectEntity, "ejection_point" );
 
 		WeaponInfo.ScreenShake.Run();
 

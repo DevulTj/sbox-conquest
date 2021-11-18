@@ -8,7 +8,8 @@
 	[
 		0 : "Primary"
 		1 : "Secondary"
-		2 : "Gadget"
+		2 : "Melee"
+		3 : "Gadget"
 	]
 ]
 

@@ -24,7 +24,8 @@
 	[
 		0 : "Primary"
 		1 : "Secondary"
-		2 : "Gadget"
+		2 : "Melee"
+		3 : "Gadget"
 	]
 	ammotype(choices) { group = "Important" } : "Ammo Type" : 2 : "" =
 	[

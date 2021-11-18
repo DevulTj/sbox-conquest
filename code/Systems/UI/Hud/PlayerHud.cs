@@ -92,7 +92,17 @@ public class PlayerHud : BaseHud
 		HealthBar.SetClass( "dying", healthPercent < 0.2 );
 
 		var weapon = Local.Pawn.ActiveChild as BaseWeapon;
-		if ( weapon is not null && weapon.ShowAmmoCount )
+
+		if ( Local.Pawn.ActiveChild is MeleeWeapon melee )
+		{
+			GunVitals.Style.Opacity = 1;
+
+			GunName.Text = $"{melee.ClassInfo.Title.ToUpper()}";
+			GunAmmo.Text = $"∞";
+			GunReserve.Text = $"∞";
+			GunVitals.Style.Opacity = 1;
+		}
+		else if ( weapon is not null && weapon.ShowAmmoCount )
 		{
 			GunName.Text = $"{weapon.ClassInfo.Title.ToUpper()}";
 			GunAmmo.Text = $"{weapon.AmmoClip.ToString("D3")}";
