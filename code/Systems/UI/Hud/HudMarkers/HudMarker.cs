@@ -41,10 +41,11 @@ public partial class HudMarker : Panel
 		var cachedX = screenpos.x;
 		var cachedY = screenpos.y;
 
-		var isFocused = cachedX.AlmostEqual( 0.5f, 0.05f ) && cachedY.AlmostEqual( 0.5f, 0.2f );
+		var isFocused = cachedX.AlmostEqual( 0.5f, 0.04f ) && cachedY.AlmostEqual( 0.5f, 0.075f );
 
 		IsFocused = isFocused;
 		SetClass( "nofocus", !isFocused );
+		SetClass( "isfocused", isFocused );
 
 		if ( StayOnScreen )
 		{
