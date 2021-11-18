@@ -606,8 +606,6 @@ public partial class BaseWeapon : Carriable
 
 		WeaponInfo.ScreenShake.Run();
 
-		Log.Info( WeaponInfo.AttackAnimBool );
-
 		ViewModelEntity?.SetAnimBool( WeaponInfo.AttackAnimBool, true );
 		CrosshairPanel?.CreateEvent( WeaponInfo.AttackAnimBool );
 	}
