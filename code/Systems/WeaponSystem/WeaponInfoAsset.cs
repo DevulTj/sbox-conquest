@@ -83,6 +83,8 @@ public class WeaponInfoAsset : Asset
 	[Property, Category( "Stats" )] public float BulletRadius { get; set; } = 1f;
 	[Property, Category( "Stats" )] public int Pellets { get; set; } = 1;
 	[Property, Category( "Stats" )] public bool ReloadSingle { get; set; } = false;
+	[Property, Category( "Stats" )] public float BulletRange { get; set; } = 5000f;
+	[Property, Category( "Stats" )] public float SurfacePassthroughAmount { get; set; } = 5;
 
 	// Hands
 	[Property, Category( "Hands" )] public bool UseCustomHands { get; set; } = false;

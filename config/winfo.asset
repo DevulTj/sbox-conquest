@@ -66,6 +66,8 @@
 	bulletradius(float) { group = "Stats" } : "Bullet Radius" : "1" : ""
 	pellets(integer) { group = "Stats" } : "Pellets" : 1 : ""
 	reloadsingle(boolean) { group = "Stats" } : "Reload Single" : 0 : ""
+	bulletrange(float) { group = "Stats" } : "Bullet Range" : "5000" : ""
+	surfacepassthroughamount(float) { group = "Stats" } : "Surface Passthrough Amount" : 5 : ""
 	usecustomhands(boolean) { group = "Hands" } : "Use Custom Hands" : 0 : ""
 	handsasset(resource:vmdl) { group = "Hands" } : "Hands Asset" : "weapons/swb/hands/rebel/v_hands_rebel.vmdl" : ""
 	viewmodel(resource:vmdl) { group = "Models" } : "View Model" : "" : ""

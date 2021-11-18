@@ -6,9 +6,4 @@ public partial class MeleeWeapon : BaseWeapon
 	{
 		// we can't reload melee weapons
 	}
-
-	public override void AttackPrimary()
-	{
-		
-	}
 }

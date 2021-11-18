@@ -62,7 +62,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 	[Net, Predicted]
 	bool WishToShoot { get; set; } = false;
 
-	protected virtual float MaxAmtOfHits => 5;
+	protected virtual float MaxAmtOfHits => WeaponInfo.SurfacePassthroughAmount;
 	protected virtual float MaxRicochetAngle => 45f;
 	protected float MaxPenetration => 20f;
 
@@ -209,9 +209,8 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 			.Size( radius )
 			.Run();
 
-			// DebugOverlay.p TraceResult( tr, 1 );
-
-			hits.Add( tr );
+			if ( tr.Hit )
+				hits.Add( tr );
 
 			lastEnt = tr.Entity;
 
@@ -491,7 +490,7 @@ public partial class BaseWeapon : Carriable
 		return radius;
 	}
 
-	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int bulletCount = 1 )
+	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int bulletCount = 1, float bulletRange = 5000f )
 	{
 		//
 		// Seed rand using the tick, so bullet cones match on client and server
@@ -508,7 +507,7 @@ public partial class BaseWeapon : Carriable
 			// ShootBullet is coded in a way where we can have bullets pass through shit
 			// or bounce off shit, in which case it'll return multiple results
 			//
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
+			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * bulletRange, bulletSize ) )
 			{
 				tr.Surface.DoBulletImpact( tr );
 
@@ -577,7 +576,7 @@ public partial class BaseWeapon : Carriable
 		//
 		// Shoot some bullets
 		//
-		ShootBullet( GetBulletSpread(), GetBulletForce(), GetBulletDamage(), GetBulletRadius(), Math.Clamp( WeaponInfo.Pellets, 1, 16 ) );
+		ShootBullet( GetBulletSpread(), GetBulletForce(), GetBulletDamage(), GetBulletRadius(), Math.Clamp( WeaponInfo.Pellets, 1, 16 ), WeaponInfo.BulletRange );
 
 		//
 		// Set animation property
