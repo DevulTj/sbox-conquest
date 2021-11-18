@@ -1,0 +1,53 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		weaponclass = "conquest_deployableammocrate"
+		slot = "3"
+		ammotype = "2"
+		defaultfiremode = "1"
+		supported_fire_modes = "0"
+		burstamount = 3
+		holdtype = "4"
+		rpm = 600
+		reloadtime = 2.0
+		clipsize = 30
+		allowchamberreload = false
+		bulletspread = 0.0
+		bulletbasedamage = 30.0
+		bulletradius = 1.0
+		pellets = 1
+		reloadsingle = false
+		bulletrange = 5000.0
+		surfacepassthroughamount = 5.0
+		usecustomhands = false
+		handsasset = resource:"weapons/swb/hands/rebel/v_hands_rebel.vmdl"
+		viewmodel = resource:""
+		worldmodel = resource:""
+		ejectparticle = resource:"particles/pistol_ejectbrass.vpcf"
+		muzzleflashparticle = resource:"particles/swb/muzzle/flash_medium.vpcf"
+		screenshake = 
+		{
+		}
+		firesound = ""
+		dryfiresound = ""
+		loadouticon = "ui/weaponicons/conquest_ammocrate.png"
+		walkcycleoffsets = [ 0.0, 0.0, 0.0 ]
+		forwardbobbing = 4.0
+		sidewalkoffset = 100.0
+		aimoffset = [ 0.0, 0.0, 0.0 ]
+		aimangleoffset = [ 0.0, 0.0, 0.0 ]
+		offset = [ 0.0, 0.0, 0.0 ]
+		crouchoffset = [ 0.0, 0.0, 0.0 ]
+		offsetlerpamount = 30.0
+		sprintrightrotation = 20.0
+		sprintuprotation = -30.0
+		sprintleftoffset = -35.0
+		postsprintleftoffset = 5.0
+		burstsprintrightrotation = 20.0
+		burstsprintuprotation = -30.0
+		burstsprintleftoffset = -35.0
+		burstpostsprintleftoffset = 5.0
+		attackanimbool = "fire"
+	}
+}

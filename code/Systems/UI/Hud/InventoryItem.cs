@@ -46,6 +46,8 @@ public class InventoryItem : Panel
 		if ( Weapon is null && weaponFromSlot is not null )
 		{
 			Weapon = weaponFromSlot;
+
+			Log.Info( Weapon.WeaponInfo?.LoadoutIcon ?? "no icon" );
 			Icon?.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
 		}
 

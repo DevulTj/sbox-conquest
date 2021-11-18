@@ -33,7 +33,7 @@
 		}
 		firesound = ""
 		dryfiresound = ""
-		loadouticon = ""
+		loadouticon = "ui/weaponicons/conquest_knife.png"
 		walkcycleoffsets = [ 12.0, 25.0, 25.0 ]
 		forwardbobbing = -10.0
 		sidewalkoffset = 25.0
