@@ -63,12 +63,10 @@ hudmarker {
 
         &.enemy {
             border: 2px solid rgba( $enemy-marker, 0.5 );
-            transform: rotateZ(45deg);
 
             label {
                 text-shadow: 0px 0px 2px $enemy-marker;
                 color: rgba( $enemy-marker, 1 );
-                transform: rotateZ(-45deg);
             }
         }
         // States
