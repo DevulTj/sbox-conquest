@@ -17,7 +17,10 @@ partial class PlayerInventory : IBaseInventory
 	// 1
 	public Carriable SecondaryWeapon { get; set; }
 
-	// 2-♾️
+	// 2
+	public Carriable MeleeWeapon { get; set; }
+
+	// 3-♾️
 	public List<Carriable> Gadgets { get; set; } = new();
 
 	public PlayerInventory( Player player )
@@ -57,6 +60,11 @@ partial class PlayerInventory : IBaseInventory
 				SecondaryWeapon = weapon;
 				break;
 			};
+			case WeaponSlot.Melee:
+			{
+				MeleeWeapon = weapon;
+				break;
+			};
 			case WeaponSlot.Gadget:
 			{
 				Gadgets.Add( weapon );
@@ -78,6 +86,8 @@ partial class PlayerInventory : IBaseInventory
 			return true;
 		if ( ent == SecondaryWeapon )
 			return true;
+		if ( ent == MeleeWeapon )
+			return true;
 		if ( Gadgets.Contains( ent ) )
 			return true;
 
@@ -92,6 +102,8 @@ partial class PlayerInventory : IBaseInventory
 			++count;
 		if ( SecondaryWeapon is not null )
 			++count;
+		if ( MeleeWeapon is not null )
+			++count;
 
 		count += Gadgets.Count;
 
@@ -104,6 +116,7 @@ partial class PlayerInventory : IBaseInventory
 
 		PrimaryWeapon?.Delete();
 		SecondaryWeapon?.Delete();
+		MeleeWeapon?.Delete();
 
 		for ( int i = Gadgets.Count - 1; i >= 0; i-- )
 		{
@@ -147,6 +160,8 @@ partial class PlayerInventory : IBaseInventory
 			return (int)WeaponSlot.Primary;
 		if ( Active == SecondaryWeapon )
 			return (int)WeaponSlot.Secondary;
+		if ( Active == MeleeWeapon )
+			return (int)WeaponSlot.Melee;
 
 		for ( int i = 0; i < Gadgets.Count; i++ )
 		{
@@ -174,7 +189,8 @@ partial class PlayerInventory : IBaseInventory
 		{
 			0 => PrimaryWeapon,
 			1 => SecondaryWeapon,
-			_ => GetGadget(i)
+			2 => MeleeWeapon,
+			_ => GetGadget( i )
 		};
 	}
 
@@ -193,6 +209,11 @@ partial class PlayerInventory : IBaseInventory
 			case WeaponSlot.Secondary:
 			{
 				SecondaryWeapon = weapon;
+				break;
+			};
+			case WeaponSlot.Melee:
+			{
+				MeleeWeapon = weapon;
 				break;
 			};
 			case WeaponSlot.Gadget:
@@ -218,6 +239,11 @@ partial class PlayerInventory : IBaseInventory
 			case WeaponSlot.Secondary:
 			{
 				PrimaryWeapon = null;
+				break;
+			};
+			case WeaponSlot.Melee:
+			{
+				MeleeWeapon = null;
 				break;
 			};
 			case WeaponSlot.Gadget:
