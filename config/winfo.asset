@@ -94,5 +94,6 @@
 	burstsprintuprotation(float) { group = "ViewModel" } : "Burst Sprint Up Rotation" : "-30" : ""
 	burstsprintleftoffset(float) { group = "ViewModel" } : "Burst Sprint Left Offset" : "-35" : ""
 	burstpostsprintleftoffset(float) { group = "ViewModel" } : "Burst Post Sprint Left Offset" : "5" : ""
+	attackanimbool(string) { group = "Animation" } : "Attack Anim Bool" : "fire" : ""
 ]
 

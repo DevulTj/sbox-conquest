@@ -128,6 +128,9 @@ public class WeaponInfoAsset : Asset
 	[Property, Category( "ViewModel" )] public float BurstSprintUpRotation { get; set; } = -30f;
 	[Property, Category( "ViewModel" )] public float BurstSprintLeftOffset { get; set; } = -35f;
 	[Property, Category( "ViewModel" )] public float BurstPostSprintLeftOffset { get; set; } = 5f;
+
+	// Animation
+	[Property, Category( "Animation" )] public string AttackAnimBool { get; internal set; } = "fire";
 	#endregion
 
 	protected override void PostLoad()

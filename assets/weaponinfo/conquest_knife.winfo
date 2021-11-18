@@ -9,9 +9,6 @@
 		supported_fire_modes = "1"
 		burstamount = 3
 		holdtype = "4"
-		recoil = 
-		{
-		}
 		rpm = 100
 		reloadtime = 2.0
 		clipsize = 30
@@ -55,5 +52,6 @@
 		burstpostsprintleftoffset = 15.0
 		bulletrange = 50.0
 		surfacepassthroughamount = 1.0
+		attackanimbool = "swing"
 	}
 }

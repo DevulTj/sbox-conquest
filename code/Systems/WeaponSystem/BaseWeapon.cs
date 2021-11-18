@@ -606,8 +606,10 @@ public partial class BaseWeapon : Carriable
 
 		WeaponInfo.ScreenShake.Run();
 
-		ViewModelEntity?.SetAnimBool( "fire", true );
-		CrosshairPanel?.CreateEvent( "fire" );
+		Log.Info( WeaponInfo.AttackAnimBool );
+
+		ViewModelEntity?.SetAnimBool( WeaponInfo.AttackAnimBool, true );
+		CrosshairPanel?.CreateEvent( WeaponInfo.AttackAnimBool );
 	}
 
 	public bool TakeAmmo( int amount )
