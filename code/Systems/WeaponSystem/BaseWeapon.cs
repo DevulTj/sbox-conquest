@@ -552,10 +552,14 @@ public partial class BaseWeapon : Carriable
 		//
 		// If we have no ammo, play a sound
 		//
-		if ( !TakeAmmo( 1 ) )
+
+		if ( Slot != WeaponSlot.Melee )
 		{
-			DryFire();
-			return;
+			if ( !TakeAmmo( 1 ) )
+			{
+				DryFire();
+				return;
+			}
 		}
 
 		//
