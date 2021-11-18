@@ -344,28 +344,6 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		}
 	}
 
-	[ClientRpc]
-	protected void ClientRpcPing( Vector3 position )
-	{
-		var ping = new PingEntity();
-		ping.Position = position;
-	}
-
-	protected void Ping()
-	{
-		var tr = GetPingTrace();
-
-		if ( tr.Hit )
-			ClientRpcPing( Net.To.Squad( Client ), tr.EndPos );
-	}
-
-	protected TraceResult GetPingTrace()
-	{
-		var tr = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 10000f ).WorldAndEntities().Ignore( this ).Radius( 1f ).Run();
-
-		return tr;
-	}
-
 	public override PawnController GetActiveController()
 	{
 		return base.GetActiveController();

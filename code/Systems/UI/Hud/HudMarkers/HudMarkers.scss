@@ -106,7 +106,6 @@ hudmarker {
         height: 32px;
         box-shadow: 0px 0px 20px rgba( $primary, 0.1 );
         transition: width 0.1s linear, height 0.1s linear, opacity 0.05s linear, border 0.1s linear, border-radius 0.2s linear, transform 0.1s ease-out;
-
         background-image-tint: $primary;
         background-size: 100%;
         background-image: url( ui/marker.png );
@@ -117,6 +116,13 @@ hudmarker {
             transform: scale( 5 );
         }
 
+        &.enemy {
+            width: 32px;
+            height: 32px;
+            background-image-tint: rgba( 252, 35, 35, 1 );
+            box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.1 );
+            background-image: url( ui/target.png );
+        }
 
         label {
             opacity: 1;

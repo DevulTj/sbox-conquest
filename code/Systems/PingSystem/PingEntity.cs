@@ -6,6 +6,8 @@ namespace Conquest;
 [Library( "conquest_ping" )]
 public partial class PingEntity : ModelEntity, IHudMarkerEntity, IMiniMapEntity, IGameStateAddressable
 {
+	public PingType Type { get; set; } = PingType.Ping;
+
 	public async Task DeferredDeletion()
 	{
 		await GameTask.DelayRealtimeSeconds( 10f );
@@ -29,13 +31,13 @@ public partial class PingEntity : ModelEntity, IHudMarkerEntity, IMiniMapEntity,
 
 	public string GetMainClass() => "ping";
 
-
 	bool IHudMarkerEntity.Update( ref HudMarkerBuilder info )
 	{
 		if ( !this.IsValid() )
 			return false;
 
-		info.Position = Position;
+		info.Position = Position + Vector3.Up * 20f;
+		info.Classes[Type.ToString()] = true;
 
 		return true;	
 	}
@@ -45,7 +47,8 @@ public partial class PingEntity : ModelEntity, IHudMarkerEntity, IMiniMapEntity,
 		if ( !this.IsValid() )
 			return false;
 
-		info.Position = Position + CollisionBounds.Center;
+		info.Position = Position;
+		info.Classes[Type.ToString()] = true;
 
 		return true;
 	}
