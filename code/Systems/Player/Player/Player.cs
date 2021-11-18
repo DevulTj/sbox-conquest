@@ -9,29 +9,18 @@ namespace Conquest;
 
 public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
-	/// <summary>
-	/// The clothing container is what dresses the citizen
-	/// </summary>
-	public Clothing.Container Clothing = new();
-
 	[Net, Predicted] public ICamera MainCamera { get; set; }
-
 	[Net, Predicted] private bool _IsSprinting { get; set; }
-
 	[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
-
-	public bool IsSprinting { get => _IsSprinting; protected set { if (_IsSprinting && !value) SinceSprintStopped = 0; _IsSprinting = value; } }
-
 	[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
 	[Net, Predicted] public bool IsAiming { get; protected set; }
-	[Net, Predicted] public bool IsFreeLooking { get; protected set; }
-
-	[Net, Local]
-	public CapturePointEntity CapturePoint { get; set; }
+	[Net, Local] public CapturePointEntity CapturePoint { get; set; }
 
 	public ICamera LastCamera { get; set; }
-
 	public TimeSince TimeSinceDeath { get; set; }
+	public Clothing.Container Clothing { get; set; } = new();
+
+	public bool IsSprinting { get => _IsSprinting; protected set { if ( _IsSprinting && !value ) SinceSprintStopped = 0; _IsSprinting = value; } }
 
 	protected override void MakeHud()
 	{
@@ -253,8 +242,6 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 		if ( !IsSprinting )
 			IsBurstSprinting = false;
-
-		IsFreeLooking = Input.Down( InputButton.Walk );
 	}
 
 	public override void FrameSimulate( Client cl )
@@ -338,16 +325,6 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 		Camera = GetActiveCamera();
 
-		if ( Input.Released( InputButton.View ) )
-		{
-			if ( MainCamera is FootCamera )
-				MainCamera = new ThirdPersonCamera();
-			else
-				MainCamera = new FootCamera();
-		}
-
-		IsFreeLooking = Input.Down( InputButton.Walk );
-
 		var controller = GetActiveController();
 		if ( controller != null )
 			EnableSolidCollisions = !controller.HasTag( "noclip" );
@@ -359,6 +336,34 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		SimulateActiveChild( cl, ActiveChild );
 
 		SimulateDamage();
+
+		using ( Prediction.Off() )
+		{
+			if ( IsServer && Input.Released( InputButton.Menu ) )
+				Ping();
+		}
+	}
+
+	[ClientRpc]
+	protected void ClientRpcPing( Vector3 position )
+	{
+		var ping = new PingEntity();
+		ping.Position = position;
+	}
+
+	protected void Ping()
+	{
+		var tr = GetPingTrace();
+
+		if ( tr.Hit )
+			ClientRpcPing( Net.To.Squad( Client ), tr.EndPos );
+	}
+
+	protected TraceResult GetPingTrace()
+	{
+		var tr = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 10000f ).WorldAndEntities().Ignore( this ).Radius( 1f ).Run();
+
+		return tr;
 	}
 
 	public override PawnController GetActiveController()

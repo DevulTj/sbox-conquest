@@ -80,6 +80,16 @@ metadata
 ]
 
 //
+// Conquest.PingEntity
+//
+@PointClass base(BaseProperties_conquest) = conquest_ping : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Conquest.Headquarters
 //
 @SolidClass base(BaseProperties_conquest) editormodel( "models/editor/playerstart.vmdl", fixedbounds ) 
