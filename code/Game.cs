@@ -26,6 +26,85 @@ public partial class Game : Sandbox.GameBase
 			Scores = new();
 			SquadManager = new();
 		}
+		else if ( Host.IsClient )
+		{
+			InitPostProcess();
+		}
+	}
+
+	// @TODO: Move this entire thing into its own system
+	public StandardPostProcess StandardPostProcess { get; set; }
+
+	private float distanceLerp = 0f;
+	protected void PushGlobalPPSettings()
+	{
+		var pp = StandardPostProcess;
+		pp.ChromaticAberration.Enabled = true;
+		pp.ChromaticAberration.Offset = new Vector3( -0.0007f, -0.0007f, 0f );
+
+		pp.MotionBlur.Enabled = true;
+		pp.MotionBlur.Scale = 0.05f;
+		pp.MotionBlur.Samples = 5;
+
+		pp.Vignette.Enabled = true;
+		pp.Vignette.Color = Color.Black;
+		pp.Vignette.Roundness = 1.5f;
+		pp.Vignette.Intensity = 1f;
+
+		pp.Saturate.Enabled = true;
+		pp.Saturate.Amount = 0.95f;
+
+		pp.FilmGrain.Enabled = true;
+		pp.FilmGrain.Intensity = 0.2f;
+
+		pp.ColorOverlay.Enabled = false;
+		//pp.ColorOverlay.Amount = 0.1f;
+		//pp.ColorOverlay.Color = new Color( 0.1f, 0.1f, 0.2f );
+		//pp.ColorOverlay.Mode = StandardPostProcess.ColorOverlaySettings.OverlayMode.Additive;
+
+		// @TODO: Move this somewhere else
+		if ( Local.Pawn.IsValid() )
+		{
+			var tr = Trace.Ray( Local.Pawn.EyePos, Local.Pawn.EyePos + Local.Pawn.EyeRot.Forward * 10000f ).Ignore( Local.Pawn ).WorldOnly().Radius( 2 ).Run();
+
+			var player = Local.Pawn as Player;
+			if ( player.IsValid() && player.IsAiming )
+			{
+				distanceLerp = distanceLerp.LerpTo( tr.EndPos.Distance( Local.Pawn.EyePos ), Time.Delta * 5f );
+			}
+			else
+			{
+				distanceLerp = 0;
+			}
+
+			if ( player.IsBurstSprinting )
+			{
+				pp.MotionBlur.Samples = 3;
+				pp.MotionBlur.Scale = 0.6f;
+			}
+
+			var shouldEnableDoF = !distanceLerp.AlmostEqual( 0 );
+
+			pp.DepthOfField.Enabled = shouldEnableDoF;
+			
+			if ( shouldEnableDoF )
+			{
+				pp.DepthOfField.FocalPoint = distanceLerp * 0.1f;
+				pp.DepthOfField.FocusPlane = distanceLerp;
+
+				pp.DepthOfField.FocalLength = 50f;
+				pp.DepthOfField.ApertureSize = 1f;
+				pp.DepthOfField.Radius = 0.5f;
+				pp.DepthOfField.Quality = StandardPostProcess.DepthOfFieldSettings.DofQuality.Low;
+			}
+		}
+	}
+
+	protected void InitPostProcess()
+	{
+		StandardPostProcess = new();
+
+		PostProcess.Add( StandardPostProcess );
 	}
 
 	public override void ClientJoined( Client cl )
@@ -105,6 +184,8 @@ public partial class Game : Sandbox.GameBase
 		if ( !cl.Pawn.IsAuthority ) return;
 
 		cl.Pawn?.FrameSimulate( cl );
+
+		PushGlobalPPSettings();
 	}
 
 	/// <summary>

@@ -68,7 +68,7 @@ public class FootCamera : Camera
 		{
 			if ( weapon.IsReloading )
 			{
-				var transform = pawn.GetAttachment( "hat", true ) ?? new Transform( pawn.EyePos, pawn.EyeRot, 1 );
+				var transform = pawn.GetAttachment( "hat", false ) ?? new Transform( pawn.EyePos, pawn.EyeRot, 1 );
 				var attachmentAng = transform.Rotation.Angles() * -1f;
 
 				reloadAng = Angles.Lerp( reloadAng, attachmentAng * 0.02f, Time.Delta * 10f );
