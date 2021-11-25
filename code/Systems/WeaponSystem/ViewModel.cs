@@ -72,7 +72,6 @@ public partial class ViewModel : BaseViewModel
 
 		SmoothedVelocity += (Owner.Velocity - SmoothedVelocity) * 5f * DeltaTime;
 
-		var camTransform = new Transform( Owner.EyePos, Owner.EyeRot );
 		var speed = Owner.Velocity.Length.LerpInverse( 0, 1000 );
 		var bobSpeed = SmoothedVelocity.Length.LerpInverse( -100, 500 );
 		var left = camSetup.Rotation.Left;
@@ -168,7 +167,7 @@ public partial class ViewModel : BaseViewModel
 		Position += left * (velocity.y * VelocityScale + desiredOffset.y);
 		Position += up * (velocity.z * VelocityScale + desiredOffset.z + upDownOffset * (1 - aimLerp));
 
-		Position += (desiredRotation.Forward - camSetup.Rotation.Forward) * -PivotForce;
+		Position += (desiredRotation.Forward - Owner.EyeRot.Forward) * -PivotForce;
 
 		// Apply sprinting / avoidance offsets
 		var offsetLerp = MathF.Max( sprintLerp, burstSprintLerp );

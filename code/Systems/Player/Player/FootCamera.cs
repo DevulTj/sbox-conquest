@@ -23,6 +23,8 @@ public class FootCamera : Camera
 		lastPos = Position;
 	}
 
+	Angles reloadAng = new Angles();
+
 	public override void Update()
 	{
 		var pawn = Local.Pawn as Player;
@@ -58,6 +60,26 @@ public class FootCamera : Camera
 		if ( pawn.IsBurstSprinting )
 		{
 			FieldOfView += 5;
+		}
+
+		var weapon = pawn.ActiveChild as BaseWeapon;
+
+		if ( weapon.IsValid() )
+		{
+			if ( weapon.IsReloading )
+			{
+				var transform = pawn.GetAttachment( "hat", true ) ?? new Transform( pawn.EyePos, pawn.EyeRot, 1 );
+				var attachmentAng = transform.Rotation.Angles() * -1f;
+
+				reloadAng = Angles.Lerp( reloadAng, attachmentAng * 0.02f, Time.Delta * 10f );
+
+				Rotation *= Rotation.From( reloadAng );
+			}
+			else
+			{
+				reloadAng = Angles.Lerp( reloadAng, Angles.Zero, Time.Delta * 10f );
+				Rotation *= Rotation.From( reloadAng );
+			}
 		}
 
 		Viewer = pawn;

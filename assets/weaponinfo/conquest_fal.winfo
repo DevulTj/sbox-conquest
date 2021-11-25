@@ -22,7 +22,7 @@
 		usecustomhands = true
 		handsasset = "weapons/swb/hands/swat/v_hands_swat.vmdl"
 		rpm = 700
-		reloadtime = 2.0
+		reloadtime = 1.5
 		slot = "0"
 		ammotype = "2"
 		clipsize = 30
@@ -50,5 +50,8 @@
 			size = 0.1
 			rotation = 0.8
 		}
+		bulletrange = 5000.0
+		surfacepassthroughamount = 5.0
+		attackanimbool = "fire"
 	}
 }
