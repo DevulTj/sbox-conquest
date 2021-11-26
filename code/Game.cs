@@ -452,5 +452,6 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 	void IGameStateAddressable.ResetState()
 	{
 		Client.All.ToList().ForEach( x => ResetStats( x ) );
+		Entity.All.ToList().ForEach( x => x.RemoveAllDecals() );
 	}
 }
