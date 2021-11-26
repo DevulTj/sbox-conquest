@@ -103,10 +103,10 @@ public class MiniMap : Panel
 
 			panel.SetClass( "friendly", friendState == TeamSystem.FriendlyStatus.Friendly );
 			panel.SetClass( "enemy", friendState == TeamSystem.FriendlyStatus.Hostile );
-			panel.SetClass( "contested", capturePoint.CurrentState == CapturePointEntity.State.Contested );
-			panel.SetClass( "contestedFlash", capturePoint.CurrentState == CapturePointEntity.State.Contested && flipflop );
-			panel.SetClass( "capturing", capturePoint.CurrentState == CapturePointEntity.State.Capturing );
-			panel.SetClass( "capturingFlash", capturePoint.CurrentState == CapturePointEntity.State.Capturing && flipflop );
+			panel.SetClass( "contested", capturePoint.CurrentState == CapturePointEntity.CaptureState.Contested );
+			panel.SetClass( "contestedFlash", capturePoint.CurrentState == CapturePointEntity.CaptureState.Contested && flipflop );
+			panel.SetClass( "capturing", capturePoint.CurrentState == CapturePointEntity.CaptureState.Capturing );
+			panel.SetClass( "capturingFlash", capturePoint.CurrentState == CapturePointEntity.CaptureState.Capturing && flipflop );
 		}
 	}
 

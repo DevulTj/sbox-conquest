@@ -13,62 +13,40 @@ namespace Conquest;
 [Hammer.Solid]
 public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
-	public enum State
+	public enum CaptureState
 	{
 		None,
 		Contested,
 		Capturing
 	}
 
-	[Net, Category( "Capture Point" ), Property]
-	public string Identity { get; set; }
-
-	[Net, Category( "Capture Point" ), Property]
-	public string NiceName { get; set; } = "ZONE";
-
-	[Property]
-	public float TriggerRadius { get; set; } = 386f;
-
-	[BindComponent]
-	protected TeamComponent TeamComponent { get; }
-
-	public Team Team
-	{
-		get => TeamComponent.Team;
-		set => TeamComponent.Team = value;
-	}
-
-	[Net, Category( "Capture Point" )]
-	public Team HighestTeam { get; set; } = Team.Unassigned;
-
 	protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length - 1;
+	public Team Team { get => TeamComponent.Team; set => TeamComponent.Team = value; }
 
-	[Net, Category( "Capture Point" )]
-	public List<int> OccupantCounts { get; set; } = new();
+	[BindComponent] protected TeamComponent TeamComponent { get; }
 
-	[Net, Category( "Capture Point")]
-	public float Captured { get; set; } = 0;
+	[Category( "Capture Point" ), Property] public float TriggerRadius { get; set; } = 386f;
+	[Category( "Capture Point" ), Property] public float CaptureTime { get; set; } = 10f;
 
-	// takes 10s to cap
-	[Category( "Capture Point"), Description("Time in seconds it takes to capture a point with one player.")]
-	public float CaptureTime = 10;
+	[Net, Category( "Capture Point" ), Property] public string Identity { get; set; }
+	[Net, Category( "Capture Point" ), Property] public string NiceName { get; set; } = "ZONE";
+	[Net, Category( "Capture Point" )] public Team HighestTeam { get; set; } = Team.Unassigned;
+	[Net, Category( "Capture Point" )] public List<int> OccupantCounts { get; set; } = new();
+	[Net, Category( "Capture Point")] public float Captured { get; set; } = 0;
+	[Net, Category( "Capture Point"), Change( "OnStateChanged" )] public CaptureState CurrentState { get; set; }
 
-	[Net, Category( "Capture Point"), Change("OnStateChanged")]
-	public State CurrentState { get; set; }
+	public TimeSince TimeSinceStateChanged { get; protected set; } = 0;
 
-	protected void OnStateChanged( State then, State now )
+	protected void OnStateChanged( CaptureState then, CaptureState now )
 	{
 		TimeSinceStateChanged = 0;
 	}
 
-	public TimeSince TimeSinceStateChanged { get; set; } = 0;
 
 	// @Server
-	public Dictionary<Team, HashSet<Player>> Occupants { get; set; } = new();
+	public Dictionary<Team, HashSet<Player>> Occupants { get; protected set; } = new();
 
-	public CapturePointEntity()
-	{
-	}
+	public CapturePointEntity() { }
 
 	protected void Initialize()
 	{
@@ -80,7 +58,7 @@ public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarke
 			Team = Team.Unassigned;
 			HighestTeam = Team;
 			Captured = 0;
-			CurrentState = State.None;
+			CurrentState = CaptureState.None;
 			OccupantCounts.Clear();
 			Occupants.Clear();
 			TimeSinceStateChanged = 0;
@@ -212,7 +190,7 @@ public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarke
 		// nobody is fighting for this point (which shouldn't really happen)
 		if ( highest == Team.Unassigned )
 		{
-			CurrentState = State.None;
+			CurrentState = CaptureState.None;
 
 			return;
 		}
@@ -220,12 +198,12 @@ public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarke
 		// Don't do anythig while we're contested
 		if ( contested )
 		{
-			CurrentState = State.Contested;
+			CurrentState = CaptureState.Contested;
 			return;
 		}
 		else
 		{
-			CurrentState = State.None;
+			CurrentState = CaptureState.None;
 		}
 
 		// A team is trying to cap. Let's reverse this shit.
@@ -240,7 +218,7 @@ public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarke
 			}
 			else
 			{
-				CurrentState = State.Capturing;
+				CurrentState = CaptureState.Capturing;
 			}
 		}
 		else
@@ -265,7 +243,7 @@ public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarke
 			}
 			else
 			{
-				CurrentState = State.Capturing;
+				CurrentState = CaptureState.Capturing;
 				Team = Team.Unassigned;
 			}
 		}
@@ -303,10 +281,10 @@ public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarke
 		// This isn't great. But it'll do.
 		classes["friendly"] = friendState == TeamSystem.FriendlyStatus.Friendly;
 		classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
-		classes["contested"] = CurrentState == State.Contested;
-		classes["contestedFlash"] = CurrentState == State.Contested && flipflop;
-		classes["capturing"] = CurrentState == State.Capturing;
-		classes["capturingFlash"] = CurrentState == State.Capturing && flipflop;
+		classes["contested"] = CurrentState == CaptureState.Contested;
+		classes["contestedFlash"] = CurrentState == CaptureState.Contested && flipflop;
+		classes["capturing"] = CurrentState == CaptureState.Capturing;
+		classes["capturingFlash"] = CurrentState == CaptureState.Capturing && flipflop;
 
 		return classes;
 	}
