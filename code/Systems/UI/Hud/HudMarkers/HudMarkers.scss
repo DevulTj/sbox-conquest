@@ -110,30 +110,41 @@ hudmarker {
         background-repeat: no-repeat;
         background-position: center;
 
-        &:intro {
-            transform: scale( 5 );
-        }
-
         &.enemy {
             width: 32px;
             height: 32px;
             background-image-tint: rgba( 252, 35, 35, 1 );
             box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.1 );
             background-image: url( ui/target.png );
+
+            label {
+                box-shadow: 0px 0px 20px rgba( $enemy-marker, 0.1 );
+                color: rgba( $enemy-marker, 1 );
+            }
         }
 
         label {
             opacity: 1;
             transition: width 0.1s linear, height 0.1s linear, opacity 0.1s linear, border 0.1s linear, border-radius 0.2s linear;
-            transform: translateX( -35% );
-            bottom: 24px;
+            top: 35px;
+            left: -35%;
             position: absolute;
             align-self: center;
             text-align: center;
-            font-size: 20px;
+            font-size: 15px;
             font-family: $font-primary;
-            font-weight: 900;
-            color: rgba( $unowned-marker, 1 );
+            font-weight: 600;
+            box-shadow: 0px 0px 20px rgba( $primary, 0.1 );
+            color: rgba( #51e55b, 1 );
+        }
+
+        &.isfocused {
+            transform: translateX( -50% ) scale( 0.9 );
+            opacity: 0.2;
+        }
+
+        &:intro {
+            transform: scale( 5 );
         }
     }
 

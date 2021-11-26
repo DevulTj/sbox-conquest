@@ -8,11 +8,22 @@ public partial class PingEntity : ModelEntity, IHudMarkerEntity, IMiniMapEntity,
 {
 	public PingType Type { get; set; } = PingType.Ping;
 
+	public string Message => GetPingMessage();
+
 	public async Task DeferredDeletion()
 	{
 		await GameTask.DelayRealtimeSeconds( 10f );
 
 		Delete();
+	}
+
+	protected string GetPingMessage()
+	{
+		return Type switch
+		{
+			PingType.Enemy => "ENEMY",
+			_ => "MARKER"
+		};
 	}
 
 	public override void Spawn()
@@ -36,6 +47,7 @@ public partial class PingEntity : ModelEntity, IHudMarkerEntity, IMiniMapEntity,
 		if ( !this.IsValid() )
 			return false;
 
+		info.Text = Message;
 		info.Position = Position + Vector3.Up * 20f;
 		info.Classes[Type.ToString()] = true;
 
