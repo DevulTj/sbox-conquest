@@ -55,7 +55,7 @@ public partial class Game : Sandbox.GameBase
 		pp.Saturate.Amount = 0.95f;
 
 		pp.FilmGrain.Enabled = true;
-		pp.FilmGrain.Intensity = 0.2f;
+		pp.FilmGrain.Intensity = 0.1f;
 
 		pp.ColorOverlay.Enabled = false;
 		//pp.ColorOverlay.Amount = 0.1f;
