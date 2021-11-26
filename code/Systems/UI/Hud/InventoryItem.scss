@@ -12,19 +12,7 @@ inventoryitem {
         text-shadow: 2px 2px 5px rgba( #2cc79d, 1 );
         color: $friendly-marker;
         font-size: 16px;
-
-        &.infinity {
-            font-size: 32px;
-            bottom: -5px;
-        }
-
-        &.active {
-            color: black;
-            font-weight: 600;
-            text-shadow: 0px 0px 0px rgba( #2cc79d, 1 );
-        }
     }
-
 
     .icon {
         position: absolute;
@@ -93,6 +81,21 @@ inventoryitem {
             top: 16px;
             width: 50%;
             height: 50%;
+        }
+    }
+
+    &.infinity {
+        .ammo {
+            font-size: 32px;
+            bottom: -5px;
+        }
+    }
+
+    &.active {
+        .ammo {
+            color: black;
+            font-weight: 600;
+            text-shadow: 0px 0px 0px rgba( #2cc79d, 1 );
         }
     }
 }

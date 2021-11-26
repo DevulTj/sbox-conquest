@@ -38,6 +38,8 @@ public class InventoryItem : Panel
 			Ammo.Text = "";
 			SlotNumber.Text = "";
 			SetClass( "empty", true );
+			SetClass( "active", false );
+
 
 			return;
 		}
@@ -70,11 +72,10 @@ public class InventoryItem : Panel
 			showInfinity = true;
 		}
 
-		Ammo.SetClass( "infinity", showInfinity );
+		SetClass( "infinity", showInfinity );
 
 		SlotNumber.Text = $"{SlotIndex + 1}";
 
 		SetClass( "active", Weapon == active );
-		Ammo.SetClass( "active", Weapon == active );
 	}
 }
