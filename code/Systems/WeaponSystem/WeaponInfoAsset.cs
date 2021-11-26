@@ -137,7 +137,7 @@ public class WeaponInfoAsset : Asset
 	{
 		base.PostLoad();
 
-		Log.Info( "Conquest", "Loading weapon info" );
+		Log.Info( "Conquest", $"{Name}.winfo file detected - attempting to load." );
 
 		if ( string.IsNullOrEmpty( WeaponClass ) )
 		{
@@ -147,6 +147,8 @@ public class WeaponInfoAsset : Asset
 		var libraryAttribute = Library.GetAttribute( WeaponClass );
 		if ( libraryAttribute is not null )
 		{
+			Log.Info( "Conquest", $"{Name}.winfo registered." );
+
 			Registry[WeaponClass] = this;
 		}
 	}
