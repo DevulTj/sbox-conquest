@@ -56,8 +56,7 @@ public static class PlayerAwards
 
 partial class Player
 {
-	[Net]
-	public int Points { get; set; } = 0;
+	public int Points { get => Client.GetInt( "score" ); set => Client.SetInt( "score", value ); }
 
 	public List<PlayerAward> AwardsGiven { get; set; } = new();
 

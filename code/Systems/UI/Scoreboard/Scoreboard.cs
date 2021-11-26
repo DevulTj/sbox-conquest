@@ -91,7 +91,7 @@ public class Scoreboard : Panel
 		section.Header.Add.Label( "CAPTURES", "captures" );
 		section.Header.Add.Label( "KILLS", "kills" );
 		section.Header.Add.Label( "DEATHS", "deaths" );
-		section.Header.Add.Label( "PING", "ping" );
+		section.Header.Add.Label( "SCORE", "score" );
 
 		section.Canvas.AddClass( hudClass );
 		section.Header.AddClass( hudClass );
@@ -141,7 +141,7 @@ public class ScoreboardEntry : Panel
 	public Label Captures { get; set; }
 	public Label Kills { get; set; }
 	public Label Deaths { get; set; }
-	public Label Ping { get; set; }
+	public Label Score { get; set; }
 
 	private RealTimeSince TimeSinceUpdate { get; set; }
 
@@ -153,7 +153,7 @@ public class ScoreboardEntry : Panel
 		Captures = Add.Label( "", "captures" );
 		Kills = Add.Label( "", "kills" );
 		Deaths = Add.Label( "", "deaths" );
-		Ping = Add.Label( "", "ping" );
+		Score = Add.Label( "", "score" );
 	}
 
 	public override void Tick()
@@ -179,7 +179,7 @@ public class ScoreboardEntry : Panel
 		Captures.Text = Client.GetInt( "captures" ).ToString();
 		Kills.Text = Client.GetInt( "frags" ).ToString();
 		Deaths.Text = Client.GetInt( "deaths" ).ToString();
-		Ping.Text = Client.Ping.ToString();
+		Score.Text = Client.GetInt( "score" ).ToString();
 		SetClass( "me", Client == Local.Client );
 	}
 
