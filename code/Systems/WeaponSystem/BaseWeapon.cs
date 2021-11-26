@@ -273,6 +273,13 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		}
 	}
 
+	public override void OnCarryDrop( Entity dropper )
+	{
+		base.OnCarryDrop( dropper );
+
+		ViewModelEntity?.Delete();
+	}
+
 	public bool OnUse( Entity user )
 	{
 		return false;

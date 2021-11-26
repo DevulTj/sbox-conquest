@@ -251,7 +251,7 @@ partial class PlayerInventory : IBaseInventory
 			};
 			case WeaponSlot.Secondary:
 			{
-				PrimaryWeapon = null;
+				SecondaryWeapon = null;
 				break;
 			};
 			case WeaponSlot.Melee:

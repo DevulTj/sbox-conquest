@@ -70,6 +70,11 @@ public partial class ViewModel : BaseViewModel
 	{
 		SmoothDeltaTime();
 
+		if ( !Owner.IsValid() )
+		{
+			return;
+		}
+
 		SmoothedVelocity += (Owner.Velocity - SmoothedVelocity) * 5f * DeltaTime;
 
 		var speed = Owner.Velocity.Length.LerpInverse( 0, 1000 );
