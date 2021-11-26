@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Conquest;
 
-public partial class Game : Sandbox.GameBase
+public partial class Game : Sandbox.GameBase, IGameStateAddressable
 {
 	[Net]
 	public TeamScores Scores { get; set; }
@@ -439,5 +439,19 @@ public partial class Game : Sandbox.GameBase
 	protected void ScoreHitZero( Team winner )
 	{
 		EndGame( winner );
+	}
+
+
+	protected void ResetStats( Client cl )
+	{
+		cl.SetInt( "score", 0 );
+		cl.SetInt( "frags", 0 );
+		cl.SetInt( "deaths", 0 );
+		cl.SetInt( "captures", 0 );
+	}
+
+	void IGameStateAddressable.ResetState()
+	{
+		Client.All.ToList().ForEach( x => ResetStats( x ) );
 	}
 }
