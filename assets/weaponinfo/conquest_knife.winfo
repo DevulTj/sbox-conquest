@@ -50,7 +50,7 @@
 		burstsprintuprotation = -25.0
 		burstsprintleftoffset = 0.0
 		burstpostsprintleftoffset = 15.0
-		bulletrange = 50.0
+		bulletrange = 100.0
 		surfacepassthroughamount = 1.0
 		attackanimbool = "swing"
 	}
