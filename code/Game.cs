@@ -441,7 +441,6 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		EndGame( winner );
 	}
 
-
 	protected void ResetStats( Client cl )
 	{
 		cl.SetInt( "score", 0 );
