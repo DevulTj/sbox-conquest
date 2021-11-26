@@ -48,8 +48,12 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		CollisionGroup = CollisionGroup.Weapon; // so players touch it as a trigger but not as a solid
 		SetInteractsAs( CollisionLayer.Debris ); // so player movement doesn't walk into it
 
-		if ( WeaponInfo is not null )
-			SetModel( WeaponInfo.WorldModel );
+		if ( WeaponInfo is null )
+			return;
+			
+		
+		if ( WeaponInfo.CachedWorldModel is not null && !WeaponInfo.CachedWorldModel.IsError )
+			SetModel( WeaponInfo.CachedWorldModel );
 	}
 
 	[Net, Predicted]
@@ -244,7 +248,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		if ( WeaponInfo is null )
 			return;
 
-		if ( string.IsNullOrEmpty( WeaponInfo.ViewModel ) )
+		if ( WeaponInfo.CachedViewModel is null || WeaponInfo.CachedViewModel.IsError )
 			return;
 
 		var viewmodel = new ViewModel
@@ -256,7 +260,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		};
 
 		ViewModelEntity = viewmodel;
-		ViewModelEntity.SetModel( WeaponInfo.ViewModel );
+		ViewModelEntity.SetModel( WeaponInfo.CachedViewModel );
 
 		// Bonemerge hands
 		if ( WeaponInfo.UseCustomHands && !string.IsNullOrEmpty( WeaponInfo.HandsAsset ) )

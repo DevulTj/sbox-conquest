@@ -133,6 +133,22 @@ public class WeaponInfoAsset : Asset
 	[Property, Category( "Animation" )] public string AttackAnimBool { get; internal set; } = "fire";
 	#endregion
 
+	public Model CachedViewModel { get; set; } = null;
+	public Model CachedWorldModel { get; set; } = null;
+
+	protected static void SafePrecache( params string[] paths )
+	{
+		for ( int i = 0; i < paths.Length; i++ )
+		{
+			var path = paths[i];
+
+			if ( string.IsNullOrEmpty( path ) )
+				return;
+
+			Precache.Add( path );
+		}
+	}
+
 	protected override void PostLoad()
 	{
 		base.PostLoad();
@@ -140,9 +156,7 @@ public class WeaponInfoAsset : Asset
 		Log.Info( "Conquest", $"{Name}.winfo file detected - attempting to load." );
 
 		if ( string.IsNullOrEmpty( WeaponClass ) )
-		{
 			return;
-		}
 
 		var libraryAttribute = Library.GetAttribute( WeaponClass );
 		if ( libraryAttribute is not null )
@@ -150,6 +164,11 @@ public class WeaponInfoAsset : Asset
 			Log.Info( "Conquest", $"{Name}.winfo registered." );
 
 			Registry[WeaponClass] = this;
+
+			CachedViewModel = Model.Load( ViewModel );
+			CachedWorldModel = Model.Load( WorldModel );
+
+			SafePrecache( EjectParticle, MuzzleFlashParticle, FireSound, DryFireSound );
 		}
 	}
 }
