@@ -9,6 +9,8 @@ partial class PlayerInventory : IBaseInventory
 {
 	public virtual int MaxSlots => 5;
 
+	public virtual int MaxGadgets => 2;
+
 	public Player Owner { get; init; }
 
 	// 0
@@ -52,21 +54,33 @@ partial class PlayerInventory : IBaseInventory
 		{
 			case WeaponSlot.Primary:
 			{
+				if ( PrimaryWeapon.IsValid() )
+					return false;
+
 				PrimaryWeapon = weapon;
 				break;
 			};
 			case WeaponSlot.Secondary:
 			{
+				if ( SecondaryWeapon.IsValid() )
+					return false;
+
 				SecondaryWeapon = weapon;
 				break;
 			};
 			case WeaponSlot.Melee:
 			{
+				if ( MeleeWeapon.IsValid() )
+					return false;
+
 				MeleeWeapon = weapon;
 				break;
 			};
 			case WeaponSlot.Gadget:
 			{
+				if ( Gadgets.Count >= MaxGadgets )
+					return false;
+
 				Gadgets.Add( weapon );
 				break;
 			};
@@ -132,10 +146,9 @@ partial class PlayerInventory : IBaseInventory
 		if ( !Contains( ent ) )
 			return false;
 
-		ent.Parent = null;
 		ent.OnCarryDrop( Owner );
 
-		return true;
+		return ent.Parent == null;
 	}
 
 	public Entity DropActive()
@@ -143,7 +156,7 @@ partial class PlayerInventory : IBaseInventory
 		if ( !Host.IsServer ) return null;
 
 		var ac = Owner.ActiveChild;
-		if ( ac == null ) return null;
+		if ( !ac.IsValid() ) return null;
 
 		if ( Drop( ac ) )
 		{

@@ -289,7 +289,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 	}
 }
 
-public partial class BaseWeapon : Carriable
+public partial class BaseWeapon : Carriable, IGameStateAddressable
 {
 	public virtual Vector3 RecoilOnShot => new Vector3( Rand.Float(-7f, 7f ), 15f, 0 );
 	public virtual float RecoilRecoveryScaleFactor => 10f;
@@ -337,9 +337,15 @@ public partial class BaseWeapon : Carriable
 	{
 		base.Spawn();
 
-		PickupTrigger = new PickupTrigger();
-		PickupTrigger.Parent = this;
-		PickupTrigger.Position = Position;
+		PickupTrigger = new PickupTrigger
+		{
+			Parent = this,
+			Position = Position,
+			EnableTouch = true,
+			EnableSelfCollisions = false
+		};
+
+		PickupTrigger.PhysicsBody.EnableAutoSleeping = false;
 
 		AmmoClip = WeaponInfo.ClipSize;
 	}
@@ -651,21 +657,18 @@ public partial class BaseWeapon : Carriable
 	public override void OnCarryStart( Entity carrier )
 	{
 		base.OnCarryStart( carrier );
-
-		if ( PickupTrigger.IsValid() )
-		{
-			PickupTrigger.EnableTouch = false;
-		}
 	}
 
 	public override void OnCarryDrop( Entity dropper )
 	{
 		base.OnCarryDrop( dropper );
-
-		if ( PickupTrigger.IsValid() )
-		{
-			PickupTrigger.EnableTouch = true;
-		}
 	}
 
+	void IGameStateAddressable.ResetState()
+	{
+		if ( Parent.IsValid() )
+			return;
+
+		Delete();
+	}
 }

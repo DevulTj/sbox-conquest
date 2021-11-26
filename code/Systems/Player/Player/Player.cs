@@ -155,6 +155,8 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 		TimeSinceDeath = 0;
 
+		Inventory.DropActive();
+
 		Inventory.DeleteContents();
 
 		BecomeRagdollOnClient( Velocity, LastDamage.Flags, LastDamage.Position, LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
@@ -196,19 +198,24 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 	public float BurstStaminaDuration => 5f;
 
+	private TimeSince TimeSinceWeaponDropped = -1;
+
 	protected void HandleSharedInput( Client cl )
 	{
-		if ( Input.Pressed( InputButton.Drop ) )
+		if ( Input.Released( InputButton.Drop ) )
 		{
 			var dropped = Inventory.DropActive();
-			if ( dropped != null )
+			if ( dropped.IsValid() )
 			{
 				if ( dropped.PhysicsGroup != null )
 					dropped.PhysicsGroup.Velocity = Velocity + (EyeRot.Forward + EyeRot.Up) * 300;
 
+				TimeSinceWeaponDropped = 0;
+
 				SwitchToBestWeapon();
 			}
 		}
+
 		var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
 		IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 );
 
@@ -392,5 +399,12 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 	void IGameStateAddressable.ResetState()
 	{
 		BecomeSpectator();
+	}
+
+	public override void StartTouch( Entity other )
+	{
+		if ( TimeSinceWeaponDropped < 1 ) return;
+
+		base.StartTouch( other );
 	}
 }

@@ -360,7 +360,6 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 			c.Position = new Vector3( -697.96f, 200.86f, 5.04f );
 			c.Identity = "C";
 
-
 			var d = new CapturePointEntity();
 			d.Position = new Vector3( -4285.88f, 117.18f, 56.03f );
 			d.Identity = "D";
@@ -396,7 +395,6 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 
 		Current.DoPlayerSuicide( target );
 	}
-
 
 	protected bool IsGameRestarting { get; set; } = false;
 
