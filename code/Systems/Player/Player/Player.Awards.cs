@@ -17,11 +17,13 @@ public static class PlayerAwards
 	[PlayerAward( Title = "Kill", PointsGiven = 15, Description = "ENEMY KILLED", IconTexture = "ui/Awards/Skull.png" )]
 	public static void KillAwardGiven( Player player )
 	{
+		player.Client.AddInt( "frags", 1 );
 	}
 
 	[PlayerAward( Title = "TeamKill", PointsGiven = -30, Description = "TEAMKILLED", IconTexture = "ui/Awards/TeamKill.png" )]
 	public static void TeamKillAwardGiven( Player player )
 	{
+		player.Client.AddInt( "frags", -1 );
 	}
 
 	[PlayerAward( Title = "Capture", PointsGiven = 30, Description = "POINT CAPTURED", IconTexture = "ui/Awards/Capture.png" )]

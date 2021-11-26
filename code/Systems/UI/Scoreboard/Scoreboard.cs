@@ -177,7 +177,7 @@ public class ScoreboardEntry : Panel
 	{
 		PlayerName.Text = Client.Name;
 		Captures.Text = Client.GetInt( "captures" ).ToString();
-		Kills.Text = Client.GetInt( "kills" ).ToString();
+		Kills.Text = Client.GetInt( "frags" ).ToString();
 		Deaths.Text = Client.GetInt( "deaths" ).ToString();
 		Ping.Text = Client.Ping.ToString();
 		SetClass( "me", Client == Local.Client );
