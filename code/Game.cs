@@ -77,12 +77,6 @@ public partial class Game : Sandbox.GameBase
 				distanceLerp = 0;
 			}
 
-			if ( player.IsBurstSprinting )
-			{
-				pp.MotionBlur.Samples = 3;
-				pp.MotionBlur.Scale = 0.6f;
-			}
-
 			var shouldEnableDoF = !distanceLerp.AlmostEqual( 0 );
 
 			pp.DepthOfField.Enabled = shouldEnableDoF;
