@@ -31,15 +31,19 @@ public class InventoryItem : Panel
 
 		var weaponFromSlot = player.Inventory?.GetSlot( SlotIndex ) as Carriable;
 
-		if ( weaponFromSlot is null )
+		if ( !weaponFromSlot.IsValid() )
 		{
-			Icon.SetTexture( null );
+			Icon.SetTexture( "" );
 			Weapon = null;
 			Ammo.Text = "";
 			SlotNumber.Text = "";
+			SetClass( "empty", true );
 
 			return;
 		}
+
+		SetClass( "empty", false );
+
 
 		var showInfinity = false;
 
@@ -47,7 +51,7 @@ public class InventoryItem : Panel
 		{
 			Weapon = weaponFromSlot;
 
-			Icon?.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
+			Icon.SetTexture( Weapon.WeaponInfo?.LoadoutIcon );
 		}
 
 
