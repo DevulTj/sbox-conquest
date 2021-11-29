@@ -108,7 +108,6 @@ metadata
 		1 : "OPFOR"
 		2 : "Unassigned"
 	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -123,7 +122,6 @@ metadata
 }
 = conquest_worldoverview : ""
 [
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //

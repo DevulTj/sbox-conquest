@@ -507,6 +507,27 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		return radius;
 	}
 
+	[ClientRpc]
+	protected void SendTracer( int i, Vector3 start, Vector3 end )
+	{
+		var startPos = start;
+		if ( Owner == Local.Pawn && i == 0 )
+		{
+			ModelEntity firingViewModel = ViewModelEntity;
+
+			if ( firingViewModel.IsValid() )
+			{
+
+				var muzzleAttach = firingViewModel.GetAttachment( "muzzle" );
+				startPos = muzzleAttach.GetValueOrDefault().Position;
+			}
+		}
+	
+		var tracer = Particles.Create( "particles/swb/tracer/tracer_large.vpcf" );
+		tracer.SetPosition( 1, startPos );
+		tracer.SetPosition( 2, end );
+	}
+
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int bulletCount = 1, float bulletRange = 5000f )
 	{
 		//
@@ -524,6 +545,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 			// ShootBullet is coded in a way where we can have bullets pass through shit
 			// or bounce off shit, in which case it'll return multiple results
 			//
+
+			int count = 0;
 			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * bulletRange, bulletSize ) )
 			{
 				tr.Surface.DoBulletImpact( tr );
@@ -537,6 +560,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 					.WithWeapon( this );
 
 				tr.Entity.TakeDamage( damageInfo );
+
+				SendTracer( count++, tr.StartPos, tr.EndPos );
 			}
 		}
 	}
