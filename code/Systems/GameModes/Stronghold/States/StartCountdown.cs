@@ -16,4 +16,11 @@ public partial class StartCountdownGameState : GameState
 	{
 		GameMode.SetGameState( new GameplayGameState() );
 	}
+
+	public override void OnStart( Conquest.GameState oldGameState = null )
+	{
+		base.OnStart( oldGameState );
+
+		CritPanel.AddInformation( $"The game will start in {TimeLimit} seconds." );
+	}
 }
