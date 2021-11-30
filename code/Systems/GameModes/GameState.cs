@@ -19,6 +19,9 @@ public partial class GameState : BaseNetworkable
 
 	public GameMode GameMode => GameModeManager.Current.GameMode;
 
+	[Net, Predicted] public TimeSince TimeSinceStart { get; set; } = 0;
+	[Net, Predicted] public TimeSince TimeSinceEnd { get; set; } = 0;
+
 	public override string ToString() => "GameStateBase";
 
 	public virtual void Tick( float delta )
@@ -32,7 +35,7 @@ public partial class GameState : BaseNetworkable
 	/// <param name="oldGameState"></param>
 	public virtual void OnStart( GameState oldGameState = null )
 	{
-		//
+		TimeSinceStart = 0;
 	}
 
 	/// <summary>
@@ -41,6 +44,6 @@ public partial class GameState : BaseNetworkable
 	/// <param name="newGameState"></param>
 	public virtual void OnEnd( GameState newGameState = null )
 	{
-		//
+		TimeSinceEnd = 0;
 	}
 }
