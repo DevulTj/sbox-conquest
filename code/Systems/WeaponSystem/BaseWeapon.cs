@@ -561,7 +561,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 
 				tr.Entity.TakeDamage( damageInfo );
 
-				SendTracer( count++, tr.StartPos, tr.EndPos );
+				if ( WeaponInfo.Slot != WeaponSlot.Melee )
+					SendTracer( count++, tr.StartPos, tr.EndPos );
 			}
 		}
 	}
