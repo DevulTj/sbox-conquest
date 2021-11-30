@@ -21,6 +21,7 @@ public partial class StartCountdownGameState : GameState
 	{
 		base.OnStart( oldGameState );
 
-		CritPanel.AddInformation( $"The game will start in {TimeLimit} seconds." );
+		if ( Host.IsClient )
+			ChatBox.AddInformation( $"The game will start in {TimeLimit} seconds." );
 	}
 }

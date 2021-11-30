@@ -1,4 +1,6 @@
 
+using Sandbox;
+
 namespace Conquest.Stronghold;
 
 public partial class GameplayGameState : GameState
@@ -6,16 +8,19 @@ public partial class GameplayGameState : GameState
 	public override string ToString() => "GameState[Stronghold][Gameplay]";
 	
 	// When scores hit zero, set the winner.
-	[GameEvent.Server.ScoreHitZero]
-	protected void ScoreHitZero( Team winner )
+	public override void OnScoreHitZero( Team winner )
 	{
-		// Events don't care about the game state, so make sure this is the current game state.
-		if ( !IsCurrent )
-			return;
-
 		var winnerState = new WinnerDecidedGameState();
 		winnerState.WinningTeam = winner;
 
 		GameMode.SetGameState( winnerState );
+	}
+
+	public override void OnStart( Conquest.GameState oldGameState = null )
+	{
+		base.OnStart( oldGameState );
+
+		if ( Host.IsClient )
+			ChatBox.AddInformation( $"Stronghold has started. First team to hit zero loses." );
 	}
 }

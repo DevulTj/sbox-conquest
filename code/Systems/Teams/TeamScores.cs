@@ -20,7 +20,7 @@ public partial class TeamScores : BaseNetworkable, INetworkSerializer
 	public virtual int MinimumScore => 0;
 
 	[ConVar.Replicated( "conquest_maxscore" )]
-	public static int MaximumScore { get; set; } = 250;
+	public static int MaximumScore { get; set; } = 5;
 
 	protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length;
 	protected int[] Scores { get; set; }
@@ -70,6 +70,8 @@ public partial class TeamScores : BaseNetworkable, INetworkSerializer
 
 		if ( newScore == 0 )
 			Event.Run( GameEvent.Server.ScoreHitZero, GetOpposingTeam( team ) );
+
+		GameModeManager.Current?.GameMode?.OnScoreChanged( team, score );
 
 		WriteNetworkData();
 	}
