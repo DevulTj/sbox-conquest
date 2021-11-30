@@ -70,4 +70,14 @@ public partial class GameState : BaseNetworkable
 	{
 		TimeSinceEnd = 0;
 	}
+
+	public virtual void OnScoreChanged( Team team, int score )
+	{
+
+	}
+
+	public virtual void OnScoreHitZero( Team team )
+	{
+
+	}
 }

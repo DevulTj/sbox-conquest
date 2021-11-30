@@ -15,7 +15,8 @@ public partial class WinnerDecidedGameState : GameState
 	{
 		base.OnStart( oldGameState );
 
-		CritPanel.AddInformation( $"GAME OVER. {TeamSystem.GetTeamName( WinningTeam )} WINS" );
+		if ( Host.IsServer )
+			CritPanel.AddInformation( $"GAME OVER. {TeamSystem.GetTeamName( WinningTeam )} WINS" );
 	}
 
 	protected override void OnTimeLimitReached()

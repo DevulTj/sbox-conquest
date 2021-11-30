@@ -51,4 +51,19 @@ public partial class GameMode : BaseNetworkable
 		// Set the Game State to the first one in our list.
 		SetGameState( OrderedGameStates.First() );
 	}
+
+	public virtual void OnScoreChanged( Team team, int score )
+	{
+		CurrentGameState?.OnScoreChanged( team, score );
+
+		if ( score == 0 )
+		{
+			OnScoreHitZero( team );
+		}
+	}
+
+	public virtual void OnScoreHitZero( Team team )
+	{
+		CurrentGameState?.OnScoreHitZero( team );
+	}
 }
