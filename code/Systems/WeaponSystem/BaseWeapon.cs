@@ -493,16 +493,13 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		return base.CanPrimaryAttack();
 	}
 
-	public virtual float GetAttackSpreadMultiplier()
+	public virtual float GetAddedSpread()
 	{
-		var radius = 1f;
+		var radius = 0f;
 		var player = Owner as Player;
 
-		if ( player.IsAiming )
-			radius *= .5f;
-
-		if ( player.GroundEntity is null )
-			radius *= 4f;
+		if ( !player.GroundEntity.IsValid() )
+			radius = 10f;
 
 		return radius;
 	}
@@ -534,6 +531,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		// Seed rand using the tick, so bullet cones match on client and server
 		//
 		Rand.SetSeed( Time.Tick );
+
+		spread += GetAddedSpread();
 
 		for ( int i = 0; i < bulletCount; i++ )
 		{
