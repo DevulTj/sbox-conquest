@@ -368,49 +368,6 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		Current.DoPlayerSuicide( target );
 	}
 
-	protected bool IsGameRestarting { get; set; } = false;
-
-	[AdminCmd( "conquest_restartgame", Help = "Restarts the game state" )]
-	public static void RestartGame()
-	{
-		ChatBox.AddInformation( To.Everyone, $"The game has begun First team to hit 0 tickets loses." );
-
-		Current.Scores.Reset();
-
-		var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
-		foreach ( var entity in ents )
-		{
-			entity.ResetState();
-		}
-
-		Current.IsGameRestarting = false;
-	}
-
-	protected async Task DelayedRestart()
-	{
-		await GameTask.DelayRealtimeSeconds( 10f );
-
-		RestartGame();
-	}
-
-	[AdminCmd( "conquest_endgame", Help = "Ends the game, and restarts it after some time" )]
-	public static void EndGame( Team winner = Team.Unassigned )
-	{
-		if ( Current.IsGameRestarting ) return;
-
-		CritPanel.AddInformation( $"GAME OVER. {TeamSystem.GetTeamName( winner )} WINS" );
-
-		Current.IsGameRestarting = true;
-
-		_ = Current.DelayedRestart();
-	}
-
-	[GameEvent.Server.ScoreHitZero]
-	protected void ScoreHitZero( Team winner )
-	{
-		EndGame( winner );
-	}
-
 	protected void ResetStats( Client cl )
 	{
 		cl.SetInt( "score", 0 );
