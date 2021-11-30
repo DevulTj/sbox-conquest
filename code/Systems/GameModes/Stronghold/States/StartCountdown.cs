@@ -8,15 +8,11 @@ public partial class StartCountdownGameState : GameState
 	[ConVar.Replicated( "conquest_stronghold_startcountdown" )]
 	public static int StartCountdown { get; set; } = 10;
 
+	public override int TimeLimit => StartCountdown;
 	public override string ToString() => "GameState[Stronghold][StartCountdown]";
 
-	public override void Tick( float delta )
+	protected override void OnTimeLimitReached()
 	{
-		base.Tick( delta );
-
-		if ( TimeSinceStart >= StartCountdown )
-		{
-			GameMode.SetGameState( new GameplayGameState() );
-		}
+		GameMode.SetGameState( new GameplayGameState() );
 	}
 }
