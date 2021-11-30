@@ -151,6 +151,13 @@ public class RespawnScreen : Panel
 		base.OnDeleted();
 	}
 
+	public override void Tick()
+	{
+		base.Tick();
+
+		DeployButton.BindClass( "allowed", () => GameState.Current.CanDeploy );
+	}
+
 	public void Deploy()
 	{
 		Host.AssertClient();

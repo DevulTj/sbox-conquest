@@ -73,6 +73,13 @@ respawnscreen {
             height: 100%;
             background-color: rgba( $friendly-marker, 0.8 );
 
+            opacity: 0;
+
+            &.allowed {
+                opacity: 1;
+            }
+          
+
             &:hover {
                 cursor: pointer;
                 background-color: rgba( $friendly-marker, 1 );
