@@ -6,6 +6,11 @@ namespace Conquest;
 public partial class GameState : BaseNetworkable
 {
 	/// <summary>
+	/// Are we the current Game State?
+	/// </summary>
+	public bool IsCurrent => Current == this;
+
+	/// <summary>
 	///  Static Accessor for retrieving the current game state
 	/// </summary>
 	public static GameState Current => GameModeManager.Current.GameMode.CurrentGameState;
@@ -14,16 +19,24 @@ public partial class GameState : BaseNetworkable
 	///  Static Accessor for retrieving the last game state
 	/// </summary>
 	public static GameState Last => GameModeManager.Current.GameMode.LastGameState;
-
-	public virtual bool CanDeploy => true;
-
 	public GameMode GameMode => GameModeManager.Current.GameMode;
 
 	[Net, Predicted] public TimeSince TimeSinceStart { get; set; } = 0;
 	[Net, Predicted] public TimeSince TimeSinceEnd { get; set; } = 0;
-
-	public virtual int TimeLimit => 0;
 	[Net, Predicted] public bool HasTimeLimitReached { get; set; } = false;
+
+	/// <summary>
+	/// Decides whether or not players can deploy from the respawn screen.
+	/// </summary>
+	public virtual bool CanDeploy => true;
+	/// <summary>
+	/// If set above zero, this will enforce a time limit.
+	/// </summary>
+	public virtual int TimeLimit => 0;
+	/// <summary>
+	/// Decides whether or not this state should reset all entities.
+	/// </summary>
+	public virtual bool ShouldResetEntities => false;
 
 	public override string ToString() => "GameStateBase";
 
