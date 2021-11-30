@@ -58,7 +58,7 @@ public partial class GameMode : BaseNetworkable
 
 		if ( score == 0 )
 		{
-			OnScoreHitZero( team );
+			OnScoreHitZero( TeamScores.GetOpposingTeam( team ) );
 		}
 	}
 
