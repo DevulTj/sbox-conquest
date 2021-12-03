@@ -16,7 +16,7 @@ public partial class GameMode : BaseNetworkable
 	/// <summary>
 	/// Used to decide order of game states
 	/// </summary>
-	public virtual List<GameState> OrderedGameStates { get; set; } = new();
+	public virtual GameState DefaultGameState { get; set; } = null;
 
 	public virtual void Tick( float delta )
 	{
@@ -49,7 +49,7 @@ public partial class GameMode : BaseNetworkable
 	public virtual void Initialize()
 	{
 		// Set the Game State to the first one in our list.
-		SetGameState( OrderedGameStates.First() );
+		SetGameState( DefaultGameState );
 	}
 
 	public virtual void OnScoreChanged( Team team, int score )
