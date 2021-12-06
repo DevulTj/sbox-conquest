@@ -72,6 +72,8 @@ public partial class ViewModel : BaseViewModel
 
 		if ( !Owner.IsValid() )
 		{
+			Delete();
+
 			return;
 		}
 

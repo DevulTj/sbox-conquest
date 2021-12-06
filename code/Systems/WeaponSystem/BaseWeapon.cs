@@ -273,11 +273,28 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		}
 	}
 
+	public override void DestroyViewModel()
+	{
+		if ( ViewModelEntity.IsValid() )
+		{
+			ViewModelEntity.Delete();
+		}
+
+		if ( HandsModel.IsValid() )
+		{
+			HandsModel.Delete();
+		}
+	}
+
 	public override void OnCarryDrop( Entity dropper )
 	{
 		base.OnCarryDrop( dropper );
 
-		ViewModelEntity?.Delete();
+		if ( ViewModelEntity.IsValid() )
+		{
+			DestroyViewModel();
+			DestroyHudElements();
+		}
 	}
 
 	public bool OnUse( Entity user )
