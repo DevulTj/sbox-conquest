@@ -516,7 +516,10 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		var player = Owner as Player;
 
 		if ( !player.GroundEntity.IsValid() )
-			radius = 10f;
+			radius = 0.3f;
+
+		if ( !player.IsAiming )
+			radius = 0.15f;
 
 		return radius;
 	}
