@@ -5,7 +5,7 @@ using System;
 
 namespace Conquest.UI;
 
-[Library( "ConquestPanel" ) ]
+[Library( "ConquestPanel", Alias = new string[] { "cdiv" } ) ]
 public partial class ConquestPanel : Panel
 {
 
