@@ -38,6 +38,8 @@ public partial class GameState : BaseNetworkable
 	/// </summary>
 	public virtual bool ShouldResetEntities => false;
 
+	public virtual string Identifier => ToString();
+
 	public override string ToString() => "GameStateBase";
 
 	public virtual void Tick( float delta )
