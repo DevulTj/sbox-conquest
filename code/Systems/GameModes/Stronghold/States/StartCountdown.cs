@@ -11,6 +11,7 @@ public partial class StartCountdownGameState : GameState
 	public override bool CanDeploy => false;
 	public override int TimeLimit => StartCountdown;
 	public override string Identifier => "StartCountdown";
+	public override string DisplayText => FormattedTimeRemaining;
 
 	protected override void OnTimeLimitReached()
 	{

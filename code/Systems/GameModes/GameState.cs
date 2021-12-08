@@ -45,6 +45,10 @@ public partial class GameState : BaseNetworkable
 	public virtual bool ShouldResetEntities => false;
 
 	public virtual string Identifier => ToString();
+	/// <summary>
+	/// Text to display on UI to represent the game state.
+	/// </summary>
+	public virtual string DisplayText => ToString();
 
 	public override string ToString() => "GameStateBase";
 

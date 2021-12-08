@@ -38,6 +38,31 @@ public partial class TeamScores : BaseNetworkable, INetworkSerializer
 		}
 	}
 
+	public Team GetHighestTeam()
+	{
+		Team highest = Team.Unassigned;
+		float lastHighestValue = 0;
+
+		for ( int i = 0; i < Scores.Length; i++ )
+		{
+			var score = Scores[ i ];
+			Team team = (Team)i;
+
+			if ( score > lastHighestValue )
+			{
+				highest = team;
+				lastHighestValue = score;
+			}
+			else if ( score == lastHighestValue )
+			{
+				// We have a draw!
+				highest = Team.Unassigned;
+			}
+		}
+
+		return highest;
+	}
+
 	public static Team GetOpposingTeam( Team team )
 	{
 		if ( team == Team.BLUFOR )
