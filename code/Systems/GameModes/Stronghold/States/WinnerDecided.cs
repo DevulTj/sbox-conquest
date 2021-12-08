@@ -24,6 +24,6 @@ public partial class WinnerDecidedGameState : GameState
 	{
 		base.OnTimeLimitReached();
 
-		GameMode.SetGameState( new WaitingForPlayersGameState() );
+		GameMode.SetGameState( new ShowcaseGameState() );
 	}
 }
