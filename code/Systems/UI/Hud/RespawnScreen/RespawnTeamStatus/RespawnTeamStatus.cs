@@ -28,7 +28,7 @@ public class RespawnTeamStatus : Panel
 
 	protected float MaxScore => TeamScores.MaximumScore;
 
-	[GameEvent.Shared.OnScoreChanged]
+	[GameEvent.Shared.OnScoreChanged, GameEvent.Client.OnGameStateChanged]
 	protected void OnScoreChanged()
 	{
 		SetScore( Team.BLUFOR );

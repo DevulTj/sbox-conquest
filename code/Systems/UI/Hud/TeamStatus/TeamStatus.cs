@@ -25,14 +25,14 @@ public class TeamStatus : Panel
 
 	protected float MaxScore => TeamScores.MaximumScore;
 
-	[GameEvent.Shared.OnScoreChanged]
+	[GameEvent.Shared.OnScoreChanged, GameEvent.Client.OnGameStateChanged]
 	protected void OnScoreChanged()
 	{
-		SetScore( Team.BLUFOR );
-		SetScore( Team.OPFOR );
+		UpdateScore( Team.BLUFOR );
+		UpdateScore( Team.OPFOR );
 	}
 
-	protected void SetScore( Team team )
+	protected void UpdateScore( Team team )
 	{
 		var isMyTeam = team == TeamSystem.MyTeam;
 			
