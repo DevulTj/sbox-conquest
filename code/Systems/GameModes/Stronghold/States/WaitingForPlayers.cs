@@ -16,12 +16,15 @@ public partial class WaitingForPlayersGameState : GameState
 	{
 		base.OnStart( oldGameState );
 
-		Game.Current?.Scores.Reset();
-
-		var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
-		foreach ( var entity in ents )
+		if ( Host.IsServer )
 		{
-			entity.ResetState();
+			Game.Current?.Scores.Reset();
+
+			var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
+			foreach ( var entity in ents )
+			{
+				entity.ResetState();
+			}
 		}
 	}
 
