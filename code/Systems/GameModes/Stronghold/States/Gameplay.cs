@@ -6,7 +6,7 @@ namespace Conquest.Stronghold;
 public partial class GameplayGameState : GameState
 {
 	[ConVar.Replicated( "conquest_stronghold_gamelength" )]
-	public static int GameLength { get; set; } = 10;
+	public static int GameLength { get; set; } = 300;
 
 	public override string Identifier => "Gameplay";
 	public override int TimeLimit => GameLength;
