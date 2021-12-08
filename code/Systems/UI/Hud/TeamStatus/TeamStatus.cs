@@ -17,6 +17,8 @@ public class TeamStatus : Panel
 	public Label EnemyState { get; set; }
 	// -@ref
 
+	public string TimeLeft { get { return GameState.Current.FormattedTimeRemaining; } }
+
 	public TeamStatus()
 	{
 		SetScore( Team.BLUFOR );

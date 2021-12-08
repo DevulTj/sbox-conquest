@@ -7,22 +7,18 @@
             <div class="fill friendly" @ref="FriendlyTeamBar"></div>
         </div>
 
-
         <label class="score friendly" @ref="FriendlyScore">1000</label>
-
         <label class="state friendly" @ref="FriendlyState">▼</label>
-        <label class="name friendly" @ref="FriendlyTeamName">US</label>
-
     </div>
 
     <div class="right">
-        <label class="name enemy" @ref="EnemyTeamName">RU</label>
         <label class="state enemy" @ref="EnemyState">▼</label>
-
         <label class="score enemy" @ref="EnemyScore">1000</label>
 
         <div class="bar enemy">
             <div class="fill enemy" @ref="EnemyTeamBar"></div>
         </div>
     </div>
+
+    <label class="time" @text="TimeLeft">00:00</label>
 </div>
