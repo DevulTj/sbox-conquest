@@ -52,6 +52,12 @@ public partial class GameState : BaseNetworkable
 
 	public override string ToString() => "GameStateBase";
 
+	/// <summary>
+	/// Game States can override the current game camera view
+	/// </summary>
+	public Camera Camera { get; set; }
+	public virtual bool HasCamera => Camera is not null;
+
 	public virtual void Tick( float delta )
 	{
 		if ( !HasTimeLimitReached && TimeLimit != 0 && TimeSinceStart >= TimeLimit )

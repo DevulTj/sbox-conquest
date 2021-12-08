@@ -203,9 +203,21 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 	/// </summary>
 	public virtual ICamera FindActiveCamera()
 	{
-		if ( Local.Client.DevCamera != null ) return Local.Client.DevCamera;
-		if ( Local.Client.Camera != null ) return Local.Client.Camera;
-		if ( Local.Pawn != null ) return Local.Pawn.Camera;
+		// Priority 1 - DevCam
+		if ( Local.Client.DevCamera != null )
+			return Local.Client.DevCamera;
+
+		// Priority 2 - GameState
+		if ( GameState.Current.HasCamera )
+			return GameState.Current.Camera;
+		
+		// Priority 3 - Client
+		if ( Local.Client.Camera != null )
+			return Local.Client.Camera;
+
+		// Priority 4 - Pawn
+		if ( Local.Pawn != null )
+			return Local.Pawn.Camera;
 
 		return null;
 	}
