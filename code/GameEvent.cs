@@ -22,7 +22,12 @@ public class GameEvent
 
 	public class Client
 	{
+		public const string OnGameStateChanged = "OnGameStateChanged";
 
+		public class OnGameStateChangedAttribute : EventAttribute
+		{
+			public OnGameStateChangedAttribute() : base( OnGameStateChanged ) { }
+		}
 	}
 
 	public class Shared

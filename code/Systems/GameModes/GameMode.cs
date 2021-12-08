@@ -20,6 +20,8 @@ public partial class GameMode : BaseNetworkable
 		// Bit shit this
 		oldState?.OnEnd( newState );
 		newState.OnStart( oldState );
+
+		Event.Run( GameEvent.Client.OnGameStateChanged, oldState, newState );
 	}
 
 	/// <summary>
