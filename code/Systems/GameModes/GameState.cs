@@ -1,5 +1,6 @@
 
 using Sandbox;
+using System;
 
 namespace Conquest;
 
@@ -29,10 +30,15 @@ public partial class GameState : BaseNetworkable
 	/// Decides whether or not players can deploy from the respawn screen.
 	/// </summary>
 	public virtual bool CanDeploy => true;
+
 	/// <summary>
 	/// If set above zero, this will enforce a time limit.
 	/// </summary>
 	public virtual int TimeLimit => 0;
+	public bool HasTimeLimit => TimeLimit > 0;
+	public TimeSpan TimeRemaining => TimeSpan.FromSeconds( HasTimeLimit ? TimeLimit - TimeSinceStart : 0 );
+	public string FormattedTimeRemaining => TimeRemaining.ToString( @"mm\:ss" );
+
 	/// <summary>
 	/// Decides whether or not this state should reset all entities.
 	/// </summary>
