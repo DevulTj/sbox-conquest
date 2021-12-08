@@ -7,7 +7,7 @@ public partial class WinnerDecidedGameState : GameState
 {
 	[Net] public Team WinningTeam { get; set; } = Team.Unassigned;
 
-	public override int TimeLimit => 20;
+	public override int TimeLimit => 5;
 	public override string Identifier => "WinnerDecided";
 
 	public override string DisplayText => $"{TeamSystem.GetTeamName( WinningTeam )} WINS";
