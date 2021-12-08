@@ -107,6 +107,15 @@ public partial class ShowcaseGameState : GameState
 		Log.Info( $"{(Host.IsServer ? "[Server]" : "[Client]")} Creating showcase camera" );
 	}
 
+	[AdminCmd( "conquest_debug_setshowcase" )]
+	public static void SetShowcase()
+	{
+		var gs = new ShowcaseGameState();
+		gs.WinningTeam = Team.BLUFOR;
+		GameState.Current.GameMode.SetGameState( gs );
+	}
+
+
 	private void SetupData( ShowcaseCamera cam )
 	{
 		var orderedWinners = Client.All
