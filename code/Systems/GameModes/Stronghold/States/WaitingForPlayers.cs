@@ -12,6 +12,8 @@ public partial class WaitingForPlayersGameState : GameState
 	public override bool CanDeploy => false;
 	public override string Identifier => "WaitingForPlayers";
 
+	public override string DisplayText => $"Waiting for Players ({Client.All.Count}/{MinPlayers})";
+
 	public override void OnStart( Conquest.GameState oldGameState = null )
 	{
 		base.OnStart( oldGameState );
