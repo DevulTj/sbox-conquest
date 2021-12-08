@@ -89,6 +89,8 @@ public partial class ShowcaseGameState : GameState
 
 	public override string Identifier => "Showcase";
 
+	public override bool CanDeploy => false;
+
 	public override int TimeLimit => 10;
 
 	public override void OnStart( Conquest.GameState oldGameState = null )
