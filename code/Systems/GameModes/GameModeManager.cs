@@ -37,10 +37,11 @@ public partial class GameModeManager : Entity
 		Print();
 	}
 
-	protected bool IsDebugging { get; set; } = true;
+	[ConVar.Replicated]
+	public static bool conquest_debug_gamemode { get; set; } = false;
 	protected virtual void Print()
 	{
-		if ( !IsDebugging )
+		if ( !conquest_debug_gamemode )
 			return;
 
 		var position = Host.IsServer ? new Vector2( 100, 100 ) : new Vector2( 100, 400 );
