@@ -8,9 +8,7 @@ public partial class WinnerDecidedGameState : GameState
 	[Net] public Team WinningTeam { get; set; } = Team.Unassigned;
 
 	public override int TimeLimit => 20;
-
-	public override string ToString() => "GameState[Stronghold][WinnerDecided]";
-
+	public override string Identifier => "WinnerDecided";
 	public override void OnStart( Conquest.GameState oldGameState )
 	{
 		base.OnStart( oldGameState );

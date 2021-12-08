@@ -1,5 +1,6 @@
 
 using Sandbox;
+using System.Linq;
 
 namespace Conquest.Stronghold;
 
@@ -9,7 +10,20 @@ public partial class WaitingForPlayersGameState : GameState
 	public static int MinPlayers { get; set; } = 2;
 
 	public override bool CanDeploy => false;
-	public override string ToString() => "GameState[Stronghold][WaitingForPlayers]";
+	public override string Identifier => "WaitingForPlayers";
+
+	public override void OnStart( Conquest.GameState oldGameState = null )
+	{
+		base.OnStart( oldGameState );
+
+		Game.Current?.Scores.Reset();
+
+		var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
+		foreach ( var entity in ents )
+		{
+			entity.ResetState();
+		}
+	}
 
 	public override void Tick( float delta )
 	{

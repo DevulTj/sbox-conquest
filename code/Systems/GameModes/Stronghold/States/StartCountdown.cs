@@ -10,7 +10,7 @@ public partial class StartCountdownGameState : GameState
 
 	public override bool CanDeploy => false;
 	public override int TimeLimit => StartCountdown;
-	public override string ToString() => "GameState[Stronghold][StartCountdown]";
+	public override string Identifier => "StartCountdown";
 
 	protected override void OnTimeLimitReached()
 	{

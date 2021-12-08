@@ -5,8 +5,8 @@ namespace Conquest.Stronghold;
 
 public partial class GameplayGameState : GameState
 {
-	public override string ToString() => "GameState[Stronghold][Gameplay]";
-	
+	public override string Identifier => "Gameplay";
+
 	// When scores hit zero, set the winner.
 	public override void OnScoreHitZero( Team winner )
 	{
