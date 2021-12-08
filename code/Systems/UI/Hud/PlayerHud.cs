@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Conquest.Stronghold;
 using Sandbox;
 using Sandbox.UI;
 
@@ -49,6 +50,21 @@ public class PlayerHud : BaseHud
 		return true;
 	}
 
+	bool IsShowing = false;
+	protected bool ShouldShowRespawnScreen()
+	{
+		var shouldShow = Local.Pawn is not Player;
+
+		if ( !IsShowing && shouldShow )
+		{
+			RespawnScreen.State = TransitionState.ToOverview;
+		}
+
+		IsShowing = shouldShow;
+
+		return shouldShow;
+	}
+
 	public PlayerHud()
 	{
 		Current = this;
@@ -63,7 +79,7 @@ public class PlayerHud : BaseHud
 			}
 		}
 
-		RespawnScreen.BindClass( "active", () => Local.Pawn is not Player );
+		RespawnScreen.BindClass( "active", () => ShouldShowRespawnScreen() );
 		Main.BindClass( "active", () => ShouldShowMainPanel() );
 	}
 

@@ -19,6 +19,11 @@ public partial class WaitingForPlayersGameState : GameState
 		base.OnStart( oldGameState );
 
 		Reset();
+
+		if ( Host.IsClient )
+		{
+			RespawnScreen.State = TransitionState.ToOverview;
+		}
 	}
 
 	public override void Tick( float delta )

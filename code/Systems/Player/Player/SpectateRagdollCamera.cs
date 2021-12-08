@@ -18,8 +18,6 @@ public class SpectateRagdollCamera : Camera
 	public override void Deactivated()
 	{
 		base.Deactivated();
-
-		RespawnScreen.State = TransitionState.ToOverview;
 	}
 
 	public override void Update()

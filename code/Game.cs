@@ -294,7 +294,7 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 			LastCamera?.Activated();
 		}
 
-		if ( RespawnScreen.State != TransitionState.None )
+		if ( RespawnScreen.State != TransitionState.None && !GameState.Current.HasCamera )
 		{
 			var camera = RespawnScreen.CameraSetup;
 			camera.Position = RespawnScreen.Position;
