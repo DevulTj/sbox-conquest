@@ -39,7 +39,7 @@ public class TeamStatus : Panel
 		var isMyTeam = team == TeamSystem.MyTeam;
 			
 		var bar = isMyTeam ? FriendlyTeamBar : EnemyTeamBar;
-		var label = isMyTeam ? FriendlyTeamName : EnemyTeamName;
+		//var label = isMyTeam ? FriendlyTeamName : EnemyTeamName;
 		var scoreLabel = isMyTeam ? FriendlyScore : EnemyScore;
 		var state = isMyTeam ? FriendlyState : EnemyState;
 
@@ -54,7 +54,7 @@ public class TeamStatus : Panel
 		if ( !isMyTeam )
 			bar.Style.Left = Length.Percent( 100 - percent );
 
-		label.Text = $"{teamName}";
+		//label.Text = $"{teamName}";
 		scoreLabel.Text = $"{score:f0}";
 
 		if ( oldScore is not null && oldScore > score )
