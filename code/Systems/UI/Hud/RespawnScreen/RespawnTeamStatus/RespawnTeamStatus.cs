@@ -23,8 +23,7 @@ public class RespawnTeamStatus : Panel
 
 	public RespawnTeamStatus()
 	{
-		SetScore( Team.BLUFOR );
-		SetScore( Team.OPFOR );
+
 	}
 
 	protected float MaxScore => TeamScores.MaximumScore;

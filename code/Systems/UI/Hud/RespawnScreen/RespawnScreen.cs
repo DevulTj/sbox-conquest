@@ -145,13 +145,6 @@ public class RespawnScreen : Panel
 		};
 	}
 
-	public override void OnDeleted()
-	{
-		State = TransitionState.FromOverview;
-
-		base.OnDeleted();
-	}
-
 	public override void Tick()
 	{
 		base.Tick();

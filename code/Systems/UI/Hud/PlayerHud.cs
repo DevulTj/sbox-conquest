@@ -33,22 +33,43 @@ public class PlayerHud : BaseHud
 	public Panel LeftObjects { get; set; }
 	public Panel RightObjects { get; set; }
 
+	// @ref
+	public RespawnScreen RespawnScreen { get; set; }
+
+	protected virtual bool ShouldShowMainPanel()
+	{
+		var player = Local.Pawn as Player;
+
+		if ( !player.IsValid() )
+			return false;
+
+		if ( player.LifeState != LifeState.Alive )
+			return false;
+
+		return true;
+	}
+
 	public PlayerHud()
 	{
 		Current = this;
 
 		for (int i = 0; i < 5; i++ )
 		{
-			var item = Inventory.AddChild<InventoryItem>( i < 2 ? "large" : "small" );
-			item.SlotIndex = i;
-			Items.Add( item );
+			var item = Inventory?.AddChild<InventoryItem>( i < 2 ? "large" : "small" );
+			if ( item != null )
+			{
+				item.SlotIndex = i;
+				Items.Add( item );
+			}
 		}
+
+		RespawnScreen.BindClass( "active", () => Local.Pawn is not Player );
+		Main.BindClass( "active", () => ShouldShowMainPanel() );
 	}
 
 
 	float Forward;
 	float Left;
-
 
 	float storedHpPercent = 1;
 
@@ -57,7 +78,7 @@ public class PlayerHud : BaseHud
 		base.Tick();
 
 		var player = Local.Pawn as Player;
-		if ( player is null )
+		if ( !player.IsValid() )
 			return;
 
 		var controller = player.Controller;

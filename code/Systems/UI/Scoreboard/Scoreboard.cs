@@ -22,24 +22,34 @@ public class Scoreboard : Panel
 	public Dictionary<Client, ScoreboardEntry> Rows = new();
 	public Dictionary<Team, TeamSection> TeamSections = new();
 
+	private bool addedHeaders = false;
+
 	public Scoreboard()
 	{
 		StyleSheet.Load( "systems/ui/scoreboard/scoreboard.scss" );
 
 		AddClass( "scoreboard" );
 
-		AddTeamHeader( Team.BLUFOR );
-		AddTeamHeader( Team.OPFOR );
+
 	}
 
 	public override void Tick()
 	{
 		base.Tick();
 
-		SetClass( "open", Input.Down( InputButton.Score ) );
+		var bOpen = Input.Down( InputButton.Score );
+
+		SetClass( "open", bOpen );
 
 		if ( !IsVisible )
 			return;
+
+		if ( !addedHeaders )
+		{
+			AddTeamHeader( Team.BLUFOR );
+			AddTeamHeader( Team.OPFOR );
+			addedHeaders = true;
+		}
 
 		foreach ( var client in Client.All.Except( Rows.Keys ) )
 		{

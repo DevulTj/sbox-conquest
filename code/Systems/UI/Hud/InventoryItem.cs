@@ -27,6 +27,9 @@ public class InventoryItem : Panel
 	public override void Tick()
 	{
 		var player = Local.Pawn as Player;
+		if ( !player.IsValid() )
+			return;
+
 		var active = player?.ActiveChild as Carriable;
 
 		var weaponFromSlot = player.Inventory?.GetSlot( SlotIndex ) as Carriable;

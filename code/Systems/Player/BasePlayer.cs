@@ -24,42 +24,10 @@ public abstract partial class BasePlayer : Sandbox.Player
 		}
 	}
 
-	public BaseHud Hud { get; set; }
-
-	protected abstract void MakeHud();
-
 	public BasePlayer()
 	{
 		Tags.Add( "player" );
 	}
-
-	public override void Respawn()
-	{
-		base.Respawn();
-
-		// Init hud on client owner
-		InitializeLocalHud( To.Single( Client ) );
-	}
-
-	[ClientRpc]
-	protected void InitializeLocalHud()
-	{
-		MakeHud();
-
-		if ( Hud != null )
-		{
-			Local.Hud?.Delete();
-			Local.Hud = Hud;
-
-			OnHudCreated();
-		}
-		else
-		{
-			Log.Warning( "No hud found for this player type" );
-		}
-	}
-
-	protected virtual void OnHudCreated() { }
 
 	public override void ClientSpawn()
 	{

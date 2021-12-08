@@ -83,6 +83,8 @@ public class MiniMap : Panel
 	protected void UpdateCapturePoints()
 	{
 		var localPlayer = Local.Pawn as Player;
+		if ( !localPlayer.IsValid() )
+			return;
 
 		int i = 0;
 		foreach ( var capturePoint in Entity.All.OfType<CapturePointEntity>().OrderBy( x => x.Identity ) )

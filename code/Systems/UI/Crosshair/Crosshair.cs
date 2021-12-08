@@ -68,6 +68,13 @@ public class Crosshair : Panel
 		base.Tick();
 		this.PositionAtCrosshair();
 
+		if ( Local.Pawn is not Player && !IsDeleting )
+		{
+			Delete();
+
+			return;
+		}
+
 		SetClass( "fire", fireCounter > 0 );
 
 		if ( fireCounter > 0 )

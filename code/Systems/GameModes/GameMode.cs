@@ -10,6 +10,8 @@ public partial class GameMode : BaseNetworkable
 {
 	public override string ToString() => "GameMode";
 
+	public virtual BaseHud Hud { get; set; }
+
 	[Net] public GameState LastGameState { get; private set; }
 	[Net, Change] public GameState CurrentGameState { get; private set; }
 
@@ -58,6 +60,12 @@ public partial class GameMode : BaseNetworkable
 	{
 		// Set the Game State to the first one in our list.
 		SetGameState( DefaultGameState );
+
+		if ( Host.IsClient )
+		{
+			Local.Hud?.Delete();
+			Local.Hud = Hud;
+		}
 	}
 
 	public virtual void OnScoreChanged( Team team, int score )

@@ -8,20 +8,20 @@
     <HurtIndicator></HurtIndicator>
     <Scoreboard></Scoreboard>
 
+    <CritPanel></CritPanel>
+    <KillFeedPanel></KillFeedPanel>
+    <ConquestChatBox></ConquestChatBox>
+
     <div class="main" @ref="Main">
-        <CritPanel></CritPanel>
 
         <AwardsPanel></AwardsPanel>
         <div class="leftobjects" @ref="LeftObjects">
             <TeamStatus></TeamStatus>
-            <KillFeedPanel></KillFeedPanel>
             <MiniMap></MiniMap>
             <SquadOverview></SquadOverview>
         </div>
 
         <div class="rightobjects" @ref="RightObjects">
-            <ConquestChatBox></ConquestChatBox>
-
             <div class="vitals" @ref="Vitals">
                 <div class="healthBar">
                     <div class="healthBarFill" @ref="HealthBar"></div>
@@ -49,5 +49,7 @@
         <CaptureStatus></CaptureStatus>
         <VoiceList></VoiceList>
     </div>
+
+    <RespawnScreen @ref="RespawnScreen"></RespawnScreen>
 </div>
 

@@ -355,6 +355,13 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		IsReloading = false;
 	}
 
+	public override void ActiveEnd( Entity ent, bool dropped )
+	{
+		base.ActiveEnd( ent, dropped );
+
+		CrosshairPanel?.Delete();
+	}
+
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
 	public override void Spawn()

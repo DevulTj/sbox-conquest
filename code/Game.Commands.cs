@@ -25,5 +25,13 @@ public partial class Game
 	public static void DeployCommand()
 	{
 		Deploy( ConsoleSystem.Caller );
+
+		Current.ClientDeploy( To.Single( ConsoleSystem.Caller ) );
+	}
+
+	[ClientRpc]
+	protected void ClientDeploy()
+	{
+		RespawnScreen.State = TransitionState.FromOverview;
 	}
 }

@@ -10,7 +10,12 @@ public partial class GameModeManager : Entity
 	/// <summary>
 	/// The current game mode
 	/// </summary>
-	[Net] public GameMode GameMode { get; set; }
+	[Net, Change] public GameMode GameMode { get; set; }
+
+	protected void OnGameModeChanged( GameMode oldgm, GameMode newgm )
+	{
+		newgm?.Initialize();
+	}
 
 	public GameModeManager()
 	{

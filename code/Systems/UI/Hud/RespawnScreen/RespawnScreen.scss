@@ -9,6 +9,12 @@ respawnscreen {
     display: flex;
     flex-direction: column;
 
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
+
     .points {
         transition: height 0.2s ease opacity 0.2s ease;
         width: 100%;

@@ -21,9 +21,4 @@ public partial class SpectatorPlayer : BasePlayer
 			Game.Deploy( cl );
 		}
 	}
-
-	protected override void MakeHud()
-	{
-		Hud = new SpectatorHud();
-	}
 }

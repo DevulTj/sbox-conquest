@@ -22,11 +22,6 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 	public bool IsSprinting { get => _IsSprinting; protected set { if ( _IsSprinting && !value ) SinceSprintStopped = 0; _IsSprinting = value; } }
 
-	protected override void MakeHud()
-	{
-		Hud = new PlayerHud();
-	}
-
 	protected override void OnDestroy()
 	{
 		if ( CapturePoint.IsValid() )

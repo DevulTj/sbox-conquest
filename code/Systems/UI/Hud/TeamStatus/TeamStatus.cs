@@ -21,8 +21,6 @@ public class TeamStatus : Panel
 
 	public TeamStatus()
 	{
-		SetScore( Team.BLUFOR );
-		SetScore( Team.OPFOR );
 	}
 
 	protected float MaxScore => TeamScores.MaximumScore;
