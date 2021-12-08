@@ -8,8 +8,12 @@
         <text class="mapname" @text="MapName">facepuch.construct</text>
     </div>
 
-    <div class="points" @ref="Points">
-    </div>
+    <cdiv class="points" @ref="Points" gamestate="Gameplay">
+    </cdiv>
+
+    <cdiv class="waiting" gamestate="WaitingForPlayers">
+        <text>Waiting for Players</text>
+    </cdiv>
 
     <div class="footer" @ref="Footer">
         <button class="deploy" @ref="DeployButton" onclick="Deploy()">DEPLOY</button>

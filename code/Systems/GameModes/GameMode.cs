@@ -40,7 +40,8 @@ public partial class GameMode : BaseNetworkable
 	public virtual string Print()
 	{
 		return $"Current GameState: {CurrentGameState}\n" +
-			$"Last GameState: {(LastGameState != null ? LastGameState : "NULL")}";
+			$"Last GameState: {(LastGameState != null ? LastGameState : "NULL")}\n" +
+			$"Current Identifier: {CurrentGameState?.Identifier}";
 	}
 
 	/// <summary>
