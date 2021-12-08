@@ -9,6 +9,9 @@ public partial class WinnerDecidedGameState : GameState
 
 	public override int TimeLimit => 20;
 	public override string Identifier => "WinnerDecided";
+
+	public override string DisplayText => $"{TeamSystem.GetTeamName( WinningTeam )} WINS";
+
 	public override void OnStart( Conquest.GameState oldGameState )
 	{
 		base.OnStart( oldGameState );
