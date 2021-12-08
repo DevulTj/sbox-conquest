@@ -106,7 +106,7 @@ public static class TeamSystem
 				return "RU";
 		}
 
-		return "--";
+		return "NOBODY";
 	}
 
 	public static Team GetTeam( Client cl )
