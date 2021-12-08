@@ -11,7 +11,14 @@ public partial class GameMode : BaseNetworkable
 	public override string ToString() => "GameMode";
 
 	[Net] public GameState LastGameState { get; private set; }
-	[Net] public GameState CurrentGameState { get; private set; }
+	[Net, Change] public GameState CurrentGameState { get; private set; }
+
+	protected void OnCurrentGameStateChanged( GameState oldState, GameState newState )
+	{
+		// Bit shit this
+		oldState?.OnEnd( newState );
+		newState.OnStart( oldState );
+	}
 
 	/// <summary>
 	/// Used to decide order of game states
