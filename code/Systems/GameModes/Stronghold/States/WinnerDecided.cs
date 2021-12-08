@@ -24,6 +24,15 @@ public partial class WinnerDecidedGameState : GameState
 	{
 		base.OnTimeLimitReached();
 
-		GameMode.SetGameState( new ShowcaseGameState() );
+		if ( WinningTeam == Team.Unassigned )
+		{
+			GameMode.SetGameState( new WaitingForPlayersGameState() );
+			return;
+		}
+
+		var gameState = new ShowcaseGameState();
+		gameState.WinningTeam = WinningTeam;
+
+		GameMode.SetGameState( gameState );
 	}
 }
