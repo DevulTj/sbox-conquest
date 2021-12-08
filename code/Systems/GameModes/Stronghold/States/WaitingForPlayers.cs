@@ -18,16 +18,7 @@ public partial class WaitingForPlayersGameState : GameState
 	{
 		base.OnStart( oldGameState );
 
-		if ( Host.IsServer )
-		{
-			Game.Current?.Scores.Reset();
-
-			var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
-			foreach ( var entity in ents )
-			{
-				entity.ResetState();
-			}
-		}
+		Reset();
 	}
 
 	public override void Tick( float delta )

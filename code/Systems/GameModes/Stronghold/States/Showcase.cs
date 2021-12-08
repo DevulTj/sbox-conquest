@@ -97,6 +97,8 @@ public partial class ShowcaseGameState : GameState
 	{
 		base.OnStart( oldGameState );
 
+		Reset();
+
 		ShowcaseCamera cam = Camera as ShowcaseCamera;
 		if ( cam == null )
 		{

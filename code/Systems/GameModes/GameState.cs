@@ -1,6 +1,7 @@
 
 using Sandbox;
 using System;
+using System.Linq;
 
 namespace Conquest;
 
@@ -97,5 +98,19 @@ public partial class GameState : BaseNetworkable
 	public virtual void OnScoreHitZero( Team team )
 	{
 
+	}
+
+	public virtual void Reset()
+	{
+		if ( Host.IsServer )
+		{
+			Game.Current?.Scores.Reset();
+
+			var ents = Entity.All.OfType<IGameStateAddressable>().ToList();
+			foreach ( var entity in ents )
+			{
+				entity.ResetState();
+			}
+		}
 	}
 }
