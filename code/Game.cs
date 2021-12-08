@@ -284,16 +284,7 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 	/// Called to set the camera up, clientside only.
 	/// </summary>
 	public override CameraSetup BuildCamera( CameraSetup camSetup )
-	{	
-		if ( RespawnScreen.State != TransitionState.None )
-		{
-			var camera = RespawnScreen.CameraSetup;
-			camera.Position = RespawnScreen.Position;
-			camera.Rotation = RespawnScreen.Rotation;
-			camera.FieldOfView = CalculateFOV( camera.FieldOfView );
-
-			return camera;
-		}
+	{
 
 		var cam = FindActiveCamera();
 		if ( LastCamera != cam )
@@ -301,6 +292,16 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 			LastCamera?.Deactivated();
 			LastCamera = cam as Camera;
 			LastCamera?.Activated();
+		}
+
+		if ( RespawnScreen.State != TransitionState.None && !GameState.Current.HasCamera )
+		{
+			var camera = RespawnScreen.CameraSetup;
+			camera.Position = RespawnScreen.Position;
+			camera.Rotation = RespawnScreen.Rotation;
+			camera.FieldOfView = CalculateFOV( camera.FieldOfView );
+
+			return camera;
 		}
 
 		cam?.Build( ref camSetup );
