@@ -11,6 +11,7 @@ public partial class WaitingForPlayersGameState : GameState
 
 	public override bool CanDeploy => false;
 	public override string Identifier => "WaitingForPlayers";
+	public override string DisplayText => "Waiting for players";
 
 	public override void OnStart( Conquest.GameState oldGameState = null )
 	{
