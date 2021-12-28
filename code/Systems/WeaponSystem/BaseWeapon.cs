@@ -204,7 +204,6 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 
 			bool inWater = Physics.TestPointContents( _start, CollisionLayer.Water );
 			var tr = Trace.Ray( _start, _end )
-			.UseLagCompensation()
 			.UseHitboxes()
 			.HitLayer( CollisionLayer.Water, !inWater )
 			.HitLayer( CollisionLayer.Debris )

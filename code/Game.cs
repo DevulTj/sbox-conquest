@@ -61,37 +61,6 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		//pp.ColorOverlay.Amount = 0.1f;
 		//pp.ColorOverlay.Color = new Color( 0.1f, 0.1f, 0.2f );
 		//pp.ColorOverlay.Mode = StandardPostProcess.ColorOverlaySettings.OverlayMode.Additive;
-
-		// @TODO: Move this somewhere else
-		if ( Local.Pawn.IsValid() )
-		{
-			var tr = Trace.Ray( Local.Pawn.EyePos, Local.Pawn.EyePos + Local.Pawn.EyeRot.Forward * 10000f ).Ignore( Local.Pawn ).WorldOnly().Radius( 2 ).Run();
-
-			var player = Local.Pawn as Player;
-			if ( player.IsValid() && player.IsAiming )
-			{
-				distanceLerp = distanceLerp.LerpTo( tr.EndPos.Distance( Local.Pawn.EyePos ), Time.Delta * 5f );
-			}
-			else
-			{
-				distanceLerp = 0;
-			}
-
-			var shouldEnableDoF = !distanceLerp.AlmostEqual( 0 );
-
-			pp.DepthOfField.Enabled = shouldEnableDoF;
-			
-			if ( shouldEnableDoF )
-			{
-				pp.DepthOfField.FocalPoint = distanceLerp * 0.1f;
-				pp.DepthOfField.FocusPlane = distanceLerp;
-
-				pp.DepthOfField.FocalLength = 50f;
-				pp.DepthOfField.ApertureSize = 1f;
-				pp.DepthOfField.Radius = 0.5f;
-				pp.DepthOfField.Quality = StandardPostProcess.DepthOfFieldSettings.DofQuality.Low;
-			}
-		}
 	}
 
 	protected void InitPostProcess()
