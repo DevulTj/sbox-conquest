@@ -15,7 +15,6 @@ public class SquadmatePanel : Panel
 		Avatar = Add.Image( "avatarbig:76561197973858781", "avatar" );
 		Bar = Add.Panel( "bar" );
 		FillBar = Bar.Add.Panel( "fill" );
-		Skull = Avatar.Add.Image( "ui/skull.png", "skull" );
 	}
 
 	public void SetClient( Client cl )
@@ -46,7 +45,6 @@ public class SquadmatePanel : Panel
 	public Panel FillBar { get; set; }
 	public Label PlayerName { get; set; }
 	public Image Icon { get; set; }
-	public Image Skull { get; set; }
 
 	float storedHpPercent = 1;
 	public override void Tick()

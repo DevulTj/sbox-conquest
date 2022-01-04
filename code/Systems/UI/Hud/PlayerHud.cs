@@ -4,7 +4,7 @@ using Sandbox.UI;
 
 namespace Conquest;
 
-[UseTemplate("systems/ui/hud/playerhud.html")]
+[UseTemplate]
 public class PlayerHud : BaseHud
 {
 	public static PlayerHud Current { get; set; } 
@@ -67,16 +67,21 @@ public class PlayerHud : BaseHud
 			Forward = Forward.LerpTo( (Input.Forward * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
 			Left = Left.LerpTo( (Input.Left * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
 
-			var panelTransform = new PanelTransform();
-			panelTransform.AddRotation( Left, Left, 0 );
-			panelTransform.AddRotation( Forward, -Forward, 0 );
+			if ( LeftObjects != null )
+			{
+				var panelTransform = new PanelTransform();
+				panelTransform.AddRotation( Left, Left, 0 );
+				panelTransform.AddRotation( Forward, -Forward, 0 );
+				LeftObjects.Style.Transform = panelTransform;
+			}
 
-			LeftObjects.Style.Transform = panelTransform;
-			var righttransform = new PanelTransform();
-			righttransform.AddRotation( Left, -Left, 0 );
-			righttransform.AddRotation( Forward, -Forward, 0 );
-
-			RightObjects.Style.Transform = righttransform;
+			if ( RightObjects != null )
+			{
+				var righttransform = new PanelTransform();
+				righttransform.AddRotation( Left, -Left, 0 );
+				righttransform.AddRotation( Forward, -Forward, 0 );
+				RightObjects.Style.Transform = righttransform;
+			}
 		}
 
 		if ( Health == null )
