@@ -22,6 +22,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 	public bool IsSprinting { get => _IsSprinting; protected set { if ( _IsSprinting && !value ) SinceSprintStopped = 0; _IsSprinting = value; } }
 
+
 	protected override void MakeHud()
 	{
 		Hud = new PlayerHud();
@@ -42,6 +43,8 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 	public Player() : base()
 	{
 		Inventory = new PlayerInventory( this );
+
+		Tags.Add( "player" );
 	}
 
 	public Player( Client cl ) : this()
@@ -125,6 +128,8 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+
+		CreateFlybyTrigger();
 
 		base.Respawn();
 

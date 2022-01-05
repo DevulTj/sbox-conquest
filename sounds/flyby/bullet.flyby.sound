@@ -1,0 +1,25 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		sounds = 
+		[
+			"sounds/flyby/bullet.flyby.1.vsnd",
+			"sounds/flyby/bullet.flyby.2.vsnd",
+			"sounds/flyby/bullet.flyby.3.vsnd",
+			"sounds/flyby/bullet.flyby.4.vsnd",
+			"sounds/flyby/bullet.flyby.5.vsnd",
+			"sounds/flyby/bullet.flyby.6.vsnd",
+			"sounds/flyby/bullet.flyby.7.vsnd",
+			"sounds/flyby/bullet.flyby.8.vsnd",
+			"sounds/flyby/bullet.flyby.9.vsnd",
+		]
+		ui = false
+		volume = 1.0
+		volumerandom = 0.0
+		pitch = 1.0
+		pitchrandom = 0.1
+		distancemax = 2000.0
+		selectionmode = "3"
+	}
+}

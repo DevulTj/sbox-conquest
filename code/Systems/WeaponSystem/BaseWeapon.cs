@@ -207,17 +207,23 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 			.UseHitboxes()
 			.HitLayer( CollisionLayer.Water, !inWater )
 			.HitLayer( CollisionLayer.Debris )
-			.Ignore( Owner )
-			.Ignore( lastEnt.IsValid() ? lastEnt : this )
+			.WithAnyTags( "flyby", "world", "player" )
+			.Ignore( this )
+			.Ignore( lastEnt.IsValid() ? lastEnt : this, false )
 			.Size( radius )
 			.Run();
+
+			lastEnt = tr.Entity;
 
 			if ( tr.Hit )
 				hits.Add( tr );
 
-			lastEnt = tr.Entity;
-
 			if ( tr.Entity is GlassShard )
+			{
+				_start = tr.EndPos;
+				_end = tr.EndPos + (tr.Direction * 5000);
+			}
+			else if ( tr.Entity.IsValid() && tr.Entity.Tags.Has( "flyby" ) )
 			{
 				_start = tr.EndPos;
 				_end = tr.EndPos + (tr.Direction * 5000);
@@ -231,7 +237,9 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 				_end = tr.EndPos + (reflectDir * 5000);
 
 				if ( !ShouldContinue( tr, angle ) )
+				{
 					break;
+				}
 			}
 		}
 
@@ -567,7 +575,18 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 			int count = 0;
 			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * bulletRange, bulletSize ) )
 			{
-				tr.Surface.DoBulletImpact( tr );
+				if ( tr.Entity.Tags.Has( "flyby" ) )
+				{
+					if ( IsServer )
+					{
+						var player = tr.Entity.Parent as Player;
+						player.DoFlybySound( To.Single( player ) );
+					}
+
+					continue;
+				}
+				else
+					tr.Surface.DoBulletImpact( tr );
 
 				if ( !IsServer ) continue;
 				if ( !tr.Entity.IsValid() ) continue;
