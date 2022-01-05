@@ -61,7 +61,7 @@ public partial class AIPlayer : Player
 
 			LookDir = Vector3.Lerp( LookDir, InputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
 
-			var tr = Trace.Ray( EyePos, TargetPlayer.Position ).Ignore( this ).Run();
+			var tr = Trace.Ray( EyePos, TargetPlayer.Position ).WithoutTags( "flyby" ).Ignore( this ).Run();
 
 			if ( Position.Distance( TargetPlayer.Position ) < 1024f && tr.Entity == TargetPlayer )
 			{
