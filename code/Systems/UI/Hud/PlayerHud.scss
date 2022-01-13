@@ -52,16 +52,34 @@
 	}
 
 	.reloadhint {
-		border-radius: 16px;
+		border-radius: 1px;
 		transition: all 0.2s ease;
 		position: absolute;
-		left: 55%;
-		top: 50%;
+		left: 56%;
+		top: 52%;
 		opacity: 0;
+
+		inputhint {
+			padding: 5px;
+			padding-right: 12px;
+			z-index: 99;
+
+			.glyph {
+				filter: sepia(100);
+				filter: hue-rotate(100deg);
+			}
+
+			label {
+				color: $friendly-marker;
+				text-shadow: 2px 2px 2px rgba( black, 0.2 );
+			}
+		}
+
+		box-shadow: 0px 0px 20px rgba($friendly-marker, 0.15 );
+
 
 		&.visible {
 			opacity: 1;
-			background-image: linear-gradient( to right, rgba( black, 0.5 ), rgba( black, 0 ) );
 		}
 	}
 
