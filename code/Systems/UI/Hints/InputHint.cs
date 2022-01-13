@@ -12,9 +12,9 @@ public partial class InputHint : Panel
 	// @ref
 	public Image Glyph { get; set; }
 
-	public InputButton Button { get; set; } 
+	public InputButton Button { get; set; }
 
-	public string Content { get; set; }
+	public string Content { get; set; } = "";
 
 	public Label ActionLabel { get; set; }
 
@@ -27,6 +27,11 @@ public partial class InputHint : Panel
 			var buttonEnumValue = (InputButton)Enum.Parse( typeof( InputButton ), value );
 			Button = buttonEnumValue;
 		}
+	}
+
+	public void SetButton( InputButton button )
+	{
+		Button = button;
 	}
 
 	public override void SetContent( string value )

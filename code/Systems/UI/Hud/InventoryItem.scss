@@ -31,14 +31,13 @@ inventoryitem {
 
     .number {
         position: absolute;
-        bottom: -28px;
+        bottom: -40px;
+        left: -12px;
         width: 100%;
-        text-align: center;
-        font-family: $font-primary;
-        font-weight: 600;
-        text-shadow: 2px 2px 5px rgba( #2cc79d, 1 );
-        color: $friendly-marker;
-        font-size: 18px;
+        filter: sepia(100);
+        filter: hue-rotate(100deg);
+        z-index: 99;
+        transform: scale( 0.75 );
     }
 
     &.large {

@@ -1,6 +1,8 @@
 ﻿
+using Conquest.UI;
 using Sandbox;
 using Sandbox.UI;
+using System;
 
 namespace Conquest;
 
@@ -9,7 +11,7 @@ public class InventoryItem : Panel
 {
 	// @ref
 	public Image Icon { get; set; }
-	public Label SlotNumber { get; set; }
+	public InputHint SlotNumber { get; set; }
 	public Label Ammo { get; set; }
 	// -@ref
 
@@ -36,7 +38,7 @@ public class InventoryItem : Panel
 			Icon.SetTexture( "" );
 			Weapon = null;
 			Ammo.Text = "";
-			SlotNumber.Text = "";
+
 			SetClass( "empty", true );
 			SetClass( "active", false );
 
@@ -72,9 +74,11 @@ public class InventoryItem : Panel
 			showInfinity = true;
 		}
 
+		SlotNumber.SetButton( (InputButton)Enum.Parse( typeof( InputButton ), "Slot" + ( SlotIndex + 1 ) ) );
+
 		SetClass( "infinity", showInfinity );
 
-		SlotNumber.Text = $"{SlotIndex + 1}";
+		//SlotNumber.Text = $"{SlotIndex + 1}";
 
 		SetClass( "active", Weapon == active );
 	}
