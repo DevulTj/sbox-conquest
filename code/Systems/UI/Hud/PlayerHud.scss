@@ -51,6 +51,20 @@
 		background-image: url( /ui/logo.png );
 	}
 
+	.reloadhint {
+		border-radius: 16px;
+		transition: all 0.2s ease;
+		position: absolute;
+		left: 55%;
+		top: 50%;
+		opacity: 0;
+
+		&.visible {
+			opacity: 1;
+			background-image: linear-gradient( to right, rgba( black, 0.5 ), rgba( black, 0 ) );
+		}
+	}
+
 	.vitals {
 		transform: rotateY(10deg) rotateX(10deg);
 		box-shadow: 0px 0px 40px rgba($friendly-marker, 0.15 );

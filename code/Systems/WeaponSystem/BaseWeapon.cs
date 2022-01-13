@@ -328,6 +328,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 	// @Client
 	public Vector3 CurrentRecoilAmount { get; set; } = Vector3.Zero;
 
+	public int MaxAmmoClip => WeaponInfo.ClipSize;
+
 	[Net, Predicted] public int AmmoClip { get; set; }
 	[Net, Predicted] public TimeSince TimeSinceReload { get; set; }
 	[Net, Predicted] public bool IsReloading { get; set; }

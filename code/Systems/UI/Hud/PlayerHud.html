@@ -19,6 +19,10 @@
             <SquadOverview></SquadOverview>
         </div>
 
+        <div class="reloadhint" @ref="ReloadHint">
+            <inputhint btn="Reload">Reload</inputhint>
+        </div>
+
         <div class="rightobjects" @ref="RightObjects">
             <ConquestChatBox></ConquestChatBox>
 
@@ -35,6 +39,12 @@
                 <text class="armor" @ref="Armor">100</text>
                 <text class="identity" @ref="PlayerName">DEVULTJ</text>
                 <div class="box" @ref="Inventory"></div>
+
+                <div class="hints">
+                    <inputhint btn="SlotPrev">Previous</inputhint>
+                    <inputhint btn="SlotNext">Next</inputhint>
+                </div>
+
             </div>
 
             <div class="gunvitals" @ref="GunVitals">

@@ -26,6 +26,8 @@ public class PlayerHud : BaseHud
 
 	public Panel Inventory { get; set; }
 
+	public Panel ReloadHint { get; set; }
+
 	public List<InventoryItem> Items { get; set; } = new();
 
 	public Panel Main { get; set; }
@@ -110,9 +112,14 @@ public class PlayerHud : BaseHud
 		else if ( weapon is not null && weapon.ShowAmmoCount )
 		{
 			GunName.Text = $"{weapon.ClassInfo.Title.ToUpper()}";
-			GunAmmo.Text = $"{weapon.AmmoClip.ToString("D3")}";
-			GunReserve.Text = $"{weapon.AvailableAmmo().ToString("D3")}";
+			GunAmmo.Text = $"{weapon.AmmoClip.ToString( "D3" )}";
+			GunReserve.Text = $"{weapon.AvailableAmmo().ToString( "D3" )}";
 			GunVitals.Style.Opacity = 1;
+
+			if ( ReloadHint != null )
+			{
+				ReloadHint.SetClass( "visible", ( (float)weapon.AmmoClip / (float)weapon.MaxAmmoClip ) < 0.25f );
+			}
 		}
 		else if ( Local.Pawn.ActiveChild is BaseGadget gadget )
 		{
