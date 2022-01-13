@@ -351,7 +351,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 		using ( Prediction.Off() )
 		{
-			if ( IsServer && Input.Released( InputButton.Menu ) )
+			if ( IsServer && Input.Released( InputButton.Flashlight ) )
 				Ping();
 		}
 	}

@@ -2,7 +2,6 @@
 
 inputhint {
     align-items: center;
-
     padding: 8px;
 
     .glyph {
@@ -16,5 +15,24 @@ inputhint {
         color: white;
         font-weight: bold;
         text-shadow: 0px 0px 2px black;
+    }
+
+    flex-direction: row;
+
+    &.small {
+        margin-right: 0px;
+        margin-left: 0px;
+
+        .action {
+            display: none;
+        }
+    }
+
+    &.invert {
+        .action {
+            margin-right: 8px;
+        }
+
+        flex-direction: row-reverse;
     }
 }
