@@ -91,7 +91,7 @@ public partial class SquadManager : BaseNetworkable
 
 		newSquad.Identity = SquadNames[ Squads[team].Count - 1 ];
 		
-		Log.Info( "Conquest", $"Squad created. It's called \"{newSquad.Identity}\"" );
+		Log.Info( $"Squad created. It's called \"{newSquad.Identity}\"" );
 
 		NetworkableSquads.Add( newSquad );
 
@@ -119,7 +119,7 @@ public partial class SquadManager : BaseNetworkable
 		// squadComponent.SquadRef = squadRef;
 		squadRef.Add( client );
 
-		Log.Info( "Conquest", $"Client {client.Name} was added to squad: {squadRef.Identity}" );
+		Log.Info( $"Client {client.Name} was added to squad: {squadRef.Identity}" );
 	}
 
 	public void Clear( Client client )
@@ -128,7 +128,7 @@ public partial class SquadManager : BaseNetworkable
 		if ( squad is null )
 			return;
 
-		Log.Info( "Conquest", $"Client {client.Name} was removed from squad: {(squad?.Identity ?? "Unknown")}" );
+		Log.Info( $"Client {client.Name} was removed from squad: {(squad?.Identity ?? "Unknown")}" );
 
 		squad.Remove( client );
 

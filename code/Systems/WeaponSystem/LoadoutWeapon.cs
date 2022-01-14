@@ -30,8 +30,6 @@ public class LoadoutAsset : Asset
 		{
 			All.Add( this );
 			Sorted[Slot].Add( this );
-
-			Log.Info( "Conquest", "Registered Loadout: " + Name );
 		}
 	}
 }

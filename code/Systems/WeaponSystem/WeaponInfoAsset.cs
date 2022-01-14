@@ -153,16 +153,12 @@ public class WeaponInfoAsset : Asset
 	{
 		base.PostLoad();
 
-		Log.Info( "Conquest", $"{Name}.winfo file detected - attempting to load." );
-
 		if ( string.IsNullOrEmpty( WeaponClass ) )
 			return;
 
 		var libraryAttribute = Library.GetAttribute( WeaponClass );
 		if ( libraryAttribute is not null )
 		{
-			Log.Info( "Conquest", $"{Name}.winfo registered." );
-
 			Registry[WeaponClass] = this;
 
 			CachedViewModel = Model.Load( ViewModel );
