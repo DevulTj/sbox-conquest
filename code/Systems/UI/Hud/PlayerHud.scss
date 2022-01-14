@@ -80,23 +80,25 @@
 		position: absolute;
 		left: 56%;
 		top: 52%;
-
 		flex-direction: column;
 
 		.reloadhint {
+			display: none;
 			opacity: 0;
 
 			&.visible {
+				display: flex;
 				opacity: 1;
 			}
 		}
-
 		/*box-shadow: 0px 0px 20px rgba($friendly-marker, 0.15 );*/
 
 		.usehint {
+			display: none;
 			opacity: 0;
 
 			&.visible {
+				display: flex;
 				opacity: 1;
 			}
 		}
