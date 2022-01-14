@@ -15,6 +15,8 @@ public partial class InputHint : Panel
 	public string Text { get; set; }
 	public Label ActionLabel { get; set; }
 
+	protected bool IsSet = false;
+
 	public override void SetProperty( string name, string value )
 	{
 		base.SetProperty( name, value );
@@ -28,6 +30,7 @@ public partial class InputHint : Panel
 	public void SetButton( InputButton button )
 	{
 		Button = button;
+		IsSet = true;
 	}
 
 	public override void SetContent( string value )
@@ -42,12 +45,19 @@ public partial class InputHint : Panel
 	{
 		base.Tick();
 
-		Glyph.Texture = Input.GetGlyph( Button );
-
-		if ( Glyph.Texture != null )
+		if ( IsSet )
 		{
-			Glyph.Style.Width = Glyph.Texture.Width;
-			Glyph.Style.Height = Glyph.Texture.Height;
+			Texture glyphTexture = Input.GetGlyph( Button );
+			if ( glyphTexture != null )
+			{
+				Glyph.Texture = glyphTexture;
+				Glyph.Style.Width = glyphTexture.Width;
+				Glyph.Style.Height = glyphTexture.Height;
+			}
+			else
+			{
+				Glyph.Texture = Texture.Load( FileSystem.Mounted, "/ui/Input/invalid_glyph.png" );
+			}
 		}
 	}
 }
