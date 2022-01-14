@@ -120,7 +120,7 @@ public class PlayerHud : BaseHud
 
 			if ( ReloadHint != null )
 			{
-				ReloadHint.SetClass( "visible", ( (float)weapon.AmmoClip / (float)weapon.MaxAmmoClip ) < 0.25f );
+				ReloadHint.SetClass( "visible", ( (float)weapon.AmmoClip / (float)weapon.MaxAmmoClip ) < 0.25f && !weapon.IsReloading );
 			}
 
 			if ( UseHint != null )
