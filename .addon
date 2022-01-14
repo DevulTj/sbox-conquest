@@ -1,11 +1,15 @@
 {
-    "sharedassets": "*.*",
-    "type": "game",
-
-    "depends": 
-    [
-        "base",
-        "citizen",
-        "rust"
-    ]
+  "SharedAssets": "*.*",
+  "Title": "Conquest",
+  "Type": "game",
+  "Org": "devultj",
+  "Ident": "conquest",
+  "FullIdent": "devultj.conquest",
+  "Schema": 1,
+  "NeedsUpgrade": false,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "Conquest"
 }
