@@ -567,8 +567,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		{
 			var pawn = client.Pawn;
 
-			//if ( !pawn.IsValid() || pawn == attacker )
-			//	continue;
+			if ( !pawn.IsValid() || pawn == attacker )
+				continue;
 
 			if ( pawn.LifeState != LifeState.Alive )
 				continue;
