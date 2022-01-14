@@ -256,6 +256,11 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 			IsBurstSprinting = false;
 	}
 
+	public Entity GetUsableEntity()
+	{
+		return FindUsable();
+	}
+
 	public override void FrameSimulate( Client cl )
 	{
 		base.FrameSimulate( cl );

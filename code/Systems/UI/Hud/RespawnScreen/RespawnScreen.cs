@@ -56,7 +56,7 @@ public class RespawnScreen : Panel
 	public string MapName { get { return Global.MapName; } }
 	public Label LoadoutPanel { get; set; }
 	// -
-	public string GSDisplayText { get { return GameState.Current.DisplayText; } }
+	public string GSDisplayText { get { return GameState.Current.DisplayText.ToUpper(); } }
 
 	public static Vector3 StartingCameraPosition { get; protected set; }
 	public static Rotation StartingCameraRotation { get; protected set; }

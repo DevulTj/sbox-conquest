@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Conquest.UI;
 using Sandbox;
 using Sandbox.UI;
 
@@ -26,7 +27,8 @@ public class PlayerHud : BaseHud
 
 	public Panel Inventory { get; set; }
 
-	public Panel ReloadHint { get; set; }
+	public InputHint ReloadHint { get; set; }
+	public InputHint UseHint { get; set; }
 
 	public List<InventoryItem> Items { get; set; } = new();
 
@@ -119,6 +121,11 @@ public class PlayerHud : BaseHud
 			if ( ReloadHint != null )
 			{
 				ReloadHint.SetClass( "visible", ( (float)weapon.AmmoClip / (float)weapon.MaxAmmoClip ) < 0.25f );
+			}
+
+			if ( UseHint != null )
+			{
+				UseHint.SetClass( "visible", player.GetUsableEntity().IsValid() );
 			}
 		}
 		else if ( Local.Pawn.ActiveChild is BaseGadget gadget )

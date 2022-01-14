@@ -11,11 +11,8 @@ public partial class InputHint : Panel
 {
 	// @ref
 	public Image Glyph { get; set; }
-
 	public InputButton Button { get; set; }
-
-	public string Content { get; set; } = "";
-
+	public string Text { get; set; }
 	public Label ActionLabel { get; set; }
 
 	public override void SetProperty( string name, string value )
@@ -24,8 +21,7 @@ public partial class InputHint : Panel
 
 		if ( name == "btn" )
 		{
-			var buttonEnumValue = (InputButton)Enum.Parse( typeof( InputButton ), value );
-			Button = buttonEnumValue;
+			SetButton( Enum.Parse<InputButton>( value, true ) );
 		}
 	}
 
@@ -37,14 +33,15 @@ public partial class InputHint : Panel
 	public override void SetContent( string value )
 	{
 		base.SetContent( value );
-		Content = value;
+
+		ActionLabel.SetText( value );
+		Text = value;
 	}
 
 	public override void Tick()
 	{
 		base.Tick();
 
-		ActionLabel.SetText( Content );
 		Glyph.Texture = Input.GetGlyph( Button );
 
 		if ( Glyph.Texture != null )

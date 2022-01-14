@@ -67,26 +67,38 @@
 		}
 	}
 
-	.generalhints
-	{
+	.generalhints {
 		position: absolute;
 		bottom: 20%;
 		right: 32px;
 		flex-direction: column;
 	}
 
-	.reloadhint {
+	.centerhints {
 		border-radius: 1px;
 		transition: all 0.2s ease;
 		position: absolute;
 		left: 56%;
 		top: 52%;
-		opacity: 0;
-		box-shadow: 0px 0px 20px rgba($friendly-marker, 0.15 );
 
+		flex-direction: column;
 
-		&.visible {
-			opacity: 1;
+		.reloadhint {
+			opacity: 0;
+
+			&.visible {
+				opacity: 1;
+			}
+		}
+
+		/*box-shadow: 0px 0px 20px rgba($friendly-marker, 0.15 );*/
+
+		.usehint {
+			opacity: 0;
+
+			&.visible {
+				opacity: 1;
+			}
 		}
 	}
 

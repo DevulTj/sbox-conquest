@@ -19,7 +19,6 @@ respawnscreen {
         justify-content: center;
         align-items: center;
         align-content: center;
-        padding: 4px;
 
         opacity: 0;
         height: 0;
@@ -44,9 +43,10 @@ respawnscreen {
             align-content: center;
             align-self: center;
             font-family: $font-primary;
-            color: rgba( 175, 175, 175, 1 );
-            font-weight: 900;
+            color: $friendly-marker;
+            font-weight: medium;
             font-size: 40px;
+            text-shadow: 1px 1px 1px rgba( black, 0.5 );
         }
     }
 
