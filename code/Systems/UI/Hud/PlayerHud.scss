@@ -9,6 +9,10 @@
 	top: 0;
 	transition: all 0.5s ease;
 
+	&.disabled {
+		display: none;
+	}
+
 	.main {
 		position: absolute;
 		width: 100%;

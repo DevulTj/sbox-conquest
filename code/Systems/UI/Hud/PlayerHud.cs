@@ -62,7 +62,18 @@ public class PlayerHud : BaseHud
 
 		var player = Local.Pawn as Player;
 		if ( player is null )
+		{
 			return;
+		}
+
+		if ( Game.Current.FindActiveCamera() == Local.Client.DevCamera )
+		{
+			SetClass( "disabled", true );
+			return;
+		}
+
+		SetClass( "disabled", false );
+
 
 		var controller = player.Controller;
 
