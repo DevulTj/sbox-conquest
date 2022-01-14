@@ -5,11 +5,16 @@ namespace Conquest;
 public partial class Player
 {
 	[ClientRpc]
-	protected void ClientRpcPing( Vector3 position, PingType pingType, Entity parent = null )
+	protected void ClientRpcPing( Vector3 position, PingType pingType, Entity parent = null, Client sender = null )
 	{
 		var ping = new PingEntity();
 		ping.Type = pingType;
 		ping.Position = position;
+
+		if ( sender.IsValid() )
+		{
+			ping.PingMessage = sender.Name.ToUpperInvariant();
+		}
 
 		if ( parent.IsValid() )
 			ping.SetParent( parent );
@@ -35,7 +40,7 @@ public partial class Player
 		}
 
 		if ( tr.Hit )
-			ClientRpcPing( Net.To.Squad( Client ), position, pingType, taggedEntity );
+			ClientRpcPing( Net.To.Squad( Client ), position, pingType, taggedEntity, Client );
 	}
 
 	protected TraceResult GetPingTrace()

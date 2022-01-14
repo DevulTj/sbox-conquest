@@ -8,7 +8,9 @@ public partial class PingEntity : ModelEntity, IHudMarkerEntity, IMiniMapEntity,
 {
 	public PingType Type { get; set; } = PingType.Ping;
 
-	public string Message => GetPingMessage();
+	public string PingMessage { get; set; }
+
+	public string Message => string.IsNullOrEmpty( PingMessage ) ? GetPingMessage() : PingMessage;
 
 	public async Task DeferredDeletion()
 	{
