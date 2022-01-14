@@ -129,8 +129,6 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
 
-		CreateFlybyTrigger();
-
 		base.Respawn();
 
 		SoftRespawn();

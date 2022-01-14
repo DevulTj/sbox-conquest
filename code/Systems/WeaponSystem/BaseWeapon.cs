@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Conquest.ExtensionMethods;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 
@@ -207,7 +208,6 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 			.UseHitboxes()
 			.HitLayer( CollisionLayer.Water, !inWater )
 			.HitLayer( CollisionLayer.Debris )
-			.WithAnyTags( "flyby", "world", "player" )
 			.Ignore( this )
 			.Ignore( lastEnt.IsValid() ? lastEnt : this, false )
 			.Size( radius )
@@ -554,6 +554,39 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		tracer.SetPosition( 2, end );
 	}
 
+
+	[ClientRpc]
+	public static void PlayFlybySound( string sound )
+	{
+		Sound.FromScreen( sound );
+	}
+
+	public static void PlayFlybySounds( Entity attacker, Entity victim, Vector3 start, Vector3 end, float minDistance, float maxDistance, string sound = $"bullet.flyby" )
+	{
+		foreach ( var client in Client.All )
+		{
+			var pawn = client.Pawn;
+
+			//if ( !pawn.IsValid() || pawn == attacker )
+			//	continue;
+
+			if ( pawn.LifeState != LifeState.Alive )
+				continue;
+
+			var distance = pawn.Position.DistanceToLine( start, end, out var _ );
+
+			if ( distance >= minDistance && distance <= maxDistance )
+			{
+				PlayFlybySound( To.Single( client ), sound );
+			}
+		}
+	}
+
+	public static void PlayFlybySounds( Entity attacker, Vector3 start, Vector3 end, float minDistance, float maxDistance, string sound = $"bullet.flyby" )
+	{
+		PlayFlybySounds( attacker, null, start, end, minDistance, maxDistance, sound );
+	}
+
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize, int bulletCount = 1, float bulletRange = 5000f )
 	{
 		//
@@ -577,21 +610,12 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 			int count = 0;
 			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * bulletRange, bulletSize ) )
 			{
-				if ( tr.Entity.Tags.Has( "flyby" ) )
-				{
-					if ( IsServer )
-					{
-						var player = tr.Entity.Parent as Player;
-						player.DoFlybySound( To.Single( player ) );
-					}
-
-					continue;
-				}
-				else
-					tr.Surface.DoBulletImpact( tr );
+				tr.Surface.DoBulletImpact( tr );
 
 				if ( !IsServer ) continue;
 				if ( !tr.Entity.IsValid() ) continue;
+
+				PlayFlybySounds( Owner, tr.Entity, tr.StartPos, tr.EndPos, bulletSize * 2f, bulletSize * 50f );
 
 				var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
 					.UsingTraceResult( tr )

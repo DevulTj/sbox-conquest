@@ -57,12 +57,11 @@
 		z-index: 99;
 
 		.glyph {
-			filter: sepia(100);
-			filter: hue-rotate(100deg);
+			filter: tint(#00ffd5);
 		}
 
 		label {
-			color: $friendly-marker;
+			color: #00ffd5;
 			text-shadow: 2px 2px 2px rgba( black, 0.2 );
 		}
 	}
