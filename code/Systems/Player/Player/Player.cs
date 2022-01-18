@@ -252,6 +252,15 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 		if ( !IsSprinting )
 			IsBurstSprinting = false;
+
+		if ( Input.Pressed( InputButton.SlotPrev ) )
+		{
+			Inventory.SwitchActiveSlot( -1, true );
+		}
+		else if ( Input.Pressed( InputButton.SlotNext ) )
+		{
+			Inventory.SwitchActiveSlot( 1, true );
+		}
 	}
 
 	public Entity GetUsableEntity()

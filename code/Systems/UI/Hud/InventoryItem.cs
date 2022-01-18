@@ -74,6 +74,8 @@ public class InventoryItem : Panel
 			showInfinity = true;
 		}
 
+		SlotNumber.Style.Opacity = Input.UsingController ? 0 : 1;
+
 		SlotNumber.SetButton( (InputButton)Enum.Parse( typeof( InputButton ), "Slot" + ( SlotIndex + 1 ) ) );
 
 		SetClass( "infinity", showInfinity );

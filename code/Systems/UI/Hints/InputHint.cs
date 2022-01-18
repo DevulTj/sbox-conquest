@@ -47,7 +47,7 @@ public partial class InputHint : Panel
 
 		if ( IsSet )
 		{
-			Texture glyphTexture = Input.GetGlyph( Button );
+			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Small, GlyphStyle.Light.WithSolidABXY().WithNeutralColorABXY() );
 			if ( glyphTexture != null )
 			{
 				Glyph.Texture = glyphTexture;

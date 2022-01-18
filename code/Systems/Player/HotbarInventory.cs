@@ -287,6 +287,9 @@ partial class PlayerInventory : IBaseInventory
 	public bool SetActiveSlot( int i, bool allowempty = false )
 	{
 		var ent = GetSlot( i );
+
+		Log.Info( ent );
+
 		if ( Owner.ActiveChild == ent )
 			return false;
 
@@ -315,6 +318,8 @@ partial class PlayerInventory : IBaseInventory
 			if ( nextSlot < 0 ) return false;
 			if ( nextSlot >= count ) return false;
 		}
+
+		Log.Info( nextSlot );
 
 		return SetActiveSlot( nextSlot, false );
 	}

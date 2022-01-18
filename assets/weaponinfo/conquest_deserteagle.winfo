@@ -8,7 +8,7 @@
 		sidewalkoffset = 10.0
 		aimoffset = [ -2.0, 10.1, 2.3 ]
 		aimangleoffset = [ 0.0, 0.0, 0.0 ]
-		offset = [ 2.0, 5.0, -2.0 ]
+		offset = [ 3.0, 4.0, -1.0 ]
 		crouchoffset = [ -100.0, 0.0, 0.0 ]
 		offsetlerpamount = 30.0
 		sprintrightrotation = -10.0

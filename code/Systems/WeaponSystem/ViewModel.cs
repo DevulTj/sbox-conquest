@@ -163,7 +163,7 @@ public partial class ViewModel : BaseViewModel
 
 		Rotation desiredRotation = Local.Pawn.EyeRot;
 		desiredRotation *= Rotation.FromAxis( Vector3.Up, velocity.y * RotationScale * (1 - aimLerp) );
-		desiredRotation *= Rotation.FromAxis( Vector3.Forward, -velocity.y * RotationScale * (1 - aimLerp * 0.0f) - 10f * (1 - aimLerp) );
+		desiredRotation *= Rotation.FromAxis( Vector3.Forward, -velocity.y * RotationScale * (1 - aimLerp * 0.0f) - 0f * (1 - aimLerp) );
 		desiredRotation *= Rotation.FromAxis( Vector3.Right, velocity.z * RotationScale * (1 - aimLerp) );
 
 		Rotation = desiredRotation;

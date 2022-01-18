@@ -26,6 +26,7 @@ public class PlayerHud : BaseHud
 	public Label PlayerName { get; set; }
 
 	public Panel Inventory { get; set; }
+	public Panel InventoryControls { get; set; }
 
 	public InputHint ReloadHint { get; set; }
 	public InputHint UseHint { get; set; }
@@ -40,8 +41,13 @@ public class PlayerHud : BaseHud
 	public PlayerHud()
 	{
 		Current = this;
+	}
 
-		for (int i = 0; i < 5; i++ )
+	protected override void PostTemplateApplied()
+	{
+		base.PostTemplateApplied();
+
+		for ( int i = 0; i < 5; i++ )
 		{
 			var item = Inventory.AddChild<InventoryItem>( i < 2 ? "large" : "small" );
 			item.SlotIndex = i;
@@ -153,6 +159,7 @@ public class PlayerHud : BaseHud
 			GunVitals.Style.Opacity = 0;
 		}
 
+		InventoryControls.Style.Opacity = Input.UsingController ? 1 : 0;
 		PlayerName.Text = $"{player.Client.Name.ToUpper()}";
 	}
 }

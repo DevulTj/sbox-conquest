@@ -17,6 +17,13 @@
             <KillFeedPanel></KillFeedPanel>
             <MiniMap></MiniMap>
             <SquadOverview></SquadOverview>
+
+            <div class="generalhints">
+                <inputhint btn="Score">Scoreboard</inputhint>
+                <inputhint btn="Run">Run</inputhint>
+                <inputhint btn="Flashlight">Ping</inputhint>
+                <inputhint btn="Attack1">Fire</inputhint>
+            </div>
         </div>
 
         <div class="centerhints">
@@ -26,12 +33,6 @@
 
         <div class="rightobjects" @ref="RightObjects">
             <ConquestChatBox></ConquestChatBox>
-
-            <div class="generalhints">
-                <inputhint class="invert" btn="Score">Scoreboard</inputhint>
-                <inputhint class="invert" btn="Run">Run</inputhint>
-                <inputhint class="invert" btn="Flashlight">Ping</inputhint>
-            </div>
 
             <div class="vitals" @ref="Vitals">
                 <div class="healthBar">
@@ -46,6 +47,11 @@
                 <text class="armor" @ref="Armor">100</text>
                 <text class="identity" @ref="PlayerName">DEVULTJ</text>
                 <div class="box" @ref="Inventory"></div>
+
+                <div class="inventorycontrols" @ref="InventoryControls">
+                    <inputhint class="prev" btn="SlotPrev"></inputhint>
+                    <inputhint class="next" btn="SlotNext"></inputhint>
+                </div>
             </div>
 
             <div class="gunvitals" @ref="GunVitals">
