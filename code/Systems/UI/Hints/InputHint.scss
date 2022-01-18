@@ -35,4 +35,11 @@ inputhint {
 
         flex-direction: row-reverse;
     }
+
+
+    &.noaction {
+        .action {
+            display: none;
+        }
+    }
 }

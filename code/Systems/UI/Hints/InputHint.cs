@@ -17,6 +17,11 @@ public partial class InputHint : Panel
 
 	protected bool IsSet = false;
 
+	public InputHint()
+	{
+		BindClass( "noaction", () => string.IsNullOrEmpty( Text ) );
+	}
+
 	public override void SetProperty( string name, string value )
 	{
 		base.SetProperty( name, value );
@@ -47,12 +52,12 @@ public partial class InputHint : Panel
 
 		if ( IsSet )
 		{
-			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Small, GlyphStyle.Knockout.WithSolidABXY().WithNeutralColorABXY() );
+			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Medium, GlyphStyle.Knockout.WithSolidABXY().WithNeutralColorABXY() );
 			if ( glyphTexture != null )
 			{
 				Glyph.Texture = glyphTexture;
-				Glyph.Style.Width = glyphTexture.Width;
-				Glyph.Style.Height = glyphTexture.Height;
+				Glyph.Style.Width = glyphTexture.Width / 2f;
+				Glyph.Style.Height = glyphTexture.Height / 2f;
 			}
 			else
 			{

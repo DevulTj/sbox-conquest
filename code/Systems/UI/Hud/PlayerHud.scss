@@ -75,6 +75,13 @@
 		top: 5%;
 		left: 32px;
 		flex-direction: column;
+
+		.firing {
+			.inline {
+				padding-right: 0px;
+				padding-left: 0px;
+			}
+		}
 	}
 
 	.centerhints {
