@@ -52,12 +52,12 @@ public partial class InputHint : Panel
 
 		if ( IsSet )
 		{
-			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Medium, GlyphStyle.Knockout.WithSolidABXY().WithNeutralColorABXY() );
+			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Small, GlyphStyle.Knockout.WithSolidABXY().WithNeutralColorABXY() );
 			if ( glyphTexture != null )
 			{
 				Glyph.Texture = glyphTexture;
-				Glyph.Style.Width = glyphTexture.Width / 2f;
-				Glyph.Style.Height = glyphTexture.Height / 2f;
+				Glyph.Style.Width = glyphTexture.Width;
+				Glyph.Style.Height = glyphTexture.Height;
 			}
 			else
 			{
