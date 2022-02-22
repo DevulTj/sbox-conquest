@@ -50,14 +50,9 @@ public class PlayerAnimator : PawnAnimator
 		//
 		// Look in the direction what the player's input is facing
 		//
-		SetLookAt( "lookat_pos", lookPos ); // old
-		SetLookAt( "aimat_pos", aimPos ); // old
-
 		SetLookAt( "aim_eyes", lookPos );
 		SetLookAt( "aim_head", lookPos );
 		SetLookAt( "aim_body", aimPos );
-
-		SetAnimParameter( "b_ducked", HasTag( "ducked" ) ); // old
 
 		if ( HasTag( "ducked" ) ) duck = duck.LerpTo( 1.0f, Time.Delta * 10.0f );
 		else duck = duck.LerpTo( 0.0f, Time.Delta * 5.0f );
@@ -71,7 +66,6 @@ public class PlayerAnimator : PawnAnimator
 		else
 		{
 			SetAnimParameter( "holdtype", 0 );
-			SetAnimParameter( "aimat_weight", 0.5f ); // old
 			SetAnimParameter( "aim_body_weight", 0.5f );
 		}
 
