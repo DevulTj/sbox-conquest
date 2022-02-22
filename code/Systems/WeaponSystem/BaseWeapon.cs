@@ -409,7 +409,6 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		base.SimulateAnimator( anim );
 
 		anim.SetAnimParameter( "holdtype", (int)WeaponInfo.HoldType );
-		anim.SetAnimParameter( "aimat_weight", 1.0f );
 	}
 
 	public override void Simulate( Client owner )
