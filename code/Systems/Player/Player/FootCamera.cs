@@ -28,7 +28,7 @@ public class FootCamera : CameraMode
 	public override void Update()
 	{
 		var pawn = Local.Pawn as Player;
-		if ( pawn == null ) return;
+		if ( !pawn.IsValid() ) return;
 
 		var eyePos = pawn.EyePosition;
 		if ( eyePos.Distance( lastPos ) < 300 ) // TODO: Tweak this, or add a way to invalidate lastpos when teleporting
@@ -42,7 +42,7 @@ public class FootCamera : CameraMode
 
 		Rotation = pawn.EyeRotation;
 
-		var sliding = (pawn.Controller as WalkController).Slide.IsActive;
+		var sliding = (pawn.Controller as WalkController)?.Slide.IsActive ?? false;
 		if ( sliding || LeanAmount != 0f )
 		{
 			LeanAmount = LeanAmount.LerpTo( sliding ? pawn.Velocity.Dot( Rotation.Right ) * 0.03f : 0, Time.Delta * 15.0f );
