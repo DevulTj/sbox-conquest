@@ -9,7 +9,7 @@ namespace Conquest;
 
 public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
-	[Net, Predicted] public CameraMode MainCamera { get; set; }
+	[BindComponent] public CameraMode MainCamera { get; }
 	[Net, Predicted] private bool _IsSprinting { get; set; }
 	[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
 	[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
@@ -55,7 +55,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 	public override void Spawn()
 	{
-		MainCamera = new FootCamera();
+		Components.GetOrCreate<FootCamera>();
 		LastCamera = MainCamera;
 
 		base.Spawn();
@@ -121,7 +121,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		Controller = new WalkController();
 		Animator = new PlayerAnimator();
 
-		MainCamera = Components.GetOrCreate<FootCamera>();
+		Components.GetOrCreate<FootCamera>();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
