@@ -10,6 +10,7 @@ namespace Conquest;
 public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
 	[BindComponent] public CameraMode MainCamera { get; }
+	[BindComponent] public SpectateRagdollCamera DeathCamera { get; }
 	[Net, Predicted] private bool _IsSprinting { get; set; }
 	[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
 	[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
@@ -55,7 +56,9 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 	public override void Spawn()
 	{
+		Components.RemoveAny<SpectateRagdollCamera>();
 		Components.GetOrCreate<FootCamera>();
+
 		LastCamera = MainCamera;
 
 		base.Spawn();
@@ -167,7 +170,9 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		Game.Current.Scores.RemoveScore( Team, 1 );
 
 		Controller = null;
-		CameraMode = new SpectateRagdollCamera();
+
+		Components.RemoveAny<FootCamera>();
+		Components.GetOrCreate<SpectateRagdollCamera>();
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
