@@ -72,7 +72,7 @@ public class PlayerHud : BaseHud
 			return;
 		}
 
-		if ( Game.Current.FindActiveCamera() == Local.Client.DevCamera )
+		if ( Game.Current.FindActiveCamera() == Local.Client.Components.Get<DevCamera>() )
 		{
 			SetClass( "disabled", true );
 			return;
@@ -117,9 +117,9 @@ public class PlayerHud : BaseHud
 		HealthBar.SetClass( "hurt", healthPercent < 0.4 );
 		HealthBar.SetClass( "dying", healthPercent < 0.2 );
 
-		var weapon = Local.Pawn.ActiveChild as BaseWeapon;
+		var weapon = player.ActiveChild as BaseWeapon;
 
-		if ( Local.Pawn.ActiveChild is MeleeWeapon melee )
+		if ( player.ActiveChild is MeleeWeapon melee )
 		{
 			GunVitals.Style.Opacity = 1;
 
@@ -145,7 +145,7 @@ public class PlayerHud : BaseHud
 				UseHint.SetClass( "visible", player.GetUsableEntity().IsValid() );
 			}
 		}
-		else if ( Local.Pawn.ActiveChild is BaseGadget gadget )
+		else if ( player.ActiveChild is BaseGadget gadget )
 		{
 			GunVitals.Style.Opacity = 1;
 

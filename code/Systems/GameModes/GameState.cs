@@ -55,7 +55,7 @@ public partial class GameState : BaseNetworkable
 	/// <summary>
 	/// Game States can override the current game camera view
 	/// </summary>
-	public Camera Camera { get; set; }
+	public CameraMode Camera { get; set; }
 	public virtual bool HasCamera => Camera is not null;
 
 	public virtual void Tick( float delta )

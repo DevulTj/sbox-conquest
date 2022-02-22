@@ -31,11 +31,11 @@ partial class AmmoCrateGadget : BaseGadget
 			var entity = new AmmoCrateEntity()
 			{
 
-				Position = Owner.EyePos + Owner.EyeRot.Forward * 50 + Owner.EyeRot.Down * 10f,
-				Rotation = Owner.EyeRot
+				Position = Owner.EyePosition + Owner.EyeRotation.Forward * 50 + Owner.EyeRotation.Down * 10f,
+				Rotation = Owner.EyeRotation
 			};
 
-			entity.Velocity = Owner.EyeRot.Forward * 500;
+			entity.Velocity = Owner.EyeRotation.Forward * 500;
 
 			CurrentAmmoCrate = entity;
 		}

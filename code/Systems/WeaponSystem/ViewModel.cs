@@ -161,7 +161,7 @@ public partial class ViewModel : BaseViewModel
 
 		velocity = velocity.Normal * Math.Clamp( velocity.Length, 0, VelocityClamp );
 
-		Rotation desiredRotation = Local.Pawn.EyeRot;
+		Rotation desiredRotation = Local.Pawn.EyeRotation;
 		desiredRotation *= Rotation.FromAxis( Vector3.Up, velocity.y * RotationScale * (1 - aimLerp) );
 		desiredRotation *= Rotation.FromAxis( Vector3.Forward, -velocity.y * RotationScale * (1 - aimLerp * 0.0f) - 0f * (1 - aimLerp) );
 		desiredRotation *= Rotation.FromAxis( Vector3.Right, velocity.z * RotationScale * (1 - aimLerp) );
@@ -174,7 +174,7 @@ public partial class ViewModel : BaseViewModel
 		Position += left * (velocity.y * VelocityScale + desiredOffset.y);
 		Position += up * (velocity.z * VelocityScale + desiredOffset.z + upDownOffset * (1 - aimLerp));
 
-		Position += (desiredRotation.Forward - Owner.EyeRot.Forward) * -PivotForce;
+		Position += (desiredRotation.Forward - Owner.EyeRotation.Forward) * -PivotForce;
 
 		// Apply sprinting / avoidance offsets
 		var offsetLerp = MathF.Max( sprintLerp, burstSprintLerp );

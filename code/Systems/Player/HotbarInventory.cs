@@ -32,20 +32,30 @@ partial class PlayerInventory : IBaseInventory
 
 	public Entity Active => Owner.ActiveChild;
 
+	/// <summary>
+	/// Return true if this item belongs in the inventory
+	/// </summary>
+	public virtual bool CanAdd( Entity ent )
+	{
+		if ( ent is BaseCarriable bc && bc.CanCarry( Owner ) )
+			return true;
+
+		return false;
+	}
+
 	public bool Add( Entity ent, bool makeactive = false )
 	{
 		Host.AssertServer();
 
-		//
-		// Can't pickup if already owned
-		//
-		if ( ent.Owner != null )
+		var carriable = ent as BaseCarriable;
+
+		if ( !CanAdd( ent ) )
 			return false;
 
 		//
 		// Let the entity reject the inventory
 		//
-		if ( !ent.CanCarry( Owner ) )
+		if ( !carriable.CanCarry( Owner ) )
 			return false;
 
 		var weapon = ent as Carriable;
@@ -86,7 +96,7 @@ partial class PlayerInventory : IBaseInventory
 			};
 		}
 
-		ent.OnCarryStart( Owner );
+		carriable?.OnCarryStart( Owner );
 
 		if ( makeactive )
 			SetActive( ent );
@@ -146,7 +156,9 @@ partial class PlayerInventory : IBaseInventory
 		if ( !Contains( ent ) )
 			return false;
 
-		ent.OnCarryDrop( Owner );
+		var carriable = ent as BaseCarriable;
+
+		carriable?.OnCarryDrop( Owner );
 
 		return ent.Parent == null;
 	}

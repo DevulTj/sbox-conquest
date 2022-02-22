@@ -170,23 +170,22 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 	/// <summary>
 	/// Which camera should we be rendering from?
 	/// </summary>
-	public virtual ICamera FindActiveCamera()
+	public virtual CameraMode FindActiveCamera()
 	{
 		// Priority 1 - DevCam
-		if ( Local.Client.DevCamera != null )
-			return Local.Client.DevCamera;
+		var devCam = Local.Client.Components.Get<DevCamera>();
+		if ( devCam != null ) return devCam;
 
 		// Priority 2 - GameState
 		if ( GameState.Current.HasCamera )
 			return GameState.Current.Camera;
 		
-		// Priority 3 - Client
-		if ( Local.Client.Camera != null )
-			return Local.Client.Camera;
+		var clientCam = Local.Client.Components.Get<CameraMode>();
+		if ( clientCam != null ) return clientCam;
 
 		// Priority 4 - Pawn
-		if ( Local.Pawn != null )
-			return Local.Pawn.Camera;
+		var pawnCam = Local.Pawn?.Components.Get<CameraMode>();
+		if ( pawnCam != null ) return pawnCam;
 
 		return null;
 	}
@@ -225,22 +224,8 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		}
 	}
 
-	/// <summary>
-	/// The player wants to enable the devcam. Probably shouldn't allow this
-	/// unless you're in a sandbox mode or they're a dev.
-	/// </summary>
-	public virtual void DoPlayerDevCam( Client player )
-	{
-		Host.AssertServer();
-
-		if ( !player.HasPermission( "devcam" ) )
-			return;
-
-		player.DevCamera = player.DevCamera == null ? new DevCamera() : null;
-	}
-
 	[Predicted]
-	public Camera LastCamera { get; set; }
+	public CameraMode LastCamera { get; set; }
 
 	protected float TargetFieldOfView = 90;
 	public virtual float CalculateFOV( float ResultFOV )
@@ -253,7 +238,7 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 	/// Called to set the camera up, clientside only.
 	/// </summary>
 	public override CameraSetup BuildCamera( CameraSetup camSetup )
-	{	
+	{
 		if ( RespawnScreen.State != TransitionState.None )
 		{
 			var camera = RespawnScreen.CameraSetup;
@@ -268,7 +253,7 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		if ( LastCamera != cam )
 		{
 			LastCamera?.Deactivated();
-			LastCamera = cam as Camera;
+			LastCamera = cam as CameraMode;
 			LastCamera?.Activated();
 		}
 

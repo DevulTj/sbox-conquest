@@ -102,7 +102,7 @@ public partial class WalkController : BasePlayerController
 		if ( !Pawn.Client.IsBot )
 		{
 			EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
-			EyeRot = Input.Rotation;
+			EyeRotation = Input.Rotation;
 		}
 
 		UpdateBBox();
@@ -115,7 +115,7 @@ public partial class WalkController : BasePlayerController
 		if ( !Pawn.Client.IsBot )
 		{
 			EyePosLocal += TraceOffset;
-			EyeRot = Input.Rotation;
+			EyeRotation = Input.Rotation;
 		}
 
 		UpdateBBox();
@@ -145,7 +145,7 @@ public partial class WalkController : BasePlayerController
 		// RunLadderMode
 
 		CheckLadder();
-		Swimming = Pawn.WaterLevel.Fraction > 0.6f;
+		Swimming = Pawn.WaterLevel > 0.6f;
 
 		//
 		// Start Gravity

@@ -9,14 +9,14 @@ namespace Conquest;
 
 public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
-	[Net, Predicted] public ICamera MainCamera { get; set; }
+	[Net, Predicted] public CameraMode MainCamera { get; set; }
 	[Net, Predicted] private bool _IsSprinting { get; set; }
 	[Net, Predicted] public TimeSince SinceSprintStopped { get; set; }
 	[Net, Predicted] public bool IsBurstSprinting { get; protected set; }
 	[Net, Predicted] public bool IsAiming { get; protected set; }
 	[Net, Local] public CapturePointEntity CapturePoint { get; set; }
 
-	public ICamera LastCamera { get; set; }
+	public CameraMode LastCamera { get; set; }
 	public TimeSince TimeSinceDeath { get; set; }
 	public Clothing.Container Clothing { get; set; } = new();
 
@@ -121,8 +121,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		Controller = new WalkController();
 		Animator = new PlayerAnimator();
 
-		MainCamera = LastCamera as FootCamera;
-		Camera = MainCamera;
+		MainCamera = Components.GetOrCreate<FootCamera>();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -168,7 +167,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		Game.Current.Scores.RemoveScore( Team, 1 );
 
 		Controller = null;
-		Camera = new SpectateRagdollCamera();
+		CameraMode = new SpectateRagdollCamera();
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
@@ -188,7 +187,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		}
 	}
 
-	public ICamera GetActiveCamera()
+	public CameraMode GetActiveCamera()
 	{
 		return MainCamera;
 	}
@@ -211,7 +210,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 			if ( dropped.IsValid() )
 			{
 				if ( dropped.PhysicsGroup != null )
-					dropped.PhysicsGroup.Velocity = Velocity + (EyeRot.Forward + EyeRot.Up) * 300;
+					dropped.PhysicsGroup.Velocity = Velocity + (EyeRotation.Forward + EyeRotation.Up) * 300;
 
 				TimeSinceWeaponDropped = 0;
 
@@ -347,7 +346,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		if ( LifeState != LifeState.Alive )
 			return;
 
-		Camera = GetActiveCamera();
+		CameraMode = GetActiveCamera();
 
 		var controller = GetActiveController();
 		if ( controller != null )

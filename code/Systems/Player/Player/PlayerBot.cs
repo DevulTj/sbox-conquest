@@ -11,7 +11,7 @@ public class PlayerBot : Bot
 
 		cl.Pawn.Position = worldPos;
 		cl.Pawn.Rotation = Rotation.From( 0.0f, ang.yaw, 0.0f );
-		cl.Pawn.EyeRot = cl.Pawn.Rotation;
+		cl.Pawn.EyeRotation = cl.Pawn.Rotation;
 	}
 
 	[AdminCmd("conquest_ai_add", Help = "Spawn a Conquest bot.")]
@@ -24,12 +24,12 @@ public class PlayerBot : Bot
 		// Create an instance of your custom bot.
 		var bot = new PlayerBot();
 
-		var tr = Trace.Ray( caller.EyePos, caller.EyePos + caller.EyeRot.Forward * 10000f )
+		var tr = Trace.Ray( caller.EyePosition, caller.EyePosition + caller.EyeRotation.Forward * 10000f )
 			.Radius( 8 )
 			.Ignore( caller )
 			.Run();
 
-		var callerAng = caller.EyeRot.Angles();
+		var callerAng = caller.EyeRotation.Angles();
 
 		_ = WaitToMove( bot.Client, tr.EndPos, callerAng.WithYaw( callerAng.yaw + 180f ) );
 	}

@@ -21,14 +21,6 @@ public partial class Game
 		player.Respawn();
 	}
 
-	[ServerCmd( "devcam", Help = "Enables the devcam. Input to the player will stop and you'll be able to freefly around." )]
-	public static void DevcamCommand()
-	{
-		if ( ConsoleSystem.Caller == null ) return;
-
-		(Current as Game)?.DoPlayerDevCam( ConsoleSystem.Caller );
-	}
-
 	[ServerCmd( "conquest_deploy" )]
 	public static void DeployCommand()
 	{

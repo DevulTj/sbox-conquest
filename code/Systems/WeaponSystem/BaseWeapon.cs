@@ -54,7 +54,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 			
 		
 		if ( WeaponInfo.CachedWorldModel is not null && !WeaponInfo.CachedWorldModel.IsError )
-			SetModel( WeaponInfo.CachedWorldModel );
+			Model = WeaponInfo.CachedWorldModel;
 	}
 
 	[Net, Predicted]
@@ -203,7 +203,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		{
 			currentAmountOfHits++;
 
-			bool inWater = Physics.TestPointContents( _start, CollisionLayer.Water );
+			bool inWater = Map.Physics.IsPointWater( _start );
 			var tr = Trace.Ray( _start, _end )
 			.UseHitboxes()
 			.HitLayer( CollisionLayer.Water, !inWater )
@@ -267,7 +267,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 		};
 
 		ViewModelEntity = viewmodel;
-		ViewModelEntity.SetModel( WeaponInfo.CachedViewModel );
+		ViewModelEntity.Model = WeaponInfo.CachedViewModel;
 
 		// Bonemerge hands
 		if ( WeaponInfo.UseCustomHands && !string.IsNullOrEmpty( WeaponInfo.HandsAsset ) )
@@ -378,7 +378,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 			EnableSelfCollisions = false
 		};
 
-		PickupTrigger.PhysicsBody.EnableAutoSleeping = false;
+		PickupTrigger.PhysicsBody.AutoSleep = false;
 
 		AmmoClip = WeaponInfo.ClipSize;
 	}
@@ -399,7 +399,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		IsReloading = true;
 		WantsToStopReloading = false;
 
-		( Owner as AnimEntity ).SetAnimBool( "b_reload", true );
+		( Owner as AnimEntity ).SetAnimParameter( "b_reload", true );
 
 		StartReloadEffects();
 	}
@@ -408,8 +408,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 	{
 		base.SimulateAnimator( anim );
 
-		anim.SetParam( "holdtype", (int)WeaponInfo.HoldType );
-		anim.SetParam( "aimat_weight", 1.0f );
+		anim.SetAnimParameter( "holdtype", (int)WeaponInfo.HoldType );
+		anim.SetAnimParameter( "aimat_weight", 1.0f );
 	}
 
 	public override void Simulate( Client owner )
@@ -435,7 +435,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 	[ClientRpc]
 	protected void SendReloadFinished()
 	{
-		ViewModelEntity?.SetAnimBool( "reload_finished", true );
+		ViewModelEntity?.SetAnimParameter( "reload_finished", true );
 	}
 
 	bool WantsToStopReloading = false;
@@ -477,7 +477,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 	[ClientRpc]
 	public virtual void StartReloadEffects()
 	{
-		ViewModelEntity?.SetAnimBool( "reload", true );
+		ViewModelEntity?.SetAnimParameter( "reload", true );
 	}
 
 	protected bool CanPrimaryAttackSemi()
@@ -598,7 +598,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 
 		for ( int i = 0; i < bulletCount; i++ )
 		{
-			var forward = Owner.EyeRot.Forward;
+			var forward = Owner.EyeRotation.Forward;
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
@@ -608,7 +608,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 			//
 
 			int count = 0;
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * bulletRange, bulletSize ) )
+			foreach ( var tr in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * bulletRange, bulletSize ) )
 			{
 				tr.Surface.DoBulletImpact( tr );
 
@@ -691,7 +691,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		//
 		// Set animation property
 		//
-		( Owner as AnimEntity ).SetAnimBool( "b_attack", true );
+		( Owner as AnimEntity ).SetAnimParameter( "b_attack", true );
 
 		if ( WeaponInfo.DefaultFireMode == FireMode.Burst )
 			BurstCount++;
@@ -716,7 +716,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 
 		WeaponInfo.ScreenShake.Run();
 
-		ViewModelEntity?.SetAnimBool( WeaponInfo.AttackAnimBool, true );
+		ViewModelEntity?.SetAnimParameter( WeaponInfo.AttackAnimBool, true );
 		CrosshairPanel?.CreateEvent( WeaponInfo.AttackAnimBool );
 	}
 

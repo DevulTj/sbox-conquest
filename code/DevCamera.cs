@@ -4,7 +4,7 @@ using Sandbox.UI;
 
 namespace Conquest;
 
-public class DevCamera : Camera
+public class DevCamera : CameraMode
 {
 	Angles LookAngles;
 	Vector3 MoveInput;

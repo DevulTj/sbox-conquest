@@ -11,7 +11,7 @@ public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity, IMiniMapEnt
 		var caller = ConsoleSystem.Caller.Pawn;
 		var entity = new AmmoCrateEntity();
 
-		var tr = Trace.Ray( caller.EyePos, caller.EyeRot.Forward * 1000f )
+		var tr = Trace.Ray( caller.EyePosition, caller.EyeRotation.Forward * 1000f )
 			.WorldAndEntities()
 			.Ignore( caller )
 			.Run();

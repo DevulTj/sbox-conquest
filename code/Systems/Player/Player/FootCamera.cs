@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Conquest;
 
-public class FootCamera : Camera
+public class FootCamera : CameraMode
 {
 	Vector3 lastPos;
 	public float LeanAmount { get; set; } = 0;
@@ -17,8 +17,8 @@ public class FootCamera : Camera
 		var pawn = Local.Pawn;
 		if ( pawn == null ) return;
 
-		Position = pawn.EyePos;
-		Rotation = pawn.EyeRot;
+		Position = pawn.EyePosition;
+		Rotation = pawn.EyeRotation;
 
 		lastPos = Position;
 	}
@@ -30,7 +30,7 @@ public class FootCamera : Camera
 		var pawn = Local.Pawn as Player;
 		if ( pawn == null ) return;
 
-		var eyePos = pawn.EyePos;
+		var eyePos = pawn.EyePosition;
 		if ( eyePos.Distance( lastPos ) < 300 ) // TODO: Tweak this, or add a way to invalidate lastpos when teleporting
 		{
 			Position = Vector3.Lerp( eyePos.WithZ( lastPos.z ), eyePos, 20.0f * Time.Delta );
@@ -40,7 +40,7 @@ public class FootCamera : Camera
 			Position = eyePos;
 		}
 
-		Rotation = pawn.EyeRot;
+		Rotation = pawn.EyeRotation;
 
 		var sliding = (pawn.Controller as WalkController).Slide.IsActive;
 		if ( sliding || LeanAmount != 0f )
@@ -68,7 +68,7 @@ public class FootCamera : Camera
 		{
 			if ( weapon.IsReloading )
 			{
-				var transform = pawn.GetAttachment( "hat", false ) ?? new Transform( pawn.EyePos, pawn.EyeRot, 1 );
+				var transform = pawn.GetAttachment( "hat", false ) ?? new Transform( pawn.EyePosition, pawn.EyeRotation, 1 );
 				var attachmentAng = transform.Rotation.Angles() * -1f;
 
 				reloadAng = Angles.Lerp( reloadAng, attachmentAng * 0.02f, Time.Delta * 10f );
@@ -86,10 +86,11 @@ public class FootCamera : Camera
 		lastPos = Position;
 	}
 
+
 	public override void BuildInput( InputBuilder input )
 	{
-		var pawn = Local.Pawn;
-		if ( pawn == null ) return;
+		var pawn = Local.Pawn as Player;
+		if ( !pawn.IsValid() ) return;
 
 		var weapon = pawn.ActiveChild as BaseWeapon;
 

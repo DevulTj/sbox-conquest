@@ -35,7 +35,7 @@ public partial class Player
 			{
 				pingType = PingType.Enemy;
 				//taggedEntity = tr.Entity;
-				position = tr.Entity.EyePos;
+				position = tr.Entity.EyePosition;
 			}
 		}
 
@@ -45,7 +45,7 @@ public partial class Player
 
 	protected TraceResult GetPingTrace()
 	{
-		var tr = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 10000f ).WorldAndEntities().Ignore( this ).Radius( 1f ).Run();
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 10000f ).WorldAndEntities().Ignore( this ).Radius( 1f ).Run();
 
 		return tr;
 	}

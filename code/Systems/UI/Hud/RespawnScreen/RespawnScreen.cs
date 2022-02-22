@@ -110,7 +110,7 @@ public class RespawnScreen : Panel
 		return State switch
 		{
 			TransitionState.ToOverview => OverviewPosition,
-			TransitionState.FromOverview => Local.Pawn.EyePos,
+			TransitionState.FromOverview => Local.Pawn.EyePosition,
 			_ => Vector3.Zero
 		};
 	}
@@ -120,7 +120,7 @@ public class RespawnScreen : Panel
 		return State switch
 		{
 			TransitionState.ToOverview => OverviewRotation,
-			TransitionState.FromOverview => Local.Pawn.EyeRot,
+			TransitionState.FromOverview => Local.Pawn.EyeRotation,
 			_ => Rotation.Identity
 		};
 	}

@@ -42,7 +42,7 @@ public partial class AIPlayer : Player
 
 		List<Player> foundPlayers = new();
 
-		foreach ( var ent in Physics.GetEntitiesInSphere( Position, SeekRadius ) )
+		foreach ( var ent in Entity.FindInSphere( Position, SeekRadius ) )
 		{
 			if ( ent is Player player && player.LifeState == LifeState.Alive )
 			{
@@ -61,7 +61,7 @@ public partial class AIPlayer : Player
 
 			LookDir = Vector3.Lerp( LookDir, InputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
 
-			var tr = Trace.Ray( EyePos, TargetPlayer.Position ).WithoutTags( "flyby" ).Ignore( this ).Run();
+			var tr = Trace.Ray( EyePosition, TargetPlayer.Position ).WithoutTags( "flyby" ).Ignore( this ).Run();
 
 			if ( Position.Distance( TargetPlayer.Position ) < 1024f && tr.Entity == TargetPlayer )
 			{
@@ -86,7 +86,7 @@ public partial class AIPlayer : Player
 				var targetDirection = targetDelta.Normal;
 
 				// should be a helper func
-				EyeRot = Rotation.From( new Angles(
+				EyeRotation = Rotation.From( new Angles(
 					((float)Math.Asin( targetDirection.z )).RadianToDegree() * -1.0f,
 					((float)Math.Atan2( targetDirection.y, targetDirection.x )).RadianToDegree(),
 					0.0f ) );
@@ -114,7 +114,7 @@ public partial class AIPlayer : Player
 
 				var animHelper = new CitizenAnimationHelper( this );
 
-				animHelper.WithLookAt( EyePos + LookDir );
+				animHelper.WithLookAt( EyePosition + LookDir );
 				animHelper.WithVelocity( Velocity );
 				animHelper.WithWishVelocity( InputVelocity );
 			}

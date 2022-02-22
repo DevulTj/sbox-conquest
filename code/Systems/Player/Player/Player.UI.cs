@@ -34,7 +34,7 @@ public partial class Player
 
 	bool CalculateVis()
 	{
-		var tr = Trace.Ray( CurrentView.Position, EyePos )
+		var tr = Trace.Ray( CurrentView.Position, EyePosition )
 			.WorldAndEntities()
 			.Ignore( Local.Pawn )
 			.Run();
@@ -94,7 +94,7 @@ public partial class Player
 		}
 
 		info.Text = Client.Name;
-		info.Position = EyePos + Rotation.Up * 15f;
+		info.Position = EyePosition + Rotation.Up * 15f;
 
 		info.Classes["friendly"] = friendState == TeamSystem.FriendlyStatus.Friendly;
 		info.Classes["enemy"] = friendState == TeamSystem.FriendlyStatus.Hostile;
