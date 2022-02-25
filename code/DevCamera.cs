@@ -98,8 +98,8 @@ public class DevCamera : CameraMode
 		if ( input.Pressed( InputButton.Attack1 ) )
 		{
 			var tr = Trace.Ray( Position, Position + Rotation.Forward * 4096 ).Run();
-			PivotPos = tr.EndPos;
-			PivotDist = Vector3.DistanceBetween( tr.EndPos, Position );
+			PivotPos = tr.EndPosition;
+			PivotDist = Vector3.DistanceBetween( tr.EndPosition, Position );
 		}
 
 		if ( input.Down( InputButton.Attack2 ) )

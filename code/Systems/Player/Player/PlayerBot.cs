@@ -31,7 +31,7 @@ public class PlayerBot : Bot
 
 		var callerAng = caller.EyeRotation.Angles();
 
-		_ = WaitToMove( bot.Client, tr.EndPos, callerAng.WithYaw( callerAng.yaw + 180f ) );
+		_ = WaitToMove( bot.Client, tr.EndPosition, callerAng.WithYaw( callerAng.yaw + 180f ) );
 	}
 
 	public override void BuildInput(InputBuilder builder)

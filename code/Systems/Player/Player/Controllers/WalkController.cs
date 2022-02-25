@@ -101,7 +101,7 @@ public partial class WalkController : BasePlayerController
 
 		if ( !Pawn.Client.IsBot )
 		{
-			EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
+			EyeLocalPosition = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
 			EyeRotation = Input.Rotation;
 		}
 
@@ -110,11 +110,11 @@ public partial class WalkController : BasePlayerController
 
 	public override void Simulate()
 	{
-		EyePosLocal = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
+		EyeLocalPosition = Vector3.Up * (this.maxs.z - 10 * Pawn.Scale);
 
 		if ( !Pawn.Client.IsBot )
 		{
-			EyePosLocal += TraceOffset;
+			EyeLocalPosition += TraceOffset;
 			EyeRotation = Input.Rotation;
 		}
 
@@ -335,7 +335,7 @@ public partial class WalkController : BasePlayerController
 
 			if ( pm.Fraction == 1 )
 			{
-				Position = pm.EndPos;
+				Position = pm.EndPosition;
 				StayOnGround();
 				return;
 			}
@@ -665,7 +665,7 @@ public partial class WalkController : BasePlayerController
 
 		if ( bMoveToEndPos && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
 		{
-			Position = pm.EndPos;
+			Position = pm.EndPosition;
 		}
 
 	}
@@ -740,7 +740,7 @@ public partial class WalkController : BasePlayerController
 
 		// See how far up we can go without getting stuck
 		var trace = TraceBBox( Position, start );
-		start = trace.EndPos;
+		start = trace.EndPosition;
 
 		// Now trace down from a known safe position
 		trace = TraceBBox( start, end );
@@ -754,7 +754,7 @@ public partial class WalkController : BasePlayerController
 		// float flDelta = fabs( mv->GetAbsOrigin().z - trace.m_vEndPos.z );
 		// if ( flDelta > 0.5f * DIST_EPSILON )
 
-		Position = trace.EndPos;
+		Position = trace.EndPosition;
 	}
 
 	void RestoreGroundPos()

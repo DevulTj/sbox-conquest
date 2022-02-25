@@ -26,7 +26,7 @@ public partial class Player
 
 		var pingType = PingType.Ping;
 
-		Vector3 position = tr.EndPos;
+		Vector3 position = tr.EndPosition;
 		Entity taggedEntity = null;
 
 		if ( tr.Entity is Player enemy )

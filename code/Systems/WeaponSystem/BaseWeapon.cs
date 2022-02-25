@@ -220,21 +220,21 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 
 			if ( tr.Entity is GlassShard )
 			{
-				_start = tr.EndPos;
-				_end = tr.EndPos + (tr.Direction * 5000);
+				_start = tr.EndPosition;
+				_end = tr.EndPosition + (tr.Direction * 5000);
 			}
 			else if ( tr.Entity.IsValid() && tr.Entity.Tags.Has( "flyby" ) )
 			{
-				_start = tr.EndPos;
-				_end = tr.EndPos + (tr.Direction * 5000);
+				_start = tr.EndPosition;
+				_end = tr.EndPosition + (tr.Direction * 5000);
 			}
 			else
 			{
 				var reflectDir = CalculateDirection( tr, ref currentAmountOfHits );
 				var angle = reflectDir.Angle( tr.Direction );
 
-				_start = tr.EndPos;
-				_end = tr.EndPos + (reflectDir * 5000);
+				_start = tr.EndPosition;
+				_end = tr.EndPosition + (reflectDir * 5000);
 
 				if ( !ShouldContinue( tr, angle ) )
 				{
@@ -614,9 +614,9 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 				if ( !IsServer ) continue;
 				if ( !tr.Entity.IsValid() ) continue;
 
-				PlayFlybySounds( Owner, tr.Entity, tr.StartPos, tr.EndPos, bulletSize * 2f, bulletSize * 50f );
+				PlayFlybySounds( Owner, tr.Entity, tr.StartPosition, tr.EndPosition, bulletSize * 2f, bulletSize * 50f );
 
-				var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
+				var damageInfo = DamageInfo.FromBullet( tr.EndPosition, forward * 100 * force, damage )
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
@@ -624,7 +624,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 				tr.Entity.TakeDamage( damageInfo );
 
 				if ( WeaponInfo.Slot != WeaponSlot.Melee )
-					SendTracer( count++, tr.StartPos, tr.EndPos );
+					SendTracer( count++, tr.StartPosition, tr.EndPosition );
 			}
 		}
 	}

@@ -16,7 +16,7 @@ public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity, IMiniMapEnt
 			.Ignore( caller )
 			.Run();
 
-		entity.Position = tr.EndPos;
+		entity.Position = tr.EndPosition;
 	}
 
 	[Net] public TimeSince LastUsedTime { get; set; }

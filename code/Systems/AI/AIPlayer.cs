@@ -194,7 +194,7 @@ public partial class AIPlayer : Player
 
 			if ( !tr.StartedSolid )
 			{
-				move.Position = tr.EndPos;
+				move.Position = tr.EndPosition;
 			}
 
 			if ( InputVelocity.Length > 0 )
