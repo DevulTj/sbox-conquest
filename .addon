@@ -1,5 +1,4 @@
 {
-  "SharedAssets": "*.*",
   "Title": "Conquest",
   "Type": "game",
   "Org": "devultj",
@@ -7,7 +6,20 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
+  "ResourcePaths": null,
   "HasCode": true,
   "CodePath": "code",
-  "RootNamespace": "Conquest"
+  "RootNamespace": "Conquest",
+  "Metadata": {
+    "MapList": [
+      "gvar.metro"
+    ],
+    "PerMapRanking": false,
+    "LeaderboardType": 0,
+    "RankType": 0,
+    "MapSelect": 3,
+    "GameNetworkType": 0,
+    "MaxPlayers": 64,
+    "MinPlayers": 1
+  }
 }
