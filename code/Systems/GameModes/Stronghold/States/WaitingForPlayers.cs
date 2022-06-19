@@ -7,7 +7,7 @@ namespace Conquest.Stronghold;
 public partial class WaitingForPlayersGameState : GameState
 {
 	[ConVar.Replicated( "conquest_stronghold_minplayers" )]
-	public static int MinPlayers { get; set; } = 2;
+	public static int MinPlayers { get; set; } = 1;
 
 	public override bool CanDeploy => false;
 	public override string Identifier => "WaitingForPlayers";

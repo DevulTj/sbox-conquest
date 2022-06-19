@@ -20,7 +20,7 @@ public partial class TeamScores : BaseNetworkable, INetworkSerializer
 	public virtual int MinimumScore => 0;
 
 	[ConVar.Replicated( "conquest_maxscore" )]
-	public static int MaximumScore { get; set; } = 2;
+	public static int MaximumScore { get; set; } = 250;
 
 	protected static int ArraySize => Enum.GetNames( typeof( Team ) ).Length;
 	protected int[] Scores { get; set; }
