@@ -82,27 +82,27 @@ public class PlayerHud : BaseHud
 
 		var controller = player.Controller;
 
-		if ( controller is not null )
-		{
-			Forward = Forward.LerpTo( (Input.Forward * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
-			Left = Left.LerpTo( (Input.Left * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
+		//if ( controller is not null )
+		//{
+		//	Forward = Forward.LerpTo( (Input.Forward * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
+		//	Left = Left.LerpTo( (Input.Left * controller.Velocity.Length) * 0.005f, Time.Delta * 10f );
 
-			if ( LeftObjects != null )
-			{
-				var panelTransform = new PanelTransform();
-				panelTransform.AddRotation( Left, Left, 0 );
-				panelTransform.AddRotation( Forward, -Forward, 0 );
-				LeftObjects.Style.Transform = panelTransform;
-			}
+		//	if ( LeftObjects != null )
+		//	{
+		//		var panelTransform = new PanelTransform();
+		//		panelTransform.AddRotation( Left, Left, 0 );
+		//		panelTransform.AddRotation( Forward, -Forward, 0 );
+		//		LeftObjects.Style.Transform = panelTransform;
+		//	}
 
-			if ( RightObjects != null )
-			{
-				var righttransform = new PanelTransform();
-				righttransform.AddRotation( Left, -Left, 0 );
-				righttransform.AddRotation( Forward, -Forward, 0 );
-				RightObjects.Style.Transform = righttransform;
-			}
-		}
+		//	if ( RightObjects != null )
+		//	{
+		//		var righttransform = new PanelTransform();
+		//		righttransform.AddRotation( Left, -Left, 0 );
+		//		righttransform.AddRotation( Forward, -Forward, 0 );
+		//		RightObjects.Style.Transform = righttransform;
+		//	}
+		//}
 
 		if ( Health == null )
 			return;

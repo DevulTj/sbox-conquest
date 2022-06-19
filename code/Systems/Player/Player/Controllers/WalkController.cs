@@ -8,7 +8,7 @@ public partial class WalkController : BasePlayerController
 	public float SprintSpeed { get; set; } = 320.0f;
 	public float BurstSprintSpeed { get; set; } = 420.0f;
 	public float WalkSpeed { get; set; } = 150.0f;
-	public float DefaultSpeed { get; set; } = 190.0f;
+	public float DefaultSpeed { get; set; } = 170.0f;
 	public float Acceleration { get; set; } = 10.0f;
 	public float AirAcceleration { get; set; } = 50.0f;
 	public float FallSoundZ { get; set; } = -30.0f;

@@ -39,12 +39,8 @@ inventoryitem {
 
     &.large {
         flex-grow: 1;
-        border-radius: 2px;
-        backdrop-filter: blur( 50px );
-        margin-right: 2px;
-        width: 25%;
         height: 70px;
-        background-color: rgba( $friendly-marker, 0.2 );
+        background-color: rgba( black, 0.8 );
 
         &:last-child {
             margin-right: 0px;
@@ -56,10 +52,7 @@ inventoryitem {
     }
 
     &.small {
-        border-radius: 2px;
-        backdrop-filter: blur( 50px );
-        margin-right: 2px;
-        background-color: rgba( $friendly-marker, 0.2 );
+        background-color: rgba( black, 0.8 );
         height: 70px;
         width: 70px;
         justify-content: center;

@@ -66,6 +66,8 @@ public partial class ViewModel : BaseViewModel
 		smoothedDelta += clamped * MathF.Sign( delta );
 	}
 
+	protected float MouseDeltaLerpX;
+	protected float MouseDeltaLerpY;
 	private void AddCameraEffects( ref CameraSetup camSetup )
 	{
 		SmoothDeltaTime();
@@ -132,8 +134,11 @@ public partial class ViewModel : BaseViewModel
 
 		noisePos += DeltaTime * NoiseSpeed;
 
-		acceleration += Vector3.Left * -Input.MouseDelta.x * DeltaTime * MouseScale * 0.5f * (1f - aimLerp * 2f);
-		acceleration += Vector3.Up * -Input.MouseDelta.y * DeltaTime * MouseScale * (1f - aimLerp * 2f);
+		var mouseDeltaX = -Input.MouseDelta.x * DeltaTime * MouseScale;
+		var mouseDeltaY = -Input.MouseDelta.y * DeltaTime * MouseScale;
+
+		acceleration += Vector3.Left * mouseDeltaX * 0.5f * (1f - aimLerp * 2f);
+		acceleration += Vector3.Up * mouseDeltaY * (1f - aimLerp * 2f);
 		acceleration += -velocity * ReturnForce * DeltaTime;
 
 		// Apply horizontal offsets based on walking direction
@@ -194,6 +199,22 @@ public partial class ViewModel : BaseViewModel
 		Position += left * ( (WeaponInfo.PostSprintLeftOffset * sprintLerp) + (WeaponInfo.BurstPostSprintLeftOffset * burstSprintLerp ) );
 
 		Position += up * (offsetLerp * -0f + avoidance * -10 * (1 - aimLerp));
+
+
+		var uitx = new Sandbox.UI.PanelTransform();
+		uitx.AddTranslateY(MathF.Sin(walkBob * 1.0f) * speed * -8.0f);
+		uitx.AddTranslateX(MathF.Sin(walkBob * 0.5f) * speed * -6.0f);
+
+		MouseDeltaLerpX = MouseDeltaLerpX.LerpTo(mouseDeltaX, Time.Delta * 5f);
+		MouseDeltaLerpY = MouseDeltaLerpY.LerpTo(mouseDeltaY, Time.Delta * 5f);
+
+		uitx.AddTranslateX(MouseDeltaLerpX * 25);
+		uitx.AddTranslateY(MouseDeltaLerpY * 25);
+
+		uitx.AddRotation( MouseDeltaLerpY * -25, MouseDeltaLerpX * -2, 0f );
+
+		PlayerHud.Current.LeftObjects.Style.Transform = uitx;
+		PlayerHud.Current.RightObjects.Style.Transform = uitx;
 	}
 
 	private float WalkCycle( float speed, float power, bool abs = false )
