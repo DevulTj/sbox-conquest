@@ -19,7 +19,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 
 	public CameraMode LastCamera { get; set; }
 	public TimeSince TimeSinceDeath { get; set; }
-	public Clothing.Container Clothing { get; set; } = new();
+	public ClothingContainer Clothing { get; set; } = new();
 
 	public bool IsSprinting { get => _IsSprinting; protected set { if ( _IsSprinting && !value ) SinceSprintStopped = 0; _IsSprinting = value; } }
 
@@ -93,10 +93,10 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 	protected virtual void GiveLoadout()
 	{
 
-		var primaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_primary" ) );
-		BaseWeapon primary = primaryAttribute != null ? primaryAttribute.Create<BaseWeapon>() : new FAL();
-		var secondaryAttribute = Library.GetAttribute( Client.GetClientData( "conquest_loadout_secondary" ) );
-		BaseWeapon secondary = secondaryAttribute != null ? secondaryAttribute.Create<BaseWeapon>() : new DesertEagle();
+		var primaryAttribute = TypeLibrary.GetTypeByName( Client.GetClientData( "conquest_loadout_primary" ) );
+		BaseWeapon primary = primaryAttribute != null ? TypeLibrary.Create<BaseWeapon>( primaryAttribute ) : new FAL();
+		var secondaryAttribute = TypeLibrary.GetTypeByName( Client.GetClientData( "conquest_loadout_secondary" ) );
+		BaseWeapon secondary = secondaryAttribute != null ? TypeLibrary.Create<BaseWeapon>( secondaryAttribute ) : new DesertEagle();
 
 		Inventory.Add( primary, true );
 		Inventory.Add( secondary );
@@ -151,7 +151,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		else
 			GiveAward( "Kill" );
 
-		UpdateKillFeed( this.Client.PlayerId, this.Client.Name, victim.Client.PlayerId, victim.Client.Name, damageInfo.Weapon.ClassInfo.Title );
+		UpdateKillFeed( this.Client.PlayerId, this.Client.Name, victim.Client.PlayerId, victim.Client.Name, DisplayInfo.For( damageInfo.Weapon ).Name );
 	}
 
 	public override void OnKilled()
@@ -224,7 +224,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		}
 
 		var isReloading = ActiveChild is BaseWeapon weapon && weapon.IsReloading;
-		IsAiming = !IsSprinting && Input.Down( InputButton.Attack2 );
+		IsAiming = !IsSprinting && Input.Down( InputButton.SecondaryAttack );
 
 		if ( IsSprinting && Input.Pressed( InputButton.Run ) )
 		{
@@ -251,7 +251,7 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		if ( !IsBurstSprinting && IsSprinting && Velocity.Length < 40 || Input.Forward < 0.5f )
 			IsSprinting = false;
 
-		if ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) )
+		if ( Input.Down( InputButton.PrimaryAttack ) || Input.Down( InputButton.SecondaryAttack) )
 			IsSprinting = false;
 
 		if ( !IsSprinting )
@@ -277,35 +277,35 @@ public partial class Player : BasePlayer, IMiniMapEntity, IHudMarkerEntity, IGam
 		base.FrameSimulate( cl );
 
 		// @TODO: This is fucking awful
-		if ( ActiveChild is BaseCarriable weapon && weapon.CrosshairPanel is not null )
-		{
-			if ( IsAiming && !weapon.CrosshairPanel.HasClass( "aim" ) )
-			{
-				weapon.CrosshairPanel.AddClass( "aim" );
-			}
-			else if ( !IsAiming && weapon.CrosshairPanel.HasClass( "aim" ) )
-			{
-				weapon.CrosshairPanel.RemoveClass( "aim" );
-			}
+		//if ( ActiveChild is BaseCarriable weapon && weapon.CrosshairPanel is not null )
+		//{
+		//	if ( IsAiming && !weapon.CrosshairPanel.HasClass( "aim" ) )
+		//	{
+		//		weapon.CrosshairPanel.AddClass( "aim" );
+		//	}
+		//	else if ( !IsAiming && weapon.CrosshairPanel.HasClass( "aim" ) )
+		//	{
+		//		weapon.CrosshairPanel.RemoveClass( "aim" );
+		//	}
 
-			if ( Velocity.Length > 10 && !weapon.CrosshairPanel.HasClass( "move" ) )
-			{
-				weapon.CrosshairPanel.AddClass( "move" );
-			}
-			else if ( Velocity.Length <= 10 && weapon.CrosshairPanel.HasClass( "move" ) )
-			{
-				weapon.CrosshairPanel.RemoveClass( "move" );
-			}
+		//	if ( Velocity.Length > 10 && !weapon.CrosshairPanel.HasClass( "move" ) )
+		//	{
+		//		weapon.CrosshairPanel.AddClass( "move" );
+		//	}
+		//	else if ( Velocity.Length <= 10 && weapon.CrosshairPanel.HasClass( "move" ) )
+		//	{
+		//		weapon.CrosshairPanel.RemoveClass( "move" );
+		//	}
 
-			if ( IsSprinting && !weapon.CrosshairPanel.HasClass( "movefast" ) )
-			{
-				weapon.CrosshairPanel.AddClass( "movefast" );
-			}
-			else if ( !IsSprinting && weapon.CrosshairPanel.HasClass( "movefast" ) )
-			{
-				weapon.CrosshairPanel.RemoveClass( "movefast" );
-			}
-		}
+		//	if ( IsSprinting && !weapon.CrosshairPanel.HasClass( "movefast" ) )
+		//	{
+		//		weapon.CrosshairPanel.AddClass( "movefast" );
+		//	}
+		//	else if ( !IsSprinting && weapon.CrosshairPanel.HasClass( "movefast" ) )
+		//	{
+		//		weapon.CrosshairPanel.RemoveClass( "movefast" );
+		//	}
+		//}
 	}
 
 	public void SwitchToBestWeapon()

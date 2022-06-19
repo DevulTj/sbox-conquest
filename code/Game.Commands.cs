@@ -21,7 +21,7 @@ public partial class Game
 		player.Respawn();
 	}
 
-	[ServerCmd( "conquest_deploy" )]
+	[ConCmd.Server( "conquest_deploy" )]
 	public static void DeployCommand()
 	{
 		Deploy( ConsoleSystem.Caller );

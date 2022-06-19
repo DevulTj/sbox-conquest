@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Conquest;
 
-[Library( "loadout" ), AutoGenerate]
-public class LoadoutAsset : Asset
+[GameResource( "Conquest - Loadout", "loadout", "A loadout game asset." )]
+public class LoadoutAsset : GameResource
 {
 	public override string ToString() => $"Conquest.Asset.Loadout(Name={Name})";
 	public static List<LoadoutAsset> All = new();

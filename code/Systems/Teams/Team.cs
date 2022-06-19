@@ -114,7 +114,7 @@ public static class TeamSystem
 		return cl.Components.Get<TeamComponent>()?.Team ?? Team.Unassigned;
 	}
 
-	[ServerCmd( "conquest_jointeam" )]
+	[ConCmd.Server( "conquest_jointeam" )]
 	public static void JoinTeam( string name )
 	{
 		var player = ConsoleSystem.Caller.Pawn as Player;

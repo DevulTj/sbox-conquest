@@ -1,6 +1,7 @@
 
 using Sandbox;
 using Sandbox.UI;
+using System;
 using System.Linq;
 
 namespace Conquest;
@@ -53,12 +54,14 @@ public class LoadoutWeaponPanel : PopupButton
 			SetActive( asset );
 	}
 
-	public void SetActive( LoadoutAsset loadout, LibraryAttribute library = null )
+	public void SetActive( LoadoutAsset loadout, Type library = null )
 	{
-		if ( library == null )
-			library = Library.GetAttribute( loadout.Class );
+		if ( library is null )
+			library = TypeLibrary.GetTypeByName<BaseWeapon>( loadout.Class );
 
-		WeaponName = library.Title;
+		var info = DisplayInfo.ForType( library );
+
+		WeaponName = info.Name;
 		WeaponIcon.SetTexture( $"ui/weaponicons/{loadout.Class}.png" );
 
 		switch ( loadout.Slot )
@@ -92,9 +95,10 @@ public class LoadoutWeaponPanel : PopupButton
 
 			foreach ( var option in LoadoutAsset.Sorted[Slot] )
 			{
-				var library = Library.GetAttribute( option.Class );
+				var library = TypeLibrary.GetTypeByName<BaseWeapon>( option.Class );
+				var info = DisplayInfo.ForType( library );
 
-				var weaponName = library != null ? library.Title : option.Class;
+				var weaponName = library != null ? library.Name : option.Class;
 
 				var o = Popup.AddOption( weaponName, () => SetActive( option, library ) );
 				o.AddClass( "loadoutweapon" );

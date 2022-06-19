@@ -79,9 +79,9 @@ public partial class SquadManager : BaseNetworkable
 	public void Print()
 	{
 		var position = Host.IsServer ? new Vector2( 100, 100 ) : new Vector2( 100, 400 );
-		DebugOverlay.ScreenText( position, 0, Color.White, $"{(Host.IsServer ? "[Server]" : "[Client]" )}\n" +
+		DebugOverlay.ScreenText( $"{(Host.IsServer ? "[Server]" : "[Client]" )}\n" +
 			$"There are {NetworkableSquads.Count} squads.\n" +
-			$"{string.Join( $"\n",NetworkableSquads?.Select( x => x.ToString()) )}", 0.05f );
+			$"{string.Join( $"\n",NetworkableSquads?.Select( x => x.ToString()) )}", position, 0, Color.White, 0.05f );
 	}
 
 	public Squad New( Team team )

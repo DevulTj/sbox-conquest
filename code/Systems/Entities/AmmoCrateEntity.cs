@@ -5,7 +5,7 @@ namespace Conquest;
 [Library( "conquest_ammocrate" )]
 public partial class AmmoCrateEntity : Prop, IUse, IHudMarkerEntity, IMiniMapEntity, IGameStateAddressable
 {
-	[AdminCmd( "conquest_debug_ammocrate" )]
+	[ConCmd.Admin( "conquest_debug_ammocrate" )]
 	public static void CreateAmmoCrate()
 	{
 		var caller = ConsoleSystem.Caller.Pawn;

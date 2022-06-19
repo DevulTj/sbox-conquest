@@ -69,7 +69,7 @@ partial class Player
 		HurtIndicator.Current?.OnHit( pos );
 	}
 
-	[AdminCmd( "conquest_sethp" )]
+	[ConCmd.Admin( "conquest_sethp" )]
 	public static void SetHealth( float amt )
 	{
 		if ( ConsoleSystem.Caller.Pawn is Player player )

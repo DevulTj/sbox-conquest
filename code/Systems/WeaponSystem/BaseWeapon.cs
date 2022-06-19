@@ -37,7 +37,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 	{
 		get
 		{
-			WeaponInfoAsset.Registry.TryGetValue( this.ClassInfo.Name, out var asset );
+			WeaponInfoAsset.Registry.TryGetValue( DisplayInfo.For( this ).ClassName, out var asset );
 			return asset;
 		}
 	}
@@ -90,7 +90,7 @@ public partial class Carriable : BaseCarriable, IUse, ICarriable
 			return;
 
 		if ( !Owner.Client.IsBot )
-			SetWantsToShoot( Input.Down( InputButton.Attack1 ) );
+			SetWantsToShoot( Input.Down( InputButton.PrimaryAttack ) );
 
 		if ( CanPrimaryAttack() )
 		{
@@ -399,7 +399,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		IsReloading = true;
 		WantsToStopReloading = false;
 
-		( Owner as AnimEntity ).SetAnimParameter( "b_reload", true );
+		( Owner as AnimatedEntity ).SetAnimParameter( "b_reload", true );
 
 		StartReloadEffects();
 	}
@@ -420,7 +420,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		{
 			base.Simulate( owner );
 		}
-		if ( IsReloading && ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) ) )
+		if ( IsReloading && ( Input.Down( InputButton.PrimaryAttack ) || Input.Down( InputButton.SecondaryAttack ) ) )
 		{
 			StopReload();
 		}
@@ -481,12 +481,12 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 
 	protected bool CanPrimaryAttackSemi()
 	{
-		return base.CanPrimaryAttack() && Input.Pressed( InputButton.Attack1 );
+		return base.CanPrimaryAttack() && Input.Pressed( InputButton.PrimaryAttack );
 	}
 
 	protected bool CanPrimaryAttackBurst()
 	{
-		if ( !Input.Down( InputButton.Attack1 ) )
+		if ( !Input.Down( InputButton.PrimaryAttack ) )
 		{
 			BurstCount = 0;
 		}
@@ -690,7 +690,7 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		//
 		// Set animation property
 		//
-		( Owner as AnimEntity ).SetAnimParameter( "b_attack", true );
+		( Owner as AnimatedEntity ).SetAnimParameter( "b_attack", true );
 
 		if ( WeaponInfo.DefaultFireMode == FireMode.Burst )
 			BurstCount++;
@@ -716,7 +716,8 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 		WeaponInfo.ScreenShake.Run();
 
 		ViewModelEntity?.SetAnimParameter( WeaponInfo.AttackAnimBool, true );
-		CrosshairPanel?.CreateEvent( WeaponInfo.AttackAnimBool );
+		// @TODO: CROSSHAIR
+		//CrosshairPanel?.CreateEvent( WeaponInfo.AttackAnimBool );
 	}
 
 	public bool TakeAmmo( int amount )
@@ -736,9 +737,9 @@ public partial class BaseWeapon : Carriable, IGameStateAddressable
 
 	public override void CreateHudElements()
 	{
-		CrosshairPanel = new Crosshair();
-		CrosshairPanel.Parent = Local.Hud;
-		CrosshairPanel.AddClass( ClassInfo.Name );
+		//CrosshairPanel = new Crosshair();
+		//CrosshairPanel.Parent = Local.Hud;
+		//CrosshairPanel.AddClass( ClassInfo.Name );
 	}
 
 	public override bool IsUsable()

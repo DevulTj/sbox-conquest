@@ -72,7 +72,7 @@ namespace Conquest
 		}
 
 
-		[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
+		[ConCmd.Client( "chat_add", CanBeCalledFromServer = true )]
 		public static void AddChatEntry( string name, string message, string avatar = null, Team team = Team.BLUFOR )
 		{
 			Current?.AddEntry( name, message, avatar, team );
@@ -84,7 +84,7 @@ namespace Conquest
 			}
 		}
 
-		[ClientCmd( "chat_addinfo", CanBeCalledFromServer = true )]
+		[ConCmd.Client( "chat_addinfo", CanBeCalledFromServer = true )]
 		public static void AddInformation( string message, string avatar = null )
 		{
 			Current?.AddEntry( null, message, avatar );
@@ -92,7 +92,7 @@ namespace Conquest
 
 
 		public static Client Caller = null;
-		[ServerCmd( "say" )]
+		[ConCmd.Server( "say" )]
 		public static void Say( string message )
 		{
 			Assert.NotNull( ConsoleSystem.Caller );
@@ -119,7 +119,7 @@ namespace Conquest.Hooks
 	{
 		public static event Action OnOpenChat;
 
-		[ClientCmd( "openchat" )]
+		[ConCmd.Client( "openchat" )]
 		internal static void MessageMode()
 		{
 			OnOpenChat?.Invoke();

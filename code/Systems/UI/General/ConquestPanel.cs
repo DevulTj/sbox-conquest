@@ -1,11 +1,11 @@
-
 using Sandbox;
 using Sandbox.UI;
 using System;
 
 namespace Conquest.UI;
 
-[Library( "ConquestPanel", Alias = new string[] { "cdiv" } ) ]
+[Library]
+[Alias( "cdiv" )]
 public partial class ConquestPanel : Panel
 {
 	public ConquestPanel()

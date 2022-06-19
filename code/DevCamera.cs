@@ -95,14 +95,14 @@ public class DevCamera : CameraMode
 
 		if ( input.Down( InputButton.Slot0 ) ) MoveSpeed = 0.2f;
 
-		if ( input.Pressed( InputButton.Attack1 ) )
+		if ( input.Pressed( InputButton.PrimaryAttack ) )
 		{
 			var tr = Trace.Ray( Position, Position + Rotation.Forward * 4096 ).Run();
 			PivotPos = tr.EndPosition;
 			PivotDist = Vector3.DistanceBetween( tr.EndPosition, Position );
 		}
 
-		if ( input.Down( InputButton.Attack2 ) )
+		if ( input.Down( InputButton.SecondaryAttack ) )
 		{
 			FovOverride += input.AnalogLook.pitch * (FovOverride / 30.0f);
 			FovOverride = FovOverride.Clamp( 5, 150 );
@@ -112,7 +112,7 @@ public class DevCamera : CameraMode
 		LookAngles += input.AnalogLook * (FovOverride / 80.0f);
 		LookAngles.roll = 0;
 
-		PivotEnabled = input.Down( InputButton.Attack1 );
+		PivotEnabled = input.Down( InputButton.PrimaryAttack );
 
 		input.Clear();
 		input.StopProcessing = true;

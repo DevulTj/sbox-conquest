@@ -42,21 +42,21 @@ public struct ScreenShakeData
 		{
 			case ScreenShakeType.Perlin:
 				{
-					new Sandbox.ScreenShake.Perlin( Length, Speed, Size, Rotation );
+					//new Sandbox.ScreenShake.Perlin( Length, Speed, Size, Rotation );
 					break;
 				};
 			case ScreenShakeType.Random:
 			default:
 				{
-					new Sandbox.ScreenShake.Random( Length, Speed, Size );
+					//new Sandbox.ScreenShake.Random( Length, Speed, Size );
 					break;
 				};
 		}
 	}
 }
 
-[Library( "winfo" ), AutoGenerate]
-public class WeaponInfoAsset : Asset
+[GameResource( "Conquest - Weapon", "winfo", "A weapon used in Conquest." )]
+public class WeaponInfoAsset : GameResource
 {
 	public static Dictionary<string, WeaponInfoAsset> Registry { get; set; } = new();
 
@@ -156,15 +156,11 @@ public class WeaponInfoAsset : Asset
 		if ( string.IsNullOrEmpty( WeaponClass ) )
 			return;
 
-		var libraryAttribute = Library.GetAttribute( WeaponClass );
-		if ( libraryAttribute is not null )
-		{
-			Registry[WeaponClass] = this;
+		Registry[WeaponClass] = this;
 
-			CachedViewModel = Model.Load( ViewModel );
-			CachedWorldModel = Model.Load( WorldModel );
+		CachedViewModel = Model.Load( ViewModel );
+		CachedWorldModel = Model.Load( WorldModel );
 
-			SafePrecache( EjectParticle, MuzzleFlashParticle, FireSound, DryFireSound );
-		}
+		SafePrecache( EjectParticle, MuzzleFlashParticle, FireSound, DryFireSound );
 	}
 }

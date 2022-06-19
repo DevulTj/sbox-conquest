@@ -103,8 +103,8 @@ public partial class ViewModel : BaseViewModel
 		LerpTowards( ref aimLerp, aim ? 1 : 0, 7f );
 		//LerpTowards( ref upDownOffset, speed * -LookUpSpeedScale + camSetup.Rotation.Forward.z * -LookUpPitchScale, LookUpPitchScale );
 
-		FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
-		FieldOfView -= burstSprintLerp * 10f;
+		camSetup.FieldOfView = 70f * (1 - aimLerp) + 50f * aimLerp;
+		camSetup.FieldOfView -= burstSprintLerp * 10f;
 
 		bobSpeed *= (1 - sprintLerp * 0.25f);
 		bobSpeed *= (1 - burstSprintLerp * 0.15f);

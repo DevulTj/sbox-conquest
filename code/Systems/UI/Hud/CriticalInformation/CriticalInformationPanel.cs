@@ -44,13 +44,13 @@ public partial class CritPanel : Panel
 		Current = this;
 	}
 
-	[ServerCmd( "conquest_notifycritical" )]
+	[ConCmd.Server( "conquest_notifycritical" )]
 	public static void AddInformation( string message )
 	{
 		SendMessage( To.Everyone, message );
 	}
 
-	[ClientCmd( "conquest_sendcritical", CanBeCalledFromServer = true )]
+	[ConCmd.Client( "conquest_sendcritical", CanBeCalledFromServer = true )]
 	public static void SendMessage( string message )
 	{
 		Current?.AddEntry( message );

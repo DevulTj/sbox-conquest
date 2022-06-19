@@ -1,10 +1,12 @@
 ﻿using Sandbox;
+using SandboxEditor;
 
 namespace Conquest;
 
+[HammerEntity]
 [Library( "conquest_worldoverview" )]
-[Hammer.EditorModel( "models/editor/camera.vmdl" )]
-[Hammer.EntityTool( "World Overview", "Conquest", "Used to specify the world overview position / rotation." )]
+[EditorModel( "models/editor/camera.vmdl" )]
+[Title("World Overview"), Category("Conquest - Setup")]
 public class WorldOverview : Entity 
 {
 	public override void Spawn()

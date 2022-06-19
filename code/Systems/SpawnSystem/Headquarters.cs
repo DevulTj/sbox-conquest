@@ -1,14 +1,17 @@
 using Sandbox;
+using SandboxEditor;
 
 namespace Conquest;
 
 /// <summary>
 /// This entity defines the spawn point of the player in first person shooter gamemodes.
 /// </summary>
+/// 
+[Solid]
+[HammerEntity]
 [Library( "conquest_headquarters" )]
-[Hammer.EditorModel( "models/editor/playerstart.vmdl", FixedBounds = true )]
-[Hammer.Solid]
-[Hammer.EntityTool( "Headquarters", "Conquest", "Defines a headquarters where the player can (re)spawn" )]
+[EditorModel( "models/editor/playerstart.vmdl", FixedBounds = true )]
+[Title("Headquarters"), Category( "Conquest - Setup" ), Description( "Defines a headquarters where the player can (re)spawn" )]
 public partial class Headquarters : Entity, IGameStateAddressable, IMiniMapEntity
 {
 	[Net, Property] public Team Team { get; set; }

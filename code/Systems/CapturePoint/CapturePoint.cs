@@ -1,6 +1,7 @@
 using Conquest.UI;
 using Sandbox;
 using Sandbox.UI;
+using SandboxEditor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +10,8 @@ using System.Linq;
 namespace Conquest;
 
 [Library("conquest_capturepoint")]
-[Hammer.Sphere( "TriggerRadius", 255, 255, 255, true )]
-[Hammer.Solid]
+[Sphere( "TriggerRadius", 255, 255, 255, true )]
+[Solid]
 public partial class CapturePointEntity : BaseTrigger, IMiniMapEntity, IHudMarkerEntity, IGameStateAddressable
 {
 	public enum CaptureState

@@ -14,7 +14,6 @@ public class PlayerHud : BaseHud
 	public Panel Vitals { get; set; }
 	public Label Health { get; set; }
 	public Panel HealthBar { get; set; }
-	public NameTags Tags { get; set; }
 
 	// weapon info
 	public Panel GunVitals { get; set; }
@@ -123,14 +122,14 @@ public class PlayerHud : BaseHud
 		{
 			GunVitals.Style.Opacity = 1;
 
-			GunName.Text = $"{melee.ClassInfo.Title.ToUpper()}";
+			GunName.Text = $"{DisplayInfo.For( weapon ).Name.ToUpper()}";
 			GunAmmo.Text = $"∞";
 			GunReserve.Text = $"∞";
 			GunVitals.Style.Opacity = 1;
 		}
 		else if ( weapon is not null && weapon.ShowAmmoCount )
 		{
-			GunName.Text = $"{weapon.ClassInfo.Title.ToUpper()}";
+			GunName.Text = $"{DisplayInfo.For( weapon ).Name.ToUpper()}";
 			GunAmmo.Text = $"{weapon.AmmoClip.ToString( "D3" )}";
 			GunReserve.Text = $"{weapon.AvailableAmmo().ToString( "D3" )}";
 			GunVitals.Style.Opacity = 1;
@@ -149,7 +148,7 @@ public class PlayerHud : BaseHud
 		{
 			GunVitals.Style.Opacity = 1;
 
-			GunName.Text = $"{gadget.ClassInfo.Title.ToUpper()}";
+			GunName.Text = $"{DisplayInfo.For( gadget ).Name.ToUpper()}";
 			GunAmmo.Text = $"∞";
 			GunReserve.Text = $"∞";
 			GunVitals.Style.Opacity = 1;

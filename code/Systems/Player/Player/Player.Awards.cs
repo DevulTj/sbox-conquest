@@ -5,8 +5,11 @@ using System.Linq;
 
 namespace Conquest;
 
-public class PlayerAward : LibraryMethod
+public class PlayerAward : Attribute
 {
+	public string Title { get; set; }
+	public string Description { get; set; }
+
 	public int PointsGiven { get; set; }
 	public string IconTexture { get; set; }
 }
@@ -34,7 +37,7 @@ public static class PlayerAwards
 
 	public static PlayerAward Get( string awardTitle )
 	{
-		var attribute = Library.GetAttributes<PlayerAward>()
+		var attribute = TypeLibrary.GetMemberAttributes<PlayerAward>()
 			.Where( x => string.Equals( x.Title, awardTitle, StringComparison.OrdinalIgnoreCase ) )
 			.FirstOrDefault();
 
@@ -47,7 +50,9 @@ public static class PlayerAwards
 		if ( award is null )
 			return;
 
-		award?.InvokeStatic( player );
+		// @TODO: Fix me
+
+		//award?.InvokeStatic( player );
 
 		player.Points += award.PointsGiven;
 		player.PromptAwardGiven( To.Single( player.Client ), award.Title );

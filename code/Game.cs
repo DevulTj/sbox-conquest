@@ -302,7 +302,8 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		//
 		BaseViewModel.UpdateAllPostCamera( ref camSetup );
 
-		CameraModifier.Apply( ref camSetup );
+		// @TODO: Camera mod system
+		// CameraModifier.Apply( ref camSetup );
 	}
 
 	/// <summary>
@@ -325,7 +326,7 @@ public partial class Game : Sandbox.GameBase, IGameStateAddressable
 		VoiceList.Current?.OnVoicePlayed( steamId, level );
 	}
 
-	[ServerCmd( "kill", Help = "Kills the calling player with generic damage" )]
+	[ConCmd.Server( "kill", Help = "Kills the calling player with generic damage" )]
 	public static void KillCommand()
 	{
 		var target = ConsoleSystem.Caller;

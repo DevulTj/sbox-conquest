@@ -45,8 +45,8 @@ public partial class GameModeManager : Entity
 			return;
 
 		var position = Host.IsServer ? new Vector2( 100, 100 ) : new Vector2( 100, 400 );
-		DebugOverlay.ScreenText( position, 0, Color.White, $"{(Host.IsServer ? "[Server]" : "[Client]")}\n" +
+		DebugOverlay.ScreenText( $"{(Host.IsServer ? "[Server]" : "[Client]")}\n" +
 			$"Current GameMode: {GameMode}\n" +
-			$"{GameMode.Print()}\n" );
+			$"{GameMode.Print()}\n" , position, 0, Color.White );
 	}
 }
